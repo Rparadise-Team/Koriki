@@ -24,6 +24,9 @@ In this repository you will find all the software pieces to build the compilatio
     * Build: show
 * Retroarch:
     * Build: retroarch
+* Koriki/version.txt
+* .deletes
+* .update_splash.png
 
 ## Telegram channel for updates
 
