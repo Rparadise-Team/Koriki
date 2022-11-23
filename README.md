@@ -6,6 +6,25 @@ Koriki is a software compilation for the microSD card slot of [Miyoo Mini](https
 
 In this repository you will find all the software pieces to build the compilation, but if you only want to use one of the builds published in [releases](https://github.com/Rparadise-Team/Koriki/releases), see the documentation on the [wiki](https://github.com/Rparadise-Team/Koriki/wiki) for the installation procedure.
 
+## Components
+
+* SimpleMenu
+    * Build: invoker.dge     #### Remove calls to opkrun and delete from Koriki/bin
+    * Build: simplemenu
+* App/Bootscreen Selector
+    * Build: bootScreenSelector
+* App/DinguxCommander:
+    * Build: DinguxCommander
+* App/Gmu:
+    * Build: gmu.bin
+* Koriki/bin:
+    * audioserver.mod by Eggs
+    * Build: charging
+    * Build: keymon
+    * Build: show
+* Retroarch:
+    * Build: retroarch
+
 ## Telegram channel for updates
 
 Join this Telegram channel to get update notifications: ####
