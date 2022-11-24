@@ -2988,6 +2988,7 @@ kidniki=Kid Niki - Radical Ninja (World)
 kidnikiu=Kid Niki - Radical Ninja (US)
 kikaioh=Kikaioh (JAPAN 980914)
 kikcubib=Kickle Cubele
+kikcubicb=Kickle Cubicle
 kikcubic=Meikyu Jima (Japan)
 kikikai=KiKi KaiKai
 kikstart=Kick Start Wheelie King
