@@ -12,7 +12,7 @@ In this repository you will find all the software pieces to build the compilatio
     * Build: invoker.dge     #### Remove calls to opkrun and delete from Koriki/bin
     * Build: simplemenu
 * App/Bootscreen Selector
-    * Build: bootScreenSelector
+    * Build: bootScreenSelector     make
 * App/DinguxCommander:
     * Build: DinguxCommander
 * App/Gmu:
