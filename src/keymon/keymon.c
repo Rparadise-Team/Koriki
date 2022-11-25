@@ -30,13 +30,13 @@
 #define BRIMAX		10
 #define BRIMIN		1
 
-//	for ev.value
+// for ev.value
 #define RELEASED	0
 #define PRESSED		1
 #define REPEAT		2
 
 
-//	Global Variables
+// Global Variables
 static struct input_event	ev;
 static int	input_fd = 0;
 
@@ -44,17 +44,17 @@ static int	input_fd = 0;
 char* load_file(char const* path) {
   char* buffer = 0;
   long length = 0;
-  FILE * f = fopen (path, "rb"); //was "rb"
+  FILE * f = fopen(path, "rb"); //was "rb"
 
   if (f) {
-    fseek (f, 0, SEEK_END);
-    length = ftell (f);
-    fseek (f, 0, SEEK_SET);
-    buffer = (char*)malloc ((length+1)*sizeof(char));
+    fseek(f, 0, SEEK_END);
+    length = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    buffer = (char*) malloc((length+1)*sizeof(char));
     if (buffer) {
-      fread (buffer, sizeof(char), length, f);
+      fread(buffer, sizeof(char), length, f);
     }
-    fclose (f);
+    fclose(f);
   }
   buffer[length] = '\0';
 
@@ -63,61 +63,64 @@ char* load_file(char const* path) {
 
 // Get Brightness
 int getBrightness(void) {
-	cJSON* request_json = NULL;
-	cJSON* itemBrightness;
-	
-	const char *request_body = load_file("/appconfigs/system.json");
-	request_json = cJSON_Parse(request_body);
-	itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
-	int dBrightness = cJSON_GetNumberValue(itemBrightness);
-		
-	return dBrightness;
+  cJSON* request_json = NULL;
+  cJSON* itemBrightness;
+
+  char *request_body = load_file("/appconfigs/system.json");
+  request_json = cJSON_Parse(request_body);
+  itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
+  int dBrightness = cJSON_GetNumberValue(itemBrightness);
+  cJSON_Delete(request_json);
+  free(request_body);
+
+  return dBrightness;
 }
 
 // Set Brightness
 void setBrightness(int val) {
-	cJSON* request_json = NULL;
-	cJSON* itemBrightness;
+  cJSON* request_json = NULL;
+  cJSON* itemBrightness;
 
-	int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
-	if (fd >= 0) {
-		dprintf(fd, "%d", val * 10);
-		close(fd);
-	}
+  int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
+  if (fd >= 0) {
+    dprintf(fd, "%d", val * 10);
+    close(fd);
+  }
 
-	// Store in system.json
-	const char *request_body = load_file("/appconfigs/system.json");
-	request_json = cJSON_Parse(request_body);
-	itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
-	cJSON_SetNumberValue(itemBrightness, val);
+  // Store in system.json
+  char *request_body = load_file("/appconfigs/system.json");
+  request_json = cJSON_Parse(request_body);
+  itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
+  cJSON_SetNumberValue(itemBrightness, val);
 
-	FILE *file = fopen("/appconfigs/system.json", "w");
-	char *test = cJSON_Print(request_json);
-	fputs(test, file);
-	fclose(file);
+  FILE *file = fopen("/appconfigs/system.json", "w");
+  char *test = cJSON_Print(request_json);
+  fputs(test, file);
+  fclose(file);
+  cJSON_Delete(request_json);
+  free(request_body);
 }
 
 int main (int argc, char *argv[]) {
-	input_fd = open("/dev/input/event0", O_RDONLY);
-	int tempBrightness;
+  input_fd = open("/dev/input/event0", O_RDONLY);
+  int tempBrightness;
 
-	// Set initial brightness
-	tempBrightness = getBrightness();
-	setBrightness(tempBrightness);
+  // Set initial brightness
+  tempBrightness = getBrightness();
 
-	// Main Loop
-	register uint32_t val;
-	register uint32_t menu_pressed = 0;
-	register uint32_t power_pressed = 0;
-	int repeat_power = 0;
-	int shutdown = 0;
-	uint32_t repeat = 0;
-	while (read(input_fd, &ev, sizeof(ev)) == sizeof(ev)) {
-		val = ev.value;
-		if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
-		switch (ev.code) {
-		case BUTTON_POWER:
-			if (val == PRESSED) {
+  // Main Loop
+  register uint32_t val;
+  register uint32_t menu_pressed = 0;
+  register uint32_t power_pressed = 0;
+  int repeat_power = 0;
+  int shutdown = 0;
+  uint32_t repeat = 0;
+  while (read(input_fd, &ev, sizeof(ev)) == sizeof(ev)) {
+    val = ev.value;
+    if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
+    switch (ev.code) {
+      case BUTTON_POWER:
+        if (val == PRESSED) {
           power_pressed = val;
           repeat_power = 0;
         } else if (val == RELEASED && power_pressed) {
@@ -128,47 +131,47 @@ int main (int argc, char *argv[]) {
           }
           repeat_power++;
         }
-			break;
-		case BUTTON_MENU:
-			if (val != REPEAT) menu_pressed = val;
-			break;
-		case BUTTON_UP:
-			if (val == REPEAT) {
-				// Adjust repeat speed to 1/2
-				val = repeat;
-				repeat ^= PRESSED;
-			} else {
-				repeat = 0;
-			}
-			if (val == PRESSED && menu_pressed) {
-				// Increase brightness
-				tempBrightness = getBrightness();
-				if (tempBrightness < BRIMAX) setBrightness(++tempBrightness);
-			}
-			break;
-		case BUTTON_DOWN:
-			if (val == REPEAT) {
-				// Adjust repeat speed to 1/2
-				val = repeat;
-				repeat ^= PRESSED;
-			} else {
-				repeat = 0;
-			}
-			if (val == PRESSED && menu_pressed) {
-				// Decrease brightness
-				tempBrightness = getBrightness();
-				if (tempBrightness > BRIMIN) setBrightness(--tempBrightness);
-			}
-			break;
-		default:
-			break;
-		}
-		
-		if (shutdown) {
-			power_pressed = 0;
-			system("sync; reboot");
-			while (1) pause();
-		}
-	}
-	exit(EXIT_FAILURE);
+      break;
+      case BUTTON_MENU:
+        if (val != REPEAT) menu_pressed = val;
+      break;
+      case BUTTON_UP:
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED && menu_pressed) {
+          // Increase brightness
+          tempBrightness = getBrightness();
+          if (tempBrightness < BRIMAX) setBrightness(++tempBrightness);
+        }
+      break;
+      case BUTTON_DOWN:
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED && menu_pressed) {
+          // Decrease brightness
+          tempBrightness = getBrightness();
+          if (tempBrightness > BRIMIN) setBrightness(--tempBrightness);
+        }
+      break;
+      default:
+      break;
+    }
+
+    if (shutdown) {
+      power_pressed = 0;
+      system("sync; reboot");
+      while (1) pause();
+    }
+  }
+  exit(EXIT_FAILURE);
 }
