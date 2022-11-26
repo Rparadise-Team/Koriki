@@ -71,14 +71,17 @@ void modifyBrightness(int inc) {
   request_json = cJSON_Parse(request_body);
   itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
   int brightness = cJSON_GetNumberValue(itemBrightness);
+
   if (inc == 1 && brightness < BRIMAX) brightness++;
   if (inc == -1 && brightness > BRIMIN) brightness--;
-  cJSON_SetNumberValue(itemBrightness, brightness);
+  if (inc != 0) {
+    cJSON_SetNumberValue(itemBrightness, brightness);
+    FILE *file = fopen("/appconfigs/system.json", "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
 
-  FILE *file = fopen("/appconfigs/system.json", "w");
-  char *test = cJSON_Print(request_json);
-  fputs(test, file);
-  fclose(file);
   cJSON_Delete(request_json);
   free(request_body);
 
