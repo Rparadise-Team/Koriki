@@ -5,6 +5,9 @@
 #include <unistd.h>
 
 
+#define BUFFER_LEN 1024
+#define LINE_SPACING 40
+
 char* load_file(char const* path) {
   char* buffer = 0;
   long length = 0;
@@ -23,12 +26,22 @@ char* load_file(char const* path) {
   return buffer;
 }
 
+void load_file2(char* buffer, char const* path) {
+  FILE * f = fopen(path, "rb");
+  if (f) {
+    fgets(buffer, BUFFER_LEN, f);
+    fclose(f);
+  }
+}
+
 int main(int argc , char* argv[]) {
   SDL_Surface* video;
   SDL_Surface* screen;
+  char sys_version_str[BUFFER_LEN];
   char* kor_version_str;
   SDL_Color color_white = {255, 255, 255, 0};
   int running = 1;
+  long unsigned int i;
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_ShowCursor(SDL_DISABLE);
@@ -41,7 +54,52 @@ int main(int argc , char* argv[]) {
   SDL_BlitSurface(background, NULL, screen, NULL);
   SDL_FreeSurface(background);
 
+  // System version
+  load_file2(sys_version_str, "/proc/version");
+  SDL_Surface* sysVersion;
+  SDL_Rect rectSysVersion;
+  char prevLine[BUFFER_LEN];
+  prevLine[0] = 0;
+  char line[BUFFER_LEN];
+  line[0] = 0;
+  int w, h;
+  short int y = 84;
+  char delim[] = " ";
+  char *word = strtok(sys_version_str, delim);
+  while(word != NULL) {
+    strncat(line, word, 256);
+    strncat(line, " ", 1);
+    TTF_SizeText(font, line, &w, &h);
+    if (w > 565) {
+      sysVersion = TTF_RenderUTF8_Blended(font, prevLine, color_white);
+      rectSysVersion = {35, y, 565, 50};
+      SDL_BlitSurface(sysVersion, NULL, screen, &rectSysVersion);
+      SDL_FreeSurface(sysVersion);
+      prevLine[0] = 0;
+      strncpy(line, word, 256);
+      strncat(line, " ", 1);
+      y += LINE_SPACING;
+    }
+    strncpy(prevLine, line, BUFFER_LEN);
+    word = strtok(NULL, delim);
+  }
+  for (i = 0; i <= strlen(prevLine); i++) {
+    if(prevLine[i] == 10) prevLine[i] = 32;
+  }
+  sysVersion = TTF_RenderUTF8_Blended(font, prevLine, color_white);
+  rectSysVersion = {35, y, 565, 50};
+  SDL_BlitSurface(sysVersion, NULL, screen, &rectSysVersion);
+  SDL_FreeSurface(sysVersion);
+
+  // Koriki version
+#if defined(PLATFORM_PC)
   kor_version_str = load_file("version.txt");
+#else
+  kor_version_str = load_file("/mnt/SDCARD/Koriki/version.txt");
+#endif
+  for (i = 0; i <= strlen(kor_version_str); i++) {
+    if(kor_version_str[i] == 10) kor_version_str[i] = 32;
+  }
   SDL_Surface* korVersion = TTF_RenderUTF8_Blended(font, kor_version_str, color_white);
   SDL_Rect rectKorVersion = {35, 395, 565, 51};
   SDL_BlitSurface(korVersion, NULL, screen, &rectKorVersion);
