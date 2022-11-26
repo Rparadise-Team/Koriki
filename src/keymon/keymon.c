@@ -61,37 +61,19 @@ char* load_file(char const* path) {
   return buffer;
 }
 
-// Get Brightness
-int getBrightness(void) {
+// Increase/Decrease Brightness
+void modifyBrightness(int inc) {
   cJSON* request_json = NULL;
   cJSON* itemBrightness;
-
-  char *request_body = load_file("/appconfigs/system.json");
-  request_json = cJSON_Parse(request_body);
-  itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
-  int dBrightness = cJSON_GetNumberValue(itemBrightness);
-  cJSON_Delete(request_json);
-  free(request_body);
-
-  return dBrightness;
-}
-
-// Set Brightness
-void setBrightness(int val) {
-  cJSON* request_json = NULL;
-  cJSON* itemBrightness;
-
-  int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
-  if (fd >= 0) {
-    dprintf(fd, "%d", val * 10);
-    close(fd);
-  }
 
   // Store in system.json
   char *request_body = load_file("/appconfigs/system.json");
   request_json = cJSON_Parse(request_body);
   itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
-  cJSON_SetNumberValue(itemBrightness, val);
+  int brightness = cJSON_GetNumberValue(itemBrightness);
+  if (inc == 1 && brightness < BRIMAX) brightness++;
+  if (inc == -1 && brightness > BRIMIN) brightness--;
+  cJSON_SetNumberValue(itemBrightness, brightness);
 
   FILE *file = fopen("/appconfigs/system.json", "w");
   char *test = cJSON_Print(request_json);
@@ -99,14 +81,18 @@ void setBrightness(int val) {
   fclose(file);
   cJSON_Delete(request_json);
   free(request_body);
+
+  int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
+  if (fd >= 0) {
+    dprintf(fd, "%d", brightness * 10);
+    close(fd);
+  }
 }
 
 int main (int argc, char *argv[]) {
   input_fd = open("/dev/input/event0", O_RDONLY);
-  int tempBrightness;
 
-  // Set initial brightness
-  tempBrightness = getBrightness();
+  modifyBrightness(0);
 
   // Main Loop
   register uint32_t val;
@@ -145,8 +131,7 @@ int main (int argc, char *argv[]) {
         }
         if (val == PRESSED && menu_pressed) {
           // Increase brightness
-          tempBrightness = getBrightness();
-          if (tempBrightness < BRIMAX) setBrightness(++tempBrightness);
+          modifyBrightness(1);
         }
       break;
       case BUTTON_DOWN:
@@ -159,8 +144,7 @@ int main (int argc, char *argv[]) {
         }
         if (val == PRESSED && menu_pressed) {
           // Decrease brightness
-          tempBrightness = getBrightness();
-          if (tempBrightness > BRIMIN) setBrightness(--tempBrightness);
+          modifyBrightness(-1);
         }
       break;
       default:

@@ -19,8 +19,8 @@ In this repository you will find all the software pieces to build the compilatio
     * Build: gmu.bin
 * Koriki/bin:
     * audioserver.mod by Eggs
-    * Build: charging
-    * Build: keymon
+    * Build: charging               make
+    * Build: keymon                 make
     * Build: show
 * Retroarch:
     * Build: retroarch
