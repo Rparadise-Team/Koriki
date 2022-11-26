@@ -10,3 +10,5 @@ src/keymon/keymon
 src/keymon/keymon.o
 src/showScreen2/main.o
 src/showScreen2/showScreen2
+src/systemInfo/main.o
+src/systemInfo/systemInfo
