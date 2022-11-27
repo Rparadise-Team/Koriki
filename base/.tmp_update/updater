@@ -44,11 +44,11 @@ reset_settings() {
 update() {
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
-            unzip -o ${file} .update_splash.png -d ${SDCARD_PATH}
+            unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
             sync
             ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.update_splash.png
 
-            unzip -o ${file} .deletes -d ${SDCARD_PATH}
+            unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
             if [ -f ${SDCARD_PATH}/.deletes ]; then
                 while read file_to_delete; do
                     if [ -f "${file_to_delete}" ]; then
@@ -59,7 +59,7 @@ update() {
                 done < ${SDCARD_PATH}/.deletes
             fi
 
-            unzip -o ${file} -d ${SDCARD_PATH}
+            unzip -q -o ${file} -d ${SDCARD_PATH}
 
             rm ${file}
             sleep 5s
