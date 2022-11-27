@@ -51,7 +51,11 @@ update() {
             unzip -o ${file} .deletes -d ${SDCARD_PATH}
             if [ -f ${SDCARD_PATH}/.deletes ]; then
                 while read file_to_delete; do
-                    rm -rf "${file_to_delete}"
+                    if [ -f "${file_to_delete}" ]; then
+                        rm "${file_to_delete}"
+                    elif [ -d "${file_to_delete}" ]; then
+                        rm -rf "${file_to_delete}"
+                    fi
                 done < ${SDCARD_PATH}/.deletes
             fi
 
