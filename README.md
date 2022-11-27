@@ -10,13 +10,15 @@ In this repository you will find all the software pieces to build the compilatio
 
 * SimpleMenu
     * Build: invoker.dge     #### Remove calls to opkrun and delete from Koriki/bin
-    * Build: simplemenu
+    * Build: simplemenu             make PLATFORM=MMIYOO MM_NOQUIT=1 NOLOADING=1
 * App/Bootscreen Selector
     * Build: bootScreenSelector     make
 * App/DinguxCommander:
     * Build: DinguxCommander
 * App/Gmu:
     * Build: gmu.bin
+* App/System Info
+    * Build: systemInfo             make
 * Koriki/bin:
     * audioserver.mod by Eggs
     * Build: charging               make
