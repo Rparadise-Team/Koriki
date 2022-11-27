@@ -73,6 +73,23 @@ update() {
     fi
 }
 
+dir_scaffolding() {
+    ## Quake fbl's by @neilswann80
+    pak="exec=pak0.pak"
+    for dir2 in QUAKE/id1 QUAKE/hipnotic QUAKE/rogue QUAKE/dopa; do
+        dir="/mnt/SDCARD/Roms/${dir2}"
+        count=`ls -1 ${dir}/*.fbl 2>/dev/null | wc -l`
+        if [ $count -eq 0 ] && [ -e "${dir}/pak0.pak" ]; then
+            case ${dir2} in
+                QUAKE/id1)      echo "$pak" > "${dir}/Quake.fbl" ;;
+                QUAKE/hipnotic) echo "$pak" > "${dir}/Mission pack 1.fbl" ;;
+                QUAKE/rogue)    echo "$pak" > "${dir}/Mission pack 2.fbl" ;;
+                QUAKE/dopa)     echo "$pak" > "${dir}/Episode 5. Dimension of the Past.fbl" ;;
+            esac
+        fi
+    done
+}
+
 
 # Reset settings on first boot
 reset_settings
@@ -100,6 +117,9 @@ update
 
 # Show bootScreen
 ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
+
+# Create ROMs scaffolding
+dir_scaffolding
 
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
