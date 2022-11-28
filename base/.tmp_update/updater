@@ -71,6 +71,7 @@ update() {
     if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
         rm ${SDCARD_PATH}/.update_splash.png
     fi
+    sync
 }
 
 dir_scaffolding() {
