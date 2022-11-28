@@ -9,7 +9,7 @@
 #define LINE_SPACING 40
 
 char* load_file(char const* path) {
-  char* buffer = 0;
+  char* buffer = NULL;
   long length = 0;
   FILE * f = fopen(path, "rb"); //was "rb"
 
@@ -20,8 +20,8 @@ char* load_file(char const* path) {
     buffer = (char*) malloc((length+1)*sizeof(char));
     if (buffer) fread(buffer, sizeof(char), length, f);
     fclose(f);
+    buffer[length] = '\0';
   }
-  buffer[length] = '\0';
 
   return buffer;
 }
@@ -97,14 +97,16 @@ int main(int argc , char* argv[]) {
 #else
   kor_version_str = load_file("/mnt/SDCARD/Koriki/version.txt");
 #endif
-  for (i = 0; i <= strlen(kor_version_str); i++) {
-    if(kor_version_str[i] == 10) kor_version_str[i] = 32;
+  if (kor_version_str && strlen(kor_version_str)) {
+    for (i = 0; i <= strlen(kor_version_str); i++) {
+      if(kor_version_str[i] == 10) kor_version_str[i] = 32;
+    }
+    SDL_Surface* korVersion = TTF_RenderUTF8_Blended(font, kor_version_str, color_white);
+    SDL_Rect rectKorVersion = {35, 395, 565, 51};
+    SDL_BlitSurface(korVersion, NULL, screen, &rectKorVersion);
+    SDL_FreeSurface(korVersion);
+    free(kor_version_str);
   }
-  SDL_Surface* korVersion = TTF_RenderUTF8_Blended(font, kor_version_str, color_white);
-  SDL_Rect rectKorVersion = {35, 395, 565, 51};
-  SDL_BlitSurface(korVersion, NULL, screen, &rectKorVersion);
-  SDL_FreeSurface(korVersion);
-  free(kor_version_str);
 
   SDL_BlitSurface(screen, NULL, video, NULL);
   SDL_Flip(video);
