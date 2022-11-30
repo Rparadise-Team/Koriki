@@ -10,7 +10,7 @@ Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wik
 
 * @FGL82: Por su práctico, ágil, bonito y personalizable frontend SimpleMenu.
 * [Eggs](https://discordapp.com/users/778867980096241715): Por su adaptación de RetroArch para la MiyooMini así como algunos hacks del sistema como el sistema de reducción de lag de sonido.
-* @shauninman: Por su toolchain y por su concepto de [distribución minimalista](https://github.com/shauninman/MiniUI) que ha inspirado gran parte  del diseño de Koriki.
+* @shauninman: Por su toolchain dockerizada y por su concepto de [distribución minimalista](https://github.com/shauninman/MiniUI) que ha inspirado gran parte  del diseño de Koriki.
 
 ## Componentes
 
@@ -52,13 +52,11 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 #### GMU
 
-* Repositorio:
+* Repositorio: https://github.com/TechDevangelist/gmu
 * Ubicación del binario final: `App/Gmu/gmu.bin`
 
 * App/Bootscreen Selector
     * Build: bootScreenSelector     make
-* App/Gmu:
-    * Build: gmu.bin
 * App/System Info
     * Build: systemInfo             make
 * Koriki/bin:
