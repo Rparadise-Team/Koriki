@@ -55,17 +55,30 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 * Repositorio: https://github.com/TechDevangelist/gmu
 * Ubicación del binario final: `App/Gmu/gmu.bin`
 
-* App/Bootscreen Selector
-    * Build: bootScreenSelector     make
-* App/System Info
-    * Build: systemInfo             make
-* Koriki/bin:
-    * Build: charging               make
-    * Build: keymon                 make
-    * Build: show
-* Koriki/version.txt
-* .deletes
-* .update_splash.png
+#### Bootscreen Selector
+
+* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/bootScreenSelector
+* Ubicación del binario final: `App/Bootscreen_Selector/bootScreenSelector`
+
+#### System Info
+
+* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/systemInfo
+* Ubicación del binario final: `App/System_Info/systemInfo`
+
+#### Charging
+
+* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/charging
+* Ubicación del binario final: `Koriki/bin/charging`
+
+#### Keymon
+
+* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/keymon
+* Ubicación del binario final: `Koriki/bin/keymon`
+
+#### ShowScreen
+
+* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/showScreen
+* Ubicación del binario final: `Koriki/bin/show`
 
 ## Telegram channel for updates
 
