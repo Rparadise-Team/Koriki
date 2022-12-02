@@ -14,7 +14,7 @@ Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wik
 
 ## Componentes
 
-La base de la distribución son una serie de ficheros estáticos que pueden encontrarse en el directorio `base` de este repositorio. Sobre esta base se han compilado/instalado una serie de proyectos de otras personas que más adelante detallaremos. El resultado, es decir la base más los binarios, se deben copiar sobre una tarjeta microSD en formato FAT32.
+La base de la distribución son una serie de ficheros estáticos que pueden encontrarse en el directorio `base` de este repositorio. Sobre esta base se han compilado/instalado una serie de proyectos de otras personas que más adelante detallaremos. El resultado, es decir la base más los binarios, se deben copiar sobre una tarjeta microSD en formato FAT32 sin label.
 
 A continuación se enumeran los binarios que es necesario compilar si se quiere construir la distribución por uno mismo, así como la localización de sus fuentes. La ruta que se indica para los binarios parte de la raíz de la tarjeta microSD.
 
