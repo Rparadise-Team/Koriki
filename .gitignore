@@ -4,7 +4,7 @@ src/bootScreenSelector/bootScreenSelector
 src/bootScreenSelector/log_BSS.txt
 src/bootScreenSelector/main.o
 src/showScreen/main.o
-src/showScreen/showScreen
+src/showScreen/show
 src/keymon/cJSON.o
 src/keymon/keymon
 src/keymon/keymon.o

@@ -1,6 +1,6 @@
 
 
-TARGET = showScreen
+TARGET = show
 
 CC = $(CROSS_COMPILE)g++
 
