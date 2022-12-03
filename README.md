@@ -25,8 +25,8 @@ The toolchain of @shauninman has been used to compile that can be found [here](h
 
 #### SimpleMenu
 
-* Repository: https://github.com/Rparadise-Team/simplemenu/tree/mmiyoo
-* Location of binary: `.simplemenu/simplemenu`
+* Sources: https://github.com/Rparadise-Team/simplemenu/tree/mmiyoo
+* Destination of binary: `.simplemenu/simplemenu`
 * Observations: To compile SimpleMenu, we must have previously compiled and installed the following libraries in our toolchain:
     * libini: https://github.com/pcercuei/libini
     * libopk: https://github.com/pcercuei/libopk
@@ -34,54 +34,54 @@ The toolchain of @shauninman has been used to compile that can be found [here](h
 
 #### invoker
 
-* Repository: https://github.com/fgl82/invoker
-* Location of binary: `.simplemenu/invoker.dge`
+* Sources: https://github.com/fgl82/invoker
+* Destination of binary: `.simplemenu/invoker.dge`
 
 #### RetroArch
 
-* Repository: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
+* Sources: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
 * Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAALUUX82Tk4USboNHAUBxDNa/RetroArch_Dingux_forMiyooMini_220525.zip?dl=0
-* Location of binary: `RetroArch/retroarch`
+* Destination of binary: `RetroArch/retroarch`
 
 #### audioserver.mod
 
-* Repository: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AADMQJa8jBJKJw1_RBxLZxFNa/latency_reduction.zip?dl=0
-* Location of binary: `Koriki/bin/audioserver.mod`
+* Sources: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AADMQJa8jBJKJw1_RBxLZxFNa/latency_reduction.zip?dl=0
+* Destination of binary: `Koriki/bin/audioserver.mod`
 
 #### DinguxCommander
 
-* Repository: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAAaZPs2Dh8gMiYT8c2U71qea/Commander_Italic_rev4.zip?dl=0
-* Location of binary: `App/Commander_Italic/DinguxCommander`
+* Sources: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAAaZPs2Dh8gMiYT8c2U71qea/Commander_Italic_rev4.zip?dl=0
+* Destination of binary: `App/Commander_Italic/DinguxCommander`
 
 #### GMU
 
-* Repository: https://github.com/TechDevangelist/gmu
-* Location of binary: `App/Gmu/gmu.bin`
+* Sources: https://github.com/TechDevangelist/gmu
+* Destination of binary: `App/Gmu/gmu.bin`
 
 #### Bootscreen Selector
 
-* Repository: https://github.com/Rparadise-Team/Koriki/tree/main/src/bootScreenSelector
-* Location of binary: `App/Bootscreen_Selector/bootScreenSelector`
+* Sources: https://github.com/Rparadise-Team/Koriki/tree/main/src/bootScreenSelector
+* Destination of binary: `App/Bootscreen_Selector/bootScreenSelector`
 
 #### System Info
 
-* Repository: https://github.com/Rparadise-Team/Koriki/tree/main/src/systemInfo
-* Location of binary: `App/System_Info/systemInfo`
+* Sources: https://github.com/Rparadise-Team/Koriki/tree/main/src/systemInfo
+* Destination of binary: `App/System_Info/systemInfo`
 
 #### Charging
 
-* Repository: https://github.com/Rparadise-Team/Koriki/tree/main/src/charging
-* Location of binary: `Koriki/bin/charging`
+* Sources: https://github.com/Rparadise-Team/Koriki/tree/main/src/charging
+* Destination of binary: `Koriki/bin/charging`
 
 #### Keymon
 
-* Repository: https://github.com/Rparadise-Team/Koriki/tree/main/src/keymon
-* Location of binary: `Koriki/bin/keymon`
+* Sources: https://github.com/Rparadise-Team/Koriki/tree/main/src/keymon
+* Destination of binary: `Koriki/bin/keymon`
 
 #### ShowScreen
 
-* Repository: https://github.com/Rparadise-Team/Koriki/tree/main/src/showScreen
-* Location of binary: `Koriki/bin/show`
+* Sources: https://github.com/Rparadise-Team/Koriki/tree/main/src/showScreen
+* Destination of binary: `Koriki/bin/show`
 
 ## Telegram channel for updates
 

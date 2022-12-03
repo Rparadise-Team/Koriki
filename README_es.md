@@ -25,7 +25,7 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 #### SimpleMenu
 
-* Repositorio: https://github.com/Rparadise-Team/simplemenu/tree/mmiyoo
+* Fuentes: https://github.com/Rparadise-Team/simplemenu/tree/mmiyoo
 * Ubicación del binario final: `.simplemenu/simplemenu`
 * Observaciones: Para compilar SimpleMenu, previamente deberemos haber compilado e instalado en nuestro toolchain las siguientes librerías:
     * libini: https://github.com/pcercuei/libini
@@ -34,53 +34,53 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 #### invoker
 
-* Repositorio: https://github.com/fgl82/invoker
+* Fuentes: https://github.com/fgl82/invoker
 * Ubicación del binario final: `.simplemenu/invoker.dge`
 
 #### RetroArch
 
-* Repositorio: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
+* Fuentes: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
 * Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAALUUX82Tk4USboNHAUBxDNa/RetroArch_Dingux_forMiyooMini_220525.zip?dl=0
 * Ubicación del binario final: `RetroArch/retroarch`
 
 #### audioserver.mod
 
-* Repositorio: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AADMQJa8jBJKJw1_RBxLZxFNa/latency_reduction.zip?dl=0
+* Fuentes: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AADMQJa8jBJKJw1_RBxLZxFNa/latency_reduction.zip?dl=0
 * Ubicación del binario final: `Koriki/bin/audioserver.mod`
 
 #### DinguxCommander
 
-* Repositorio: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAAaZPs2Dh8gMiYT8c2U71qea/Commander_Italic_rev4.zip?dl=0
+* Fuentes: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAAaZPs2Dh8gMiYT8c2U71qea/Commander_Italic_rev4.zip?dl=0
 * Ubicación del binario final: `App/Commander_Italic/DinguxCommander`
 
 #### GMU
 
-* Repositorio: https://github.com/TechDevangelist/gmu
+* Fuentes: https://github.com/TechDevangelist/gmu
 * Ubicación del binario final: `App/Gmu/gmu.bin`
 
 #### Bootscreen Selector
 
-* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/bootScreenSelector
+* Fuentes: https://github.com/Rparadise-Team/Koriki/tree/main/src/bootScreenSelector
 * Ubicación del binario final: `App/Bootscreen_Selector/bootScreenSelector`
 
 #### System Info
 
-* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/systemInfo
+* Fuentes: https://github.com/Rparadise-Team/Koriki/tree/main/src/systemInfo
 * Ubicación del binario final: `App/System_Info/systemInfo`
 
 #### Charging
 
-* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/charging
+* Fuentes: https://github.com/Rparadise-Team/Koriki/tree/main/src/charging
 * Ubicación del binario final: `Koriki/bin/charging`
 
 #### Keymon
 
-* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/keymon
+* Fuentes: https://github.com/Rparadise-Team/Koriki/tree/main/src/keymon
 * Ubicación del binario final: `Koriki/bin/keymon`
 
 #### ShowScreen
 
-* Repositorio: https://github.com/Rparadise-Team/Koriki/tree/main/src/showScreen
+* Fuentes: https://github.com/Rparadise-Team/Koriki/tree/main/src/showScreen
 * Ubicación del binario final: `Koriki/bin/show`
 
 ## Telegram channel for updates
