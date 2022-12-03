@@ -6,7 +6,7 @@ Koriki es una recopilación de software para la tarjeta microSD de la retro cons
 
 En este repositorio se encuentran todas las piezas software necesarias para construir la distribución, pero en caso de estar unicamente interesado en utilizar el resultado final, acudir al apartado [releases](https://github.com/Rparadise-Team/Koriki/releases) para obtener una compilación funcional de la misma. Consultar la documentación en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) para conocer el procedimiento de instalación de la distribución ya compilada.
 
-Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se aportan más detalles, como todos los proyectos de software libre, se apoyan en el trabajo de muchas otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar algunos nombres que son los que de forma más directa han permitido la existencia de Koriki:
+Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se aportan más detalles, como todos los proyectos de software libre, Koriki se apoya en el trabajo de muchas otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar algunos nombres que son los que de forma más directa han permitido la existencia de Koriki:
 
 * @FGL82: Por su práctico, ágil, y personalizable frontend SimpleMenu.
 * @trngaje: Por su fork de SimpleMenu para Miyoo Mini que prendió la idea de Koriki.

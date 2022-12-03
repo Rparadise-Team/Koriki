@@ -6,9 +6,9 @@ Koriki is a software compilation for the microSD card slot of [Miyoo Mini](https
 
 In this repository you will find all the software pieces to build the compilation, but if you only want to use one of the builds published in [releases](https://github.com/Rparadise-Team/Koriki/releases), see the documentation on the [wiki](https://github.com/Rparadise-Team/Koriki/wiki) for the installation procedure.
 
-Although more details are given later in the [wiki](https://github.com/Rparadise-Team/Koriki/wiki), like all free software projects, they rely on the work of many other people. The complete list would be endless, but we can not avoid to mention some names that are the most directly have allowed the existence of Koriki:
+Although more details are given later in the [wiki](https://github.com/Rparadise-Team/Koriki/wiki), like all free software projects, Koriki rely on the work of many other people. The complete list would be endless, but we can not avoid to mention some names that are the most directly have allowed the existence of Koriki:
 
-* @FGL82: For its practical, agile and customizable SimpleMenu frontend.
+* @FGL82: For his practical, agile and customizable SimpleMenu frontend.
 * @trngaje: For his SimpleMenu fork for Miyoo Mini that triggered Koriki's idea.
 * [Eggs](https://discordapp.com/users/778867980096241715): For its mod of RetroArch for the MiyooMini as well as some system mods such as the sound latency reduction system.
 * @shauninman: For its dockerized toolchain and [minimalist distribution](https://github.com/shauninman/MiniUI) concept which has largely inspired Koriki's design.
