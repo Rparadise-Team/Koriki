@@ -15,13 +15,13 @@ Although more details are given later in the [wiki](https://github.com/Rparadise
 
 ## Components
 
-The base of the distribution is a series of static files that can be found in the `base` directory of this repository. Over this base we have compiled/installed a series of projects that we will detail later. The result, i.e. the base plus the binaries, must be copied to a microSD card in FAT32 format with empty label.
+The base of the distribution is a series of static files that can be found in the `base` directory of this repository. Over this base we have built/installed a series of projects that we will detail later. The result, i.e. the base plus the binaries, must be copied to a microSD card in FAT32 format with empty label.
 
 Once the binaries are in place, the `generate_release.sh` script allows to generate a zip with the complete distribution (which also does not include the `.gitignore` files in some empty directories) which will be used to update an already installed version of Koriki just by copying the resulting file to the root of the card. The file name has to start with `update_koriki_` to trigger the update procedure during Koriki startup. This system can also be used to apply patches to fix only some files.
 
-Listed below are the binaries that you need to compile if you want to build the distribution yourself, as well as the location of their sources. The path to the location indicated for the binaries starts from the root of the microSD card.
+Listed below are the binaries that you need to build if you want to construct the distribution yourself, as well as the location of their sources. The path to the location indicated for the binaries starts from the root of the microSD card.
 
-The toolchain of @shauninman has been used to compile that can be found [here](https://github.com/shauninman/union-miyoomini-toolchain).
+The toolchain of @shauninman has been used to build, that can be found [here](https://github.com/shauninman/union-miyoomini-toolchain).
 
 #### SimpleMenu
 
