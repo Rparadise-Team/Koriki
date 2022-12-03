@@ -84,4 +84,4 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 ## Telegram channel for updates
 
-Join this Telegram channel to get update notifications: ####
+Join this Telegram channel to get update notifications: [http://t.me/Koriki_MiyooMini](http://t.me/Koriki_MiyooMini)

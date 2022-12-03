@@ -84,4 +84,4 @@ The toolchain of @shauninman has been used to compile that can be found [here](h
 
 ## Telegram channel for updates
 
-Join this Telegram channel to get update notifications: ####
+Join this Telegram channel to get update notifications: [http://t.me/Koriki_MiyooMini](http://t.me/Koriki_MiyooMini)
