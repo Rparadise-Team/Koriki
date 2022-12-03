@@ -6,11 +6,11 @@ Koriki es una recopilación de software para la tarjeta microSD de la retro cons
 
 En este repositorio se encuentran todas las piezas software necesarias para construir la distribución, pero en caso de estar unicamente interesado en utilizar el resultado final, acudir al apartado [releases](https://github.com/Rparadise-Team/Koriki/releases) para obtener una compilación funcional de la misma. Consultar la documentación en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) para conocer el procedimiento de instalación de la distribución ya compilada.
 
-Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se dan más detalles, como todos los proyectos de software libre, se apoyan en el trabajo de otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar tres nombres que son los que de forma más directa han permitido la existencia de Koriki:
+Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se aportan más detalles, como todos los proyectos de software libre, se apoyan en el trabajo de muchas otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar tres nombres que son los que de forma más directa han permitido la existencia de Koriki:
 
-* @FGL82: Por su práctico, ágil, bonito y personalizable frontend SimpleMenu.
-* [Eggs](https://discordapp.com/users/778867980096241715): Por su adaptación de RetroArch para la MiyooMini así como algunos hacks del sistema como el sistema de reducción de lag de sonido.
-* @shauninman: Por su toolchain dockerizada y por su concepto de [distribución minimalista](https://github.com/shauninman/MiniUI) que ha inspirado gran parte  del diseño de Koriki.
+* @FGL82: Por su práctico, ágil, y personalizable frontend SimpleMenu.
+* [Eggs](https://discordapp.com/users/778867980096241715): Por su adaptación de RetroArch para la MiyooMini así como algunos mods del sistema como el sistema de reducción de lag de sonido.
+* @shauninman: Por su toolchain dockerizada y por su concepto de [distribución minimalista](https://github.com/shauninman/MiniUI) que ha inspirado en gran parte el diseño de Koriki.
 
 ## Componentes
 
