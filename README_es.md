@@ -4,7 +4,7 @@
 
 Koriki es una recopilación de software para la tarjeta microSD de la retro consola [Miyoo Mini](https://lemiyoo.cn/product/143.html). Se ejecuta sobre el firmware stock y fundamentalmente porta el frontend [SimpleMenu](https://github.com/fgl82/simplemenu) a este dispositivo.
 
-En este repositorio se encuentran todas las piezas software necesarias para construir la distribución, pero en caso de estar unicamente interesado en utilizar el resultado final, acudir al apartado [releases](https://github.com/Rparadise-Team/Koriki/releases) para coger una compilación funcional de la misma. Consultar la documentación en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) para conocer el procedimiento de instalación de la distribución compilada.
+En este repositorio se encuentran todas las piezas software necesarias para construir la distribución, pero en caso de estar unicamente interesado en utilizar el resultado final, acudir al apartado [releases](https://github.com/Rparadise-Team/Koriki/releases) para obtener una compilación funcional de la misma. Consultar la documentación en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) para conocer el procedimiento de instalación de la distribución ya compilada.
 
 Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se dan más detalles, como todos los proyectos de software libre, se apoyan en el trabajo de otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar tres nombres que son los que de forma más directa han permitido la existencia de Koriki:
 
