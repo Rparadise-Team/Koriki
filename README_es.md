@@ -9,14 +9,16 @@ En este repositorio se encuentran todas las piezas software necesarias para cons
 Aunque más adelante y en el [wiki](https://github.com/Rparadise-Team/Koriki/wiki) se aportan más detalles, como todos los proyectos de software libre, se apoyan en el trabajo de muchas otras personas. La lista completa sería interminable, pero no podemos dejar de mencionar tres nombres que son los que de forma más directa han permitido la existencia de Koriki:
 
 * @FGL82: Por su práctico, ágil, y personalizable frontend SimpleMenu.
-* [Eggs](https://discordapp.com/users/778867980096241715): Por su adaptación de RetroArch para la MiyooMini así como algunos mods del sistema como el sistema de reducción de lag de sonido.
+* [Eggs](https://discordapp.com/users/778867980096241715): Por su adaptación de RetroArch para la MiyooMini así como algunos mods del sistema como el sistema de reducción de latencia de sonido.
 * @shauninman: Por su toolchain dockerizada y por su concepto de [distribución minimalista](https://github.com/shauninman/MiniUI) que ha inspirado en gran parte el diseño de Koriki.
 
 ## Componentes
 
 La base de la distribución son una serie de ficheros estáticos que pueden encontrarse en el directorio `base` de este repositorio. Sobre esta base se han compilado/instalado una serie de proyectos de otras personas que más adelante detallaremos. El resultado, es decir la base más los binarios, se deben copiar sobre una tarjeta microSD en formato FAT32 sin label.
 
-A continuación se enumeran los binarios que es necesario compilar si se quiere construir la distribución por uno mismo, así como la localización de sus fuentes. La ruta que se indica para los binarios parte de la raíz de la tarjeta microSD.
+Una vez colocados los binarios, el script `generate_release.sh` permite generar un zip con la distribución completa (que además no inclye los ficheros `.gitignore` que hay en algunos directorios vacíos) que servirá para actualizar una versión ya instalada de Koriki únicamente copiando el fichero resultante a la raíz de la tarjeta. El nombre del fichero tiene que empezar por `update_koriki_` para que se dispare el procedimiento de actualización durante el arranque de Koriki. Mediante este sistema también se pueden aplicar parches para corregir únicamente algunos ficheros aislados.
+
+A continuación se enumeran los binarios que es necesario compilar si se quiere construir la distribución por uno mismo, así como la localización de sus fuentes. La ruta de la ubicación que se indica para los binarios parte de la raíz de la tarjeta microSD.
 
 Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse [aquí](https://github.com/shauninman/union-miyoomini-toolchain).
 
@@ -47,7 +49,7 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 #### DinguxCommander
 
-* Repositorio: https://github.com/OnionUI/app-DinguxCommander
+* Repositorio: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAAaZPs2Dh8gMiYT8c2U71qea/Commander_Italic_rev4.zip?dl=0
 * Ubicación del binario final: `App/Commander_Italic/DinguxCommander`
 
 #### GMU
