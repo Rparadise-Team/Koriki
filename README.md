@@ -85,4 +85,4 @@ The toolchain of @shauninman has been used to build, that can be found [here](ht
 
 ## Telegram channel for updates
 
-Join this Telegram channel to get update notifications: [http://t.me/Koriki_MiyooMini](http://t.me/Koriki_MiyooMini)
+Join this Telegram channel to get update notifications: [https://t.me/Koriki_MiyooMini](https://t.me/Koriki_MiyooMini)
