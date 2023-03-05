@@ -4,6 +4,8 @@ export SCREEN_WIDTH=640
 export SCREEN_HEIGHT=480
 export SDCARD_PATH=/mnt/SDCARD
 export HOME=${SDCARD_PATH}
+export SETTINGS_INT_FILE="/appconfigs/system.json"
+export SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
@@ -35,7 +37,13 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-        cp ${SYSTEM_PATH}/assets/system.json /appconfigs/system.json
+        if dmesg|fgrep -q "[FSP] Flash is detected (0x0B05, 0xC8, 0x40, 0x18) ver1.1"; then
+            settings_file=$SETTINGS_INT_FILE
+        else
+            settings_file=$SETTINGS_EXT_FILE
+        fi
+
+        cp ${SYSTEM_PATH}/assets/system.json $settings_file
         rm ${SDCARD_PATH}/.reset_settings
         sync
     fi
