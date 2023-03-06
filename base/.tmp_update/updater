@@ -37,10 +37,10 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-        if dmesg|fgrep -q "[FSP] Flash is detected (0x0B05, 0xC8, 0x40, 0x18) ver1.1"; then
-            settings_file=$SETTINGS_INT_FILE
-        else
+        if [ "$FLASH_EXT" == "1" ] ; then
             settings_file=$SETTINGS_EXT_FILE
+        else
+            settings_file=$SETTINGS_INT_FILE
         fi
 
         cp ${SYSTEM_PATH}/assets/system.json $settings_file
@@ -99,6 +99,13 @@ dir_scaffolding() {
     done
 }
 
+
+# Detect flash type
+if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
+    export FLASH_EXT="1"
+else
+    export FLASH_EXT="0"
+fi
 
 # Reset settings on first boot
 reset_settings
