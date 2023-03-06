@@ -4,8 +4,8 @@ export SCREEN_WIDTH=640
 export SCREEN_HEIGHT=480
 export SDCARD_PATH=/mnt/SDCARD
 export HOME=${SDCARD_PATH}
-export SETTINGS_INT_FILE="/appconfigs/system.json"
-export SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
+SETTINGS_INT_FILE="/appconfigs/system.json"
+SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
@@ -37,13 +37,7 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-        if [ "$FLASH_EXT" == "1" ] ; then
-            settings_file=$SETTINGS_EXT_FILE
-        else
-            settings_file=$SETTINGS_INT_FILE
-        fi
-
-        cp ${SYSTEM_PATH}/assets/system.json $settings_file
+        cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
         rm ${SDCARD_PATH}/.reset_settings
         sync
     fi
@@ -102,9 +96,9 @@ dir_scaffolding() {
 
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
-    export FLASH_EXT="1"
+    export SETTINGS_FILE=$SETTINGS_EXT_FILE
 else
-    export FLASH_EXT="0"
+    export SETTINGS_FILE=$SETTINGS_INT_FILE
 fi
 
 # Reset settings on first boot
