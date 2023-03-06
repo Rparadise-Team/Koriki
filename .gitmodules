@@ -1,0 +1,4 @@
+[submodule "src/simplemenu"]
+	path = src/simplemenu
+	url = git@github.com:Rparadise-Team/simplemenu.git
+	branch = mmiyoo
