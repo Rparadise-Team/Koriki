@@ -16,7 +16,7 @@
 #include <poll.h>
 
 
-#define ANIMATION_DELAY 100000
+#define ANIMATION_DELAY 200000
 #define ANIMATION_LOOPS 10
 #define ANIMATION_IMAGES 6
 
@@ -48,15 +48,32 @@ static int is_charging = 0;
 static bool running = true;
 static int animation_image = 0;
 static int animation_loop = 0;
+static int mmp = 0;
 
 void checkCharging(void) {
-  int i = 0;
-  FILE *file = fopen("/sys/devices/gpiochip0/gpio/gpio59/value", "r");
-  if (file!=NULL) {
-    fscanf(file, "%i", &i);
-    fclose(file);
+  int charging = 0;
+  if (access("/customer/app/axp_test", F_OK) == 0) {
+    mmp = 1;
+    char *cmd = "cd /customer/app/ ; ./axp_test";
+    int axp_response_size = 100;
+    char buf[axp_response_size];
+    int battery = 0;
+    int voltage = 0;
+
+    FILE *fp;
+    fp = popen(cmd, "r");
+      if (fgets(buf, axp_response_size, fp) != NULL)
+        sscanf(buf,  "{\"battery\":%d, \"voltage\":%d, \"charging\":%d}", &battery, &voltage, &charging);
+    pclose(fp);
+    is_charging = charging;
+  } else {
+    FILE *file = fopen("/sys/devices/gpiochip0/gpio/gpio59/value", "r");
+    if (file!=NULL) {
+      fscanf(file, "%i", &charging);
+      fclose(file);
+    }
+    is_charging = charging;
   }
-  is_charging = i;
 }
 
 void logMessage(char* Message) {
@@ -139,7 +156,10 @@ int main(void) {
 
     checkCharging();
     if (is_charging == 0){
-      system("sync; reboot; sleep 10");
+      if (mmp)
+        system("sync; poweroff; sleep 10");
+      else
+        system("sync; reboot; sleep 10");
     }
 
     while (poll(fds, 1, 0)) {
