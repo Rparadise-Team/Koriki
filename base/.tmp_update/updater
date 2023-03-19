@@ -101,17 +101,22 @@ else
     export SETTINGS_FILE=$SETTINGS_INT_FILE
 fi
 
+# Detect model and init charger GPIO
+if [ ! -f /customer/app/axp_test ]; then
+    export MODEL="MM"
+    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
+        echo 59 > /sys/class/gpio/export
+        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
+    fi
+else
+    export MODEL="MMP"
+fi
+
 # Reset settings on first boot
 reset_settings
 
 # Init_lcd
 init_lcd 1
-
-# Init charger GPIO
-if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
-    echo 59 > /sys/class/gpio/export
-    echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
-fi
 
 # Init backlight
 echo 0 > /sys/class/pwm/pwmchip0/export
