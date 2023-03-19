@@ -66,8 +66,12 @@ void modifyBrightness(int inc) {
   cJSON* request_json = NULL;
   cJSON* itemBrightness;
 
+  char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL)
+        settings_file = "/appconfigs/system.json";
+
   // Store in system.json
-  char *request_body = load_file("/appconfigs/system.json");
+  char *request_body = load_file(settings_file);
   request_json = cJSON_Parse(request_body);
   itemBrightness = cJSON_GetObjectItem(request_json, "brightness");
   int brightness = cJSON_GetNumberValue(itemBrightness);
@@ -76,7 +80,7 @@ void modifyBrightness(int inc) {
   if (inc == -1 && brightness > BRIMIN) brightness--;
   if (inc != 0) {
     cJSON_SetNumberValue(itemBrightness, brightness);
-    FILE *file = fopen("/appconfigs/system.json", "w");
+    FILE *file = fopen(settings_file, "w");
     char *test = cJSON_Print(request_json);
     fputs(test, file);
     fclose(file);
