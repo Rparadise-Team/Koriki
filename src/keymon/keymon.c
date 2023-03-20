@@ -14,18 +14,20 @@
 #include "cJSON.h"
 
 //	Button Defines
-#define	BUTTON_MENU		KEY_ESC
-#define	BUTTON_POWER	KEY_POWER
-#define	BUTTON_SELECT	KEY_RIGHTCTRL
-#define	BUTTON_START	KEY_ENTER
-#define	BUTTON_L1			KEY_E
-#define	BUTTON_R1			KEY_T
-#define	BUTTON_L2			KEY_TAB
-#define	BUTTON_R2			KEY_BACKSPACE
-#define BUTTON_UP			KEY_UP
-#define BUTTON_DOWN		KEY_DOWN
-#define BUTTON_LEFT		KEY_LEFT
-#define BUTTON_RIGHT	KEY_RIGHT
+#define	BUTTON_MENU         KEY_ESC
+#define	BUTTON_POWER        KEY_POWER
+#define	BUTTON_SELECT       KEY_RIGHTCTRL
+#define	BUTTON_START        KEY_ENTER
+#define	BUTTON_L1           KEY_E
+#define	BUTTON_R1           KEY_T
+#define	BUTTON_L2           KEY_TAB
+#define	BUTTON_R2           KEY_BACKSPACE
+#define BUTTON_UP           KEY_UP
+#define BUTTON_DOWN         KEY_DOWN
+#define BUTTON_LEFT         KEY_LEFT
+#define BUTTON_RIGHT        KEY_RIGHT
+#define BUTTON_VOLUMEUP     KEY_VOLUMEUP
+#define BUTTON_VOLUMEDOWN   KEY_VOLUMEDOWN
 
 #define BRIMAX		10
 #define BRIMIN		1
@@ -35,6 +37,9 @@
 #define PRESSED		1
 #define REPEAT		2
 
+// Set Volume (Raw)
+#define MI_AO_SETVOLUME 0x4008690b
+#define MI_AO_GETVOLUME 0xc008690c
 
 // Global Variables
 static struct input_event	ev;
@@ -61,14 +66,68 @@ char* load_file(char const* path) {
   return buffer;
 }
 
+int setVolumeRaw(int volume, int add)
+{
+    int recent_volume = 0;
+    int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, 0};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+        ioctl(fd, MI_AO_GETVOLUME, buf1);
+        recent_volume = buf2[1];
+        if (add) {
+            buf2[1] += add;
+            if (buf2[1] > 0)
+                buf2[1] = 0;
+            else if (buf2[1] < -60)
+                buf2[1] = -60;
+        }
+        else
+            buf2[1] = volume;
+        if (buf2[1] != recent_volume)
+            ioctl(fd, MI_AO_SETVOLUME, buf1);
+        close(fd);
+    }
+  
+  // Increase/Decrease Volume
+	cJSON* request_json = NULL;
+	cJSON* itemVol;
+
+	const char *settings_file = getenv("SETTINGS_FILE");
+	if (settings_file == NULL){
+        settings_file = "/appconfigs/system.json";
+	}
+
+	// Store in system.json
+	char *request_body = load_file(settings_file);
+	request_json = cJSON_Parse(request_body);
+	itemVol = cJSON_GetObjectItem(request_json, "vol");
+	int vol = cJSON_GetNumberValue(itemVol);
+	if (add == 3 && vol < 20) vol++;
+	if (add == -3 && vol > 0) vol--;
+	if (add != 0) {
+    cJSON_SetNumberValue(itemVol, vol);
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
+
+  cJSON_Delete(request_json);
+  free(request_body);
+  
+  return recent_volume;
+}
+
 // Increase/Decrease Brightness
 void modifyBrightness(int inc) {
   cJSON* request_json = NULL;
   cJSON* itemBrightness;
 
-  char *settings_file = getenv("SETTINGS_FILE");
-    if (settings_file == NULL)
+  const char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL){
         settings_file = "/appconfigs/system.json";
+	}
 
   // Store in system.json
   char *request_body = load_file(settings_file);
@@ -100,6 +159,8 @@ int main (int argc, char *argv[]) {
   input_fd = open("/dev/input/event0", O_RDONLY);
 
   modifyBrightness(0);
+  setVolumeRaw(0, 0);
+  int recent_volume = 0;
 
   // Main Loop
   register uint32_t val;
@@ -154,6 +215,40 @@ int main (int argc, char *argv[]) {
           modifyBrightness(-1);
         }
       break;
+/*	  case BUTTON_LEFT:
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED && menu_pressed) {
+          // Increase volume
+          setVolumeRaw(recent_volume, +3);
+        }
+      break;
+      case BUTTON_RIGHT:
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED && menu_pressed) {
+          // Decrease volume
+          setVolumeRaw(recent_volume, -3);
+        }
+      break;*/ //test miyoo mini
+      case BUTTON_VOLUMEUP:
+        // Increase volume
+        setVolumeRaw(recent_volume, +3);
+	    break;
+	    case BUTTON_VOLUMEDOWN:
+        // Decrease volume
+        setVolumeRaw(recent_volume, -3);
+	    break;
       default:
       break;
     }
