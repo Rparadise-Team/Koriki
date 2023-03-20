@@ -37,13 +37,12 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
+        rm ${SDCARD_PATH}/.reset_settings
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
-            rm ${SDCARD_PATH}/.reset_settings
             sync
         else
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
-            rm ${SDCARD_PATH}/.reset_settings
             sync
             reboot
             sleep 10s
