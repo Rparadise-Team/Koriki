@@ -14,18 +14,20 @@
 #include "cJSON.h"
 
 //	Button Defines
-#define	BUTTON_MENU		KEY_ESC
-#define	BUTTON_POWER	KEY_POWER
-#define	BUTTON_SELECT	KEY_RIGHTCTRL
-#define	BUTTON_START	KEY_ENTER
-#define	BUTTON_L1			KEY_E
-#define	BUTTON_R1			KEY_T
-#define	BUTTON_L2			KEY_TAB
-#define	BUTTON_R2			KEY_BACKSPACE
-#define BUTTON_UP			KEY_UP
-#define BUTTON_DOWN		KEY_DOWN
-#define BUTTON_LEFT		KEY_LEFT
-#define BUTTON_RIGHT	KEY_RIGHT
+#define	BUTTON_MENU         KEY_ESC
+#define	BUTTON_POWER        KEY_POWER
+#define	BUTTON_SELECT       KEY_RIGHTCTRL
+#define	BUTTON_START        KEY_ENTER
+#define	BUTTON_L1           KEY_E
+#define	BUTTON_R1           KEY_T
+#define	BUTTON_L2           KEY_TAB
+#define	BUTTON_R2           KEY_BACKSPACE
+#define BUTTON_UP           KEY_UP
+#define BUTTON_DOWN         KEY_DOWN
+#define BUTTON_LEFT         KEY_LEFT
+#define BUTTON_RIGHT        KEY_RIGHT
+#define BUTTON_VOLUMEUP     KEY_VOLUMEUP
+#define BUTTON_VOLUMEDOWN   KEY_VOLUMEDOWN
 
 #define BRIMAX		10
 #define BRIMIN		1
@@ -34,6 +36,35 @@
 #define RELEASED	0
 #define PRESSED		1
 #define REPEAT		2
+
+// Set Volume (Raw)
+#define MI_AO_SETVOLUME 0x4008690b
+#define MI_AO_GETVOLUME 0xc008690c
+
+int setVolumeRaw(int volume, int add)
+{
+    int recent_volume = 0;
+    int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, 0};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+        ioctl(fd, MI_AO_GETVOLUME, buf1);
+        recent_volume = buf2[1];
+        if (add) {
+            buf2[1] += add;
+            if (buf2[1] > 30)
+                buf2[1] = 30;
+            else if (buf2[1] < -30)
+                buf2[1] = -30;
+        }
+        else
+            buf2[1] = volume;
+        if (buf2[1] != recent_volume)
+            ioctl(fd, MI_AO_SETVOLUME, buf1);
+        close(fd);
+    }
+    return recent_volume;
+}
 
 
 // Global Variables
@@ -154,6 +185,14 @@ int main (int argc, char *argv[]) {
           modifyBrightness(-1);
         }
       break;
+      case BUTTON_VOLUMEUP:
+			val = PRESSED;
+			setVolumeRaw(0, +3);
+	    break;
+	    case BUTTON_VOLUMEDOWN:
+			val = PRESSED;
+			setVolumeRaw(0, -3);
+	    break;
       default:
       break;
     }
