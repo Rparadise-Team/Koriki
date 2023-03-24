@@ -255,7 +255,10 @@ int main (int argc, char *argv[]) {
 
     if (shutdown) {
       power_pressed = 0;
-      system("sync; reboot");
+      if (access("/customer/app/axp_test", F_OK) == 0)
+        system("sync; poweroff");
+      else
+        system("sync; reboot");
       while (1) pause();
     }
   }
