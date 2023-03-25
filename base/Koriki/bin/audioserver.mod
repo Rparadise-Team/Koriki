@@ -1,9 +1,8 @@
 #!/bin/sh
 FILE=/customer/app/axp_test
-cd `dirname "$0"`
 
 if [ -f "$FILE" ]; then
-LD_PRELOAD="./as_preload.so" ./audioserver.plu
+LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.plu
 else
-LD_PRELOAD="./as_preload.so" ./audioserver.min
+LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.min
 fi
