@@ -43,10 +43,10 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 * Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAALUUX82Tk4USboNHAUBxDNa/RetroArch_Dingux_forMiyooMini_220525.zip?dl=0
 * Ubicación del binario final: `RetroArch/retroarch`
 
-#### audioserver.mod
+#### audioserver (para Miyoo Mini, no para Miyoo Mini+)
 
 * Fuentes: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AADMQJa8jBJKJw1_RBxLZxFNa/latency_reduction.zip?dl=0
-* Ubicación del binario final: `Koriki/bin/audioserver.mod`
+* Ubicación del binario final: `Koriki/bin/audioserver.min`
 
 #### DinguxCommander
 
