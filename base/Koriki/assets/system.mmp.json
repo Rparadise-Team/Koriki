@@ -12,6 +12,6 @@
 	"contrast":	6,
 	"theme":	"./",
 	"fontsize":	24,
-	"audiofix":	0,
+	"audiofix":	1,
 	"wifi":	0
 }
