@@ -6,7 +6,6 @@ export SDCARD_PATH=/mnt/SDCARD
 export HOME=${SDCARD_PATH}
 SETTINGS_INT_FILE="/appconfigs/system.json"
 SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
-SETTINGS_EXT_FILE_MMP="/mnt/SDCARD/system.mmp.json"
 
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
@@ -38,7 +37,7 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-	if [ ! -f /customer/app/axp_test ]; then
+        if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
             rm ${SDCARD_PATH}/.reset_settings
             sync
@@ -46,11 +45,12 @@ reset_settings() {
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
             rm ${SDCARD_PATH}/.reset_settings
             sync
-	    sleep 10s
             reboot
+            sleep 10s
         fi
     fi
 }
+
 update() {
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
@@ -104,16 +104,9 @@ dir_scaffolding() {
 
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
-if [ ! -f /customer/app/axp_test ]; then
-    	export SETTINGS_FILE=$SETTINGS_EXT_FILE
-	else
-    	export SETTINGS_FILE=$SETTINGS_INT_FILE
-	fi
+    export SETTINGS_FILE=$SETTINGS_EXT_FILE
 else
-	export SETTINGS_FILE=$SETTINGS_EXT_FILE_MMP
-	else
-    	export SETTINGS_FILE=$SETTINGS_INT_FILE
-	fi
+    export SETTINGS_FILE=$SETTINGS_INT_FILE
 fi
 
 # Detect model and init charger GPIO
