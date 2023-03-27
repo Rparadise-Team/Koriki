@@ -37,7 +37,7 @@ runifnecessary() {
 
 reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-        if [ $MODEL = "MM" ]; then
+	if [ ! -f /customer/app/axp_test ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
             rm ${SDCARD_PATH}/.reset_settings
             sync
@@ -45,12 +45,11 @@ reset_settings() {
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
             rm ${SDCARD_PATH}/.reset_settings
             sync
+	    sleep 10s
             reboot
-            sleep 10s
         fi
     fi
 }
-
 update() {
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
