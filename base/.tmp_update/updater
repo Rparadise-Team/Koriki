@@ -165,8 +165,15 @@ fi
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
-        LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.mod &
+	if [ ! -f /customer/app/axp_test ]; then
+    export MODEL="MM"
+		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min &
         export LD_PRELOAD=libpadsp.so
+	else
+	export MODEL="MMP"
+		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu &
+        export LD_PRELOAD=libpadsp.so
+	fi
     fi
 fi
 
