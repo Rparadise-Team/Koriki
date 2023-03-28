@@ -40,7 +40,7 @@ from urllib import quote_plus, unquote_plus
 wlan = "wlan0"
 
 ## That's it for options. Everything else below shouldn't be edited.
-confdir = os.environ['HOME'] + "/mnt/SDCARD/App/Wifi/"
+confdir = "/mnt/SDCARD/App/Wifi/"
 netconfdir = confdir+"networks/"
 sysconfdir = "/appconfigs/"
 datadir = "/mnt/SDCARD/App/Wifi/data/"
