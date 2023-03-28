@@ -1,0 +1,6 @@
+{
+"label":"Search",
+"icon":"data/Imgs/search.png",
+"launch":"launch.sh",
+"description":"Search game library"
+}

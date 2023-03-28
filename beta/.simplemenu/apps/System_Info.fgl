@@ -1,0 +1,3 @@
+title=System Info
+exec="/mnt/SDCARD/App/System_Info/System_Info.sh"
+editable=false

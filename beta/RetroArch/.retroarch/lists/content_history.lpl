@@ -1,0 +1,203 @@
+{
+  "version": "1.5",
+  "default_core_path": "",
+  "default_core_name": "",
+  "label_display_mode": 0,
+  "right_thumbnail_mode": 0,
+  "left_thumbnail_mode": 0,
+  "sort_mode": 2,
+  "items": [
+    {
+      "path": "/mnt/SDCARD/Roms/CPS3/jojoba.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps3_libretro.so",
+      "core_name": "Arcade (FB Alpha 2012 CPS-3)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/CPS2/ddsomj.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps2_libretro.so",
+      "core_name": "Arcade (FB Alpha 2012 CPS-2)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/CPS1/ghoulsu.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps1_libretro.so",
+      "core_name": "Arcade (FB Alpha 2012 CPS-1)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/CPS3/sfiii3.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps3_libretro.so",
+      "core_name": "Arcade (FB Alpha 2012 CPS-3)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/1942 (Japan, USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/1991 Du Ma Racing (Asia) (Unl).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/25th Anniversary Super Mario Bros. (Europe) (Promo, Virtual Console).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/DuckTales (USA) (Beta).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/CPS3/sfiii3.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbneo_libretro.so",
+      "core_name": "Arcade (FinalBurn Neo)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/CPS3/redearth.zip",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps3_libretro.so",
+      "core_name": "Arcade (FB Alpha 2012 CPS-3)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/DuckTales (Europe).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/10-Yard Fight (Japan) (Rev 1).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/DuckTales (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Metroid (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Excitebike (Japan, USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Little Nemo - The Dream Master (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Punch-Out!! (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Super Mario Bros. (World).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Ghosts'n Goblins (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Kirby's Adventure (USA) (Rev A).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Druaga no Tou (Japan).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Gradius II (Japan).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Batman - Return of the Joker (USA).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    },
+    {
+      "path": "/mnt/SDCARD/Roms/FC/Metal Gear (Europe).nes",
+      "label": "",
+      "core_path": "/mnt/SDCARD/RetroArch/.retroarch/cores/fceumm_libretro.so",
+      "core_name": "Nintendo - NES / Famicom (FCEUmm)",
+      "crc32": "",
+      "db_name": ""
+    }
+  ]
+}

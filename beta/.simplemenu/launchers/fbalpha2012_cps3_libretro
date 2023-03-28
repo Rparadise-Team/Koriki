@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /mnt/SDCARD/RetroArch/
+HOME=/mnt/SDCARD/RetroArch/ /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_cps3_libretro.so "$1"

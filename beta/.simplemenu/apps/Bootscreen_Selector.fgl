@@ -1,0 +1,3 @@
+title=Bootscreen Selector
+exec="/mnt/SDCARD/App/Bootscreen_Selector/Bootscreen_Selector.sh"
+editable=false

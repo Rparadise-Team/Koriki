@@ -1,0 +1,26 @@
+{
+    "list": [
+        {
+            "title": 132,
+            "type": 0,
+            "currpos": 1,
+            "pagestart": 0,
+            "pageend": 3
+        },
+        {
+            "title": 2,
+            "type": 1,
+            "currpos": 0,
+            "pagestart": 0,
+            "pageend": 7
+        },
+        {
+            "title": -1,
+            "type": 5,
+            "currpos": 0,
+            "pagestart": 0,
+            "pageend": 5,
+            "emuname": " Search "
+        }
+    ]
+}
