@@ -167,11 +167,11 @@ if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
 	if [ ! -f /customer/app/axp_test ]; then
     export MODEL="MM"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min &
+		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min > /dev/null 2>&1 &
         export LD_PRELOAD=libpadsp.so
 	else
 	export MODEL="MMP"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu &
+		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu > /dev/null 2>&1 &
         export LD_PRELOAD=libpadsp.so
 	fi
     fi
