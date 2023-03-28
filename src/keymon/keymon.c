@@ -77,8 +77,8 @@ int setVolumeRaw(int volume, int add)
         recent_volume = buf2[1];
         if (add) {
             buf2[1] += add;
-            if (buf2[1] > 0)
-                buf2[1] = 0;
+            if (buf2[1] > -3)
+                buf2[1] = -3;
             else if (buf2[1] < -60)
                 buf2[1] = -60;
         }
