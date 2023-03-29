@@ -108,7 +108,7 @@ def ifdown(iface):
 	SU.Popen(['ap', '--stop'], close_fds=True).wait()
 
 def ifup(iface):
-	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
+	return SU.Popen(['ifup', '-i', '/mnt/SDCARD/Koriki/interfaces', iface], close_fds=True).wait() == 0
 
 # Returns False if the interface was previously enabled
 def enableiface(iface):
@@ -130,6 +130,7 @@ def enableiface(iface):
 		time.sleep(0.1);
 	# Let's grab the MAC address while we're here. If, on redraw, the
 	# interface is disabled, GCW Connect would otherwise be unable to grab it.
+	SU.Popen(['wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'], close_fds=True).wait()
 	mac_addresses[iface] = getmac(iface)
 	return True
 
@@ -159,7 +160,7 @@ def getcurrentssid(iface): # What network are we connected to?
 		return None
 
 	with open(os.devnull, "w") as fnull:
-		output = SU.Popen(['iwconfig', iface],
+		output = SU.Popen(['/mnt/SDCARD/Koriki/sbin/iwconfig', iface],
 				stdout=SU.PIPE, stderr=fnull, close_fds=True).stdout.readlines()
 	for line in output:
 		if line.strip().startswith(iface):
@@ -198,7 +199,7 @@ def getnetworks(iface): # Run iwlist to get a list of networks in range
 	modal("Scanning...")
 
 	with open(os.devnull, "w") as fnull:
-		output = SU.Popen(['iwlist', iface, 'scan'],
+		output = SU.Popen(['/mnt/SDCARD/Koriki/sbin/iwlist', iface, 'scan'],
 				stdout=SU.PIPE, stderr=fnull, close_fds=True).stdout.readlines()
 	for item in output:
 		if item.strip().startswith('Cell'):
@@ -216,8 +217,8 @@ def getnetworks(iface): # Run iwlist to get a list of networks in range
 		# Now the loop is over, we will probably find a MAC address and a new "network" will be created.
 	redraw()
 
-	if wasnotenabled:
-		disableiface(iface)
+	#if wasnotenabled:
+	#	disableiface(iface)
 	return networks
 
 def listuniqssids():
