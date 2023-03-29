@@ -120,7 +120,10 @@ def enableiface(iface):
 	drawinterfacestatus()
 	pygame.display.update()
 
-	SU.Popen(['rfkill', 'unblock', 'wlan'], close_fds=True).wait()
+	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	SU.Popen(['killall', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['killall', 'udhcpc'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
@@ -131,7 +134,7 @@ def enableiface(iface):
 	return True
 
 def disableiface(iface):
-	SU.Popen(['rfkill', 'block', 'wlan'], close_fds=True).wait()
+	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def getip(iface):
 	with open(os.devnull, "w") as fnull:
@@ -1090,30 +1093,30 @@ class NetworksMenu(Menu):
 		percent = qualityPercent(element[1])
 
 		if percent >= 6 and percent <= 24:
-			signal_icon = 'wifi-0.png'
+			signal_icon = 'wifi-0.bmp'
 		elif percent >= 25 and percent <= 49:
-			signal_icon = 'wifi-1.png'
+			signal_icon = 'wifi-1.bmp'
 		elif percent >= 50 and percent <= 74:
-			signal_icon = 'wifi-2.png'
+			signal_icon = 'wifi-2.bmp'
 		elif percent >= 75:
-			signal_icon = 'wifi-3.png'
+			signal_icon = 'wifi-3.bmp'
 		else:
-			signal_icon = 'transparent.png'
+			signal_icon = 'transparent.bmp'
 
 		## Encryption information
 		enc_type = element[2]
 		if enc_type == "NONE" or enc_type == '':
-			enc_icon = "open.png"
+			enc_icon = "open.bmp"
 			enc_type = "Open"
 		elif enc_type == "WPA" or enc_type == "wpa":
-			enc_icon = "closed.png"
+			enc_icon = "closed.bmp"
 		elif enc_type == "WPA2" or enc_type == "wpa2":
-			enc_icon = "closed.png"
+			enc_icon = "closed.bmp"
 		elif enc_type == "WEP-40" or enc_type == "WEP-128" or enc_type == "wep" or enc_type == "WEP":
-			enc_icon = "closed.png"
+			enc_icon = "closed.bmp"
 			enc_type = "WEP"
 		else:
-			enc_icon = "unknown.png"
+			enc_icon = "unknown.bmp"
 			enc_type = "(Unknown)"
 
 
