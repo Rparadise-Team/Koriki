@@ -45,7 +45,7 @@ netconfdir = confdir+"networks/"
 sysconfdir = "/appconfigs/"
 datadir = "/mnt/SDCARD/App/Wifi/data/"
 
-surface = pygame.display.set_mode((320,240),0,16)
+surface = pygame.display.set_mode((320,240))
 selected_key = ''
 passphrase = ''
 active_menu = ''
@@ -108,7 +108,7 @@ def ifdown(iface):
 	SU.Popen(['ap', '--stop'], close_fds=True).wait()
 
 def ifup(iface):
-	return SU.Popen(['ifup', '-i', '/mnt/SDCARD/Koriki/interfaces', iface], close_fds=True).wait() == 0
+	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
 
 # Returns False if the interface was previously enabled
 def enableiface(iface):
@@ -137,6 +137,9 @@ def enableiface(iface):
 def disableiface(iface):
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
+def udhcpc(iface):
+	return SU.Popen(['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script'], close_fds=True).wait() == 0
+	
 def getip(iface):
 	with open(os.devnull, "w") as fnull:
 		output = SU.Popen(['/sbin/ifconfig', iface],
@@ -160,7 +163,7 @@ def getcurrentssid(iface): # What network are we connected to?
 		return None
 
 	with open(os.devnull, "w") as fnull:
-		output = SU.Popen(['/mnt/SDCARD/Koriki/sbin/iwconfig', iface],
+		output = SU.Popen(['/mnt/SDCARD/Koriki/bin/iwconfig', iface],
 				stdout=SU.PIPE, stderr=fnull, close_fds=True).stdout.readlines()
 	for line in output:
 		if line.strip().startswith(iface):
@@ -175,11 +178,11 @@ def connect(iface): # Connect to a network
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
 
-	if checkinterfacestatus(iface):
-		disconnect(iface)
+	#if checkinterfacestatus(iface):
+	#	disconnect(iface)
 
 	modal("Connecting...")
-	if not ifup(wlan):
+	if not udhcpc(wlan):
 		modal('Connection failed!', wait=True)
 		return False
 
@@ -199,7 +202,7 @@ def getnetworks(iface): # Run iwlist to get a list of networks in range
 	modal("Scanning...")
 
 	with open(os.devnull, "w") as fnull:
-		output = SU.Popen(['/mnt/SDCARD/Koriki/sbin/iwlist', iface, 'scan'],
+		output = SU.Popen(['/mnt/SDCARD/Koriki/bin/iwlist', iface, 'scan'],
 				stdout=SU.PIPE, stderr=fnull, close_fds=True).stdout.readlines()
 	for item in output:
 		if item.strip().startswith('Cell'):
@@ -301,12 +304,12 @@ class hint:
 			buttontext.center = button.center
 			surface.blit(text, buttontext)
 
-		if self.button == "menu" or self.button == "start":
+		if self.button == "select" or self.button == "start":
 			lbox = aafilledcircle(surface, colors["black"], (self.x+5, self.y+5), 6)
 			rbox = aafilledcircle(surface, colors["black"], (self.x+29, self.y+5), 6)
 			straightbox = lbox.union(rbox)
 			buttoncenter = straightbox.center
-			if self.button == 'menu':
+			if self.button == 'select':
 				straightbox.y = lbox.center[1]
 			straightbox.height = (straightbox.height + 1) / 2
 			pygame.draw.rect(surface, colors["black"], straightbox)
@@ -432,15 +435,15 @@ def redraw():
 	if wirelessmenu is not None:
 		wirelessmenu.draw()
 		pygame.draw.rect(surface, colors['darkbg'], (0, 208, 320, 16))
-		hint("menu", "Edit", 4, 210)
-		hint("b", "Connect", 75, 210)
-		hint("a", "/", 130, 210)
+		hint("select", "Edit", 4, 210)
+		hint("a", "Connect", 75, 210)
+		hint("b", "/", 130, 210)
 		hint("left", "Back", 145, 210)
 	if active_menu == "main":
 		pygame.draw.rect(surface, colors['darkbg'], (0, 208, 320, 16))
-		hint("b", "Select", 8, 210)
+		hint("a", "Select", 8, 210)
 	if active_menu == "saved":
-		hint("x", "Forget", 195, 210)
+		hint("y", "Forget", 195, 210)
 
 	drawstatusbar()
 	drawinterfacestatus()
@@ -459,21 +462,21 @@ def modal(text, wait=False, timeout=False, query=False):
 	pygame.display.update()
 
 	if wait:
-		abutton = hint("b", "Continue", 205, 145, colors['lightbg'])
+		abutton = hint("a", "Continue", 205, 145, colors['lightbg'])
 		pygame.display.update()
 	elif timeout:
 		time.sleep(2.5)
 		redraw()
 	elif query:
-		abutton = hint("b", "Confirm", 150, 145, colors['lightbg'])
-		bbutton = hint("a", "Cancel", 205, 145, colors['lightbg'])
+		abutton = hint("a", "Confirm", 150, 145, colors['lightbg'])
+		bbutton = hint("b", "Cancel", 205, 145, colors['lightbg'])
 		pygame.display.update()
 		while True:
 			for event in pygame.event.get():
 				if event.type == KEYDOWN:
-					if event.key == K_LCTRL:
+					if event.key == K_SPACE:
 						return True
-					elif event.key == K_LALT:
+					elif event.key == K_LCTRL:
 						return
 
 	if not wait:
@@ -481,7 +484,7 @@ def modal(text, wait=False, timeout=False, query=False):
 
 	while True:
 		for event in pygame.event.get():
-			if event.type == KEYDOWN and event.key == K_LCTRL:
+			if event.type == KEYDOWN and event.key == K_SPACE:
 				redraw()
 				return
 
@@ -642,8 +645,8 @@ def drawEncryptionType():
 	# Draw footer
 	pygame.draw.rect(surface, colors['lightbg'], (0,224,320,16))
 	pygame.draw.line(surface, colors['white'], (0, 223), (320, 223))
-	hint("menu", "Cancel", 4, 227, colors['lightbg'])
-	hint("b", "Enter", 285, 227, colors['lightbg'])
+	hint("select", "Cancel", 4, 227, colors['lightbg'])
+	hint("a", "Enter", 285, 227, colors['lightbg'])
 
 	# Draw the keys
 	z = radio()
@@ -744,9 +747,9 @@ def getEncryptionType():
 					chooseencryption("left")
 				if event.key == K_RIGHT:	# Move cursor right
 					chooseencryption("right")
-				if event.key == K_LCTRL:	# A button
+				if event.key == K_SPACE:	# A button
 					return chooseencryption("select")
-				if event.key == K_ESCAPE:	# select key
+				if event.key == K_RCTRL:	# Select key
 					return 'cancel'
 
 def drawkeyboard(board):
@@ -759,17 +762,17 @@ def drawkeyboard(board):
 	pygame.draw.rect(surface, colors['lightbg'], (0,224,320,16))
 	pygame.draw.line(surface, colors['white'], (0, 223), (320, 223))
 
-	hint("menu", "Cancel", 4, 227, colors['lightbg'])
+	hint("select", "Cancel", 4, 227, colors['lightbg'])
 	hint("start", "Finish", 75, 227, colors['lightbg'])
-	hint("x", "Delete", 155, 227, colors['lightbg'])
+	hint("y", "Delete", 155, 227, colors['lightbg'])
 	if not board == "wep":
-		hint("a", "Shift", 200, 227, colors['lightbg'])
-		hint("y", "Space", 240, 227, colors['lightbg'])
+		hint("x", "Shift", 200, 227, colors['lightbg'])
+		hint("b", "Space", 240, 227, colors['lightbg'])
 
 	else:
-		hint("a", "Full KB", 200, 227, colors['lightbg'])
+		hint("x", "Full KB", 200, 227, colors['lightbg'])
 
-	hint("b", "Enter", 285, 227, colors['lightbg'])
+	hint("a", "Enter", 285, 227, colors['lightbg'])
 
 	# Draw the keys
 	z = key()
@@ -812,18 +815,18 @@ def softkeyinput(keyboard, kind, ssid):
 				selectkey(keyboard, kind, "left")
 			if event.key == K_RIGHT:	# Move cursor right
 				selectkey(keyboard, kind, "right")
-			if event.key == K_LCTRL:	# A button
+			if event.key == K_SPACE:	# A button
 				selectkey(keyboard, kind, "select")
-			if event.key == K_LALT:		# B button
+			if event.key == K_LCTRL:		# B button
 				if encryption != "WEP-40":
 					selectkey(keyboard, kind, "space")
-			if event.key == K_SPACE:	# X button (swap keyboards)
+			if event.key == K_LSHIFT:	# X button (swap keyboards)
 				keyboard = nextKeyboard(keyboard)
 				drawkeyboard(keyboard)
 				selectkey(keyboard, kind, "swap")
-			if event.key == K_LSHIFT:	# Y button
+			if event.key == K_LALT:	# Y button
 				selectkey(keyboard, kind, "delete")
-			if event.key == K_ESCAPE:	# Select key
+			if event.key == K_RCTRL:	# Select key
 				passphrase = ''
 				try:
 					encryption
@@ -841,10 +844,10 @@ def softkeyinput(keyboard, kind, ssid):
 				redraw()
 				return False
 			if kind == "key":
-				if event.key == K_TAB:			# L shoulder button
+				if event.key == K_e:			# L shoulder button
 					prevEncryption()
 					update()
-				if event.key == K_BACKSPACE:	# R shoulder button
+				if event.key == K_t:	# R shoulder button
 					nextEncryption()
 					update()
 
@@ -1375,30 +1378,32 @@ if __name__ == "__main__":
 	while True:
 		time.sleep(0.01)
 		for event in pygame.event.get():
-			## GCW-Zero keycodes:
-			# A = K_LCTRL
-			# B = K_LALT
-			# X = K_SPACE
-			# Y = K_LSHIFT
-			# L = K_TAB
-			# R = K_BACKSPACE
+			## Miyoo mini keycodes:
+			# A = K_SPACE
+			# B = K_LCTRL
+			# Y = K_LALT
+			# X = K_LSHIFT
+			# L = K_e
+			# R = K_t
+			# L2 = K_TAB
+			# R2 = K_BACKSPACE
 			# start = K_RETURN
-			# select = K_ESCAPE
-			# power up = K_KP0
-			# power down = K_PAUSE
-
+			# select = K_RCTRL
+			# menu = K_ESCAPE
+			# power down = K_POWER
+			
 			if event.type == QUIT:
 				pygame.display.quit()
 				sys.exit()
 
 			elif event.type == KEYDOWN:
-				if event.key == K_PAUSE: # Power down
+				if event.key == K_POWER: # Power down
 					pass
-				elif event.key == K_TAB: # Left shoulder button
+				elif event.key == K_e: # Left shoulder button
 					pass
-				elif event.key == K_BACKSPACE: # Right shoulder button
+				elif event.key == K_t: # Right shoulder button
 					pass
-				elif event.key == K_KP0:	# Power up
+				elif event.key == K_ESCAPE:	# menu
 					pass
 				elif event.key == K_UP: # Arrow up the menu
 					if active_menu == "main":
@@ -1414,16 +1419,16 @@ if __name__ == "__main__":
 					if wirelessmenu is not None and active_menu == "main":
 						active_menu = to_menu("ssid")
 						redraw()
-				elif event.key == K_LALT or event.key == K_LEFT:
+				elif event.key == K_LCTRL or event.key == K_LEFT:
 					if active_menu == "ssid" or active_menu == "saved":
 						destroy_wireless_menu()
 						active_menu = to_menu("main")
 						del uniq
 						redraw()
-					elif event.key == K_LALT:
+					elif event.key == K_LCTRL:
 						pygame.display.quit()
 						sys.exit()
-				elif event.key == K_LSHIFT:
+				elif event.key == K_LALT:
 					if active_menu == "saved":
 						confirm = modal("Forget AP configuration?", query=True)
 						if confirm:
@@ -1434,7 +1439,7 @@ if __name__ == "__main__":
 							destroy_wireless_menu()
 							active_menu = to_menu("main")
 							redraw()
-				elif event.key == K_LCTRL or event.key == K_RETURN:
+				elif event.key == K_SPACE or event.key == K_RETURN:
 					# Main menu
 					if active_menu == "main":
 						if menu.get_selected() == 'Disconnect':
