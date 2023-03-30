@@ -1375,17 +1375,19 @@ if __name__ == "__main__":
 	while True:
 		time.sleep(0.01)
 		for event in pygame.event.get():
-			## GCW-Zero keycodes:
-			# A = K_LCTRL
-			# B = K_LALT
-			# X = K_SPACE
-			# Y = K_LSHIFT
-			# L = K_TAB
-			# R = K_BACKSPACE
+			## Miyoo mini keycodes:
+			# A = K_LALT
+			# B = K_LCTRL
+			# Y = K_SPACE
+			# X = K_LSHIFT
+			# L = K_e
+			# R = K_t
+			# L2 = K_TAB
+			# R2 = K_BACKSPACE
 			# start = K_RETURN
-			# select = K_ESCAPE
-			# power up = K_KP0
-			# power down = K_PAUSE
+			# select = K_RCTRL
+			# menu = K_ESCAPE
+			# power down = K_POWER
 
 			if event.type == QUIT:
 				pygame.display.quit()
