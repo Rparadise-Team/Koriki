@@ -31,6 +31,8 @@
 
 #define BRIMAX		10
 #define BRIMIN		1
+#define MAX_VOLUME 20
+#define VOLUME_INCREMENTS 1
 
 // for ev.value
 #define RELEASED	0
@@ -66,8 +68,8 @@ char* load_file(char const* path) {
   return buffer;
 }
 
-int setVolumeRaw(int volume, int add)
-{
+// Increments between -60 and 0
+int setVolumeRaw(int volume, int add) {
     int recent_volume = 0;
     int fd = open("/dev/mi_ao", O_RDWR);
     if (fd >= 0) {
@@ -77,18 +79,13 @@ int setVolumeRaw(int volume, int add)
         recent_volume = buf2[1];
         if (add) {
             buf2[1] += add;
-            if (buf2[1] > -3)
-                buf2[1] = -3;
-            else if (buf2[1] < -60)
-                buf2[1] = -60;
-        }
-        else
-            buf2[1] = volume;
-        if (buf2[1] != recent_volume)
-            ioctl(fd, MI_AO_SETVOLUME, buf1);
+            if (buf2[1] > -3) buf2[1] = -3;
+            else if (buf2[1] < -60) buf2[1] = -60;
+        } else buf2[1] = volume;
+        if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
         close(fd);
     }
-  
+
   // Increase/Decrease Volume
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
@@ -117,6 +114,19 @@ int setVolumeRaw(int volume, int add)
   free(request_body);
   
   return recent_volume;
+}
+
+// Increments between 0 and 20
+int setVolume(int volume, int add) {
+    int recent_volume = 0;
+    int rawVolumeValue=0;
+    int rawAdd=0;
+    
+    rawVolumeValue = (volume * 3) - 60;
+    rawAdd = (add * 3);
+    
+    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
+    return (int)((recent_volume/3)+20);
 }
 
 // Increase/Decrease Brightness
@@ -243,11 +253,11 @@ int main (int argc, char *argv[]) {
       break;*/ //test miyoo mini
       case BUTTON_VOLUMEUP:
         // Increase volume
-        setVolumeRaw(recent_volume, +3);
+        setVolume(recent_volume, 1);
 	    break;
 	    case BUTTON_VOLUMEDOWN:
         // Decrease volume
-        setVolumeRaw(recent_volume, -3);
+        setVolume(recent_volume, -1);
 	    break;
       default:
       break;
