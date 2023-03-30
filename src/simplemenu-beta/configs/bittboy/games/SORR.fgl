@@ -1,0 +1,5 @@
+title=SORR
+description=sorr game
+exec=/mnt/games/sorr/run.dge
+clock=702
+selectorbrowser=true

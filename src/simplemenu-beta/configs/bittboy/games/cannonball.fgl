@@ -1,0 +1,5 @@
+title=Cannonball
+description=Outrun engine
+exec=/mnt/games/cannonball/cannonball
+clock=702
+selectorbrowser=true

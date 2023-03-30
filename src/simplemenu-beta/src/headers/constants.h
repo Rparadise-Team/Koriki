@@ -1,0 +1,3 @@
+#ifndef CONSTANTS_DEFINED
+#define CONSTANTS_DEFINED
+#endif

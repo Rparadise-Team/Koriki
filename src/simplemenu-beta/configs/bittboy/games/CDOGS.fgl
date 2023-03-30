@@ -1,0 +1,5 @@
+title=CDogs
+description=cdogs games
+exec=/mnt/games/cdogs/cdogs-sdl
+clock=702
+selectorbrowser=true

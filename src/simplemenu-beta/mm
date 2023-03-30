@@ -1,0 +1,3 @@
+#!/bin/sh
+make clean
+make PLATFORM=MMIYOO MM_NOQUIT=1 NOLOADING=1

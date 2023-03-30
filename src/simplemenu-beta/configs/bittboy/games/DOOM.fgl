@@ -1,0 +1,7 @@
+title=Doom
+description=chocolate-doom game
+exec=/mnt/games/ccdoom/chocolate-doom
+params=-iwad $1
+clock=702
+selectordir=/mnt/roms/PC/DOOM
+selectorbrowser=true

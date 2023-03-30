@@ -1,0 +1,5 @@
+title=sod
+description=sod game
+exec=/mnt/games/sod/sod
+clock=702
+params=--goodtimes

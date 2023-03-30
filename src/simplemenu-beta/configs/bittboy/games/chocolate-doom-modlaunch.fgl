@@ -1,0 +1,10 @@
+title=Doom Mods
+description=Chocolate-Doom mod launcher
+icon=/mnt/games/ccdoom/chocolate-doom-modlaunch.png
+exec=/mnt/games/ccdoom/chocolate-doom-modlaunch
+clock=702
+selectordir=/mnt/games/ccdoom/mods
+selectorbrowser=false
+selectorfilter=.doom
+selectorscreens=/mnt/games/ccdoom/mods
+selectoraliases=/mnt/games/ccdoom/mods/aliases.txt

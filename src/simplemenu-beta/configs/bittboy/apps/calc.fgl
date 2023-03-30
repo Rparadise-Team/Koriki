@@ -1,0 +1,4 @@
+title=calc
+description=calculator
+exec=/mnt/apps/calc/calc
+clock=702

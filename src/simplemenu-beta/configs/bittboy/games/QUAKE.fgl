@@ -1,0 +1,5 @@
+title=Quake
+description=FPS game
+exec=/mnt/games/quake/quake
+clock=702
+selectorbrowser=true

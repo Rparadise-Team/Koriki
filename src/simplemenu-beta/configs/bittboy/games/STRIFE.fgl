@@ -1,0 +1,5 @@
+title=STRIFE
+description=chocolate-strife game
+exec=/mnt/games/ccdoom/chocolate-strife
+params=-iwad /mnt/games/ccdoom/STRIFE1.WAD
+clock=702

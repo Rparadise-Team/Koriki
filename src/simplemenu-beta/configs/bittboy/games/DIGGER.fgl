@@ -1,0 +1,5 @@
+title=Digger
+description=digger game
+exec=/mnt/games/digger/digger
+clock=702
+selectorbrowser=true

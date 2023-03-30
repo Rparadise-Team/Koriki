@@ -1,0 +1,5 @@
+title=Cave Story
+description=Platformer game
+exec=/mnt/games/cavestory/nx
+clock=702
+selectorbrowser=true

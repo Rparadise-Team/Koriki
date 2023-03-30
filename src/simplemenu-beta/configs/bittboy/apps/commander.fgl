@@ -1,0 +1,5 @@
+title=Commander
+description=file utility
+exec=/mnt/apps/commander/commander
+clock=702
+selectorbrowser=true
