@@ -31,8 +31,6 @@
 
 #define BRIMAX		10
 #define BRIMIN		1
-#define MAX_VOLUME 20
-#define VOLUME_INCREMENTS 1
 
 // for ev.value
 #define RELEASED	0
@@ -79,7 +77,7 @@ int setVolumeRaw(int volume, int add) {
         recent_volume = buf2[1];
         if (add) {
             buf2[1] += add;
-            if (buf2[1] > -3) buf2[1] = -3;
+            if (buf2[1] > 0) buf2[1] = 0;
             else if (buf2[1] < -60) buf2[1] = -60;
         } else buf2[1] = volume;
         if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
@@ -169,8 +167,20 @@ int main (int argc, char *argv[]) {
   input_fd = open("/dev/input/event0", O_RDONLY);
 
   modifyBrightness(0);
-  setVolumeRaw(0, 0);
-  int recent_volume = 0;
+  setVolume(0,0);
+
+ //READ Volume valor from system
+  cJSON* request_json = NULL;
+  cJSON* itemVol;
+  const char *settings_file = getenv("SETTINGS_FILE");
+  if (settings_file == NULL){
+        settings_file = "/appconfigs/system.json";
+  }
+  char *request_body = load_file(settings_file);
+  request_json = cJSON_Parse(request_body);
+  itemVol = cJSON_GetObjectItem(request_json, "vol");
+  int vol = cJSON_GetNumberValue(itemVol);
+  int recent_volume = (vol * 3) - 60;
 
   // Main Loop
   register uint32_t val;
