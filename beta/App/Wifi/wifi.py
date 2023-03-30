@@ -108,7 +108,7 @@ def ifdown(iface):
 	SU.Popen(['ap', '--stop'], close_fds=True).wait()
 
 def ifup(iface):
-	return SU.Popen(['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script'], close_fds=True).wait() == 0
+	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
 
 # Returns False if the interface was previously enabled
 def enableiface(iface):
@@ -137,6 +137,9 @@ def enableiface(iface):
 def disableiface(iface):
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
+def udhcpc(iface):
+	return SU.Popen(['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script'], close_fds=True).wait() == 0
+	
 def getip(iface):
 	with open(os.devnull, "w") as fnull:
 		output = SU.Popen(['/sbin/ifconfig', iface],
@@ -175,11 +178,11 @@ def connect(iface): # Connect to a network
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
 
-	if checkinterfacestatus(iface):
-		disconnect(iface)
+	#if checkinterfacestatus(iface):
+	#	disconnect(iface)
 
 	modal("Connecting...")
-	if not ifup(wlan):
+	if not udhcpc(wlan):
 		modal('Connection failed!', wait=True)
 		return False
 
@@ -217,8 +220,8 @@ def getnetworks(iface): # Run iwlist to get a list of networks in range
 		# Now the loop is over, we will probably find a MAC address and a new "network" will be created.
 	redraw()
 
-	if wasnotenabled:
-		disableiface(iface)
+	#if wasnotenabled:
+	#	disableiface(iface)
 	return networks
 
 def listuniqssids():
@@ -1425,7 +1428,7 @@ if __name__ == "__main__":
 					elif event.key == K_LCTRL:
 						pygame.display.quit()
 						sys.exit()
-				elif event.key == K_LSHIFT:
+				elif event.key == K_LALT:
 					if active_menu == "saved":
 						confirm = modal("Forget AP configuration?", query=True)
 						if confirm:
