@@ -11,7 +11,7 @@ export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
 export LD_LIBRARY_PATH=${SYSTEM_PATH}/lib:$LD_LIBRARY_PATH
-export PATH=${SYSTEM_PATH}/bin:/usr/bin:/usr/sbin:$PATH
+export PATH=${SYSTEM_PATH}/bin:$PATH
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 
@@ -165,15 +165,7 @@ fi
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
-	if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	else
-	export MODEL="MMP"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	fi
+	${SYSTEM_PATH}/bin/audioserver
     fi
 fi
 
