@@ -829,9 +829,7 @@ void performScreenSettingsChoosingAction() {
 #endif
 
 void performSystemSettingsChoosingAction() {
-#ifndef MIYOOMINI
 	VOLUME_OPTION=0;
-#endif
 	BRIGHTNESS_OPTION=1;
 	SHARPNESS_OPTION=2;
 	SCREEN_TIMEOUT_OPTION=3;
@@ -839,7 +837,6 @@ void performSystemSettingsChoosingAction() {
 	USB_OPTION=5;
 #if defined MIYOOMINI
     AUDIOFIX_OPTION = 6;
-	VOL_OPTION = 0;
     SCREEN_OPTION = 7;
     NUM_SYSTEM_OPTIONS = 8;
 #else
@@ -911,26 +908,30 @@ void performSystemSettingsChoosingAction() {
 #endif
         }
 #if defined MIYOOMINI
-        else if (chosenSetting==AUDIOFIX_OPTION) {
+	 else if (chosenSetting==AUDIOFIX_OPTION) {
             audioFix = 1 - audioFix;
             setSystemValue("audiofix", audioFix);
-		} else if (chosenSetting==VOL_OPTION) {
+		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {
+					int volume;
+					volume = getCurrentSystemValue("vol");
 					volValue-=1;
-					setVolume(0, -1);
+					setVolume(volume, -1);
+					setSystemValue("vol", volValue);
 				}
 			} else {
 				if (volValue<20) {
+					int volume;
+					volume = getCurrentSystemValue("vol");
 					volValue+=1;
-					setVolume(0, 1);
+					setVolume(volume, 1);
+					setSystemValue("vol", volValue);
 				}
 			}
-			setSystemValue("vol", volValue);
 		}
-#endif
-#ifndef MIYOOMINI
-	} else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
+#else
+	 else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
 		if (keys[BTN_A]) {
 			executeCommand ("/usr/bin", "alsamixer", "#", 1, OC_NO);
 		}

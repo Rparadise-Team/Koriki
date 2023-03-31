@@ -103,7 +103,6 @@ extern int USB_OPTION;
 extern int AUDIOFIX_OPTION;
 extern int SCREEN_OPTION;
 extern int LUMINATION_OPTION;
-extern int VOL_OPTION;
 extern int HUE_OPTION;
 extern int SATURATION_OPTION;
 extern int CONTRAST_OPTION;

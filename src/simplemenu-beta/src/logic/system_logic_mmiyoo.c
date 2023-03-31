@@ -283,35 +283,6 @@ int setVolumeRaw(int volume, int add) {
         if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
         close(fd);
     }
-
-  // Increase/Decrease Volume
-	cJSON* request_json = NULL;
-	cJSON* itemVol;
-
-	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL){
-        settings_file = "/appconfigs/system.json";
-	}
-
-	// Store in system.json
-	char *request_body = load_file(settings_file);
-	request_json = cJSON_Parse(request_body);
-	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	int vol = cJSON_GetNumberValue(itemVol);
-	if (add == 3 && vol < 20) vol++;
-	if (add == -3 && vol > 0) vol--;
-	if (add != 0) {
-    cJSON_SetNumberValue(itemVol, vol);
-    FILE *file = fopen(settings_file, "w");
-    char *test = cJSON_Print(request_json);
-    fputs(test, file);
-    fclose(file);
-  }
-
-  cJSON_Delete(request_json);
-  free(request_body);
-	
-	setSystemValue("vol", volValue);
   
   return recent_volume;
 }
@@ -319,14 +290,14 @@ int setVolumeRaw(int volume, int add) {
 // Increments between 0 and 20
 int setVolume(int volume, int add) {
     int recent_volume = 0;
-    int rawVolumeValue=0;
-    int rawAdd=0;
-    
+    int rawVolumeValue = 0;
+    int rawAdd = 0;
+	
     rawVolumeValue = (volume * 3) - 60;
     rawAdd = (add * 3);
     
     recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
-    return (int)((recent_volume/3)+20);
+    return recent_volume;
 }
 
 int getCurrentSystemValue(char const *key) {
