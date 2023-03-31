@@ -1364,7 +1364,7 @@ void setupScreenSettings() {
 
 void setupSystemSettings() {
 #ifdef MIYOOMINI
-	options[0]="Vol ";
+	options[0]="Volume ";
 	values[0]=malloc(100);
 	sprintf(values[0], "%d", volValue);
 	hints[0] = "ADJUST VOLUME LEVEL";
