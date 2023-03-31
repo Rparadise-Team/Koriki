@@ -175,16 +175,6 @@ void initSuspendTimer() {
 void HW_Init() {
 	initADC();
 	
-	// Init memory registers
-	memdev = open("/dev/mem", O_RDWR);
-
-	if (memdev > 0) {
-	    memregs = (uint32_t*)mmap(0, 0x20000, PROT_READ | PROT_WRITE, MAP_SHARED, memdev, 0x10000000);
-	    if (memregs == MAP_FAILED) {
-	        close(memdev);
-	    }
-	}
-	
 	// set volumen lever save from last sesion
 	uint32_t fa = open("/dev/mi_ao", O_RDWR);
 	int level = getCurrentSystemValue("vol");
