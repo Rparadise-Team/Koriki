@@ -117,8 +117,8 @@ int setVolumeRaw(int volume, int add) {
 // Increments between 0 and 20
 int setVolume(int volume, int add) {
     int recent_volume = 0;
-    int rawVolumeValue=0;
-    int rawAdd=0;
+    int rawVolumeValue = 0;
+    int rawAdd = 0;
     
     rawVolumeValue = (volume * 3) - 60;
     rawAdd = (add * 3);
@@ -168,6 +168,7 @@ int main (int argc, char *argv[]) {
 
   modifyBrightness(0);
   setVolume(0,0);
+  int volume = 0;
 
  //READ Volume valor from system
   cJSON* request_json = NULL;
@@ -180,7 +181,7 @@ int main (int argc, char *argv[]) {
   request_json = cJSON_Parse(request_body);
   itemVol = cJSON_GetObjectItem(request_json, "vol");
   int vol = cJSON_GetNumberValue(itemVol);
-  int recent_volume = (vol * 3) - 60;
+  volume = vol;
 
   // Main Loop
   register uint32_t val;
@@ -263,11 +264,11 @@ int main (int argc, char *argv[]) {
       break;*/ //test miyoo mini
       case BUTTON_VOLUMEUP:
         // Increase volume
-        setVolume(recent_volume, 1);
+        setVolume(volume, 1);
 	    break;
 	    case BUTTON_VOLUMEDOWN:
         // Decrease volume
-        setVolume(recent_volume, -1);
+        setVolume(volume, -1);
 	    break;
       default:
       break;
