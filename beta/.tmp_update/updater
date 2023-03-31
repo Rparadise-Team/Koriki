@@ -10,7 +10,7 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
-export LD_LIBRARY_PATH=${SYSTEM_PATH}/lib:/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${SYSTEM_PATH}/lib:$LD_LIBRARY_PATH
 export PATH=${SYSTEM_PATH}/bin:/usr/bin:/usr/sbin:$PATH
 
 export SWAPFILE=/mnt/SDCARD/cachefile
