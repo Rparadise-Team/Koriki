@@ -173,19 +173,19 @@ void initSuspendTimer() {
 }
 
 void HW_Init() {
-	initADC();
-	
-	// set volumen lever save from last sesion
-	uint32_t fa = open("/dev/mi_ao", O_RDWR);
-	int level = getCurrentSystemValue("vol");
-	int volini = 0;
-	volini = ((level*3)-60);
-	ioctl(fa, MI_AO_SETVOLUME, volini);
-	close(fa);
-	getCurrentVolume();
-	
+    initADC();
+
+    // set volumen lever save from last sesion
+    uint32_t fa = open("/dev/mi_ao", O_RDWR);
+    int level = getCurrentSystemValue("vol");
+    int volini = 0;
+    volini = ((level*3)-60);
+    ioctl(fa, MI_AO_SETVOLUME, volini);
+    close(fa);
+    getCurrentVolume();
+    
     logMessage("INFO","HW_Init","HW Initialized");
-	
+
 }
 
 void rumble() {
