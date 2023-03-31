@@ -74,7 +74,7 @@ static int checkADC(void) {
     int old_is_charging = is_charging;
     checkCharging();
 
-        char val[3];
+        //char val[3];
 
             int percBatTemp = 0;
             if (is_charging == 0) {
@@ -173,8 +173,29 @@ void initSuspendTimer() {
 }
 
 void HW_Init() {
-    initADC();
+	initADC();
+	
+	// Init memory registers
+	memdev = open("/dev/mem", O_RDWR);
+
+	if (memdev > 0) {
+	    memregs = (uint32_t*)mmap(0, 0x20000, PROT_READ | PROT_WRITE, MAP_SHARED, memdev, 0x10000000);
+	    if (memregs == MAP_FAILED) {
+	        close(memdev);
+	    }
+	}
+	
+	// set volumen lever save from last sesion
+	uint32_t fa = open("/dev/mi_ao", O_RDWR);
+	int level = getCurrentSystemValue("vol");
+	int volini = 0;
+	volini = ((level*3)-60);
+	ioctl(fa, MI_AO_SETVOLUME, volini);
+	close(fa);
+	getCurrentVolume();
+	
     logMessage("INFO","HW_Init","HW Initialized");
+	
 }
 
 void rumble() {
@@ -182,9 +203,9 @@ void rumble() {
 }
 
 int getBatteryLevel() {
-    int max_voltage;
-    int voltage_now;
-    int total;
+  //int max_voltage;
+  //int voltage_now;
+  //int total;
     int charge = 0;
     if (mmModel)
         charge = checkADC();
@@ -309,7 +330,7 @@ int getCurrentSystemValue(char const *key) {
     if (settings_file == NULL)
         settings_file = "/appconfigs/system.json";
 
-    const char *request_body = load_file(settings_file);
+    char* request_body = load_file(settings_file);
     request_json = cJSON_Parse(request_body);
     item = cJSON_GetObjectItem(request_json, key);
     result = cJSON_GetNumberValue(item);
@@ -326,7 +347,7 @@ void setSystemValue(char const *key, int value) {
         settings_file = "/appconfigs/system.json";
 
     // Store in system.json
-    const char *request_body = load_file(settings_file);
+    char* request_body = load_file(settings_file);
     request_json = cJSON_Parse(request_body);
     item = cJSON_GetObjectItem(request_json, key);
     cJSON_SetNumberValue(item, value);

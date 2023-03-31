@@ -52,8 +52,11 @@ void loadAliasList(int sectionNumber) {
 }
 
 void checkIfDefault() {
+	#ifdef MIYOOMINI
+	#else
 	FILE *fp=NULL;
 	FILE *fpScripts=NULL;
+	#endif
 	#ifdef TARGET_BITTBOY
 	logMessage("INFO","checkIfDefault","Checking if default bittboy");
 	fp = fopen("/mnt/autoexec.sh", "r");
@@ -86,6 +89,7 @@ void checkIfDefault() {
 	shutDownEnabled=0;
 	#endif
 	#else
+	#ifndef MIYOOMINI
 	shutDownEnabled=1;
 	int sameFile=1;
 	int c1, c2;
@@ -112,6 +116,7 @@ void checkIfDefault() {
 	if (fpScripts!=NULL) {
 		fclose(fpScripts);
 	}
+	#endif
 	#endif
 	logMessage("INFO","checkIfDefault","Default state checked");
 }
