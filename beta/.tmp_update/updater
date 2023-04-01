@@ -10,8 +10,8 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
-export LD_LIBRARY_PATH=${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}:/lib
-export PATH=${SYSTEM_PATH}/bin:${PATH}:/usr/bin
+export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}:/lib"
+export PATH="${SYSTEM_PATH}/bin:${PATH}:/usr/bin"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 
@@ -165,7 +165,7 @@ fi
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
-	${SYSTEM_PATH}/bin/audioserver
+	export LD_PRELOAD=libpadsp.so ${SYSTEM_PATH}/bin/audioserver.mod
     fi
 fi
 
