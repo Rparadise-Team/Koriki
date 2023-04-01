@@ -4,4 +4,4 @@
 	branch = mmiyoo
 [submodule "src/invoker"]
 	path = src/invoker
-	url = git@github.com:fgl82/invoker.git
+	url = git@github.com:Rparadise-Team/invoker.git

@@ -34,8 +34,9 @@ The toolchain of @shauninman has been used to build, that can be found [here](ht
 
 #### invoker
 
-* Sources: https://github.com/fgl82/invoker
+* Sources: https://github.com/Rparadise-Team/invoker
 * Destination of binary: `.simplemenu/invoker.dge`
+* Build command: `make PLATFORM=MMIYOO`
 
 #### RetroArch
 
