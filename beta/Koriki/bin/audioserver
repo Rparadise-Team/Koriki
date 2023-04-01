@@ -5,5 +5,5 @@ cd `dirname "$0"`
 if [ -f "$FILE" ]; then
 LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.plu > /dev/null 2 > &1
 else
-LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.min
+LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.org
 fi

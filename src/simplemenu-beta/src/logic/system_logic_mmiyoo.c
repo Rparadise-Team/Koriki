@@ -174,6 +174,16 @@ void initSuspendTimer() {
 
 void HW_Init() {
     initADC();
+
+    // set volumen lever save from last sesion
+    uint32_t fa = open("/dev/mi_ao", O_RDWR);
+    int level = getCurrentSystemValue("vol");
+    int volini = 0;
+    volini = ((level*3)-60);
+    ioctl(fa, MI_AO_SETVOLUME, volini);
+    close(fa);
+    getCurrentVolume();
+
     logMessage("INFO","HW_Init","HW Initialized");
 }
 
@@ -309,7 +319,7 @@ int getCurrentSystemValue(char const *key) {
     if (settings_file == NULL)
         settings_file = "/appconfigs/system.json";
 
-    const char *request_body = load_file(settings_file);
+    char* request_body = load_file(settings_file);
     request_json = cJSON_Parse(request_body);
     item = cJSON_GetObjectItem(request_json, key);
     result = cJSON_GetNumberValue(item);
@@ -326,7 +336,7 @@ void setSystemValue(char const *key, int value) {
         settings_file = "/appconfigs/system.json";
 
     // Store in system.json
-    const char *request_body = load_file(settings_file);
+    char* request_body = load_file(settings_file);
     request_json = cJSON_Parse(request_body);
     item = cJSON_GetObjectItem(request_json, key);
     cJSON_SetNumberValue(item, value);
