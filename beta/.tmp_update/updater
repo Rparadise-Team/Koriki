@@ -165,7 +165,8 @@ fi
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
-	export LD_PRELOAD=libpadsp.so ${SYSTEM_PATH}/bin/audioserver.mod
+	export LD_PRELOAD=libpadsp.so 
+	${SYSTEM_PATH}/bin/audioserver.mod
     fi
 fi
 
