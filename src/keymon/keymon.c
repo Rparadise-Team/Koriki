@@ -29,6 +29,8 @@
 #define BUTTON_VOLUMEUP     KEY_VOLUMEUP
 #define BUTTON_VOLUMEDOWN   KEY_VOLUMEDOWN
 
+#define VOLMAX    20
+#define VOLMIN    0
 #define BRIMAX		10
 #define BRIMIN		1
 
@@ -66,42 +68,26 @@ char* load_file(char const* path) {
   return buffer;
 }
 
-// Increments between -60 and 0
-int setVolumeRaw(int volume, int add) {
-    int recent_volume = 0;
-    int fd = open("/dev/mi_ao", O_RDWR);
-    if (fd >= 0) {
-        int buf2[] = {0, 0};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-        ioctl(fd, MI_AO_GETVOLUME, buf1);
-        recent_volume = buf2[1];
-        if (add) {
-            buf2[1] += add;
-            if (buf2[1] > 0) buf2[1] = 0;
-            else if (buf2[1] < -60) buf2[1] = -60;
-        } else buf2[1] = volume;
-        if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-        close(fd);
-    }
+// Increase/Decrease Volume
+void modifyVolume(int inc) {
+  cJSON* request_json = NULL;
+  cJSON* itemVolume;
 
-  // Increase/Decrease Volume
-	cJSON* request_json = NULL;
-	cJSON* itemVol;
-
-	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL){
+  const char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL){
         settings_file = "/appconfigs/system.json";
-	}
+  }
 
-	// Store in system.json
-	char *request_body = load_file(settings_file);
-	request_json = cJSON_Parse(request_body);
-	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	int vol = cJSON_GetNumberValue(itemVol);
-	if (add == 3 && vol < 20) vol++;
-	if (add == -3 && vol > 0) vol--;
-	if (add != 0) {
-    cJSON_SetNumberValue(itemVol, vol);
+  // Store in system.json
+  char *request_body = load_file(settings_file);
+  request_json = cJSON_Parse(request_body);
+  itemVolume = cJSON_GetObjectItem(request_json, "vol");
+  int vol = cJSON_GetNumberValue(itemVolume);
+
+  if (inc == 1 && vol < VOLMAX) vol++;
+  if (inc == -1 && vol > VOLMIN) vol--;
+  if (inc != 0) {
+    cJSON_SetNumberValue(itemVolume, vol);
     FILE *file = fopen(settings_file, "w");
     char *test = cJSON_Print(request_json);
     fputs(test, file);
@@ -110,21 +96,16 @@ int setVolumeRaw(int volume, int add) {
 
   cJSON_Delete(request_json);
   free(request_body);
-  
-  return recent_volume;
-}
 
-// Increments between 0 and 20
-int setVolume(int volume, int add) {
-    int recent_volume = 0;
-    int rawVolumeValue = 0;
-    int rawAdd = 0;
-    
-    rawVolumeValue = (volume * 3) - 60;
-    rawAdd = (add * 3);
-    
-    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
-    return (int)((recent_volume/3)+20);
+  int fd = open("/dev/mi_ao", O_RDWR);
+  if (fd >= 0) {
+    int rawVolumeValue = (vol * 3) - 60;
+    int buf2[] = {0, 0};
+    uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+    buf2[1] = rawVolumeValue;
+    ioctl(fd, MI_AO_SETVOLUME, buf1);
+    close(fd);
+  }
 }
 
 // Increase/Decrease Brightness
@@ -167,21 +148,7 @@ int main (int argc, char *argv[]) {
   input_fd = open("/dev/input/event0", O_RDONLY);
 
   modifyBrightness(0);
-  setVolume(0,0);
-  int volume = 0;
-
- //READ Volume valor from system
-  cJSON* request_json = NULL;
-  cJSON* itemVol;
-  const char *settings_file = getenv("SETTINGS_FILE");
-  if (settings_file == NULL){
-        settings_file = "/appconfigs/system.json";
-  }
-  char *request_body = load_file(settings_file);
-  request_json = cJSON_Parse(request_body);
-  itemVol = cJSON_GetObjectItem(request_json, "vol");
-  int vol = cJSON_GetNumberValue(itemVol);
-  volume = vol;
+  modifyVolume(0);
 
   // Main Loop
   register uint32_t val;
@@ -263,12 +230,30 @@ int main (int argc, char *argv[]) {
         }
       break;*/ //test miyoo mini
       case BUTTON_VOLUMEUP:
-        // Increase volume
-        setVolume(volume, 1);
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED) {
+          // Increase volume
+          modifyVolume(1);
+        }
 	    break;
 	    case BUTTON_VOLUMEDOWN:
-        // Decrease volume
-        setVolume(volume, -1);
+        if (val == REPEAT) {
+          // Adjust repeat speed to 1/2
+          val = repeat;
+          repeat ^= PRESSED;
+        } else {
+          repeat = 0;
+        }
+        if (val == PRESSED) {
+          // Decrease volume
+          modifyVolume(-1);
+        }
 	    break;
       default:
       break;
