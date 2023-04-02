@@ -40,8 +40,8 @@ The toolchain of @shauninman has been used to build, that can be found [here](ht
 
 #### RetroArch
 
-* Sources: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
-* Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAALUUX82Tk4USboNHAUBxDNa/RetroArch_Dingux_forMiyooMini_220525.zip?dl=0
+* Sources: https://github.com/libretro/RetroArch/releases/tag/v1.14.0
+* Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAA6RBJIEJdZGrZ70Ael3jwWa/RetroArch_Dingux_forMiyooMini_230205.zip?dl=0
 * Destination of binary: `RetroArch/retroarch`
 
 #### audioserver (for Miyoo Mini, not for Miyoo Mini+)

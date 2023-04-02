@@ -5,3 +5,6 @@
 [submodule "src/invoker"]
 	path = src/invoker
 	url = git@github.com:Rparadise-Team/invoker.git
+[submodule "src/RetroArch"]
+	path = src/RetroArch
+	url = git@github.com:libretro/RetroArch.git
