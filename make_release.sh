@@ -51,5 +51,5 @@ rm Koriki/version.txt
 
 for bin_destiny in "${SM_DES}" "${INVOKER_DES}" "${RA_DES}" "${AUDIOSERVER_DES}" "${COMMANDER_DES}" "${GMU_DES}" "${BOOTSCRENSEL_DES}" "${SYSINFO_DES}" "${CHARGING_DES}" "${KEYMON_DES}" "${SHOWSCREEN_DES}"
 do
-    rm base/${bin_destiny}
+    rm ${bin_destiny}
 done
