@@ -151,6 +151,16 @@ if [ ! -f ${SWAPFILE} ]; then
 fi
 swapon ${SWAPFILE}
 
+# Latency reduction audioserver by Eggs
+# NOTE: could cause performance issues on more demanding cores...maybe?
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "0" ] ; then
+    if [ -f /customer/lib/libpadsp.so ]; then
+        LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.mod &
+        export LD_PRELOAD=libpadsp.so
+    fi
+fi
+
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
 
@@ -158,23 +168,6 @@ runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
 then
     rm ${SDCARD_PATH}/.simplemenu/last_state.sav
-fi
-
-# Latency reduction audioserver by Eggs
-# NOTE: could cause performance issues on more demanding cores...maybe?
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
-    if [ -f /customer/lib/libpadsp.so ]; then
-	if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	else
-	export MODEL="MMP"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	fi
-    fi
 fi
 
 # Launch SimpleMenu
