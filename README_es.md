@@ -34,8 +34,9 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 
 #### invoker
 
-* Fuentes: https://github.com/fgl82/invoker
+* Fuentes: https://github.com/Rparadise-Team/invoker
 * Ubicación del binario final: `.simplemenu/invoker.dge`
+* Comando compilación: `make PLATFORM=MMIYOO`
 
 #### RetroArch
 
