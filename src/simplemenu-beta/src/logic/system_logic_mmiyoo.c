@@ -5,8 +5,8 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <stdint.h>
-#include <mi_ao.sh>
-#include <SDL/SDL_sound.sh>
+#include <mi_ao.h>
+#include <SDL/SDL_sound.h>
 #include "../headers/logic.h"
 #include "../headers/system_logic.h"
 #include "../headers/globals.h"
