@@ -8,3 +8,6 @@
 [submodule "src/RetroArch"]
 	path = src/RetroArch
 	url = git@github.com:libretro/RetroArch.git
+[submodule "src/gmu"]
+	path = src/gmu
+	url = git@github.com:TechDevangelist/gmu.git
