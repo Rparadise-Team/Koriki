@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <dlfcn.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_sound.h>
 #include <mi_ao.h>
 
 #define FREQ		48000
