@@ -104,7 +104,8 @@ def createpaths(): # Create paths, if necessary
 
 ## Interface management
 def ifdown(iface):
-	SU.Popen(['ifdown', iface], close_fds=True).wait()
+	#SU.Popen(['ifdown', iface], close_fds=True).wait()
+	disableiface(iface)
 	SU.Popen(['ap', '--stop'], close_fds=True).wait()
 
 def ifup(iface):
@@ -178,8 +179,8 @@ def connect(iface): # Connect to a network
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
 
-	#if checkinterfacestatus(iface):
-	#	disconnect(iface)
+	if checkinterfacestatus(iface):
+		disconnect(iface)
 
 	modal("Connecting...")
 	if not udhcpc(wlan):
@@ -1600,6 +1601,7 @@ if __name__ == "__main__":
 								ssid = str(detail['ESSID'])
 								shutil.copy2(netconfdir + quote_plus(ssid) + ".conf", sysconfdir+"config-"+wlan+".conf")
 								passphrase = detail['Key']
+								enableiface(wlan)
 								connect(wlan)
 								break
 
