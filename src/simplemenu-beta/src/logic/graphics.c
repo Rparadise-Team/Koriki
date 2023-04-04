@@ -586,7 +586,7 @@ void initializeDisplay(int w, int h) {
 }
 
 void getTextWidth(TTF_Font *font, char *text, int *widthToBeSet){
-	TTF_sizeUTF8(font, (const char *) text, widthToBeSet, NULL);
+	TTF_SizeUTF8(font, (const char *) text, widthToBeSet, NULL);
 }
 
 void refreshScreen() {
