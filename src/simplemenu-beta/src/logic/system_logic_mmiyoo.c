@@ -317,7 +317,7 @@ int getCurrentSystemValue(char const *key) {
     cJSON* item = NULL;
     int result = 0;
 
-    char *settings_file = getenv("SETTINGS_FILE");
+    const char *settings_file = getenv("SETTINGS_FILE");
     if (settings_file == NULL)
         settings_file = "/appconfigs/system.json";
 
@@ -333,7 +333,7 @@ void setSystemValue(char const *key, int value) {
     cJSON* request_json = NULL;
     cJSON* item = NULL;
 
-    char *settings_file = getenv("SETTINGS_FILE");
+    const char *settings_file = getenv("SETTINGS_FILE");
     if (settings_file == NULL)
         settings_file = "/appconfigs/system.json";
 
