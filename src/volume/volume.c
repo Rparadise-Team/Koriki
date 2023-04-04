@@ -60,9 +60,9 @@ int setVolume()
     uint32_t fa = open("/dev/mi_ao", O_RDWR);
     int volume = getVolume("vol");
     int set = 0;
-    set = ((volume*3)-60);
-	if (set >= 0) {
-		set = -1;
+    set = ((volume*3)-63);
+	if (set >= -3) {
+		set = -3;
 	}
     ioctl(fa, MI_AO_SETVOLUME, set);
     close(fa);
