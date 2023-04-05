@@ -105,8 +105,10 @@ def createpaths(): # Create paths, if necessary
 ## Interface management
 def ifdown(iface):
 	#SU.Popen(['ifdown', iface], close_fds=True).wait()
-	disableiface(iface)
-	SU.Popen(['ap', '--stop'], close_fds=True).wait()
+	SU.Popen(['/sbin/ifconfig', iface, 'down'], close_fds=True).wait()
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	#SU.Popen(['ap', '--stop'], close_fds=True).wait()
+	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def ifup(iface):
 	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
