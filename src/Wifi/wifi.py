@@ -131,8 +131,6 @@ def enableiface(iface):
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
 		time.sleep(0.1);
-	# Let's grab the MAC address while we're here. If, on redraw, the
-	# interface is disabled, GCW Connect would otherwise be unable to grab it.
 	SU.Popen(['wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'], close_fds=True).wait()
 	mac_addresses[iface] = getmac(iface)
 	return True
@@ -180,10 +178,12 @@ def connect(iface): # Connect to a network
 	saved_file = netconfdir + quote_plus(ssid) + ".conf"
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
-
+		
 	if checkinterfacestatus(iface):
 		disconnect(iface)
-
+	
+	disconnect(iface)
+	enableiface(iface)
 	modal("Connecting...")
 	if not udhcpc(wlan):
 		modal('Connection failed!', wait=True)
@@ -525,12 +525,35 @@ def writeconfig(): # Write wireless configuration to disk
 	f.write('WLAN_ENCRYPTION="'+encryption+'"\n')
 	f.write('WLAN_DHCP_RETRIES=20\n')
 	f.close()
+	
+	conf2 = "/appconfigs/wpa_supplicant.conf"
+	
+	f2 = open(conf2, "w")
+	f2.write('ctrl_interface=/var/run/wpa_supplicant\n')
+	f2.write('update_config=1\n')
+	f2.write('\n')
+	f2.write('network={\n')
+	f2.write('scan_ssid=1\n')
+	f2.write('ssid="'+ssid+'"\n')
+	if encryption == "WEP-128":
+		encryption = "wep"
+		f2.write('psk="s:'+passphrase+'"\n')
+	else:
+		f2.write('psk="'+passphrase+'"\n')
+	f2.write('}\n')
+	f2.close()
 
 ## HostAP
 def startap():
 	global wlan
 	if checkinterfacestatus(wlan):
 		disconnect(wlan)
+		
+
+	#/customer/app/axp_test wifion
+	#ifconfig wlan0 192.168.0.18 up
+	#hostapd /config/wifi/hostapd.conf -B
+	#wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'
 
 	modal("Creating AP...")
 	if SU.Popen(['ap', '--start'], close_fds=True).wait() == 0:
