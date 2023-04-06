@@ -179,16 +179,21 @@ def connect(iface): # Connect to a network
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
 		
+	saved_file2 = netconfdir + quote_plus(ssid) + "_wpa.conf"
+	if os.path.exists(saved_file2):
+		shutil.copy2(saved_file2, sysconfdir+"wpa_supplicant.conf")
+
 	if checkinterfacestatus(iface):
 		disconnect(iface)
 	
 	disconnect(iface)
 	enableiface(iface)
 	modal("Connecting...")
+	
 	if not udhcpc(wlan):
 		modal('Connection failed!', wait=True)
 		return False
-
+	
 	modal('Connected!', timeout=True)
 	pygame.display.update()
 	drawstatusbar()
@@ -526,7 +531,7 @@ def writeconfig(): # Write wireless configuration to disk
 	f.write('WLAN_DHCP_RETRIES=20\n')
 	f.close()
 	
-	conf2 = "/appconfigs/wpa_supplicant.conf"
+	conf2 = netconfdir + quote_plus(ssid) + "_wpa.conf"
 	
 	f2 = open(conf2, "w")
 	f2.write('ctrl_interface=/var/run/wpa_supplicant\n')
@@ -1430,6 +1435,8 @@ if __name__ == "__main__":
 				elif event.key == K_t: # Right shoulder button
 					pass
 				elif event.key == K_ESCAPE:	# menu
+					pygame.display.quit()
+					sys.exit()
 					pass
 				elif event.key == K_UP: # Arrow up the menu
 					if active_menu == "main":
@@ -1459,6 +1466,7 @@ if __name__ == "__main__":
 						confirm = modal("Forget AP configuration?", query=True)
 						if confirm:
 							os.remove(netconfdir+quote_plus(str(wirelessmenu.get_selected()[0]))+".conf")
+							os.remove(netconfdir+quote_plus(str(wirelessmenu.get_selected()[0]))+"_wpa.conf")
 						create_saved_networks_menu()
 						redraw()
 						if len(uniq) < 1:
@@ -1471,6 +1479,7 @@ if __name__ == "__main__":
 						if menu.get_selected() == 'Disconnect':
 							disconnect(wlan)
 							redraw()
+							pygame.display.update()
 						elif menu.get_selected() == 'Scan for APs':
 							try:
 								getnetworks(wlan)
@@ -1625,12 +1634,13 @@ if __name__ == "__main__":
 								encryption = detail['Encryption']
 								ssid = str(detail['ESSID'])
 								shutil.copy2(netconfdir + quote_plus(ssid) + ".conf", sysconfdir+"config-"+wlan+".conf")
+								shutil.copy2(netconfdir + quote_plus(ssid) + "_wpa.conf", sysconfdir+"wpa_supplicant.conf")
 								passphrase = detail['Key']
 								enableiface(wlan)
 								connect(wlan)
 								break
 
-				elif event.key == K_ESCAPE:
+				elif event.key == K_RCTRL:
 					if active_menu == "ssid": # Allow us to edit the existing key
 						ssid = ""
 						for network, detail in uniq.iteritems():
