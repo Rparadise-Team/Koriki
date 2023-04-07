@@ -9,7 +9,7 @@ CFILES = $(foreach dir, $(SOURCES), $(wildcard $(dir)/*.c))
 
 CFLAGS = -Os -marm -mtune=cortex-a7 -mfpu=neon -mfloat-abi=hard -march=armv7-a
 CFLAGS += -fPIC -Wall
-LDFLAGS	= -shared -ldl -lSDL -lSDL_sound -lpthread -lmi_sys -lmi_ao -lmi_common -s
+LDFLAGS	= -shared -ldl -lmi_ao -s
 
 $(TARGET): $(CFILES)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(CFILES) -o $@
