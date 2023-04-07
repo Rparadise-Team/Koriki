@@ -1,0 +1,33 @@
+#ckport(1) database for libao -- A Cross-platform Audio Library:
+!NAME: libao
+!TYPE: func
+!TARGET: libao4
+
+# Startup and shutdown:
+ao_initialize		ok
+ao_shutdown		ok
+
+# Drivers:
+ao_driver_id		ok
+ao_default_driver_id	ok
+ao_driver_info		ok
+ao_driver_info_list	ok
+ao_file_extension	ok
+
+# Options:
+ao_append_global_option	ok
+ao_append_option	ok
+ao_free_options		ok
+
+# Opening and closing:
+ao_open_file		ok
+ao_open_live		ok
+ao_close		ok
+
+# Playback:
+ao_play			ok
+
+# Misc:
+ao_is_big_endian	ok
+
+#ll
