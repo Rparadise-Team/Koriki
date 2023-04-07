@@ -105,8 +105,10 @@ def createpaths(): # Create paths, if necessary
 ## Interface management
 def ifdown(iface):
 	#SU.Popen(['ifdown', iface], close_fds=True).wait()
-	disableiface(iface)
-	SU.Popen(['ap', '--stop'], close_fds=True).wait()
+	SU.Popen(['/sbin/ifconfig', iface, 'down'], close_fds=True).wait()
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	#SU.Popen(['ap', '--stop'], close_fds=True).wait()
+	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def ifup(iface):
 	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
@@ -123,19 +125,19 @@ def enableiface(iface):
 
 	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
-	SU.Popen(['killall', 'wpa_supplicant'], close_fds=True).wait()
-	SU.Popen(['killall', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
 		time.sleep(0.1);
-	# Let's grab the MAC address while we're here. If, on redraw, the
-	# interface is disabled, GCW Connect would otherwise be unable to grab it.
 	SU.Popen(['wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'], close_fds=True).wait()
 	mac_addresses[iface] = getmac(iface)
 	return True
 
 def disableiface(iface):
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def udhcpc(iface):
@@ -178,15 +180,22 @@ def connect(iface): # Connect to a network
 	saved_file = netconfdir + quote_plus(ssid) + ".conf"
 	if os.path.exists(saved_file):
 		shutil.copy2(saved_file, sysconfdir+"config-"+iface+".conf")
+		
+	saved_file2 = netconfdir + quote_plus(ssid) + "_wpa.conf"
+	if os.path.exists(saved_file2):
+		shutil.copy2(saved_file2, sysconfdir+"wpa_supplicant.conf")
 
 	if checkinterfacestatus(iface):
 		disconnect(iface)
-
+	
+	disconnect(iface)
+	enableiface(iface)
 	modal("Connecting...")
+	
 	if not udhcpc(wlan):
 		modal('Connection failed!', wait=True)
 		return False
-
+	
 	modal('Connected!', timeout=True)
 	pygame.display.update()
 	drawstatusbar()
@@ -523,12 +532,35 @@ def writeconfig(): # Write wireless configuration to disk
 	f.write('WLAN_ENCRYPTION="'+encryption+'"\n')
 	f.write('WLAN_DHCP_RETRIES=20\n')
 	f.close()
+	
+	conf2 = netconfdir + quote_plus(ssid) + "_wpa.conf"
+	
+	f2 = open(conf2, "w")
+	f2.write('ctrl_interface=/var/run/wpa_supplicant\n')
+	f2.write('update_config=1\n')
+	f2.write('\n')
+	f2.write('network={\n')
+	f2.write('scan_ssid=1\n')
+	f2.write('ssid="'+ssid+'"\n')
+	if encryption == "WEP-128":
+		encryption = "wep"
+		f2.write('psk="s:'+passphrase+'"\n')
+	else:
+		f2.write('psk="'+passphrase+'"\n')
+	f2.write('}\n')
+	f2.close()
 
 ## HostAP
 def startap():
 	global wlan
 	if checkinterfacestatus(wlan):
 		disconnect(wlan)
+		
+
+	#/customer/app/axp_test wifion
+	#ifconfig wlan0 192.168.0.18 up
+	#hostapd /config/wifi/hostapd.conf -B
+	#wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'
 
 	modal("Creating AP...")
 	if SU.Popen(['ap', '--start'], close_fds=True).wait() == 0:
@@ -1098,35 +1130,39 @@ class NetworksMenu(Menu):
 		percent = qualityPercent(element[1])
 
 		if percent >= 6 and percent <= 24:
-			signal_icon = 'wifi-0.bmp'
+			signal_icon = 'wifi-0.png'
 		elif percent >= 25 and percent <= 49:
-			signal_icon = 'wifi-1.bmp'
+			signal_icon = 'wifi-1.png'
 		elif percent >= 50 and percent <= 74:
-			signal_icon = 'wifi-2.bmp'
+			signal_icon = 'wifi-2.png'
 		elif percent >= 75:
-			signal_icon = 'wifi-3.bmp'
+			signal_icon = 'wifi-3.png'
 		else:
-			signal_icon = 'transparent.bmp'
+			signal_icon = 'transparent.png'
 
 		## Encryption information
 		enc_type = element[2]
 		if enc_type == "NONE" or enc_type == '':
-			enc_icon = "open.bmp"
+			enc_icon = "open.png"
 			enc_type = "Open"
 		elif enc_type == "WPA" or enc_type == "wpa":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 		elif enc_type == "WPA2" or enc_type == "wpa2":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 		elif enc_type == "WEP-40" or enc_type == "WEP-128" or enc_type == "wep" or enc_type == "WEP":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 			enc_type = "WEP"
 		else:
-			enc_icon = "unknown.bmp"
+			enc_icon = "unknown.png"
 			enc_type = "(Unknown)"
 
 
 		qual_img = pygame.image.load((os.path.join(datadir, signal_icon))).convert_alpha()
 		enc_img = pygame.image.load((os.path.join(datadir, enc_icon))).convert_alpha()
+		transparent_qual = qual_img.copy()
+		transparent_qual.fill((255, 255, 255, 100), special_flags=pygame.BLEND_RGBA_MULT)
+		transparent_enc = enc_img.copy()
+		transparent_enc.fill((255, 255, 255, 100), special_flags=pygame.BLEND_RGBA_MULT)
 
 		ssid = font_mono_small.render(the_ssid, 1, self.text_color)
 		enc = font_small.render(enc_type, 1, colors["lightgrey"])
@@ -1405,6 +1441,8 @@ if __name__ == "__main__":
 				elif event.key == K_t: # Right shoulder button
 					pass
 				elif event.key == K_ESCAPE:	# menu
+					pygame.display.quit()
+					sys.exit()
 					pass
 				elif event.key == K_UP: # Arrow up the menu
 					if active_menu == "main":
@@ -1434,6 +1472,7 @@ if __name__ == "__main__":
 						confirm = modal("Forget AP configuration?", query=True)
 						if confirm:
 							os.remove(netconfdir+quote_plus(str(wirelessmenu.get_selected()[0]))+".conf")
+							os.remove(netconfdir+quote_plus(str(wirelessmenu.get_selected()[0]))+"_wpa.conf")
 						create_saved_networks_menu()
 						redraw()
 						if len(uniq) < 1:
@@ -1446,6 +1485,7 @@ if __name__ == "__main__":
 						if menu.get_selected() == 'Disconnect':
 							disconnect(wlan)
 							redraw()
+							pygame.display.update()
 						elif menu.get_selected() == 'Scan for APs':
 							try:
 								getnetworks(wlan)
@@ -1600,12 +1640,13 @@ if __name__ == "__main__":
 								encryption = detail['Encryption']
 								ssid = str(detail['ESSID'])
 								shutil.copy2(netconfdir + quote_plus(ssid) + ".conf", sysconfdir+"config-"+wlan+".conf")
+								shutil.copy2(netconfdir + quote_plus(ssid) + "_wpa.conf", sysconfdir+"wpa_supplicant.conf")
 								passphrase = detail['Key']
 								enableiface(wlan)
 								connect(wlan)
 								break
 
-				elif event.key == K_ESCAPE:
+				elif event.key == K_RCTRL:
 					if active_menu == "ssid": # Allow us to edit the existing key
 						ssid = ""
 						for network, detail in uniq.iteritems():
