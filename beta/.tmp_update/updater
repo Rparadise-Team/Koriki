@@ -10,8 +10,8 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
-export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}:/lib"
-export PATH="${SYSTEM_PATH}/bin:${PATH}:/usr/bin"
+export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
+export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 
@@ -151,6 +151,17 @@ if [ ! -f ${SWAPFILE} ]; then
 fi
 swapon ${SWAPFILE}
 
+# Latency reduction audioserver by Eggs
+# NOTE: could cause performance issues on more demanding cores...maybe?
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "0" ] ; then
+   /mnt/SDCARD/Koriki/bin/audioserver &
+   export LD_PRELOAD=/customer/lib/libpadsp.so
+else
+   export LD_PRELOAD=${SDCARD_PATH}/Koriki/lib/as_preload.so
+   export LD_PRELOAD=/customer/lib/libpadsp.so
+fi
+
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
 
@@ -159,17 +170,6 @@ if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
 then
     rm ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
-
-# Latency reduction audioserver by Eggs
-# NOTE: could cause performance issues on more demanding cores...maybe?
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
-    if [ -f /customer/lib/libpadsp.so ]; then
-    export LD_PRELOAD=/customer/lib/libpadsp.so &
-    ${SYSTEM_PATH}/bin/audioserver.mod
-    fi
-fi
-
 
 # Launch SimpleMenu
 while [ 1 ]; do
