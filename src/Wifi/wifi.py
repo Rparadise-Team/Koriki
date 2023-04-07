@@ -125,8 +125,8 @@ def enableiface(iface):
 
 	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
-	SU.Popen(['killall', 'wpa_supplicant'], close_fds=True).wait()
-	SU.Popen(['killall', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
@@ -136,6 +136,8 @@ def enableiface(iface):
 	return True
 
 def disableiface(iface):
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def udhcpc(iface):
@@ -1128,35 +1130,39 @@ class NetworksMenu(Menu):
 		percent = qualityPercent(element[1])
 
 		if percent >= 6 and percent <= 24:
-			signal_icon = 'wifi-0.bmp'
+			signal_icon = 'wifi-0.png'
 		elif percent >= 25 and percent <= 49:
-			signal_icon = 'wifi-1.bmp'
+			signal_icon = 'wifi-1.png'
 		elif percent >= 50 and percent <= 74:
-			signal_icon = 'wifi-2.bmp'
+			signal_icon = 'wifi-2.png'
 		elif percent >= 75:
-			signal_icon = 'wifi-3.bmp'
+			signal_icon = 'wifi-3.png'
 		else:
-			signal_icon = 'transparent.bmp'
+			signal_icon = 'transparent.png'
 
 		## Encryption information
 		enc_type = element[2]
 		if enc_type == "NONE" or enc_type == '':
-			enc_icon = "open.bmp"
+			enc_icon = "open.png"
 			enc_type = "Open"
 		elif enc_type == "WPA" or enc_type == "wpa":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 		elif enc_type == "WPA2" or enc_type == "wpa2":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 		elif enc_type == "WEP-40" or enc_type == "WEP-128" or enc_type == "wep" or enc_type == "WEP":
-			enc_icon = "closed.bmp"
+			enc_icon = "closed.png"
 			enc_type = "WEP"
 		else:
-			enc_icon = "unknown.bmp"
+			enc_icon = "unknown.png"
 			enc_type = "(Unknown)"
 
 
 		qual_img = pygame.image.load((os.path.join(datadir, signal_icon))).convert_alpha()
 		enc_img = pygame.image.load((os.path.join(datadir, enc_icon))).convert_alpha()
+		transparent_qual = qual_img.copy()
+		transparent_qual.fill((255, 255, 255, 100), special_flags=pygame.BLEND_RGBA_MULT)
+		transparent_enc = enc_img.copy()
+		transparent_enc.fill((255, 255, 255, 100), special_flags=pygame.BLEND_RGBA_MULT)
 
 		ssid = font_mono_small.render(the_ssid, 1, self.text_color)
 		enc = font_small.render(enc_type, 1, colors["lightgrey"])
