@@ -2,7 +2,9 @@
 
 my_dir=`dirname $0`
 
-killall audioserver.mod
+killall audioserver
+killall audioserver.min
+killall audioserver.plu
 
 cd $my_dir
 ./launch2.sh
