@@ -144,7 +144,7 @@ update
 
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
-    show ${SDCARD_PATH}/.simplemenu/resources/bootScreen.png
+    show ${SDCARD_PATH}/.simplemenu/resources/loading.png
     dd if=/dev/zero of=${SWAPFILE} bs=1M count=128
     mkswap ${SWAPFILE}
 fi
