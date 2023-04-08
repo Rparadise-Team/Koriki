@@ -127,9 +127,6 @@ else
     export MODEL="MMP"
 fi
 
-# Reset settings on first boot
-reset_settings
-
 # Init_lcd
 init_lcd 1
 
@@ -152,6 +149,9 @@ if [ ! -f ${SWAPFILE} ]; then
     mkswap ${SWAPFILE}
 fi
 swapon ${SWAPFILE}
+
+# Reset settings on first boot
+reset_settings
 
 # Create ROMs scaffolding
 dir_scaffolding
