@@ -52,6 +52,13 @@ reset_settings() {
 }
 
 update() {
+    if [ -f ${SDCARD_PATH}/.deletes ]; then
+        while read file_to_delete; do
+            rm -rf "${file_to_delete}"
+        done < ${SDCARD_PATH}/.deletes
+        rm ${SDCARD_PATH}/.deletes
+    fi
+
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
             unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
