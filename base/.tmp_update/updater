@@ -138,18 +138,16 @@ ${SYSTEM_PATH}/bin/charging
 # Update opportunity
 update
 
-# Show bootScreen
-${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
-
-# Create ROMs scaffolding
-dir_scaffolding
-
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
+    show ${SDCARD_PATH}/.simplemenu/resources/bootScreen.png
     dd if=/dev/zero of=${SWAPFILE} bs=1M count=128
     mkswap ${SWAPFILE}
 fi
 swapon ${SWAPFILE}
+
+# Create ROMs scaffolding
+dir_scaffolding
 
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
