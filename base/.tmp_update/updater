@@ -160,9 +160,9 @@ dir_scaffolding
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
+    /mnt/SDCARD/Koriki/bin/audioserver &
     if [ -f /customer/lib/libpadsp.so ]; then
-        LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver &
-        export LD_PRELOAD=libpadsp.so
+        export LD_PRELOAD=/customer/lib/libpadsp.so
     fi
 fi
 
