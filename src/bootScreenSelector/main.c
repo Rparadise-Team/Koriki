@@ -35,7 +35,7 @@
 #define BOOTSCREEN_PATH "."
 #else
 //#define BOOTSCREEN_PATH "/mnt/SDCARD/.tmp_update/res/bootScreen.png"    //Onion
-#define BOOTSCREEN_PATH "/mnt/SDCARD/Koriki/images/bootScreen.png"    //Koriki
+#define BOOTSCREEN_PATH "/mnt/SDCARD/.simplemenu/resources/loading.png"    //Koriki
 #endif
 
 
@@ -99,7 +99,7 @@ void showBS(int nbs) {
     }
     sprintf(cName, "%s", bss[nbs]);
     surfaceName1 = TTF_RenderUTF8_Blended(font40_outline, cName, color_black);
-    surfaceName = TTF_RenderUTF8_Blended(font40, cName, color_white);
+    surfaceName = TTF_RenderUTF8_Solid(font40, cName, color_white);
     SDL_Rect rect = {FONT_OUTLINE, FONT_OUTLINE, surfaceName->w, surfaceName->h};
     SDL_BlitSurface(surfaceName, NULL, surfaceName1, &rect);
     SDL_FreeSurface(surfaceName);
@@ -109,7 +109,7 @@ void showBS(int nbs) {
 
     sprintf(cPages, "%d/%d", (nbs+1), bsCount);
     imagePages1 = TTF_RenderUTF8_Blended(font40_outline, cPages, color_black);
-    imagePages = TTF_RenderUTF8_Blended(font40, cPages, color_white);
+    imagePages = TTF_RenderUTF8_Solid(font40, cPages, color_white);
     rect = {FONT_OUTLINE, FONT_OUTLINE, imagePages->w, imagePages->h};
     SDL_BlitSurface(imagePages, NULL, imagePages1, &rect);
     SDL_FreeSurface(imagePages);
