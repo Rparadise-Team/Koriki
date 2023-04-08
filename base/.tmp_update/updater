@@ -42,7 +42,7 @@ reset_settings() {
             rm ${SDCARD_PATH}/.reset_settings
             sync
         else
-            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
+            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
             rm ${SDCARD_PATH}/.reset_settings
             sync
             reboot
