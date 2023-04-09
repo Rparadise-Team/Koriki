@@ -39,13 +39,15 @@ reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+            rm ${SDCARD_PATH}/.reset_settings
+            sync
         else
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+            rm ${SDCARD_PATH}/.reset_settings
+            sync
+            reboot
+            sleep 10s
         fi
-        rm ${SDCARD_PATH}/.reset_settings
-        sync
-        reboot
-        sleep 10s
     fi
 }
 
@@ -83,8 +85,10 @@ update() {
             sleep 5s
         done
         sync
-        reboot
-        sleep 10s
+        if [ $MODEL = "MMP" ]; then
+            reboot
+            sleep 10s
+        fi
     fi
 
     if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
