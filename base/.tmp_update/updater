@@ -39,15 +39,13 @@ reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
-            rm ${SDCARD_PATH}/.reset_settings
-            sync
         else
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
-            rm ${SDCARD_PATH}/.reset_settings
-            sync
-            reboot
-            sleep 10s
         fi
+        rm ${SDCARD_PATH}/.reset_settings
+        sync
+        reboot
+        sleep 10s
     fi
 }
 
@@ -63,7 +61,7 @@ update() {
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
             unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
             sync
-            ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.update_splash.png
+            show ${SDCARD_PATH}/.update_splash.png
 
             unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
             if [ -f ${SDCARD_PATH}/.deletes ]; then
@@ -79,16 +77,19 @@ update() {
             unzip -q -o ${file} -d ${SDCARD_PATH}
 
             rm ${file}
+            if [ -f ${SDCARD_PATH}/.deletes ]; then
+                rm ${SDCARD_PATH}/.deletes
+            fi
             sleep 5s
         done
+        sync
+        reboot
+        sleep 10s
     fi
-    if [ -f ${SDCARD_PATH}/.deletes ]; then
-        rm ${SDCARD_PATH}/.deletes
-    fi
+
     if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
         rm ${SDCARD_PATH}/.update_splash.png
     fi
-    sync
 }
 
 dir_scaffolding() {
