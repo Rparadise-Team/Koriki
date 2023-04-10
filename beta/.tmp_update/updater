@@ -158,7 +158,6 @@ if [ "$runsvr" != "0" ] ; then
    /mnt/SDCARD/Koriki/bin/audioserver &
    export LD_PRELOAD=/customer/lib/libpadsp.so
 else
-   export LD_PRELOAD=${SDCARD_PATH}/Koriki/lib/as_preload.so
    export LD_PRELOAD=/customer/lib/libpadsp.so
 fi
 
