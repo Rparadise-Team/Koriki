@@ -1,0 +1,3 @@
+vbanext_bios = "enabled"
+vbanext_turbodelay = "2"
+vbanext_turboenable = "disabled"
