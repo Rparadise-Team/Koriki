@@ -1,16 +1,4 @@
 #!/bin/sh
 
-killall audioserver
-killall audioserver.min
-killall audioserver.plu
-
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/ /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/pcsx_rearmed_libretro_old.so "$1"
-
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
-    /mnt/SDCARD/Koriki/bin/audioserver &
-    if [ -f /customer/lib/libpadsp.so ]; then
-        export LD_PRELOAD=/customer/lib/libpadsp.so
-    fi
-fi
