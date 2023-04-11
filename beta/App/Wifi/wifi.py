@@ -107,7 +107,12 @@ def ifdown(iface):
 	#SU.Popen(['ifdown', iface], close_fds=True).wait()
 	SU.Popen(['/sbin/ifconfig', iface, 'down'], close_fds=True).wait()
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	#SU.Popen(['ap', '--stop'], close_fds=True).wait()
+	#SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def ifup(iface):
@@ -127,17 +132,19 @@ def enableiface(iface):
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
 		time.sleep(0.1);
-	SU.Popen(['wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'], close_fds=True).wait()
+	SU.Popen(['/mnt/SDCARD/Koriki/bin/wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'], close_fds=True).wait()
 	mac_addresses[iface] = getmac(iface)
 	return True
 
 def disableiface(iface):
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def udhcpc(iface):
@@ -230,8 +237,8 @@ def getnetworks(iface): # Run iwlist to get a list of networks in range
 		# Now the loop is over, we will probably find a MAC address and a new "network" will be created.
 	redraw()
 
-	#if wasnotenabled:
-	#	disableiface(iface)
+	if wasnotenabled:
+		disableiface(iface)
 	return networks
 
 def listuniqssids():
@@ -555,21 +562,30 @@ def startap():
 	global wlan
 	if checkinterfacestatus(wlan):
 		disconnect(wlan)
-		
-
-	#/customer/app/axp_test wifion
-	#ifconfig wlan0 192.168.0.18 up
-	#hostapd /config/wifi/hostapd.conf -B
-	#wpa_supplicant', '-B', '-D', 'nl80211', '-i', iface, '-c', '/appconfigs/wpa_supplicant.conf'
 
 	modal("Creating AP...")
-	if SU.Popen(['ap', '--start'], close_fds=True).wait() == 0:
-		modal('AP created!', timeout=True)
-	else:
-		modal('Failed to create AP...', wait=True)
-	redraw()
+	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
+	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	SU.Popen(['/config/wifi/ssw01bInit.sh'], close_fds=True).wait()
+	while True:
+		if SU.Popen(['/sbin/ifconfig', 'wlan0'], close_fds=True).wait() == 0:
+			break
+			time.sleep(0.1);
+		else:
+			SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
+			modal('Failed to create AP...', wait=True)
+			redraw()
+			return False
+	SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.1.100', 'netmask', '255.255.255.0', 'up'], close_fds=True).wait()
+	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '--no-daemon', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
+	SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-B', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
+	modal('AP created!', timeout=True)
 	return True
-
 ## Input methods
 
 keyLayouts = {
