@@ -572,22 +572,19 @@ def startap():
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	SU.Popen(['/config/wifi/ssw01bInit.sh'], close_fds=True).wait()
 	while True:
-		if SU.Popen(['/sbin/ifconfig', '-d', 'wlan0'], close_fds=True).wait() == 0:
+		if SU.Popen(['/sbin/ifconfig', 'wlan0'], close_fds=True).wait() == 0:
 			break
-		time.sleep(0.1);
-		SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.1.100', 'up'], close_fds=True).wait()
-		SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-B', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
-		modal('AP created!', timeout=True)
-		pygame.display.update()
-		drawstatusbar()
-		drawinterfacestatus()
-		return True
-	else:
-		SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
-		modal('Failed to create AP...', wait=True)
-		redraw()
-		return False
-
+			time.sleep(0.1);
+		else:
+			SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
+			modal('Failed to create AP...', wait=True)
+			redraw()
+			return False
+	SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.1.100', 'netmask', '255.255.255.0', 'up'], close_fds=True).wait()
+	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '--no-daemon', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
+	SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-B', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
+	modal('AP created!', timeout=True)
+	return True
 ## Input methods
 
 keyLayouts = {
