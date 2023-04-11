@@ -582,6 +582,7 @@ def startap():
 			return False
 	SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.1.100', 'netmask', '255.255.255.0', 'up'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '--no-daemon', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
+	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-B', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
 	modal('AP created!', timeout=True)
 	return True
