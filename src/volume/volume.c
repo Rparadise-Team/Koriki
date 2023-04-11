@@ -54,17 +54,20 @@ int getVolume(char const *key)
     return result;
 }
 
-int setVolume()
+void setVolume(int volume, int add)
 {
   // set volumen lever save from last sesion
     uint32_t fa = open("/dev/mi_ao", O_RDWR);
     int volume = getVolume("vol");
     int set = 0;
+	int add = 0;
     set = ((volume*3)-63);
 	if (set >= -3) {
 		set = -3;
 	}
-    ioctl(fa, MI_AO_SETVOLUME, set);
+	add = set;
+	ioctl(fa, MI_AO_SETVOLUME, 0);
+    ioctl(fa, MI_AO_SETVOLUME, add);
     close(fa);
 	printf("work! the volume is: %i ", volume);
 	printf("\n the valor set is: %i ", set);
@@ -73,6 +76,6 @@ int setVolume()
 
 int main()
 {
-	setVolume();
+	setVolume(0,0);
 	exit(0);
 }
