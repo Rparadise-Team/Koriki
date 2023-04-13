@@ -133,6 +133,7 @@ def enableiface(iface):
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
@@ -145,6 +146,7 @@ def disableiface(iface):
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def udhcpc(iface):
@@ -584,6 +586,8 @@ def startap():
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '--no-daemon', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-B', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
+	time.sleep(0.5);
+	SU.Popen(['sysctl', '-w', 'net.ipv4.ip_forward=1'], close_fds=True).wait()
 	modal('AP created!', timeout=True)
 	return True
 ## Input methods

@@ -1,0 +1,50 @@
+st - simple terminal
+--------------------
+st is a simple virtual terminal emulator for X which sucks less.
+
+Modified to run on RS-97.
+=> line doubling to deal with the 320x480 resolution
+=> TTF fonts replaced by embedded pixel font (from TIC-80)
+=> onscreen keyboard (see keyboard.c for button bindings)
+
+Keys: 
+- pad: select key
+- A: press key
+- B: toggles key (useful for shift/ctrl...)
+- L: is shift
+- R: is backspace
+- Y: change keyboard location (top/bottom)
+- X: show / hide keyboard
+- SELECT: quit
+
+
+Requirements
+------------
+In order to build st you need the Xlib header files.
+
+
+Installation
+------------
+Edit config.mk to match your local setup (st is installed into
+the /usr/local namespace by default).
+
+Afterwards enter the following command to build and install st (if
+necessary as root):
+
+    make clean install
+
+
+Running st
+----------
+If you don't install st, define TNAME to "xterm" in config.h or make sure to at
+least compile st terminfo entry with the following command:
+
+    tic -s st.info
+
+It should print the path of the compiled terminfo entry. You can
+safely remove it if you don't plan to use st anymore.
+See the man page for additional details.
+
+Credits
+-------
+Based on  Aurélien APTEL <aurelien dot aptel at gmail dot com> bt source code.

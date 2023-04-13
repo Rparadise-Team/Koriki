@@ -45,7 +45,7 @@ else ifeq ($(PLATFORM), MMIYOO)
 	ifeq ($(MM_NOQUIT), 1)
 		CFLAGS += -DMM_NOQUIT
 	endif
-    LIBS += -lSDL -lSDL_image -lSDL_ttf -lpthread -lopk -lini -lz -lmi_ao -lmi_sys -lmi_gfx -lmi_common
+    LIBS += -lSDL -lSDL_image -lSDL_ttf -lpthread -lopk -lini -lpng16 -lz -lmi_ao -lmi_sys -lmi_gfx -lmi_common
 else
 	TARGET = simplemenu-x86
 	CC = gcc
