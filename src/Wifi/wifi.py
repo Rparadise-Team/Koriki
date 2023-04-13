@@ -133,6 +133,7 @@ def enableiface(iface):
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	while True:
 		if SU.Popen(['/sbin/ifconfig', iface, 'up'], close_fds=True).wait() == 0:
 			break
@@ -145,6 +146,7 @@ def disableiface(iface):
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
+	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
 def udhcpc(iface):
