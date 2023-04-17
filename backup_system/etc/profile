@@ -1,0 +1,28 @@
+#!/bin/sh
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=/lib
+mkdir -p /dev/pts
+ulimit -c unlimited
+export PATH=$PATH:/config:/customer/app
+export TERMINFO=/config/terminfo
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/config/lib:/config/lib/ap:/customer/lib
+mkdir -p /dev/pts
+mount -t sysfs none /sys
+mount -t tmpfs mdev /dev
+mount -t debugfs none /sys/kernel/debug/
+mdev -s
+mkdir -p /var/lock
+mount -t squashfs /dev/mtdblock5 /config
+ mount -t squashfs /dev/mtdblock6 /customer
+ mount -t jffs2 mtd:appconfigs /appconfigs
+
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+busybox telnetd&
+if [ -e /etc/core.sh ]; then
+    echo "|/etc/core.sh %p" > /proc/sys/kernel/core_pattern
+chmod 777 /etc/core.sh
+fi;
+if [ -e /customer/demo.sh ]; then
+    /customer/demo.sh
+fi;

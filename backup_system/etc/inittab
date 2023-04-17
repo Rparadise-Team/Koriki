@@ -1,0 +1,6 @@
+::sysinit:/etc/init.d/rcS
+::respawn:-/bin/sh
+# Stuff to do before rebooting
+::shutdown:/etc/init.d/rcK
+#::shutdown:/bin/umount -a -r
+#::shutdown:/sbin/swapoff -a

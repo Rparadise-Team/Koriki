@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "K00 power off"
+
+echo kill `ps | grep "/customer/main" | grep -v "grep" | sed 's/ \+/ /g' | cut -d' ' -f2`
+kill -9 `ps | grep "/customer/main" | grep -v "grep" | sed 's/ \+/ /g' | cut -d' ' -f2`
+echo kill `pgrep keymon`
+kill -9 `pgrep keymon`
+echo kill `pgrep MainUI`
+kill -9 `pgrep MainUI`
+
+swapoff /mnt/SDCARD/cachefile
+
+umount /mnt/SDCARD
+#too slow
+#/customer/app/fsck.fat -a /dev/mmcblk0p1
+
