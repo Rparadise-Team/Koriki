@@ -1,0 +1,261 @@
+{
+    /*当前选中的wifi设备，本配置文件支持多个wifi设配的配置
+    **本例选择 ssw01b,那么MI_WLAN就会去解析ssw01b标签下的信息
+    */
+    "selfie": {
+        "wifi": "ssw01b"
+    },
+    /*wifi设备标签*/
+    "ssw01b": {
+        /*wifi 设备的自我描述*/
+        "selfie": {
+            /*wifi设备的固件版本*/
+            "version": "0.0.0",
+            /*wifi设备的名字*/
+            "name": "ssw01b40m",
+            /*wifi设备初始化脚本的路径，会在MI_WLAN_Init中被调用*/
+            "scriptPath": "/config/wifi",
+            /*本wifi设备所有script标签下的脚本解析缺省解析bin
+            **脚本不一定需要是shell，也可以是python perl等
+            */
+            "parser": "sh"
+        },
+        /*wifi的初始化标签
+        **在MI_WLAN_Init函数中被解析执行
+        */
+        "init": {
+            /*本wifi设备运行需要配置的linux环境变量
+            **环境变量的name与value需要一一对应
+            **个数不限
+            */
+            "env": {
+                "name": ["LD_LIBRARY_PATH","PATH"],
+                "value": ["/config/wifi","/config/wifi"]
+            },
+            /*本wifi设备初始化需要解析的脚本
+            **@parser 解析这个脚本的bin档，可选标签
+            **@name 脚本文件
+            **@option 脚本参数，个数不限，可选标签
+            */
+            "script": {
+                "parser": "source",
+                "name": "ssw01bInit.sh",
+                "option": ["dummy1","dummy2"]
+            }
+        },
+        /*wifi设备的注销标签*/
+        "deinit": {
+            /*本wifi设备注销需要解析的脚本
+            **@parser 可选标签，未选
+            **@name 脚本文件
+            **@option 可选标签，未选
+            */
+            "script": {
+                "name": "ssw01bDeInit.sh"
+            }
+        },
+        /*wifi设备的全局信息配置标签
+        **本标签给出了一些wifi服务需要的基本设定
+        **用户可以根据自身对wifi工作的定制需求，
+        **配置该标签下的内容
+        */
+        "universal": {
+            /*主机模式下配置标签*/
+            "infra": {
+                /*wifi设备提供的wifi热点的接口名字
+                **不同wifi设备提供的接口名字可能会有差异
+                */
+                "iface": "wlan0",
+                /*系统提供给wifi设备的控制接口目录
+                **需要在init之前创建好，默认是在init标签中指示的脚本中创建
+                **需要用户同步路径
+                */
+                "ctrl_interface": "/tmp/wifi/run/wpa_supplicant"
+            },
+            /*热点模式下的配置标签*/
+            "ap": {
+                /*wifi设备提供的wifi热点的接口名字
+                **不同wifi设备提供的接口名字可能会有差异
+                */
+                "iface": "p2p0",
+                /*热点自己的static ip地址*/
+                "ipaddr": "192.168.1.100",
+                /*热点自己的子网掩码*/
+                "netmask": "255.255.255.0",
+                /*系统提供给wifi设备的控制接口目录
+                **需要在init之前创建好，默认是在init标签中指示的脚本中创建
+                **需要用户同步路径
+                */
+                "ctrl_interface": "/var/run/hostapd"
+
+            },
+            /*udhcpc 需要的配置脚本路径，该脚本用于配置获取的网络连接信息,系统提供*/
+            "dhcp_script": "/etc/init.d/udhcpc.script",
+            /*wpa_supplicant 需要的配置文件路径，需要用户构建*/
+            "wpa_supplicant_conf": "/appconfigs/wpa_supplicant.conf",
+            /*hostapd 需要的配置文件路径，需要用户构建*/
+            "hostapd_conf": "/config/wifi/hostapd.conf",
+            /*dnsmasq 需要的配置文件路径，需要用户构建*/
+            "dnsmasq_conf": "/config/wifi/dnsmasq.conf",
+            /*dhcp 需要的租约记录文件，需要用户构建目录*/
+            "dhcp-leasefile":"/var/lib/misc/dnsmasq.leases"
+        },
+        /*
+        **individial 标签定义了MI_WLAN 支持的所有action
+        **action子标签 目前总共定义了
+        **@scan 扫描操作
+        **@open 打开WLAN设备操作
+        **@close 关闭WLAN设备操作
+        **@connect wifi连接服务
+        **@disconnect wifi连接服务断开
+        **@status 获取当前wifi连接服务状态
+        **每一个action在不同的工作模式下会有不同的行为
+        **action 定义模式为
+        **{
+            "binary":["bin1",...."binx"],
+            "option0":["opt1",...."optX"],
+                .................,
+                .................,
+                .................,
+            "option#N":["opt1",...."optX"]
+        **}
+        **binary数组的bin和option数组是一一对应的，option标签有明确的编号尾缀，从0开始递增
+        **option内容，支持对universal 标签的内容引用，语法为'$TAGNAME'支持逐级引用
+        **'$TAGNAME:$SUB_TAGNAME'    
+        }
+        */
+        "individual": {
+            "action": {
+                "scan": {
+                    "binary": ["iwlist"],
+                    "option0": ["$infra:$iface","scanning"]
+                },
+                "open": {
+                    "deviceup": {
+                        "ap": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$ap:$iface","up"]
+                        },
+                        "infra": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$infra:$iface","up"]
+                        }
+                    },
+                    "serviceup": {
+                        "ap": {
+                            "binary": ["ifconfig","hostapd"],
+                            "option0": ["$ap:$iface","$ap:$ipaddr","netmask","$ap:$netmask"],
+                            "option1": ["-B","$hostapd_conf"]
+                        },
+                        "infra": {
+                            "binary": ["wpa_supplicant","sleep"],
+                            "option0": ["-i","$infra:$iface","-Dnl80211","-c","$wpa_supplicant_conf","","&"],
+                            "option1": ["1"]
+                        }
+                    }
+                },
+                "close": {
+                    "devicedown": {
+                        "ap": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$ap:$iface","down"]
+                        },
+                        "infra": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$infra:$iface","down"]
+                        }
+                    },
+                "servicedown": {
+                    "ap": {
+                        "script":{
+                            "parser":"sh",
+                            "name":"ssw01bClose.sh",
+                            "option": ["ap"]
+                        }
+                    },
+                    "infra": {
+                        "script":{
+                            "name":"ssw01bClose.sh",
+                            "option": ["infra"]
+                        }
+                    }
+                }
+            },
+            "connect": {
+                "ap": {
+                    "binary": ["ifconfig","dnsmasq"],
+                    "option0": ["$ap:$iface","up"],
+                    "option1": ["-i","$ap:$iface","--no-daemon","-C","$dnsmasq_conf","&"]
+                },
+                "infra": {
+                    "add": {
+                        "binary": ["wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","add_network"]
+                    },
+                    "setup": {
+                        "ssid":{
+                            "binary":["wpa_cli"],
+                            "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","ssid","\\\"%s\\\""]
+                        },
+                        "password":
+                        {
+                            "keyon":{
+                                "wpa":{
+                                    "binary":["wpa_cli","wpa_cli"],
+                                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","psk","\\\"%s\\\""],
+                                    "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","key_mgmt","WPA-PSK"]
+                                },
+                                "wep":{
+                                    "binary":["wpa_cli"],
+                                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","wep_key0","\\\"%s\\\""]
+                                }
+                            },
+                            "keyoff":{
+                                "binary":["wpa_cli"],
+                                "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","key_mgmt","NONE"]
+                            }
+                        }
+                    },
+                    "enable": {
+                        "binary": ["wpa_cli","wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","select_network","%d"],
+                        "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","enable_network","%d"]
+                    },
+                    "dhcpc": {
+                        "binary": ["udhcpc"],
+                        "option0": ["-i","$infra:$iface","-s","$dhcp_script","-a","-q"," -b","-t","20","-T"," 1", "&"]
+                    },
+                    "save": {
+                        "binary": ["wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","save_config"]
+                    }
+                }
+            },
+            "disconnect": {
+                "ap": {
+                    "binary": ["ifconfig"],
+                    "option0": ["$ap:$iface","down"]
+                },
+                "infra": {
+                    "binary": ["wpa_cli","wpa_cli"],
+                    "option0": ["-i ","$infra:$iface","-p ","$infra:$ctrl_interface","disable_network","%d"],
+                    "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","save_config"]
+                }
+            },
+            "status": {
+                "ap": {
+                    "all_sta":{
+                        "binary": ["hostapd_cli"],
+                        "option0": ["-i","$ap:$iface","-p","$ap:$ctrl_interface","all_sta"]
+                    }
+                },
+                "infra": {
+                    "binary": ["wpa_cli"],
+                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","status"]
+                }
+            }
+        }
+    }
+}
+}
+/mnt/SDCARD/Koriki/bin/dnsmasq -i wlan0 --no-daemon -C /mnt/SDCARD/App/Wifi/dnsmasq.conf
