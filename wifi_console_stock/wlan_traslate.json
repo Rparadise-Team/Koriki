@@ -1,0 +1,263 @@
+{
+    /*El dispositivo wifi actualmente seleccionado, este archivo de configuración admite la configuración de múltiples dispositivos wifi
+    **En este ejemplo, seleccione ssw01b, luego MI_WLAN analizará la información bajo la etiqueta ssw01b
+    */
+    "selfie": {
+        "wifi": "ssw01b"
+    },
+    /*etiqueta del dispositivo wifi*/
+    "ssw01b": {
+        /*autodescripción del dispositivo wifi*/
+        "selfie": {
+            /*Versión de firmware del dispositivo wifi*/
+            "version": "0.0.0",
+            /*nombre del dispositivo wifi*/
+            "name": "ssw01b40m",
+            /*La ruta del script de inicialización del dispositivo wifi, que se llamará en MI_WLAN_Init*/
+            "scriptPath": "/config/wifi",
+            /*El análisis de secuencias de comandos en todas las etiquetas de secuencias de comandos de este 
+			**contenedor de análisis predeterminado del dispositivo wifi
+            **El script no necesariamente tiene que ser un shell, también puede ser python perl, etc.
+            */
+            "parser": "sh"
+        },
+        /*Pestaña de inicialización para wifi
+        **Se analiza y ejecuta en la función MI_WLAN_Init
+        */
+        "init": {
+            /*Las variables de entorno de Linux que deben configurarse para que este dispositivo wifi funcione
+            **El nombre y el valor de la variable de entorno deben corresponder uno por uno ilimitado
+            */
+            "env": {
+                "name": ["LD_LIBRARY_PATH","PATH"],
+                "value": ["/config/wifi","/config/wifi"]
+            },
+            /*La secuencia de comandos que debe analizarse para la inicialización de este dispositivo wifi
+            **@parser analiza el archivo bin de este script, etiquetas opcionales
+            **@name archivo de secuencia de comandos
+            **@option Parámetro de secuencia de comandos, número ilimitado, etiqueta opcional
+            */
+            "script": {
+                "parser": "source",
+                "name": "ssw01bInit.sh",
+                "option": ["dummy1","dummy2"]
+            }
+        },
+        /*etiqueta de cierre de sesión para dispositivos wifi*/
+        "deinit": {
+            /*La secuencia de comandos que debe analizarse cuando se cierra la sesión del dispositivo wifi
+            **@parser etiqueta opcional, no seleccionada
+            **@name archivo de secuencia de comandos
+            **@option etiqueta opcional, no seleccionada
+            */
+            "script": {
+                "name": "ssw01bDeInit.sh"
+            }
+        },
+        /*Etiqueta de configuración de información global para dispositivos wifi
+        **Esta pestaña brinda algunas configuraciones básicas requeridas para los servicios wifi
+        **Los usuarios pueden personalizar el trabajo wifi según sus propias necesidades.，
+        **Configurar el contenido bajo esta etiqueta
+        */
+        "universal": {
+            /*Configurar pestañas en modo host*/
+            "infra": {
+                /*El nombre de la interfaz del punto de acceso wifi proporcionado por el dispositivo wifi
+                **Los nombres de interfaz proporcionados por diferentes dispositivos wifi pueden ser diferentes
+                */
+                "iface": "wlan0",
+                /*El directorio de la interfaz de control proporcionado por el sistema a los dispositivos wifi
+                **Debe crearse antes de init, por defecto se crea en el script indicado en la etiqueta init
+                **Requerir ruta de sincronización de usuario
+                */
+                "ctrl_interface": "/tmp/wifi/run/wpa_supplicant"
+            },
+            /*Pestaña de configuración en modo punto de acceso*/
+            "ap": {
+                /*El nombre de la interfaz del punto de acceso wifi proporcionado por el dispositivo wifi
+                **Los nombres de interfaz proporcionados por diferentes dispositivos wifi pueden ser diferentes
+                */
+                "iface": "p2p0",
+                /*Hotspot propia dirección IP estática*/
+                "ipaddr": "192.168.1.100",
+                /*Máscara de subred propia del punto de acceso*/
+                "netmask": "255.255.255.0",
+                /*El directorio de la interfaz de control proporcionado por el sistema a los dispositivos wifi
+                **Debe crearse antes de init, por defecto se crea en el script indicado en la etiqueta init
+                **Requerir ruta de sincronización de usuario
+                */
+                "ctrl_interface": "/var/run/hostapd"
+
+            },
+            /*La ruta del script de configuración requerida por udhcpc, que se utiliza para 
+			configurar la información de conexión de red obtenida, proporcionada por el sistema*/
+            "dhcp_script": "/etc/init.d/udhcpc.script",
+            /*La ruta del archivo de configuración requerida por wpa_supplicant debe ser construida por el usuario*/
+            "wpa_supplicant_conf": "/appconfigs/wpa_supplicant.conf",
+            /*La ruta del archivo de configuración requerida por hostapd debe ser construida por el usuario*/
+            "hostapd_conf": "/config/wifi/hostapd.conf",
+            /*La ruta del archivo de configuración requerida por dnsmasq debe ser construida por el usuario*/
+            "dnsmasq_conf": "/config/wifi/dnsmasq.conf",
+            /*El archivo de registro de arrendamiento requerido por dhcp requiere que el usuario cree el directorio*/
+            "dhcp-leasefile":"/var/lib/misc/dnsmasq.leases"
+        },
+        /*
+        **La etiqueta individual define todas las acciones compatibles con MI WLAN
+        **Action: La subetiqueta de acción define actualmente un total de
+        **@scan Operación de escaneo
+        **@open Operación de dispositivo WLAN abierto
+        **@close Apague las operaciones del dispositivo WLAN
+        **@connect servicio de conexion wifi
+        **@disconnect servicio de conexion wifi desconectado
+        **@status Obtenga el estado actual del servicio de conexión wifi
+        **Cada acción tendrá diferentes comportamientos en diferentes modos de trabajo.
+        **El esquema de definición de acción es
+        **{
+            "binary":["bin1",...."binx"],
+            "option0":["opt1",...."optX"],
+                .................,
+                .................,
+                .................,
+            "option#N":["opt1",...."optX"]
+        **}
+        **Existe una correspondencia de uno a uno entre el contenedor de la matriz binaria y la matriz de opciones,
+		y la etiqueta de opción tiene un sufijo de número claro, que aumenta de 0
+        **contenido de opción, admite referencias de contenido a etiquetas universales,
+		la sintaxis es '$TAGNAME' para admitir referencias nivel por nivel
+        **'$TAGNAME:$SUB_TAGNAME'    
+        }
+        */
+        "individual": {
+            "action": {
+                "scan": {
+                    "binary": ["iwlist"],
+                    "option0": ["$infra:$iface","scanning"]
+                },
+                "open": {
+                    "deviceup": {
+                        "ap": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$ap:$iface","up"]
+                        },
+                        "infra": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$infra:$iface","up"]
+                        }
+                    },
+                    "serviceup": {
+                        "ap": {
+                            "binary": ["ifconfig","hostapd"],
+                            "option0": ["$ap:$iface","$ap:$ipaddr","netmask","$ap:$netmask"],
+                            "option1": ["-B","$hostapd_conf"]
+                        },
+                        "infra": {
+                            "binary": ["wpa_supplicant","sleep"],
+                            "option0": ["-i","$infra:$iface","-Dnl80211","-c","$wpa_supplicant_conf","","&"],
+                            "option1": ["1"]
+                        }
+                    }
+                },
+                "close": {
+                    "devicedown": {
+                        "ap": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$ap:$iface","down"]
+                        },
+                        "infra": {
+                            "binary": ["ifconfig"],
+                            "option0": ["$infra:$iface","down"]
+                        }
+                    },
+                "servicedown": {
+                    "ap": {
+                        "script":{
+                            "parser":"sh",
+                            "name":"ssw01bClose.sh",
+                            "option": ["ap"]
+                        }
+                    },
+                    "infra": {
+                        "script":{
+                            "name":"ssw01bClose.sh",
+                            "option": ["infra"]
+                        }
+                    }
+                }
+            },
+            "connect": {
+                "ap": {
+                    "binary": ["ifconfig","dnsmasq"],
+                    "option0": ["$ap:$iface","up"],
+                    "option1": ["-i","$ap:$iface","--no-daemon","-C","$dnsmasq_conf","&"]
+                },
+                "infra": {
+                    "add": {
+                        "binary": ["wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","add_network"]
+                    },
+                    "setup": {
+                        "ssid":{
+                            "binary":["wpa_cli"],
+                            "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","ssid","\\\"%s\\\""]
+                        },
+                        "password":
+                        {
+                            "keyon":{
+                                "wpa":{
+                                    "binary":["wpa_cli","wpa_cli"],
+                                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","psk","\\\"%s\\\""],
+                                    "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","key_mgmt","WPA-PSK"]
+                                },
+                                "wep":{
+                                    "binary":["wpa_cli"],
+                                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","wep_key0","\\\"%s\\\""]
+                                }
+                            },
+                            "keyoff":{
+                                "binary":["wpa_cli"],
+                                "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","set_network","%d","key_mgmt","NONE"]
+                            }
+                        }
+                    },
+                    "enable": {
+                        "binary": ["wpa_cli","wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","select_network","%d"],
+                        "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","enable_network","%d"]
+                    },
+                    "dhcpc": {
+                        "binary": ["udhcpc"],
+                        "option0": ["-i","$infra:$iface","-s","$dhcp_script","-a","-q"," -b","-t","20","-T"," 1", "&"]
+                    },
+                    "save": {
+                        "binary": ["wpa_cli"],
+                        "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","save_config"]
+                    }
+                }
+            },
+            "disconnect": {
+                "ap": {
+                    "binary": ["ifconfig"],
+                    "option0": ["$ap:$iface","down"]
+                },
+                "infra": {
+                    "binary": ["wpa_cli","wpa_cli"],
+                    "option0": ["-i ","$infra:$iface","-p ","$infra:$ctrl_interface","disable_network","%d"],
+                    "option1": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","save_config"]
+                }
+            },
+            "status": {
+                "ap": {
+                    "all_sta":{
+                        "binary": ["hostapd_cli"],
+                        "option0": ["-i","$ap:$iface","-p","$ap:$ctrl_interface","all_sta"]
+                    }
+                },
+                "infra": {
+                    "binary": ["wpa_cli"],
+                    "option0": ["-i","$infra:$iface","-p","$infra:$ctrl_interface","status"]
+                }
+            }
+        }
+    }
+}
+}
