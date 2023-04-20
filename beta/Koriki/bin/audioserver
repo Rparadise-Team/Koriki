@@ -6,4 +6,3 @@ if [ -f "$FILE" ]; then
 else
 /mnt/SDCARD/Koriki/bin/audioserver.min
 fi
-#LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" 
