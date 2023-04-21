@@ -35,22 +35,23 @@
 #define TEXTO1 "video_dingux_ipu_keep_aspect"
 #define TEXTO2 "video_scale_integer"
 #define TEXTO3 "custom_viewport_height"
-#define TEXTO4 "video_smooth"
-#define TEXTO5 "video_filtre"
+#define TEXTO4 "input_overlay"
 
 #define VALOR1 "False"
 #define VALOR2 "True"
+#define VALOR3 ":/.retroarch/overlay/ATC/ATC-GB.cfg" //a cambiar por consola
+#define VALOR4 "" // sin overlay
 
 SDL_Surface* screen = NULL;
 SDL_Surface* overlayImage = NULL;
-char img_path[256] = "overlay/";
+char img_path[256] = "./overlay/";
 const char* img_name = "1.png";
-const char* text_values[5] = {TEXTO1, TEXTO2, TEXTO3, TEXTO4, TEXTO5};
-const char* text_bools[2] = {VALOR1, VALOR2};
-const char* text_selected_values[3][5] = {
-    {VALOR2, VALOR1, "576", VALOR1, VALOR1},
-    {VALOR2, VALOR2, "576", VALOR2, VALOR1},
-    {VALOR1, VALOR1, "576", VALOR1, VALOR2}
+const char* text_values[4] = {TEXTO1, TEXTO2, TEXTO3, TEXTO4};
+const char* text_bools[4] = {VALOR1, VALOR2, VALOR3, VALOR4};
+const char* text_selected_values[3][4] = {
+    {VALOR2, VALOR1, "576", VALOR4},// aspect ration
+    {VALOR2, VALOR2, "576", VALOR3},// overlay
+    {VALOR1, VALOR1, "576", VALOR4}// fullscreen
 };
 
 void update_overlay(char* img_name) {
@@ -61,7 +62,7 @@ void update_overlay(char* img_name) {
     opt_new_file = fopen(opt_new_path, "w");
 
     if (opt_file == NULL || opt_new_file == NULL) {
-        printf("Error al abrir el archivo gba.opt\n");
+        printf("Error al abrir el archivo de configuracion\n");
         return;
     }
 
@@ -122,7 +123,7 @@ int main(int argc, char* args[]) {
                         sprintf(new_img_name, "%d.png", selected_image_index+1);
                         update_overlay(new_img_name);
                         strcpy(img_path, "");
-                        strcat(img_path, "overlay/");
+                        strcat(img_path, "./overlay/");
                         strcat(img_path, new_img_name);
                     } else if (event.key.keysym.sym == SDLK_RIGHT) {
                         selected_image_index++;
@@ -133,7 +134,7 @@ int main(int argc, char* args[]) {
                         sprintf(new_img_name, "%d.png", selected_image_index+1);
                         update_overlay(new_img_name);
                         strcpy(img_path, "");
-                        strcat(img_path, "overlay/");
+                        strcat(img_path, "./overlay/");
                         strcat(img_path, new_img_name);
                     } else if (event.key.keysym.sym == SDLK_SPACE) {
                         char new_img_name[16];

@@ -1,6 +1,7 @@
-CONSOLE = GBA
+CONSOLE = GB
+CORE = Gambatte
 
-TARGET = OverlaySelector$(CONSOLE)
+TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 
 CC = $(CROSS_COMPILE)g++
 
