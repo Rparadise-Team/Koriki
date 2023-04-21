@@ -30,7 +30,7 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA "gb" //a cambiar por consola
+#define CONSOLA "GB" //a cambiar por consola
 #define CORE "Gambatte" //a cambiar por emulador
 #define TEXTO1 "video_dingux_ipu_keep_aspect"
 #define TEXTO2 "video_scale_integer"
@@ -44,8 +44,7 @@
 
 SDL_Surface* screen = NULL;
 SDL_Surface* overlayImage = NULL;
-char img_path[256] = "./overlay/";
-const char* img_name = "1.png";
+char img_name[256] = "1.png";
 const char* text_values[4] = {TEXTO1, TEXTO2, TEXTO3, TEXTO4};
 const char* text_bools[4] = {VALOR1, VALOR2, VALOR3, VALOR4};
 const char* text_selected_values[3][4] = {
@@ -122,9 +121,8 @@ int main(int argc, char* args[]) {
                         char new_img_name[16];
                         sprintf(new_img_name, "%d.png", selected_image_index+1);
                         update_overlay(new_img_name);
-                        strcpy(img_path, "");
-                        strcat(img_path, "./overlay/");
-                        strcat(img_path, new_img_name);
+                        strcpy(img_name, "./");
+						strcat(img_name, new_img_name);
                     } else if (event.key.keysym.sym == SDLK_RIGHT) {
                         selected_image_index++;
                         if (selected_image_index > 2) {
@@ -133,9 +131,8 @@ int main(int argc, char* args[]) {
                         char new_img_name[16];
                         sprintf(new_img_name, "%d.png", selected_image_index+1);
                         update_overlay(new_img_name);
-                        strcpy(img_path, "");
-                        strcat(img_path, "./overlay/");
-                        strcat(img_path, new_img_name);
+                        strcpy(img_name, "./");
+                        strcat(img_name, new_img_name);
                     } else if (event.key.keysym.sym == SDLK_SPACE) {
                         char new_img_name[16];
                         sprintf(new_img_name, "%d.png", selected_image_index+1);
@@ -149,7 +146,7 @@ int main(int argc, char* args[]) {
             }
         }
 
-        overlayImage = IMG_Load(img_path);
+        overlayImage = IMG_Load(img_name);
         if (overlayImage == NULL) {
             printf("Error loading overlay image.\n");
             return 1;
