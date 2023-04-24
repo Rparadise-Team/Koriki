@@ -14,7 +14,7 @@ ifeq ($(CROSS_COMPILE),)
   LDFLAGS = -lSDL -lSDL_ttf -s -lSDL -lSDL_image
 else
   CFLAGS = -O3 -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -march=armv7ve -Wall
-  LDFLAGS = -lSDL -lSDL_ttf -lSDL_image -lmi_sys -lmi_gfx -s
+  LDFLAGS = -lSDL -lSDL_gfx -lSDL_ttf -lSDL_image -lmi_sys -lmi_gfx -s
 endif
 
 $(TARGET): $(OFILES)
