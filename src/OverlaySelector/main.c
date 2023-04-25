@@ -73,66 +73,67 @@ bool running = true;
 int current_image = 0;
 
 void load_image(int index) {
-    char filename[16];
-    sprintf(filename, "%d.png", index + 1);
-    image[index] = IMG_Load(filename);
+	char filename[16];
+	sprintf(filename, "%d.png", index + 1);
+	image[index] = IMG_Load(filename);
 }
 
 void update_config(const char* filename, const char* texto1, const char* valor1, const char* texto2, const char* valor2, const char* texto3, const char* valor3, const char* texto4, const char* valor4, const char* texto5, const char* valor5, const char* texto6, const char* valor6) {
-    char buffer[100];
-    sprintf(buffer, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
-    if (access(buffer, F_OK) != -1) {
-        remove(buffer);
-    }
-    FILE* file = fopen(buffer, "w");
-    if (file != NULL) {
+	char buffer[100];
+	sprintf(buffer, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
+	if (access(buffer, F_OK) != -1) {
+		remove(buffer);
+	}
+	FILE* file = fopen(buffer, "w");
+	if (file != NULL) {
 		if (strlen(texto1) > 0 && strlen(valor1) > 0) {
 			fprintf(file, "%s = \"%s\"\n", texto1, valor1);
 		}
 		if (strlen(texto2) > 0 && strlen(valor2) > 0) {
 			fprintf(file, "%s = \"%s\"\n", texto2, valor2);
 		}
-        if (strlen(texto3) > 0 && strlen(valor3) > 0) {
-            fprintf(file, "%s = \"%s\"\n", texto3, valor3);
-        }
-        if (strlen(texto4) > 0 && strlen(valor4) > 0) {
-            fprintf(file, "%s = \"%s\"\n", texto4, valor4);
-        }
-        if (strlen(texto5) > 0 && strlen(valor5) > 0) {
-            fprintf(file, "%s = \"%s\"\n", texto5, valor5);
-        }
-        if (strlen(texto6) > 0 && strlen(valor6) > 0) {
-            fprintf(file, "%s = \"%s\"\n", texto6, valor6);
-        }
-        fclose(file);
+		if (strlen(texto3) > 0 && strlen(valor3) > 0) {
+			fprintf(file, "%s = \"%s\"\n", texto3, valor3);
+		}
+		if (strlen(texto4) > 0 && strlen(valor4) > 0) {
+			fprintf(file, "%s = \"%s\"\n", texto4, valor4);
+		}
+		if (strlen(texto5) > 0 && strlen(valor5) > 0) {
+			fprintf(file, "%s = \"%s\"\n", texto5, valor5);
+		}
+		if (strlen(texto6) > 0 && strlen(valor6) > 0) {
+			fprintf(file, "%s = \"%s\"\n", texto6, valor6);
+		}
+		fclose(file);
     }
 }
 
 int main(int argc, char* argv[]) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == -1) {
-        printf("Error initializing SDL: %s\n", SDL_GetError());
-        return -1;
-    }
-    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
-    if (screen == NULL) {
-        printf("Error setting video mode: %s\n", SDL_GetError());
-        return -1;
-    }
-    for (int i = 0; i < NUM_IMAGES; i++) {
-        load_image(i);
-    }
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == -1) {
+		printf("Error initializing SDL: %s\n", SDL_GetError());
+		return -1;
+	}
+	
+	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
+	if (screen == NULL) {
+		printf("Error setting video mode: %s\n", SDL_GetError());
+		return -1;
+	}
+	for (int i = 0; i < NUM_IMAGES; i++) {
+		load_image(i);
+	}
 
-    image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-    image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-    image_rect.w = image[current_image]->w;
-    image_rect.h = image[current_image]->h;
+	image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
+	image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
+	image_rect.w = image[current_image]->w;
+	image_rect.h = image[current_image]->h;
 	
 	TTF_Init();
 	TTF_Font *font = TTF_OpenFont("Exo-2-Bold-Italic.ttf", 32);
 	
 	SDL_Color white = {255, 255, 255};
 	SDL_Surface *text_surface = TTF_RenderText_Blended(font, "Done! Press B to exit!", white);
-
+	
 	int text_width = text_surface->w;
 	int text_height = text_surface->h;
 	
@@ -142,70 +143,69 @@ int main(int argc, char* argv[]) {
 	SDL_Rect rect_pos;
 	rect_pos.x = (SCREEN_WIDTH - rect_surface->w) / 2;
 	rect_pos.y = (SCREEN_HEIGHT - rect_surface->h) / 2;
-
+	
 	SDL_Rect text_pos;
 	text_pos.x = rect_pos.x + padding;
 	text_pos.y = rect_pos.y + padding;
-
 	
 	char FILECONFIG[100];
-    sprintf(FILECONFIG, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
+	sprintf(FILECONFIG, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
 	
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    running = false;
-                    break;
-                case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == BUTTON_RIGHT) {
-                            current_image = (current_image + 1) % NUM_IMAGES;
-                            image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-                            image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-                            break;
+	while (running) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
+				case SDL_QUIT:
+					running = false;
+					break;
+				case SDL_KEYDOWN:
+					if (event.key.keysym.sym == BUTTON_RIGHT) {
+						current_image = (current_image + 1) % NUM_IMAGES;
+						image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
+						image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
+						break;
 					} else if (event.key.keysym.sym == BUTTON_LEFT) {
-                            current_image = (current_image - 1 + NUM_IMAGES) % NUM_IMAGES;
-                            image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-                            image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-                            break;
+						current_image = (current_image - 1 + NUM_IMAGES) % NUM_IMAGES;
+						image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
+						image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
+						break;
 					} else if (event.key.keysym.sym == BUTTON_A) {
-                            switch (current_image) {
-                                case 0:
-                                    update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
-									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-									SDL_Flip(screen);
-									SDL_Delay(3000);
-                                    break;
-                                case 1:
-                                    update_config(FILECONFIG, TEXTO3, VALOR3, TEXTO4, VALOR8, TEXTO1, VALOR2, TEXTO5, VALOR18, TEXTO2, VALOR2, TEXTO0, VALOR0); //overlay
-									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-									SDL_Flip(screen);
-									SDL_Delay(3000);
-                                    break;
-                                case 2:
-                                    update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
-									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-									SDL_Flip(screen);
-									SDL_Delay(3000);
-                                    break;
-                            }
-                            break;
+						switch (current_image) {
+							case 0:
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
+								SDL_Flip(screen);
+								SDL_Delay(3000);
+								break;
+							case 1:
+								update_config(FILECONFIG, TEXTO3, VALOR3, TEXTO4, VALOR8, TEXTO1, VALOR2, TEXTO5, VALOR18, TEXTO2, VALOR2, TEXTO0, VALOR0); //overlay
+								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
+								SDL_Flip(screen);
+								SDL_Delay(3000);
+								break;
+							case 2:
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
+								SDL_Flip(screen);
+								SDL_Delay(3000);
+								break;
+						}
+						break;
 					} else if (event.key.keysym.sym == BUTTON_B || event.key.keysym.sym == BUTTON_MENU) {
-                            running = false;
-                            break;
-                    }
-                    break;
-            }
-        }
+						running = false;
+						break;
+					}
+					break;
+			}
+		}
 		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
 		SDL_BlitSurface(image[current_image], NULL, screen, &image_rect);
 		SDL_Flip(screen);
-    }
+	}
 	TTF_CloseFont(font);
 	TTF_Quit();
-    SDL_Quit();
-    return 0;
+	SDL_Quit();
+	return 0;
 }
