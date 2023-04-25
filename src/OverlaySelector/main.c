@@ -1,7 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
-#include <SDL/SDL_gfxPrimitives.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -104,6 +103,27 @@ int main(int argc, char* argv[]) {
     image_rect.w = image[current_image]->w;
     image_rect.h = image[current_image]->h;
 	
+	TTF_Init();
+	TTF_Font *font = TTF_OpenFont("Exo-2-Bold-Italic.ttf", 32);
+	
+	SDL_Color white = {255, 255, 255};
+	SDL_Surface *text_surface = TTF_RenderText_Blended(font, "Done! Press B to exit!", white);
+
+	int text_width = text_surface->w;
+	int text_height = text_surface->h;
+	
+	int padding = 10;
+	SDL_Surface *rect_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, text_width + padding*2, text_height + padding*2, 32, 0, 0, 0, 0);
+	SDL_FillRect(rect_surface, NULL, SDL_MapRGB(screen->format, 50, 50, 50));
+	SDL_Rect rect_pos;
+	rect_pos.x = (SCREEN_WIDTH - rect_surface->w) / 2;
+	rect_pos.y = (SCREEN_HEIGHT - rect_surface->h) / 2;
+
+	SDL_Rect text_pos;
+	text_pos.x = rect_pos.x + padding;
+	text_pos.y = rect_pos.y + padding;
+
+	
 	char FILECONFIG[100];
     sprintf(FILECONFIG, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
 	
@@ -128,22 +148,22 @@ int main(int argc, char* argv[]) {
                             switch (current_image) {
                                 case 0:
                                     update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, "", "", "", ""); //aspect ratio
-									boxColor(screen, 0, 0, 639, 479, 0x00000000);
-									stringColor(screen, 320, 240, "Done! Press B to exit!", 0xFFFFFFFF);
+									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 									SDL_Flip(screen);
 									SDL_Delay(3000);
                                     break;
                                 case 1:
                                     update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO3, VALOR5, TEXTO4, VALOR3); //overlay
-									boxColor(screen, 0, 0, 639, 479, 0x00000000);
-									stringColor(screen, 320, 240, "Done! Press B to exit!", 0xFFFFFFFF);
+									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 									SDL_Flip(screen);
 									SDL_Delay(3000);
                                     break;
                                 case 2:
                                     update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, "", "", "", ""); //fullscreen
-									boxColor(screen, 0, 0, 639, 479, 0x00000000);
-									stringColor(screen, 320, 240, "Done! Press B to exit!", 0xFFFFFFFF);
+									SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
+									SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 									SDL_Flip(screen);
 									SDL_Delay(3000);
                                     break;
