@@ -10,7 +10,7 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
-export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
 export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
@@ -42,7 +42,7 @@ reset_settings() {
             rm ${SDCARD_PATH}/.reset_settings
             sync
         else
-            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
+            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
             rm ${SDCARD_PATH}/.reset_settings
             sync
             reboot
@@ -52,11 +52,18 @@ reset_settings() {
 }
 
 update() {
+    if [ -f ${SDCARD_PATH}/.deletes ]; then
+        while read file_to_delete; do
+            rm -rf "${file_to_delete}"
+        done < ${SDCARD_PATH}/.deletes
+        rm ${SDCARD_PATH}/.deletes
+    fi
+
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
             unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
             sync
-            ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.update_splash.png
+            show ${SDCARD_PATH}/.update_splash.png
 
             unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
             if [ -f ${SDCARD_PATH}/.deletes ]; then
@@ -72,16 +79,21 @@ update() {
             unzip -q -o ${file} -d ${SDCARD_PATH}
 
             rm ${file}
+            if [ -f ${SDCARD_PATH}/.deletes ]; then
+                rm ${SDCARD_PATH}/.deletes
+            fi
             sleep 5s
         done
+        sync
+        if [ $MODEL = "MMP" ]; then
+            reboot
+            sleep 10s
+        fi
     fi
-    if [ -f ${SDCARD_PATH}/.deletes ]; then
-        rm ${SDCARD_PATH}/.deletes
-    fi
+
     if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
         rm ${SDCARD_PATH}/.update_splash.png
     fi
-    sync
 }
 
 dir_scaffolding() {
@@ -120,9 +132,6 @@ else
     export MODEL="MMP"
 fi
 
-# Reset settings on first boot
-reset_settings
-
 # Init_lcd
 init_lcd 1
 
@@ -138,27 +147,28 @@ ${SYSTEM_PATH}/bin/charging
 # Update opportunity
 update
 
-# Show bootScreen
-${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
-
-# Create ROMs scaffolding
-dir_scaffolding
-
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
+    show ${SDCARD_PATH}/.simplemenu/resources/loading.png
     dd if=/dev/zero of=${SWAPFILE} bs=1M count=128
     mkswap ${SWAPFILE}
 fi
 swapon ${SWAPFILE}
 
+# Reset settings on first boot
+reset_settings
+
+# Create ROMs scaffolding
+dir_scaffolding
+
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
-   /mnt/SDCARD/Koriki/bin/audioserver &
-   export LD_PRELOAD=/customer/lib/libpadsp.so
-else
-   export LD_PRELOAD=/customer/lib/libpadsp.so
+    /mnt/SDCARD/Koriki/bin/audioserver &
+    if [ -f /customer/lib/libpadsp.so ]; then
+        export LD_PRELOAD=/customer/lib/libpadsp.so
+    fi
 fi
 
 # Koriki keymon

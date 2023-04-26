@@ -1,0 +1,3 @@
+title=GBA [Beetle]
+exec="/mnt/SDCARD/App/Overlay/GBA/GBA1.sh"
+editable=false

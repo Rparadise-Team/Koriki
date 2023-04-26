@@ -1,0 +1,3 @@
+title=GBA [gpSP]
+exec="/mnt/SDCARD/App/Overlay/GBA/GBA2.sh"
+editable=false

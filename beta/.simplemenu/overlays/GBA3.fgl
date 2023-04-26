@@ -1,0 +1,3 @@
+title=GBA [Meteor]
+exec="/mnt/SDCARD/App/Overlay/GBA/GBA3.sh"
+editable=false

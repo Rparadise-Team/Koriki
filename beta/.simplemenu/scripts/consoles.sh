@@ -26,7 +26,7 @@ romExts = .smc,.sfc,.zip,.7z
 aliasFile = /mnt/SDCARD/.simplemenu/alias_MSU-1.txt
 
 [SGB]
-execs = /mnt/SDCARD/.simplemenu/launchers/mgba_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/msgb_libretro
 romDirs = /mnt/SDCARD/Roms/SGB/
 romExts = .gb,.gbc,.zip,.7z
 

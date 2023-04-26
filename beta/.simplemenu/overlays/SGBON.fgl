@@ -1,0 +1,3 @@
+title=SGB [Border ON]
+exec="/mnt/SDCARD/App/Overlay/SGB_ON/SGBON.sh"
+editable=false

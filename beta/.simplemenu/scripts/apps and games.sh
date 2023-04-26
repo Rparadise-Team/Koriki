@@ -2,7 +2,7 @@ consoles="/mnt/SDCARD/.simplemenu/section_groups/arcades.ini"
 
 cat > ${consoles} <<EOF
 [CONSOLES]
-consoleList = GAMES,APPS,SEARCH
+consoleList = GAMES,APPS,OVERLAYS
 
 [GAMES]
 execs = #
@@ -14,8 +14,8 @@ execs = #
 romDirs = /mnt/SDCARD/.simplemenu/apps/
 romExts = .sh,.fgl
 
-[SEARCH]
+[OVERLAYS]
 execs = #
-romDirs = /mnt/SDCARD/App/Search/data/
-romExts = .sh,.fgl,.miyoocmd
+romDirs = /mnt/SDCARD/.simplemenu/overlays/
+romExts = .sh,.fgl
 EOF
