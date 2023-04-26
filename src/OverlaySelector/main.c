@@ -29,8 +29,9 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA "GB"
-#define CORE "Gambatte"
+#define CONSOLA	"SGB"
+#define CORE	"mSGB"
+#define BORDER	"ON"
 
 #define NUM_IMAGES 3
 
@@ -41,6 +42,7 @@
 #define TEXTO4	"input_overlay"
 #define TEXTO5	"video_filter"
 #define TEXTO6	"aspect_ratio_index"
+#define TEXTO7	"custom_viewport_width"
 
 #define VALOR0	""
 #define VALOR1	"false"
@@ -62,6 +64,7 @@
 #define VALOR17	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
 #define VALOR18	":/.retroarch/filters/video/Grid3x.filt"
 #define VALOR19	":/.retroarch/filters/video/Scanline2x.filt"
+#define VALOR20	"23"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -151,6 +154,34 @@ int main(int argc, char* argv[]) {
 	char FILECONFIG[100];
 	sprintf(FILECONFIG, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
 	
+	if (strcmp(BORDER, "OFF") == 0 && strcmp(CONSOLA, "SGB") == 0) {
+		FILE *fp = fopen("/mnt/SDCARD/RetroArch/.retroarch/config/mSGB/mSGB.opt", "r+");
+		char line[256];
+		
+		while (fgets(line, sizeof(line), fp)) {
+			if (strstr(line, "mgba_sgb_borders =")) {
+				fseek(fp, -1 * strlen(line), SEEK_CUR);
+				fputs("mgba_sgb_borders = \"OFF\"\n", fp);
+				break;
+			}
+		}
+		
+		fclose(fp);
+	} else if (strcmp(BORDER, "ON") == 0 && strcmp(CONSOLA, "SGB") == 0) {
+		FILE *fp = fopen("/mnt/SDCARD/RetroArch/.retroarch/config/mSGB/mSGB.opt", "r+");
+		char line[256];
+		
+		while (fgets(line, sizeof(line), fp)) {
+			if (strstr(line, "mgba_sgb_borders =")) {
+				fseek(fp, -1 * strlen(line), SEEK_CUR);
+				fputs("mgba_sgb_borders = \"ON\"\n", fp);
+				break;
+			}
+		}
+		
+		fclose(fp);
+	}
+	
 	while (running) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -178,7 +209,7 @@ int main(int argc, char* argv[]) {
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO3, VALOR3, TEXTO4, VALOR8, TEXTO1, VALOR2, TEXTO5, VALOR18, TEXTO2, VALOR2, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO3, VALOR5, TEXTO7, VALOR6, TEXTO4, VALOR17, TEXTO1, VALOR2, TEXTO5, VALOR19, TEXTO2, VALOR2); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
