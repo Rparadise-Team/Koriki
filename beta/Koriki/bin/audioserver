@@ -2,7 +2,7 @@
 FILE=/customer/app/axp_test
 
 if [ -f "$FILE" ]; then
-/mnt/SDCARD/Koriki/bin/audioserver.plu>/dev/null 2>&1
+LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.plu>/dev/null 2>&1
 else
-/mnt/SDCARD/Koriki/bin/audioserver.min
+LD_PRELOAD="/mnt/SDCARD/Koriki/lib/as_preload.so" /mnt/SDCARD/Koriki/bin/audioserver.min
 fi
