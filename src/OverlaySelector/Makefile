@@ -1,5 +1,5 @@
-CONSOLE = GB
-CORE = Gambatte
+CONSOLE = GBA
+CORE = Meteor_GBA
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 
