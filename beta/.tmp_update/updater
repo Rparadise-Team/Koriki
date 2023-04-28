@@ -150,10 +150,10 @@ update
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
     show ${SDCARD_PATH}/.simplemenu/resources/loading.png
-    dd if=/dev/zero of=${SWAPFILE} bs=1M count=128
+    dd if=/dev/zero of=${SWAPFILE} bs=1M count=256
     mkswap ${SWAPFILE}
 fi
-swapon ${SWAPFILE}
+swapon -p 50 ${SWAPFILE}
 
 # Reset settings on first boot
 reset_settings
