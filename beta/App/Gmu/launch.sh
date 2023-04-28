@@ -7,11 +7,9 @@ if [ "$runsvr" != "0" ] ; then
     FILE=/customer/app/axp_test
 
     if [ -f "$FILE" ]; then
-		printf "audioserver desactivado en MMP"
         killall audioserver
 		killall audioserver.plu
     else
-		printf "audioserver desactivado en MM"
         killall audioserver
 		killall audioserver.min
     fi
@@ -22,9 +20,8 @@ cd $my_dir
 
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
-	printf "audioserver reactivado"
-	/mnt/SDCARD/Koriki/bin/audioserver
-	if [ -f /customer/lib/libpadsp.so ]; then
+	/mnt/SDCARD/Koriki/bin/audioserver &
+    if [ -f /customer/lib/libpadsp.so ]; then
 		export LD_PRELOAD=/customer/lib/libpadsp.so
 	fi
 fi
