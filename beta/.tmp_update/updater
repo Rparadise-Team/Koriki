@@ -15,6 +15,8 @@ export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 
+export RETROARCH_PATH=/mnt/SDCARD/RetroArch
+
 
 killprocess() {
    pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
@@ -169,6 +171,16 @@ if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
         export LD_PRELOAD=/customer/lib/libpadsp.so
     fi
+fi
+
+# autochange retroarch version
+
+if [ ! -f /customer/app/axp_test ]; then
+    rm ${RETROARCH_PATH}/retroarch
+	cp ${RETROARCH_PATH}/retroarch.mini ${RETROARCH_PATH}/retroarch
+else
+	rm ${RETROARCH_PATH}/retroarch
+	cp ${RETROARCH_PATH}/retroarch.plus ${RETROARCH_PATH}/retroarch
 fi
 
 # Koriki keymon
