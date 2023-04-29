@@ -30,7 +30,7 @@
 #define BUTTON_LEFT SDLK_LEFT
 
 #define CONSOLA	"GBA"
-#define CORE	"Meteor GBA"
+#define CORE	"VBA Next"
 #define BORDER	"ON"
 
 #define NUM_IMAGES 3

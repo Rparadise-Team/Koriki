@@ -1,5 +1,5 @@
 CONSOLE = GBA
-CORE = Meteor_GBA
+CORE = VBA-Next
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 
