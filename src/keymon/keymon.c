@@ -277,7 +277,7 @@ int main (int argc, char *argv[]) {
     if (shutdown) {
       power_pressed = 0;
       if (access("/customer/app/axp_test", F_OK) == 0)
-        system("sync; poweroff");
+		system("Killall audioserver; killall audioserver.min; killall audioserver.plu; killall retroarch; killall simplemenu; swapoff -a /mnt/SDCARD/cachefile; umount -a /mnt/SDCARD; sync; poweroff");
       else
         system("sync; reboot");
       while (1) pause();
