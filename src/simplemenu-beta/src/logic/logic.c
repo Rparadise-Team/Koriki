@@ -203,28 +203,28 @@ void quit() {
 		exit(0);
 #endif
 		if (selectedShutDownOption == 1) {
-			execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && reboot", NULL);
+			execlp("sh", "sh", "-c", "sync && reboot", NULL);
 		} else {
 			#ifdef MIYOOMINI
 			if (mmModel)
-				execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && reboot", NULL);
+				execlp("sh", "sh", "-c", "swapoff /mnt/SDCARD/cachefile && sync && reboot", NULL);
 			else
-				execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && poweroff", NULL);
+				execlp("sh", "sh", "-c", "swapoff /mnt/SDCARD/cachefile && sync && poweroff", NULL);
 			#else
-			execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && poweroff", NULL);
+			execlp("sh", "sh", "-c", "sync && poweroff", NULL);
 			#endif
 		}
 	} else {
 		if (selectedShutDownOption == 1) {
-			execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && reboot", NULL);
+			execlp("sh", "sh", "-c", "sync && reboot", NULL);
 		} else if (selectedShutDownOption == 2) {
 			#ifdef MIYOOMINI
 			if (mmModel)
-				execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && reboot", NULL);
+				execlp("sh", "sh", "-c", "swapoff /mnt/SDCARD/cachefile && sync && reboot", NULL);
 			else
-				execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile && sync && poweroff", NULL);
+				execlp("sh", "sh", "-c", "swapoff /mnt/SDCARD/cachefile && sync && poweroff", NULL);
 			#else
-			execlp("sh", "sh", "-c", "swapoff -a /mnt/SDCARD/cachefile sync && poweroff", NULL);
+			execlp("sh", "sh", "-c", "sync && poweroff", NULL);
 			#endif
 		} else {
 			exit(0);
