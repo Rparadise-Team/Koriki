@@ -207,12 +207,10 @@ while [ 1 ]; do
 done
 
 # turf off the console.
-
-
 if [ ! -f /customer/app/axp_test ]; then
      sync
      reboot
 else
      sync
-     powerdown
+     poweroff
 if
