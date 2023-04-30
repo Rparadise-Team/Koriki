@@ -277,9 +277,9 @@ int main (int argc, char *argv[]) {
     if (shutdown) {
       power_pressed = 0;
       if (access("/customer/app/axp_test", F_OK) == 0)
-		system("Killall audioserver; killall audioserver.plu; killall retroarch; killall simplemenu; /etc/init.d/K00_Sys; sync; poweroff");
+		system("killall audioserver; killall audioserver.plu; killall retroarch; killall simplemenu; /etc/init.d/K00_Sys; sync; sleep 2; poweroff");
       else
-        system("Killall audioserver; killall audioserver.min; killall retroarch; killall simplemenu; /etc/init.d/K00_Sys; sync; reboot");
+        system("killall audioserver; killall audioserver.min; killall retroarch; killall simplemenu; /etc/init.d/K00_Sys; sync; sleep 2; reboot");
       while (1) pause();
     }
   }
