@@ -149,6 +149,9 @@ ${SYSTEM_PATH}/bin/charging
 # Update opportunity
 update
 
+# Show bootScreen
+${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
+
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
     show ${SDCARD_PATH}/.simplemenu/resources/loading.png
