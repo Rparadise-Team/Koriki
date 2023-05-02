@@ -210,14 +210,14 @@ void quit() {
 			
 			if (audioFix == 1){
 				if (mmModel)
-					execlp("sh", "sh", "-c", "killall main && killall updater && killall audioserver && killall audioserver.min && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "killall main && killall updater && killall audioserver && killall audioserver.plu && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && poweroff", NULL);
 			} else if (audioFix == 0){
 				if (mmModel)
-					execlp("sh", "sh", "-c", "killall main && killall updater && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "killall main && killall updater && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && poweroff", NULL);
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && poweroff", NULL);

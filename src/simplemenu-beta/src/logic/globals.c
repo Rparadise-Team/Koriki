@@ -117,6 +117,8 @@ int OC_SLEEP;
 int backlightValue;
 int hdmiChanged;
 #if defined MIYOOMINI
+int CPUMIYOO;
+char cpuclock[200];
 int audioFix;
 int luminationValue;
 int volValue;

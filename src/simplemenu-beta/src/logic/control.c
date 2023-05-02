@@ -904,13 +904,45 @@ void performSystemSettingsChoosingAction() {
 				OCValue=OC_OC_LOW;
 			}
 #else
+#if defined MIYOOMINI
+			FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
+			int CPUMIYOO;
+			fscanf(fp, "%d", &CPUMIYOO);
+			fclose(fp);
+			if (keys[BTN_LEFT]) {
+				if (CPUMIYOO>400000) {
+					CPUMIYOO-=200000;
+					char cpuclock[200];
+					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
+					system(cpuclock);
+				}
+			} else {
+				if (CPUMIYOO<1200000) {
+					CPUMIYOO+=200000;
+					char cpuclock[200];
+					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
+					system(cpuclock);
+				}
+			}
+#else
 			OCValue=OC_NO;
+#endif
 #endif
         }
 #if defined MIYOOMINI
 	 else if (chosenSetting==AUDIOFIX_OPTION) {
+		 	int Fix;
             audioFix = 1 - audioFix;
             setSystemValue("audiofix", audioFix);
+		 	Fix = audioFix;
+		 	if (Fix == 1) {
+				system ("/mnt/SDCARD/Koriki/bin/audioserver &");
+			} else if (Fix == 0) {
+				if (mmModel)
+					system ("killall audioserver && killall audioserver.min");
+				else
+					system ("killall audioserver && killall audioserver.plu");
+			}
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {

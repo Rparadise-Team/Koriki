@@ -1407,8 +1407,11 @@ void setupSystemSettings() {
 	}
 #endif
 	hints[3] = "SECONDS UNTIL THE SCREEN TURNS OFF";
-
+#if defined (MIYOOMINI)
+	options[4]="Cpu clock console";
+#else
 	options[4]="Overclocking level";
+#endif
 
 #if defined TARGET_OD_BETA || defined TARGET_PC
 	if (OCValue==OC_OC_LOW) {
@@ -1417,10 +1420,33 @@ void setupSystemSettings() {
 		values[4]="high";
 	}
 #else
+#if defined (MIYOOMINI)
+	FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
+	int max_freq;
+	fscanf(fp, "%d", &max_freq);
+    fclose(fp);
+	if (max_freq==1200000) {
+		values[4]="1200Mhz";
+	} else if (max_freq==1100000){
+		values[4]="1100Mhz";
+	} else if (max_freq==1000000){
+		values[4]="1000Mhz";
+	} else if (max_freq==800000){
+		values[4]="800Mhz";
+	} else if (max_freq==600000){
+		values[4]="600Mhz";
+	} else if (max_freq==400000){
+		values[4]="400Mhz";
+	}
+#else
 	values[4]="not available";
 #endif
-
+#endif
+#if defined (MIYOOMINI)
+	hints[4] = "CHANGE THE CPU SPEED";
+#else
 	hints[4] = "AFFECTS THE ROM MENU OC SETTING";
+#endif
 
 #ifdef MIYOOMINI
 #else
@@ -1450,7 +1476,7 @@ void setupSystemSettings() {
 	} else {
 		values[6] = "no";
 	}
-    hints[6] = "REBOOT TO APPLY AFTER CHANGING";
+    hints[6] = "ENABLE OR DISABLE AUDIOSERVER";
 
     options[7]="Screen ";
 	hints[7] = "SCREEN OPTIONS";

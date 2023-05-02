@@ -140,6 +140,8 @@ extern int OC_SLEEP;
 extern int backlightValue;
 extern int hdmiChanged;
 #if defined MIYOOMINI
+extern int CPUMIYOO;
+extern char cpuclock[200];
 extern int audioFix;
 extern int luminationValue;
 extern int volValue;
