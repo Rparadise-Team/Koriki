@@ -169,7 +169,6 @@ int main(void) {
                 } else if (((int)event.key.keysym.sym) == BUTTON_A) {
                     if (levelPage == 1) {
                         // Install BS
-						printf("bootScreens/%s/bootScreen.png\n", bss[nCurrentPage]);
                         sprintf(cCommand, "cp \"bootScreens/%s/bootScreen.png\" %s; sync", bss[nCurrentPage], BOOTSCREEN_PATH);
                         system(cCommand);
                         running = 0;
