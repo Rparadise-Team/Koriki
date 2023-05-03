@@ -150,7 +150,7 @@ ${SYSTEM_PATH}/bin/charging
 update
 
 # Show bootScreen
-${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
+${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.simplemenu/resources/loading.png
 
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
@@ -194,6 +194,11 @@ fi
 
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
+
+# create dhcp.leases
+if [ ! -f /appconfigs/dhcp.leases ]; then
+touch /appconfigs/dhcp.leases
+fi
 
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
