@@ -936,7 +936,7 @@ void performSystemSettingsChoosingAction() {
             setSystemValue("audiofix", audioFix);
 		 	Fix = audioFix;
 		 	if (Fix == 1) {
-				system ("/mnt/SDCARD/Koriki/bin/audioserver &");
+				system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
 			} else if (Fix == 0) {
 				if (mmModel)
 					system ("killall audioserver && killall audioserver.min");
