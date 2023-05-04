@@ -35,7 +35,7 @@
 #define BOOTSCREEN_PATH "."
 #else
 //#define BOOTSCREEN_PATH "/mnt/SDCARD/.tmp_update/res/bootScreen.png"    //Onion
-#define BOOTSCREEN_PATH "/mnt/SDCARD/Koriki/images/bootScreen.png"    //Koriki
+#define BOOTSCREEN_PATH "/mnt/SDCARD/.simplemenu/resources/loading.png"    //Koriki
 #endif
 
 
