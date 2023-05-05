@@ -732,13 +732,17 @@ void showRomPreferences() {
 	drawTextOnScreen(font, NULL, calculateProportionalSizeOrDistance1(6), (SCREEN_HEIGHT/2)-calculateProportionalSizeOrDistance1(28), name, (int[]) {255,255,255}, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 	free(name);
 
+#if defined MIYOOMINI
+	TTF_SizeUTF8(font, (const char *) "Autostart: " , &textWidth, NULL);
+	textWidth+=calculateProportionalSizeOrDistance1(2);
+#else
 	TTF_SizeUTF8(font, (const char *) "Overclock: " , &textWidth, NULL);
 	textWidth+=calculateProportionalSizeOrDistance1(2);
 
 	//Frequency option text
 	drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+calculateProportionalSizeOrDistance1(4), (SCREEN_HEIGHT/2)-calculateProportionalSizeOrDistance1(9), "Overclock: ", textColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 	//Frequency option value
-#if defined TARGET_OD_BETA || defined TARGET_RFW || defined TARGET_BITTBOY || defined TARGET_PC || defined MIYOOMINI
+#if defined TARGET_OD_BETA || defined TARGET_RFW || defined TARGET_BITTBOY || defined TARGET_PC
 	if (CURRENT_SECTION.currentGameNode->data->preferences.frequency==OC_OC_LOW || CURRENT_SECTION.currentGameNode->data->preferences.frequency==OC_OC_HIGH) {
 		drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+textWidth+1, (SCREEN_HEIGHT/2)-calculateProportionalSizeOrDistance1(9), "yes", valueColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 	} else {
@@ -747,9 +751,11 @@ void showRomPreferences() {
 #else
 	drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+textWidth, (SCREEN_HEIGHT/2)-calculateProportionalSizeOrDistance1(9), "not available", valueColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 #endif
-
 	drawRectangleToScreen(width, calculateProportionalSizeOrDistance1(1), SCREEN_WIDTH/2-width/2,SCREEN_HEIGHT/2, problematicGray);
-
+#endif
+	
+	drawRectangleToScreen(width, calculateProportionalSizeOrDistance1(1), SCREEN_WIDTH/2-width/2,SCREEN_HEIGHT/2, problematicGray);	
+	
 	//Launch at boot option text
 	drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+calculateProportionalSizeOrDistance1(4), (SCREEN_HEIGHT/2)+calculateProportionalSizeOrDistance1(9), "Autostart: ", textColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 	//Launch at boot option value
@@ -767,8 +773,11 @@ void showRomPreferences() {
 	drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+textWidth, (SCREEN_HEIGHT/2)+calculateProportionalSizeOrDistance1(27), emuName, valueColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 
 	free(emuName);
+#if defined MIYOOMINI
+#else
 	free(frequency);
-
+#endif
+	
 	logMessage("INFO","showRomPreferences","Preferences shown");
 }
 
@@ -1377,7 +1386,8 @@ void setupSystemSettings() {
 	values[1]=malloc(100);
 	sprintf(values[1],"%d",brightnessValue);
 	hints[1] = "ADJUST BRIGHTNESS LEVEL";
-
+#if defined MIYOOMINI
+#else
 	options[2]="Sharpness ";
 	values[2]=malloc(100);
 //	char *temp = getenv("SDL_VIDEO_KMSDRM_SCALING_SHARPNESS");
@@ -1390,7 +1400,7 @@ void setupSystemSettings() {
 //	}
 	sprintf(values[2],"%d",sharpnessValue);
 	hints[2] = "ADJUST SHARPNESS LEVEL";
-
+#endif
 	options[3]="Screen timeout ";
 	values[3]=malloc(100);
 #ifdef MIYOOMINI	
@@ -1406,9 +1416,9 @@ void setupSystemSettings() {
 		sprintf(values[3],"%s","always on");
 	}
 #endif
-	hints[3] = "SECONDS UNTIL THE SCREEN TURNS OFF";
+	hints[3] = "MINUTES UNTIL THE SCREEN TURNS OFF";
 #if defined (MIYOOMINI)
-	options[4]="Cpu clock console";
+	options[4]="Cpu clock";
 #else
 	options[4]="Overclocking level";
 #endif
@@ -1527,18 +1537,20 @@ void setupSettingsScreen() {
 	char *themeName=getNameWithoutPath((themes[activeTheme]));
 	values[1] = themeName;
 	hints[1] = "LAUNCHER THEME";
-
+	#if defined MIYOOMINI
+	#else
 	options[2]="Default launcher ";
+	#endif
 	#ifdef MIYOOMINI
-	values[2] = "not available";
 	#else
 	if (shutDownEnabled) {
 		values[2] = "yes";
 	} else {
 		values[2] = "no";
 	}
-	#endif
+	
 	hints[2] = "LAUNCH AFTER BOOTING";
+	#endif
 
 	options[3]="Appearance ";
 	hints[3] = "APPEARANCE OPTIONS";

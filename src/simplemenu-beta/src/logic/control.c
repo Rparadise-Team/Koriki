@@ -778,7 +778,7 @@ void performScreenSettingsChoosingAction() {
 	} else if (keys[BTN_LEFT]||keys[BTN_RIGHT]) {
 		if (chosenSetting==LUMINATION_OPTION) {
 			if (keys[BTN_LEFT]) {
-				if (luminationValue>1) {
+				if (luminationValue>0) {
 					luminationValue-=1;
 				}
 			} else {
@@ -789,7 +789,7 @@ void performScreenSettingsChoosingAction() {
 			setSystemValue("lumination", luminationValue);
 		} else if (chosenSetting==HUE_OPTION) {
 			if (keys[BTN_LEFT]) {
-				if (hueValue>1) {
+				if (hueValue>0) {
 					hueValue-=1;
 				}
 			} else {
@@ -800,7 +800,7 @@ void performScreenSettingsChoosingAction() {
 			setSystemValue("hue", hueValue);
 		} else if (chosenSetting==SATURATION_OPTION) {
 			if (keys[BTN_LEFT]) {
-				if (saturationValue>1) {
+				if (saturationValue>0) {
 					saturationValue-=1;
 				}
 			} else {
@@ -811,7 +811,7 @@ void performScreenSettingsChoosingAction() {
 			setSystemValue("saturation", saturationValue);
 		} else if (chosenSetting==CONTRAST_OPTION) {
 			if (keys[BTN_LEFT]) {
-				if (contrastValue>1) {
+				if (contrastValue>0) {
 					contrastValue-=1;
 				}
 			} else {

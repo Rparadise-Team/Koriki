@@ -41,10 +41,12 @@ reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
         else
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
             reboot
