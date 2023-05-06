@@ -8,6 +8,11 @@ if [ "$runsvr" != "0" ] ; then
     if [ -f "$FILE" ]; then
         killall audioserver
 		killall audioserver.plu
+		/customer/app/tinymix set 6 0
+		vol=`/customer/app/jsonval vol`
+		vol=`expr 41 + 63 \ $vol \ 20`
+		/customer/app/tinymix set 6 $vol
+		/customer/app/sysmon freemma
     else
         killall audioserver
 		killall audioserver.min
