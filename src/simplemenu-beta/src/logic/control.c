@@ -936,12 +936,20 @@ void performSystemSettingsChoosingAction() {
             setSystemValue("audiofix", audioFix);
 		 	Fix = audioFix;
 		 	if (Fix == 1) {
-				system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+				if (mmModel) {
+					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+				} else {
+					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+					system ("touch /tmp/audioserver_on");
+				}
 			} else if (Fix == 0) {
-				if (mmModel)
+				if (mmModel) {
 					system ("killall audioserver && killall audioserver.min");
-				else
+				} else {
 					system ("killall audioserver && killall audioserver.plu");
+					system ("rm /tmp/audioserver_on");
+					system ("/customer/app/sysmon freemma");
+				}
 			}
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {

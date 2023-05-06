@@ -152,6 +152,15 @@ update
 # Show bootScreen
 ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.simplemenu/resources/loading.png
 
+# check swap size
+SWAPSIZE=`stat -c %s "${SWAPFILE}"`
+
+MINSIZE=$((256 * 1024 * 1024))
+
+if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
+  rm ${SWAPFILE}
+fi
+
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
     show ${SDCARD_PATH}/.simplemenu/resources/loading.png
@@ -174,7 +183,21 @@ if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
         export LD_PRELOAD=/customer/lib/libpadsp.so
     fi
+	if [ $MODEL = "MMP" ]; then
+	touch /tmp/audioserver_on
+	fi
 fi
+
+# free memory when audioserver is stoped
+if [ "$runsvr" == "0" ] ; then
+	if [ $MODEL = "MMP" ]; then
+    	if [ -f /tmp/audioserver_on ]; then
+		/customer/app/sysmon freemma
+		rm /tmp/audioserver_on
+		fi
+	fi
+fi
+
 
 # autochange retroarch version
 
