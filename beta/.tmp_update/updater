@@ -17,6 +17,23 @@ export SWAPFILE=/mnt/SDCARD/cachefile
 
 export RETROARCH_PATH=/mnt/SDCARD/RetroArch
 
+# Detect flash type
+if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
+    export SETTINGS_FILE=$SETTINGS_EXT_FILE
+else
+    export SETTINGS_FILE=$SETTINGS_INT_FILE
+fi
+
+# Detect model and init charger GPIO
+if [ ! -f /customer/app/axp_test ]; then
+    export MODEL="MM"
+    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
+        echo 59 > /sys/class/gpio/export
+        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
+    fi
+else
+    export MODEL="MMP"
+fi
 
 killprocess() {
    pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
@@ -117,25 +134,6 @@ dir_scaffolding() {
     done
 }
 
-
-# Detect flash type
-if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
-    export SETTINGS_FILE=$SETTINGS_EXT_FILE
-else
-    export SETTINGS_FILE=$SETTINGS_INT_FILE
-fi
-
-# Detect model and init charger GPIO
-if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
-        echo 59 > /sys/class/gpio/export
-        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
-    fi
-else
-    export MODEL="MMP"
-fi
-
 # Init_lcd
 init_lcd 1
 
@@ -176,6 +174,18 @@ if [ "$runsvr" != "0" ] ; then
     if [ -f /customer/lib/libpadsp.so ]; then
         export LD_PRELOAD=/customer/lib/libpadsp.so
     fi
+fi
+
+#MMP requires this to fix volume problem
+if [ $MODEL = "MMP" ]; then
+if [ "$runsvr" == "0" ] ; then
+	 /customer/app/tinymix set 6 0
+         vol=`/customer/app/jsonval vol`
+         vol=`expr 41 + 63 \* $vol \/ 20`
+	 /customer/app/tinymix set 6 $vol
+
+      fi
+      /customer/app/sysmon freemma 
 fi
 
 # autochange retroarch version
