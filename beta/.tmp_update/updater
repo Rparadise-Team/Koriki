@@ -178,13 +178,13 @@ fi
 
 #MMP requires this to fix volume problem
 if [ $MODEL = "MMP" ]; then
-if [ "$runsvr" == "0" ] ; then
-	   /customer/app/tinymix set 6 0
-    vol=`/customer/app/jsonval vol`
-    vol=`expr 41 + 63 \* $vol \/ 20`
-	   /customer/app/tinymix set 6 $vol
-    /customer/app/sysmon freemma
-fi
+	if [ "$runsvr" == "0" ] ; then
+	/customer/app/tinymix set 6 0
+	vol=`/customer/app/jsonval vol`
+	vol=`expr 41 + 63 \* $vol \/ 20`
+	/customer/app/tinymix set 6 $vol
+	/customer/app/sysmon freemma
+	fi
 fi
 
 # autochange retroarch version

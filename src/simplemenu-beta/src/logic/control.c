@@ -938,19 +938,10 @@ void performSystemSettingsChoosingAction() {
 		 	if (Fix == 1) {
 				system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
 			} else if (Fix == 0) {
-				if (mmModel) {
+				if (mmModel)
 					system ("killall audioserver && killall audioserver.min");
-				} else {
+				else
 					system ("killall audioserver && killall audioserver.plu");
-					int volume;
-					int set;
-					volume = getCurrentSystemValue("vol");
-					set = ((volume*3)+40); //tinymix work in 100-40 // 0-(-60)
-					char command[100];
-					sprintf (command, "tinymix set 6 %d", set);
-					system (command); //set volume without audiofix
-					system ("/customer/app/sysmon freemma");
-				}
 			}
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
