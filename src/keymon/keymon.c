@@ -266,12 +266,12 @@ int main (int argc, char *argv[]) {
         // Increase volume
         setVolume(volume, 1);
 	    break;
-	    case BUTTON_VOLUMEDOWN:
+	  case BUTTON_VOLUMEDOWN:
         // Decrease volume
         setVolume(volume, -1);
 	    break;
       default:
-      break;
+		break;
     }
 
     if (shutdown) {

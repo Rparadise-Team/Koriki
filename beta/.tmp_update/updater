@@ -192,7 +192,7 @@ fi
 if [ "$runsvr" == "0" ] ; then
 	if [ $MODEL = "MMP" ]; then
     	if [ -f /tmp/audioserver_on ]; then
-		/customer/app/sysmon freemma
+		/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
 		rm /tmp/audioserver_on
 		fi
 	fi

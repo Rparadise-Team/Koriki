@@ -948,7 +948,7 @@ void performSystemSettingsChoosingAction() {
 				} else {
 					system ("killall audioserver && killall audioserver.plu");
 					system ("rm /tmp/audioserver_on");
-					system ("/customer/app/sysmon freemma");
+					system ("/mnt/SDCARD/Koriki/bin/freemma");
 				}
 			}
 		} else if (chosenSetting==VOLUME_OPTION) {
