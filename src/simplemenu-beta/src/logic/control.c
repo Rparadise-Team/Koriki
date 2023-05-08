@@ -969,7 +969,6 @@ void performSystemSettingsChoosingAction() {
 					setSystemValue("vol", volValue);
 				}
 			}
-		}
 #else
 	 else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
 		if (keys[BTN_A]) {
