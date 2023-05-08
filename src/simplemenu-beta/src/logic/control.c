@@ -828,6 +828,107 @@ void performScreenSettingsChoosingAction() {
 }
 #endif
 
+#if defined MIYOOMINI
+void performSystemSettingsChoosingAction() {
+	VOLUME_OPTION=0;
+	BRIGHTNESS_OPTION=1;
+	OC_OPTION=2;
+    AUDIOFIX_OPTION = 3;
+    SCREEN_OPTION = 4;
+    NUM_SYSTEM_OPTIONS = 5;
+	if (keys[BTN_UP]) {
+		if(chosenSetting>0) {
+			chosenSetting--;
+		} else {
+			chosenSetting=NUM_SYSTEM_OPTIONS-1;
+		}
+	} else if (keys[BTN_DOWN]) {
+		if(chosenSetting<NUM_SYSTEM_OPTIONS-1) {
+			chosenSetting++;
+		} else {
+			chosenSetting=0;
+		}
+	} else if (keys[BTN_LEFT]||keys[BTN_RIGHT]) {
+		if (chosenSetting==BRIGHTNESS_OPTION) {
+			if (keys[BTN_LEFT]) {
+				if (brightnessValue>1) {
+					brightnessValue-=1;
+				}
+			} else {
+				if (brightnessValue<maxBrightnessValue) {
+					brightnessValue+=1;
+				}
+			}
+			setBrightness(brightnessValue);
+		} else if (chosenSetting==OC_OPTION) {
+			FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
+			int CPUMIYOO;
+			fscanf(fp, "%d", &CPUMIYOO);
+			fclose(fp);
+			if (keys[BTN_LEFT]) {
+				if (CPUMIYOO>400000) {
+					CPUMIYOO-=200000;
+					char cpuclock[200];
+					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
+					system(cpuclock);
+				}
+			} else {
+				if (CPUMIYOO<1200000) {
+					CPUMIYOO+=200000;
+					char cpuclock[200];
+					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
+					system(cpuclock);
+				}
+			}
+		} else if (chosenSetting==AUDIOFIX_OPTION) {
+		 	int Fix;
+            audioFix = 1 - audioFix;
+            setSystemValue("audiofix", audioFix);
+		 	Fix = audioFix;
+		 	if (Fix == 1) {
+				if (mmModel) {
+					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+				} else {
+					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+					system ("touch /tmp/audioserver_on");
+				}
+			} else if (Fix == 0) {
+				if (mmModel) {
+					system ("killall audioserver && killall audioserver.min");
+				} else {
+					system ("killall audioserver && killall audioserver.plu");
+					system ("rm /tmp/audioserver_on");
+					system ("/mnt/SDCARD/Koriki/bin/freemma");
+				}
+			}
+		} else if (chosenSetting==VOLUME_OPTION) {
+			if (keys[BTN_LEFT]) {
+				if (volValue>0) {
+					int volume;
+					volume = getCurrentSystemValue("vol");
+					volValue-=1;
+					setVolume(volume, -1);
+					setSystemValue("vol", volValue);
+				}
+			} else {
+				if (volValue<20) {
+					int volume;
+					volume = getCurrentSystemValue("vol");
+					volValue+=1;
+					setVolume(volume, 1);
+					setSystemValue("vol", volValue);
+				}
+			}
+		}
+	} else if (chosenSetting==SCREEN_OPTION&&keys[BTN_A]) {
+		chosenSetting=0;
+		currentState=SCREEN_SETTINGS;
+	} else if (keys[BTN_B]) {
+		chosenSetting=previouslyChosenSetting;
+		currentState=SETTINGS_SCREEN;
+	}
+}
+#else
 void performSystemSettingsChoosingAction() {
 	VOLUME_OPTION=0;
 	BRIGHTNESS_OPTION=1;
@@ -835,13 +936,7 @@ void performSystemSettingsChoosingAction() {
 	SCREEN_TIMEOUT_OPTION=3;
 	OC_OPTION=4;
 	USB_OPTION=5;
-#if defined MIYOOMINI
-    AUDIOFIX_OPTION = 6;
-    SCREEN_OPTION = 7;
-    NUM_SYSTEM_OPTIONS = 8;
-#else
     NUM_SYSTEM_OPTIONS = 6;
-#endif
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
 			chosenSetting--;
@@ -903,77 +998,15 @@ void performSystemSettingsChoosingAction() {
 			} else {
 				OCValue=OC_OC_LOW;
 			}
-#else
-#if defined MIYOOMINI
-			FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
-			int CPUMIYOO;
-			fscanf(fp, "%d", &CPUMIYOO);
-			fclose(fp);
-			if (keys[BTN_LEFT]) {
-				if (CPUMIYOO>400000) {
-					CPUMIYOO-=200000;
-					char cpuclock[200];
-					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
-					system(cpuclock);
-				}
-			} else {
-				if (CPUMIYOO<1200000) {
-					CPUMIYOO+=200000;
-					char cpuclock[200];
-					snprintf(cpuclock, sizeof(cpuclock), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
-					system(cpuclock);
-				}
-			}
+		}
 #else
 			OCValue=OC_NO;
+		}
 #endif
-#endif
-#if defined MIYOOMINI
-	 } else if (chosenSetting==AUDIOFIX_OPTION) {
-		 	int Fix;
-            audioFix = 1 - audioFix;
-            setSystemValue("audiofix", audioFix);
-		 	Fix = audioFix;
-		 	if (Fix == 1) {
-				if (mmModel) {
-					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
-				} else {
-					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
-					system ("touch /tmp/audioserver_on");
-				}
-			} else if (Fix == 0) {
-				if (mmModel) {
-					system ("killall audioserver && killall audioserver.min");
-				} else {
-					system ("killall audioserver && killall audioserver.plu");
-					system ("rm /tmp/audioserver_on");
-					system ("/mnt/SDCARD/Koriki/bin/freemma");
-				}
-			}
-		} else if (chosenSetting==VOLUME_OPTION) {
-			if (keys[BTN_LEFT]) {
-				if (volValue>0) {
-					int volume;
-					volume = getCurrentSystemValue("vol");
-					volValue-=1;
-					setVolume(volume, -1);
-					setSystemValue("vol", volValue);
-				}
-			} else {
-				if (volValue<20) {
-					int volume;
-					volume = getCurrentSystemValue("vol");
-					volValue+=1;
-					setVolume(volume, 1);
-					setSystemValue("vol", volValue);
-				}
-			}
-#else
-	 } else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
+	} else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
 		if (keys[BTN_A]) {
 			executeCommand ("/usr/bin", "alsamixer", "#", 1, OC_NO);
 		}
-#endif
 	} else if (chosenSetting==USB_OPTION&&keys[BTN_A]) {
 #if defined TARGET_RFW
 		executeCommand ("./scripts/", "usb_mode_on.sh", "#", 0, OC_NO);
@@ -982,24 +1015,28 @@ void performSystemSettingsChoosingAction() {
 		selectedShutDownOption=1;
 		running=0;
 #endif
-#if defined MIYOOMINI
-	} else if (chosenSetting==SCREEN_OPTION&&keys[BTN_A]) {
-		chosenSetting=0;
-		currentState=SCREEN_SETTINGS;
-#endif
 	} else if (keys[BTN_B]) {
 		chosenSetting=previouslyChosenSetting;
 		currentState=SETTINGS_SCREEN;
 	}
 }
-
+#endif
+	
 void performSettingsChoosingAction() {
+	#if defined MIYOOMINI
+	SHUTDOWN_OPTION=0;
+	THEME_OPTION=1;
+	APPEARANCE_OPTION=2;
+	SYSTEM_OPTION=3;
+	HELP_OPTION=4;
+	#else
 	SHUTDOWN_OPTION=0;
 	THEME_OPTION=1;
 	DEFAULT_OPTION=2;
 	APPEARANCE_OPTION=3;
 	SYSTEM_OPTION=4;
 	HELP_OPTION=5;
+	#endif
 
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {

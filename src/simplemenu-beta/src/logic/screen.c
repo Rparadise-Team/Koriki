@@ -1400,25 +1400,17 @@ void setupSystemSettings() {
 //	}
 	sprintf(values[2],"%d",sharpnessValue);
 	hints[2] = "ADJUST SHARPNESS LEVEL";
-#endif
 	options[3]="Screen timeout ";
 	values[3]=malloc(100);
-#ifdef MIYOOMINI	
-	if (timeoutValue>0) {
-		sprintf(values[3],"%d",timeoutValue);
-	} else {
-		sprintf(values[3],"%s","always on");
-	}
-#else
 	if (timeoutValue>0&&hdmiEnabled==0) {
 		sprintf(values[3],"%d",timeoutValue);
 	} else {
 		sprintf(values[3],"%s","always on");
 	}
-#endif
 	hints[3] = "MINUTES UNTIL THE SCREEN TURNS OFF";
+#endif
 #if defined (MIYOOMINI)
-	options[4]="Cpu clock";
+	options[2]="Cpu clock";
 #else
 	options[4]="Overclocking level";
 #endif
@@ -1436,24 +1428,24 @@ void setupSystemSettings() {
 	fscanf(fp, "%d", &max_freq);
     fclose(fp);
 	if (max_freq==1200000) {
-		values[4]="1200Mhz";
+		values[2]="1200Mhz";
 	} else if (max_freq==1100000){
-		values[4]="1100Mhz";
+		values[2]="1100Mhz";
 	} else if (max_freq==1000000){
-		values[4]="1000Mhz";
+		values[2]="1000Mhz";
 	} else if (max_freq==800000){
-		values[4]="800Mhz";
+		values[2]="800Mhz";
 	} else if (max_freq==600000){
-		values[4]="600Mhz";
+		values[2]="600Mhz";
 	} else if (max_freq==400000){
-		values[4]="400Mhz";
+		values[2]="400Mhz";
 	}
 #else
 	values[4]="not available";
 #endif
 #endif
 #if defined (MIYOOMINI)
-	hints[4] = "CHANGE THE CPU SPEED";
+	hints[2] = "CHANGE THE CPU SPEED";
 #else
 	hints[4] = "AFFECTS THE ROM MENU OC SETTING";
 #endif
@@ -1480,16 +1472,16 @@ void setupSystemSettings() {
 #endif
 	
 #if defined MIYOOMINI
-	options[6] = "Audio fix ";
+	options[3] = "Audio fix ";
     if (audioFix) {
-		values[6] = "yes";
+		values[3] = "yes";
 	} else {
-		values[6] = "no";
+		values[3] = "no";
 	}
-    hints[6] = "ENABLE OR DISABLE AUDIOSERVER";
+    hints[3] = "ENABLE OR DISABLE AUDIOSERVER";
 
-    options[7]="Screen ";
-	hints[7] = "SCREEN OPTIONS";
+    options[4]="Screen ";
+	hints[4] = "SCREEN OPTIONS";
 #endif
 }
 
@@ -1551,7 +1543,17 @@ void setupSettingsScreen() {
 	
 	hints[2] = "LAUNCH AFTER BOOTING";
 	#endif
+	
+	#if defined MIYOOMINI
+	options[2]="Appearance ";
+	hints[2] = "APPEARANCE OPTIONS";
 
+	options[3]="System ";
+	hints[3] = "SYSTEM OPTIONS";
+
+	options[4]="Help ";
+	hints[4] = "HOW TO USE THIS MENU";
+	#else
 	options[3]="Appearance ";
 	hints[3] = "APPEARANCE OPTIONS";
 
@@ -1560,6 +1562,7 @@ void setupSettingsScreen() {
 
 	options[5]="Help ";
 	hints[5] = "HOW TO USE THIS MENU";
+	#endif
 }
 
 
