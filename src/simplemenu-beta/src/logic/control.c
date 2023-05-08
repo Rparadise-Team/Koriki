@@ -928,9 +928,8 @@ void performSystemSettingsChoosingAction() {
 			OCValue=OC_NO;
 #endif
 #endif
-        }
 #if defined MIYOOMINI
-	 else if (chosenSetting==AUDIOFIX_OPTION) {
+	 } else if (chosenSetting==AUDIOFIX_OPTION) {
 		 	int Fix;
             audioFix = 1 - audioFix;
             setSystemValue("audiofix", audioFix);
@@ -970,7 +969,7 @@ void performSystemSettingsChoosingAction() {
 				}
 			}
 #else
-	 else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
+	 } else if (chosenSetting==VOLUME_OPTION&&keys[BTN_A]) {
 		if (keys[BTN_A]) {
 			executeCommand ("/usr/bin", "alsamixer", "#", 1, OC_NO);
 		}
