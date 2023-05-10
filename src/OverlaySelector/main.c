@@ -29,8 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"GBA"
-#define CORE	"VBA Next"
+#define CONSOLA	"PICO"
+#define CORE	"fake-08"
 #define BORDER	"ON"
 
 #define NUM_IMAGES 3
@@ -47,24 +47,26 @@
 #define VALOR0	""
 #define VALOR1	"false"
 #define VALOR2	"true"
-#define VALOR3	"576"
-#define VALOR4	"608"
-#define VALOR5	"672"
-#define VALOR6	"768"
-#define VALOR7	"0"
-#define VALOR8	":/.retroarch/overlay/ATC/ATC-GB.cfg"
-#define VALOR9	":/.retroarch/overlay/ATC/ATC-LYNX.cfg"
-#define VALOR10	":/.retroarch/overlay/ATC/ATC-POKEMINI.cfg"
-#define VALOR11	":/.retroarch/overlay/ATC/ATC-GG.cfg"
-#define VALOR12	":/.retroarch/overlay/ATC/ATC-GBA.cfg"
-#define VALOR13	":/.retroarch/overlay/ATC/ATC-WS.cfg"
-#define VALOR14	":/.retroarch/overlay/ATC/ATC-GBC.cfg"
-#define VALOR15	":/.retroarch/overlay/ATC/ATC-NGP.cfg"
-#define VALOR16	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
-#define VALOR17	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
-#define VALOR18	":/.retroarch/filters/video/Grid3x.filt"
-#define VALOR19	":/.retroarch/filters/video/Scanline2x.filt"
-#define VALOR20	"23"
+#define VALOR3	"512"
+#define VALOR4	"576"
+#define VALOR5	"608"
+#define VALOR6	"672"
+#define VALOR7	"768"
+#define VALOR8	"23"
+#define VALOR9	"0"
+#define VALOR10	":/.retroarch/overlay/ATC/ATC-GB.cfg"
+#define VALOR11	":/.retroarch/overlay/ATC/ATC-LYNX.cfg"
+#define VALOR12	":/.retroarch/overlay/ATC/ATC-POKEMINI.cfg"
+#define VALOR13	":/.retroarch/overlay/ATC/ATC-GG.cfg"
+#define VALOR14	":/.retroarch/overlay/ATC/ATC-GBA.cfg"
+#define VALOR15	":/.retroarch/overlay/ATC/ATC-WS.cfg"
+#define VALOR16	":/.retroarch/overlay/ATC/ATC-GBC.cfg"
+#define VALOR17	":/.retroarch/overlay/ATC/ATC-NGP.cfg"
+#define VALOR18	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
+#define VALOR19	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
+#define VALOR20	":/.retroarch/overlay/ATC/ATC-PICO8.cfg"
+#define VALOR21	":/.retroarch/filters/video/Grid3x.filt"
+#define VALOR22	":/.retroarch/filters/video/Scanline2x.filt"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -202,21 +204,21 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO5, VALOR18, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO5, VALOR21, TEXTO3, VALOR3, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO4, VALOR12, TEXTO1, VALOR2, TEXTO5, VALOR18, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO3, VALOR3, TEXTO4, VALOR20, TEXTO1, VALOR2, TEXTO5, VALOR21, TEXTO2, VALOR2, TEXTO0, VALOR0); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 2:
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO5, VALOR18, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								update_config(FILECONFIG, TEXTO5, VALOR21, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO3, VALOR3, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);

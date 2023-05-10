@@ -1,5 +1,5 @@
-CONSOLE = GBA
-CORE = VBA-Next
+CONSOLE = PICO8
+CORE = FAKE-08
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

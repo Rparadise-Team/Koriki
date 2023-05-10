@@ -1,0 +1,3 @@
+title=PICO 8
+exec="/mnt/SDCARD/App/Overlay/PICO/PICO8.sh"
+editable=false
