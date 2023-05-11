@@ -41,261 +41,10 @@
 #define MI_AO_SETVOLUME 0x4008690b
 #define MI_AO_GETVOLUME 0xc008690c
 
-// for suspend / hibernate
-#define CHECK_SEC 15   // Interval sec to check hibernate/adc
-#define SHUTDOWN_MIN 1 // Minutes to power off after hibernate
-#define REPEAT_SEC(val) ((val * 1000 - 250) / 50)
-#define PIDMAX 32
-
-uint32_t suspendpid[PIDMAX];
-
 // Global Variables
 static struct input_event	ev;
 static int	input_fd = 0;
 
-//
-//    Suspend / Kill processes
-//        mode: 0:STOP 1:TERM 2:KILL
-//
-int suspend(uint32_t mode)
-{
-    DIR *procdp;
-    struct dirent *dir;
-    char fname[32];
-    pid_t suspend_pid = getpid();
-    pid_t pid;
-    pid_t ppid;
-    char state;
-    uint32_t flags;
-    char comm[128];
-    int ret = 0;
-
-    // terminate retroarch before kill
-    if (mode == 2)
-        ret = terminate_retroarch();
-
-    sync();
-    procdp = opendir("/proc");
-
-    // Pick active processes to suspend and send SIGSTOP
-    // Cond:1. PID is greater than 2(kthreadd) and not myself
-    //    2. PPID is greater than 2(kthreadd)
-    //    3. state is "R" or "S" or "D"
-    //    4. comm is not "(sh)" / "(MainUI)" when AudioFix:OFF
-    //    5. flags does not contain PF_KTHREAD (0x200000) (just in case)
-    //    6. comm is not "(updater)" "(MainUI)" "(tee)" "(audioserver*" when
-    //    kill mode
-    if (!mode)
-        suspendpid[0] = 0;
-    while ((dir = readdir(procdp))) {
-        if (dir->d_type == DT_DIR) {
-            pid = atoi(dir->d_name);
-            if ((pid > 2) && (pid != suspend_pid)) {
-                sprintf(fname, "/proc/%d/stat", pid);
-                FILE *fp = fopen(fname, "r");
-                if (fp) {
-                    fscanf(fp, "%*d %127s %c %d %*d %*d %*d %*d %u",
-                           (char *)&comm, &state, &ppid, &flags);
-                    fclose(fp);
-                }
-                if ((ppid > 2) &&
-                    ((state == 'R') || (state == 'S') || (state == 'D')) &&
-                    (strcmp(comm, "(sh)")) && (!(flags & PF_KTHREAD))) {
-                    if (mode) {
-                        if ((strcmp(comm, "(updater)")) &&
-                            (strcmp(comm, "(MainUI)")) &&
-                            (strcmp(comm, "(tee)")) &&
-                            (strncmp(comm, "(audioserver", 12)) &&
-                            (strcmp(comm, "(charging)"))) {
-                            kill(pid, (mode == 1) ? SIGTERM : SIGKILL);
-                            ret++;
-                        }
-                    }
-                    else {
-                        if (suspendpid[0] < PIDMAX) {
-                            suspendpid[++suspendpid[0]] = pid;
-                            kill(pid, SIGSTOP);
-                            ret++;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    closedir(procdp);
-
-    // reset display when anything killed
-    if (mode == 2 && ret)
-        display_reset();
-
-    return ret;
-}
-
-//
-//    Resume
-//
-void resume(void)
-{
-    // Send SIGCONT to suspended processes
-    if (suspendpid[0]) {
-        for (uint32_t i = 1; i <= suspendpid[0]; i++)
-            kill(suspendpid[i], SIGCONT);
-        suspendpid[0] = 0;
-    }
-}
-
-//
-//    Quit
-//
-void quit(int exitcode)
-{
-    display_free();
-    if (input_fd > 0)
-        close(input_fd);
-    system_clock_get();
-    system_rtc_set();
-    system_clock_save();
-    exit(exitcode);
-}
-
-//
-//    Suspend interface
-//
-void suspend_exec(int timeout)
-{
-    keyinput_disable();
-
-    // suspend
-    system_clock_pause(true);
-    suspend(0);
-    rumble(0);
-    setVolume(0);
-    display_setBrightnessRaw(0);
-    display_off();
-    system_powersave_on();
-
-    uint32_t repeat_power = 0;
-    uint32_t killexit = 0;
-
-    while (1) {
-        int ready = poll(fds, 1, timeout);
-
-        if (ready > 0) {
-            read(input_fd, &ev, sizeof(ev));
-            if ((ev.type != EV_KEY) || (ev.value > REPEAT))
-                continue;
-            if (ev.code == HW_BTN_POWER) {
-                if (ev.value == RELEASED)
-                    break;
-                else if (ev.value == PRESSED)
-                    repeat_power = 0;
-                else if (ev.value == REPEAT) {
-                    if (++repeat_power >= REPEAT_SEC(5)) {
-                        short_pulse();
-                        killexit = 1;
-                        break;
-                    }
-                }
-            }
-            else if (ev.value == RELEASED) {
-                if (ev.code == HW_BTN_MENU) {
-                    // screenshot
-                    system_powersave_off();
-                    display_on();
-                    takeScreenshot();
-                    break;
-                }
-            }
-        }
-        else if (!ready && !battery_isCharging()) {
-            // shutdown
-            system_powersave_off();
-            resume();
-            usleep(100000);
-            shutdown();
-        }
-    }
-
-    // resume
-    system_powersave_off();
-    if (killexit) {
-        resume();
-        usleep(100000);
-        suspend(2);
-        usleep(400000);
-    }
-    display_on();
-    display_setBrightness(settings.brightness);
-    setVolume(settings.mute ? 0 : settings.volume);
-    if (!killexit) {
-        resume();
-        system_clock_pause(false);
-    }
-
-    keyinput_enable();
-}
-
-//
-//    [onion] deepsleep if MainUI/gameSwitcher/retroarch is running
-//
-void deepsleep(void)
-{
-    system_state_update();
-    if (system_state == MODE_MAIN_UI) {
-        short_pulse();
-        system_shutdown();
-        kill_mainUI();
-    }
-    else if (system_state == MODE_GAME) {
-        if (check_autosave()) {
-            short_pulse();
-            system_shutdown();
-            terminate_retroarch();
-        }
-    }
-    else if (system_state == MODE_APPS) {
-        short_pulse();
-        remove(CMD_TO_RUN_PATH);
-        system_shutdown();
-        suspend(1);
-    }
-}
-
-void turnOffScreen(void)
-{
-    int timeout = (settings.sleep_timer + SHUTDOWN_MIN) * 60000;
-    bool stay_awake = settings.sleep_timer == 0 || temp_flag_get("stay_awake");
-    suspend_exec(stay_awake ? -1 : timeout);
-}
-
-//
-//    Terminate retroarch before kill/shotdown processes to save progress
-//
-bool terminate_retroarch(void)
-{
-    char fname[16];
-    pid_t pid = process_searchpid("retroarch");
-    if (!pid)
-        pid = process_searchpid("ra32");
-
-    if (pid) {
-
-        // send signal
-        kill(pid, SIGCONT);
-        usleep(100000);
-        kill(pid, SIGTERM);
-        // wait for terminate
-        sprintf(fname, "/proc/%d", pid);
-
-        uint32_t count = 20; // 4s
-        while (--count && exists(fname))
-            usleep(200000); // 0.2s
-
-        return true;
-    }
-
-    return false;
-}
 
 char* load_file(char const* path) {
   char* buffer = 0;
@@ -441,11 +190,6 @@ int main (int argc, char *argv[]) {
   int repeat_power = 0;
   int shutdown = 0;
   uint32_t repeat = 0;
-  int ticks = getMilliseconds();
-  int hibernate_start = ticks;
-  int hibernate_time;
-  int elapsed_sec = 0;
-
   while (read(input_fd, &ev, sizeof(ev)) == sizeof(ev)) {
     val = ev.value;
     if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
@@ -457,11 +201,7 @@ int main (int argc, char *argv[]) {
         } else if (val == RELEASED && power_pressed) {
           power_pressed = val;
         } else if (val == REPEAT) {
-          if (repeat_power > 7)
-			turnOffScreen();
-		} else if (repeat_power == 7)
-            deepsleep(); // 0.5sec deepsleepif
-		} else if (repeat_power >= 20) {
+          if (repeat_power >= 20) {
             shutdown = 1;
           }
           repeat_power++;
@@ -532,21 +272,6 @@ int main (int argc, char *argv[]) {
 	    break;
       default:
 		break;
-    }
-
-		ticks = getMilliseconds();
-
-        // Check Hibernate
-        if (battery_isCharging())
-            hibernate_time = 0;
-		else
-         hibernate_time = settings.sleep_timer;
-
-     if (hibernate_time && !temp_flag_get("stay_awake")) {
-         if (ticks - hibernate_start > hibernate_time * 60 * 1000)
-			suspend_exec(SHUTDOWN_MIN * 60000);
-            hibernate_start = ticks;
-         }
     }
 
     if (shutdown) {
