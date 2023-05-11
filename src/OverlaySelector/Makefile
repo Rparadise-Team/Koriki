@@ -1,5 +1,5 @@
-CONSOLE = PICO8
-CORE = FAKE-08
+CONSOLE = GBA
+CORE = mGBA
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

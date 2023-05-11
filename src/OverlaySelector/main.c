@@ -29,8 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"PICO"
-#define CORE	"fake-08"
+#define CONSOLA	"GBA"
+#define CORE	"mGBA"
 #define BORDER	"ON"
 
 #define NUM_IMAGES 3
@@ -65,8 +65,21 @@
 #define VALOR18	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
 #define VALOR19	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
 #define VALOR20	":/.retroarch/overlay/ATC/ATC-PICO8.cfg"
-#define VALOR21	":/.retroarch/filters/video/Grid3x.filt"
-#define VALOR22	":/.retroarch/filters/video/Scanline2x.filt"
+#define VALOR21	":/.retroarch/overlay/ATC-GRID/ATC-GB.cfg"
+#define VALOR22	":/.retroarch/overlay/ATC-GRID/ATC-LYNX.cfg"
+#define VALOR23	":/.retroarch/overlay/ATC-GRID/ATC-POKEMINI.cfg"
+#define VALOR24	":/.retroarch/overlay/ATC-GRID/ATC-GG.cfg"
+#define VALOR25	":/.retroarch/overlay/ATC-GRID/ATC-GBA.cfg"
+#define VALOR26	":/.retroarch/overlay/ATC-GRID/ATC-WS.cfg"
+#define VALOR27	":/.retroarch/overlay/ATC-GRID/ATC-GBC.cfg"
+#define VALOR28	":/.retroarch/overlay/ATC-GRID/ATC-NGP.cfg"
+#define VALOR29	":/.retroarch/overlay/ATC-GRID/ATC-SUPERVISION.cfg"
+#define VALOR30	":/.retroarch/overlay/ATC-GRID/ATC-SGB.cfg"
+#define VALOR31	":/.retroarch/overlay/ATC-GRID/ATC-PICO8.cfg"
+#define VALOR32	":/.retroarch/overlay/ATC-GRID/fullscreen_grid3x.cfg"
+#define VALOR33	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
+#define VALOR34	":/.retroarch/filters/video/Grid3x.filt"
+#define VALOR35	":/.retroarch/filters/video/Scanline2x.filt"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -204,21 +217,21 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO5, VALOR21, TEXTO3, VALOR3, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR32, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO3, VALOR3, TEXTO4, VALOR20, TEXTO1, VALOR2, TEXTO5, VALOR21, TEXTO2, VALOR2, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR25, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 2:
-								update_config(FILECONFIG, TEXTO5, VALOR21, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO3, VALOR3, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR32, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
