@@ -1,3 +1,36 @@
 #!/bin/sh
+
+runsvr=`/customer/app/jsonval audiofix`
+
+if [ "$runsvr" != "0" ] ; then
+	FILE=/customer/app/axp_test
+
+    if [ -f "$FILE" ]; then
+        killall audioserver
+		killall audioserver.plu
+		FILE2=/tmp/audioserver_on
+		if [ -f "$FILE2" ]; then
+			rm /tmp/audioserver_on
+			/mnt/SDCARD/Koriki/bin/freemma
+		fi
+    else
+        killall audioserver
+		killall audioserver.min
+    fi
+fi
+
 cd /mnt/SDCARD/RetroArch/
-HOME=/mnt/SDCARD/RetroArch/ /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/mame2000_libretro.so "$1"
+HOME=/mnt/SDCARD/RetroArch/
+LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/mame2000_libretro.so "$1"
+
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "0" ] ; then
+	FILE=/customer/app/axp_test
+	if [ -f "$FILE" ]; then
+	touch /tmp/audioserver_on
+	fi
+	/mnt/SDCARD/Koriki/bin/audioserver &
+	if [ -f /customer/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/customer/lib/libpadsp.so
+	fi
+fi

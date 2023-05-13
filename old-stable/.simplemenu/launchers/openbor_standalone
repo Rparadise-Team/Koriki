@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /mnt/SDCARD/App/OpenBOR
+./launch.sh "$1"

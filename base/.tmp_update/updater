@@ -10,11 +10,30 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
 export CUSTOMER_DIR=/customer
 
-export LD_LIBRARY_PATH=${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}
-export PATH=${SYSTEM_PATH}/bin:${PATH}:/usr/bin
+export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
+export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 
+export RETROARCH_PATH=/mnt/SDCARD/RetroArch
+
+# Detect flash type
+if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
+    export SETTINGS_FILE=$SETTINGS_EXT_FILE
+else
+    export SETTINGS_FILE=$SETTINGS_INT_FILE
+fi
+
+# Detect model and init charger GPIO
+if [ ! -f /customer/app/axp_test ]; then
+    export MODEL="MM"
+    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
+        echo 59 > /sys/class/gpio/export
+        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
+    fi
+else
+    export MODEL="MMP"
+fi
 
 killprocess() {
    pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
@@ -39,10 +58,12 @@ reset_settings() {
     if [ -f ${SDCARD_PATH}/.reset_settings ]; then
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
         else
-            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE/system.json
+            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
             reboot
@@ -52,11 +73,18 @@ reset_settings() {
 }
 
 update() {
+    if [ -f ${SDCARD_PATH}/.deletes ]; then
+        while read file_to_delete; do
+            rm -rf "${file_to_delete}"
+        done < ${SDCARD_PATH}/.deletes
+        rm ${SDCARD_PATH}/.deletes
+    fi
+
     if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
         for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
             unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
             sync
-            ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.update_splash.png
+            show ${SDCARD_PATH}/.update_splash.png
 
             unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
             if [ -f ${SDCARD_PATH}/.deletes ]; then
@@ -72,16 +100,21 @@ update() {
             unzip -q -o ${file} -d ${SDCARD_PATH}
 
             rm ${file}
+            if [ -f ${SDCARD_PATH}/.deletes ]; then
+                rm ${SDCARD_PATH}/.deletes
+            fi
             sleep 5s
         done
+        sync
+        if [ $MODEL = "MMP" ]; then
+            reboot
+            sleep 10s
+        fi
     fi
-    if [ -f ${SDCARD_PATH}/.deletes ]; then
-        rm ${SDCARD_PATH}/.deletes
-    fi
+
     if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
         rm ${SDCARD_PATH}/.update_splash.png
     fi
-    sync
 }
 
 dir_scaffolding() {
@@ -101,28 +134,6 @@ dir_scaffolding() {
     done
 }
 
-
-# Detect flash type
-if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
-    export SETTINGS_FILE=$SETTINGS_EXT_FILE
-else
-    export SETTINGS_FILE=$SETTINGS_INT_FILE
-fi
-
-# Detect model and init charger GPIO
-if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
-        echo 59 > /sys/class/gpio/export
-        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
-    fi
-else
-    export MODEL="MMP"
-fi
-
-# Reset settings on first boot
-reset_settings
-
 # Init_lcd
 init_lcd 1
 
@@ -139,20 +150,78 @@ ${SYSTEM_PATH}/bin/charging
 update
 
 # Show bootScreen
-${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/Koriki/images/bootScreen.png
+${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.simplemenu/resources/loading.png
+
+# check swap size
+SWAPSIZE=`stat -c %s "${SWAPFILE}"`
+
+MINSIZE=$((256 * 1024 * 1024))
+
+if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
+  rm ${SWAPFILE}
+fi
+
+# Enable swap
+if [ ! -f ${SWAPFILE} ]; then
+    show ${SDCARD_PATH}/.simplemenu/resources/loading.png
+    dd if=/dev/zero of=${SWAPFILE} bs=1M count=256
+    mkswap ${SWAPFILE}
+fi
+swapon -p 50 ${SWAPFILE}
+
+# Reset settings on first boot
+reset_settings
 
 # Create ROMs scaffolding
 dir_scaffolding
 
-# Enable swap
-if [ ! -f ${SWAPFILE} ]; then
-    dd if=/dev/zero of=${SWAPFILE} bs=1M count=128
-    mkswap ${SWAPFILE}
+# Latency reduction audioserver by Eggs
+# NOTE: could cause performance issues on more demanding cores...maybe?
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "0" ] ; then
+    /mnt/SDCARD/Koriki/bin/audioserver &
+    if [ -f /customer/lib/libpadsp.so ]; then
+        export LD_PRELOAD=/customer/lib/libpadsp.so
+    fi
+	if [ $MODEL = "MMP" ]; then
+	touch /tmp/audioserver_on
+	fi
 fi
-swapon ${SWAPFILE}
+
+# free memory when audioserver is stoped
+if [ "$runsvr" == "0" ] ; then
+	if [ $MODEL = "MMP" ]; then
+    	if [ -f /tmp/audioserver_on ]; then
+		/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
+		rm /tmp/audioserver_on
+		fi
+	fi
+fi
+
+
+# autochange retroarch version and show/quit wifi app
+
+if [ ! -f /customer/app/axp_test ]; then
+    rm ${RETROARCH_PATH}/retroarch
+	cp ${RETROARCH_PATH}/retroarch.mini ${RETROARCH_PATH}/retroarch
+	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ]; then
+	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ${SDCARD_PATH}/.simplemenu/apps/Wifi
+	fi
+else
+	rm ${RETROARCH_PATH}/retroarch
+	cp ${RETROARCH_PATH}/retroarch.plus ${RETROARCH_PATH}/retroarch
+	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi ]; then
+	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh
+	fi
+fi
 
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
+
+# create dhcp.leases
+if [ ! -f /appconfigs/dhcp.leases ]; then
+touch /appconfigs/dhcp.leases
+fi
 
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
@@ -160,21 +229,9 @@ then
     rm ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
 
-# Latency reduction audioserver by Eggs
-# NOTE: could cause performance issues on more demanding cores...maybe?
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
-    if [ -f /customer/lib/libpadsp.so ]; then
-	if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.min > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	else
-	export MODEL="MMP"
-		LD_PRELOAD=/mnt/SDCARD/Koriki/lib/as_preload.so /mnt/SDCARD/Koriki/bin/audioserver.plu > /dev/null 2>&1 &
-        export LD_PRELOAD=libpadsp.so
-	fi
-    fi
+# Detect if wifi app was the last app and erese this from SM if is the model MM.
+if [ $MODEL = "MM" ]; then
+	sed -i 's/^1;1;0;9;9\([^;]*;[^;]*\)$/1;1;0;8;8\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
 
 # Launch SimpleMenu
@@ -185,4 +242,13 @@ while [ 1 ]; do
     sleep 4s
 done
 
-reboot
+# turf off the console.
+if [ ! -f /customer/app/axp_test ]; then
+     sync
+	 sleep 5
+     reboot
+else
+     sync
+	 sleep 5
+     poweroff
+if

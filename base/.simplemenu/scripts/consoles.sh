@@ -20,13 +20,13 @@ romDirs = /mnt/SDCARD/Roms/SFC/
 romExts = .smc,.sfc,.zip,.7z
 
 [MSU-1]
-execs = /mnt/SDCARD/.simplemenu/launchers/snes9x_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/msu1_libretro
 romDirs = /mnt/SDCARD/Roms/MSU1/
 romExts = .smc,.sfc,.zip,.7z
 aliasFile = /mnt/SDCARD/.simplemenu/alias_MSU-1.txt
 
 [SGB]
-execs = /mnt/SDCARD/.simplemenu/launchers/mgba_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/msgb_libretro
 romDirs = /mnt/SDCARD/Roms/SGB/
 romExts = .gb,.gbc,.zip,.7z
 

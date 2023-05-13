@@ -1,8 +1,8 @@
 {
-	"vol":	20,
+	"vol":	18,
 	"keymap":	"L2,L,R2,R,X,A,B,Y",
-	"mute":	1,
-	"bgmvol":	20,
+	"mute":	0,
+	"bgmvol":	8,
 	"brightness":	7,
 	"language":	"en.lang",
 	"hibernate":	5,
