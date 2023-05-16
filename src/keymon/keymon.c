@@ -89,9 +89,30 @@ int setVolumeRaw(int volume, int add) {
 	cJSON* itemVol;
 
 	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL){
-        settings_file = "/appconfigs/system.json";
+	  if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
 	}
+  }
 
 	// Store in system.json
 	char *request_body = load_file(settings_file);
@@ -133,9 +154,30 @@ void modifyBrightness(int inc) {
   cJSON* itemBrightness;
 
   const char *settings_file = getenv("SETTINGS_FILE");
-    if (settings_file == NULL){
-        settings_file = "/appconfigs/system.json";
+      if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
 	}
+  }
 
   // Store in system.json
   char *request_body = load_file(settings_file);
@@ -174,8 +216,29 @@ int main (int argc, char *argv[]) {
   cJSON* request_json = NULL;
   cJSON* itemVol;
   const char *settings_file = getenv("SETTINGS_FILE");
-  if (settings_file == NULL){
-        settings_file = "/appconfigs/system.json";
+    if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
   }
   char *request_body = load_file(settings_file);
   request_json = cJSON_Parse(request_body);

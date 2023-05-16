@@ -61,13 +61,15 @@ reset_settings() {
 			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
+			reboot
+			sleep 5
         else
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
 			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             rm ${SDCARD_PATH}/.reset_settings
             sync
-            reboot
-            sleep 10s
+            poweroff
+            sleep 5
         fi
     fi
 }
@@ -174,6 +176,16 @@ reset_settings
 
 # Create ROMs scaffolding
 dir_scaffolding
+
+# Create v3 config file is this is not found in the root of SDCARD
+if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then 
+	if [ ! -f $SETTINGS_FILE ]; then
+		cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+		sync
+		reboot
+		sleep 5
+	fi
+fi
 
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
