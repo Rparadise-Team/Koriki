@@ -14,6 +14,7 @@ export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRAR
 export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
+export CPUSAVE=/mnt/SDCARD/.simplemenu/cpu.sav
 
 export RETROARCH_PATH=/mnt/SDCARD/RetroArch
 
@@ -252,6 +253,13 @@ fi
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ $MODEL = "MM" ]; then
 	sed -i 's/^1;1;0;9;9\([^;]*;[^;]*\)$/1;1;0;8;8\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+fi
+
+# Set the last CPU change
+if [ -f ${CPUSAVE} ]; then
+    CPU=`cat "${CPUSAVE}"`
+    echo ${CPU} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+	echo ${CPU} > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 fi
 
 # Launch SimpleMenu
