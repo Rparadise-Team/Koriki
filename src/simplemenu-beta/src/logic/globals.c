@@ -118,7 +118,8 @@ int backlightValue;
 int hdmiChanged;
 #if defined MIYOOMINI
 int CPUMIYOO;
-char cpuclock[200];
+char cpuclock0[200];
+char cpuclock1[200];
 int audioFix;
 int luminationValue;
 int volValue;
