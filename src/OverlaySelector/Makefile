@@ -1,5 +1,5 @@
-CONSOLE = GBA
-CORE = mGBA
+CONSOLE = SGB
+CORE = mSGB_OFF
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 
