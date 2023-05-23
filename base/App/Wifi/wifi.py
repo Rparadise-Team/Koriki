@@ -185,6 +185,9 @@ def getcurrentssid(iface): # What network are we connected to?
 def checkinterfacestatus(iface):
 	return getip(iface) != None
 
+def sync_system_time():
+	SU.Popen(['ntpdate', '-u', 'pool.ntp.org'], close_fds=True).wait()
+	
 def connect(iface): # Connect to a network
 	saved_file = netconfdir + quote_plus(ssid) + ".conf"
 	if os.path.exists(saved_file):
@@ -205,6 +208,7 @@ def connect(iface): # Connect to a network
 		modal('Connection failed!', wait=True)
 		return False
 	
+	sync_system_time()
 	modal('Connected!', timeout=True)
 	pygame.display.update()
 	drawstatusbar()
@@ -576,7 +580,7 @@ def startap():
 	while True:
 		if SU.Popen(['/sbin/ifconfig', 'wlan0'], close_fds=True).wait() == 0:
 			break
-			time.sleep(0.1)
+			time.sleep(0.1);
 		else:
 			#SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
 			modal('Failed to create AP...', wait=True)
@@ -587,10 +591,10 @@ def startap():
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/iwconfig', 'wlan0', 'mode', 'master'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/iw', 'dev', 'wlan0', 'set', 'type', '__ap'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/hostapd', '-P' ,'/var/run/hostapd', '-B', '-i', 'wlan0', '/mnt/SDCARD/App/Wifi/hostapd.conf'], close_fds=True).wait()
-	time.sleep(2.0)
+	time.sleep(0.5)
 	SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.4.100', 'netmask', '255.255.255.0', 'up'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
-	time.sleep(0.5)
+	time.sleep(2.0)
 	#SU.Popen(['/mnt/SDCARD/Koriki/bin/dhcpcd', '-f', '/mnt/SDCARD/App/Wifi/udhcpd.conf'], close_fds=True)
 	#SU.Popen(['sysctl', '-w', 'net.ipv4.ip_forward=1'], close_fds=True).wait()
 	modal('AP created!', timeout=True)
