@@ -4,7 +4,7 @@ authors = "Brad Parker"
 supported_extensions = ""
 corename = "Gong"
 categories = "Game"
-license = "Public Domain"
+license = "GPL v3"
 permissions = ""
 display_version = "1.0"
 
@@ -15,6 +15,7 @@ manufacturer = "N/A"
 
 # Libretro Features
 supports_no_game = "true"
+single_purpose = "true"
 savestate = "true"
 savestate_features = "serialized"
 cheats = "false"

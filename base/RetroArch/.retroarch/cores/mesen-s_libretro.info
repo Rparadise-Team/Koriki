@@ -5,7 +5,7 @@ supported_extensions = "sfc|smc|fig|swc|bs|gb|gbc"
 corename = "Mesen-S"
 license = "GPLv3"
 permissions = ""
-display_version = "git"
+display_version = "0.4.0"
 categories = "Emulator"
 
 # Hardware Information
@@ -15,7 +15,7 @@ systemid = "super_nes"
 
 # Libretro Features
 supports_no_game = "false"
-database = "Nintendo - Super Nintendo Entertainment System|Nintendo - Super Nintendo Entertainment System Hacks|Nintendo - Satellaview|Nintendo - Game Boy|Nintendo - Game Boy Color"
+database = "Nintendo - Super Nintendo Entertainment System|Nintendo - Satellaview|Nintendo - Game Boy|Nintendo - Game Boy Color"
 
 # BIOS / Firmware
 firmware_count = 21
