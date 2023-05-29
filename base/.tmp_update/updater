@@ -239,10 +239,19 @@ fi
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
 
+# Koriki batmon (compiled and adapter from onion)
+${SYSTEM_PATH}/bin/batmon &
+
 # create dhcp.leases
 if [ ! -f /appconfigs/dhcp.leases ]; then
 touch /appconfigs/dhcp.leases
 fi
+
+# fix simplemenu bootloop
+if [ ! -f ${SDCARD_PATH}/.simplemenu/favorites.sav ]; then
+touch ${SDCARD_PATH}/.simplemenu/favorites.sav
+fi
+
 
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
