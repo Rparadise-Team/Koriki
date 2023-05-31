@@ -22,12 +22,18 @@
 #define	BUTTON_R1           KEY_T
 #define	BUTTON_L2           KEY_TAB
 #define	BUTTON_R2           KEY_BACKSPACE
+#define BUTTON_A			KEY_SPACE
+#define BUTTON_B			KEY_LEFTCTRL
+#define BUTTON_X			KEY_LEFTSHIFT
+#define BUTTON_Y			KEY_LEFTALT
 #define BUTTON_UP           KEY_UP
 #define BUTTON_DOWN         KEY_DOWN
 #define BUTTON_LEFT         KEY_LEFT
 #define BUTTON_RIGHT        KEY_RIGHT
 #define BUTTON_VOLUMEUP     KEY_VOLUMEUP
 #define BUTTON_VOLUMEDOWN   KEY_VOLUMEDOWN
+
+#define CPUSAVE "/mnt/SDCARD/.simplemenu/cpu.sav"
 
 #define BRIMAX		10
 #define BRIMIN		1
@@ -43,7 +49,7 @@
 
 // Global Variables
 static struct input_event	ev;
-static int	input_fd = 0;
+static int input_fd = 0;
 
 
 char* load_file(char const* path) {
@@ -205,13 +211,277 @@ void modifyBrightness(int inc) {
   }
 }
 
+void setcpu(int cpu) {
+	if (cpu == 0) {
+    FILE *file;
+    char cpuValue[10];
+
+    file = fopen(CPUSAVE, "r");
+    fgets(cpuValue, sizeof(cpuValue), file);
+    fclose(file);
+
+    FILE *cpuFile0 = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
+    FILE *cpuFile1 = fopen("/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq", "w");
+
+    fprintf(cpuFile0, "%s", cpuValue);
+    fprintf(cpuFile1, "%s", cpuValue);
+
+    fclose(cpuFile0);
+    fclose(cpuFile1);
+	} else if (cpu == 1) {
+		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+		system("echo 400000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+	}
+}
+
+void setmute(int mute) {
+  cJSON* request_json = NULL;
+  cJSON* itemMute;
+
+  const char *settings_file = getenv("SETTINGS_FILE");
+      if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
+  }
+
+  // Store in system.json
+  char *request_body = load_file(settings_file);
+  request_json = cJSON_Parse(request_body);
+  itemMute = cJSON_GetObjectItem(request_json, "mute");
+
+  if (mute == 1 ){
+    cJSON_SetNumberValue(itemMute, mute);
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
+  if (mute == 0) {
+    cJSON_SetNumberValue(itemMute, mute);
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
+
+  cJSON_Delete(request_json);
+  free(request_body);
+}
+
+void sethibernate(int hibernate) {
+  cJSON* request_json = NULL;
+  cJSON* itemHibernate;
+
+  const char *settings_file = getenv("SETTINGS_FILE");
+      if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
+  }
+
+  // Store in system.json
+  char *request_body = load_file(settings_file);
+  request_json = cJSON_Parse(request_body);
+  itemHibernate = cJSON_GetObjectItem(request_json, "hibernate");
+
+  if (hibernate == 1 ){
+    cJSON_SetNumberValue(itemHibernate, hibernate);
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
+  if (hibernate == 0) {
+    cJSON_SetNumberValue(itemHibernate, hibernate);
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+  }
+
+  cJSON_Delete(request_json);
+  free(request_body);
+}
+
+void restorevolume(int valuevol) {
+  cJSON* request_json = NULL;
+  cJSON* itemVol;
+  cJSON* itemFix;
+
+  const char *settings_file = getenv("SETTINGS_FILE");
+      if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
+  }
+
+  // Store in system.json
+  char *request_body = load_file(settings_file);
+  request_json = cJSON_Parse(request_body);
+  itemVol = cJSON_GetObjectItem(request_json, "vol");
+  itemFix = cJSON_GetObjectItem(request_json, "audiofix");
+  int volumesave = cJSON_GetNumberValue(itemVol);
+  int audiofix = cJSON_GetNumberValue(itemFix);
+	if (valuevol == 0) {
+		if (access("/tmp/volsav", F_OK) == 0) {
+			if (audiofix == 1) {
+				int fd = open("/dev/mi_ao", O_RDWR);
+				if (fd >= 0) {
+					int buf2[] = {0, -60};
+					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+					ioctl(fd, MI_AO_SETVOLUME, buf1);
+					close(fd);
+				}
+			}
+			int set = 0;
+    		set = 40; //tinymix work in 100-40 // 0-(-60)
+			char command[100];
+			sprintf(command, "tinymix set 6 %d", set);
+			system(command);
+			
+		} else { 
+			system("touch /tmp/volsav");
+			char command[100];
+			sprintf(command, "echo %d > /tmp/volsav", volumesave);
+			system(command);
+			if (audiofix == 1) {
+				int fd = open("/dev/mi_ao", O_RDWR);
+				if (fd >= 0) {
+					int buf2[] = {0, -60};
+					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+					ioctl(fd, MI_AO_SETVOLUME, buf1);
+					close(fd);
+				}
+			}
+			int set = 0;
+    		set = 40; //tinymix work in 100-40 // 0-(-60)
+			char command2[100];
+			sprintf(command2, "tinymix set 6 %d", set);
+			system(command2);
+		}
+	} else if (valuevol == 1){
+		if (access("/tmp/volsav", F_OK) == 0) {
+			int set = 0;
+    		set = ((volumesave*3)+40); //tinymix work in 100-40 // 0-(-60)
+			char command[100];
+			sprintf(command, "tinymix set 6 %d", set);
+			system(command);
+			if (audiofix == 1) {
+				int recent_volume = 0;
+				int add;
+				int fd = open("/dev/mi_ao", O_RDWR);
+				if (fd >= 0) {
+					int buf2[] = {0, 0};
+					buf2[1] = (volumesave * 3) - 60;
+					add = volumesave * 3;
+					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+					ioctl(fd, MI_AO_GETVOLUME, buf1);
+					recent_volume = buf2[1];
+					if (add) {
+						buf2[1] += add;
+						if (buf2[1] > -3) buf2[1] = -3;
+						else if (buf2[1] < -60) buf2[1] = -60;
+					} else buf2[1] = (volumesave * 3) - 60;
+					if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+					close(fd);
+				}
+			}
+		} else { 
+			system("touch /tmp/volsav");
+			char command[100];
+			sprintf(command, "echo %d > /tmp/volsav", volumesave);
+			system(command);
+		}
+	}
+}
+
+void display_setScreen(int value) {
+	if (value == 0) {
+		system("echo 0 > /sys/devices/soc0/soc/1f003400.pwm/pwm/pwmchip0/pwm0/enable");
+	} else if (value == 1) {
+		system("echo 1 > /sys/devices/soc0/soc/1f003400.pwm/pwm/pwmchip0/pwm0/enable");
+	}
+}
+
+void keyinput_send(unsigned short code, signed int value)
+{
+    char cmd[100];
+    sprintf(cmd, "/mnt/SDCARD/Koriki/bin/sendkeys %d %d", code, value);
+    printf("Send keys: code=%d, value=%d\n", code, value);
+    system(cmd);
+    printf("Keys sent");
+}
+
 int main (int argc, char *argv[]) {
   input_fd = open("/dev/input/event0", O_RDONLY);
-
+  
   modifyBrightness(0);
+  setcpu(0);
+  sethibernate(0);
+  setmute(0);
   setVolume(0,0);
   int volume = 0;
-
+  int power_pressed_duration = 0;
+  int sleep = 0;
+	
  //READ Volume valor from system
   cJSON* request_json = NULL;
   cJSON* itemVol;
@@ -257,24 +527,55 @@ int main (int argc, char *argv[]) {
     val = ev.value;
     if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
     switch (ev.code) {
-      case BUTTON_POWER:
-        if (val == PRESSED) {
-          power_pressed = val;
-          repeat_power = 0;
-        } else if (val == RELEASED && power_pressed) {
-          power_pressed = val;
-        } else if (val == REPEAT) {
-          if (repeat_power >= 20) {
-            shutdown = 1;
-          }
-          repeat_power++;
+     case BUTTON_POWER:
+    if (val == PRESSED) {
+        power_pressed = val;
+        power_pressed_duration = 0;
+    } else if (val == RELEASED && power_pressed) {
+        if (power_pressed_duration < 5) { // Short press
+            if (sleep == 0) {
+            display_setScreen(0); // Turn screen back off
+			setmute(1);
+			sethibernate(1);
+			restorevolume(0);
+			setcpu(1);
+			keyinput_send(1, 1);
+			keyinput_send(1, 2);
+            power_pressed = 0;
+            repeat_power = 0;
+			sleep = 1;
+			} else if (sleep == 1) {
+            display_setScreen(1); // Turn screen back on
+			setmute(0);
+			sethibernate(0);
+			restorevolume(1);
+			setcpu(0);
+			keyinput_send(1, 1);
+            power_pressed = 0;
+            repeat_power = 0;
+			sleep = 0;
+			}
         }
-      break;
+        // Long press is handled by the existing code
+    } else if (val == REPEAT) {
+        if (repeat_power >= 20) {
+            shutdown = 1;
+        }
+        repeat_power++;
+    }
+    break;
       case BUTTON_MENU:
-        if (val != REPEAT) menu_pressed = val;
+		if (sleep == 1) {
+			if (val != REPEAT) menu_pressed = val;
+		} else if (sleep == 0) { 
+			if (val != REPEAT) menu_pressed = val;
+		}
       break;
       case BUTTON_UP:
-        if (val == REPEAT) {
+        if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		} else if (sleep == 0) {
+			if (val == REPEAT) {
           // Adjust repeat speed to 1/2
           val = repeat;
           repeat ^= PRESSED;
@@ -284,10 +585,14 @@ int main (int argc, char *argv[]) {
         if (val == PRESSED && menu_pressed) {
           // Increase brightness
           modifyBrightness(1);
-        }
+		}
+		}
       break;
       case BUTTON_DOWN:
-        if (val == REPEAT) {
+        if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		} else if (sleep == 0) {
+		if (val == REPEAT) {
           // Adjust repeat speed to 1/2
           val = repeat;
           repeat ^= PRESSED;
@@ -298,40 +603,82 @@ int main (int argc, char *argv[]) {
           // Decrease brightness
           modifyBrightness(-1);
         }
+		}
       break;
-/*	  case BUTTON_LEFT:
-        if (val == REPEAT) {
-          // Adjust repeat speed to 1/2
-          val = repeat;
-          repeat ^= PRESSED;
-        } else {
-          repeat = 0;
-        }
-        if (val == PRESSED && menu_pressed) {
-          // Increase volume
-          setVolumeRaw(recent_volume, +3);
-        }
+	  case BUTTON_LEFT:
+        if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
       break;
       case BUTTON_RIGHT:
-        if (val == REPEAT) {
-          // Adjust repeat speed to 1/2
-          val = repeat;
-          repeat ^= PRESSED;
-        } else {
-          repeat = 0;
-        }
-        if (val == PRESSED && menu_pressed) {
-          // Decrease volume
-          setVolumeRaw(recent_volume, -3);
-        }
-      break;*/ //test miyoo mini
+        if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_A:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_B:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_Y:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_X:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_START:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_SELECT:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_L1:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_R1:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_L2:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
+      break;
+	  case BUTTON_R2:
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		}
       case BUTTON_VOLUMEUP:
         // Increase volume
+		if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		} else if (sleep == 0) {
         setVolume(volume, 1);
+		}
 	    break;
 	  case BUTTON_VOLUMEDOWN:
         // Decrease volume
+        if (sleep == 1) {
+			if (val == PRESSED && menu_pressed) {}
+		} else if (sleep == 0) {
         setVolume(volume, -1);
+		}
 	    break;
       default:
 		break;
