@@ -547,13 +547,14 @@ int main (int argc, char *argv[]) {
 							repeat_power = 0;
 							sleep = 1;
 						} else if (sleep == 1) {
-							display_setScreen(1); // Turn screen back on
 							setmute(0);
 							sethibernate(0);
 							restorevolume(1);
 							setcpu(0);
 							keyinput_send(1, 1);
 							keyinput_send(1, 2);
+							usleep(1000);
+							display_setScreen(1); // Turn screen back on
 							keyinput_send(1, 1);
 							power_pressed = 0;
             				repeat_power = 0;
