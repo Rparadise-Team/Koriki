@@ -181,7 +181,7 @@ void HW_Init() {
     uint32_t fa = open("/dev/mi_ao", O_RDWR);
     int level = getCurrentSystemValue("vol");
     int volini = 0;
-    volini = ((level*3)-63);
+    volini = ((level*3)-60);
     ioctl(fa, MI_AO_SETVOLUME, volini);
     close(fa);
     getCurrentVolume();
@@ -271,14 +271,14 @@ int getCurrentVolume() {
 	volume = (sysvolume * 3) - 63;
 	if (volume) {
             if (volume >= -3) volume = -3;
-            else if (volume <= -63) volume = -63;
+            else if (volume <= -60) volume = -60;
         }
 	add = 0;
 	setVolumeRaw(volume, add);
     return sysvolume;
 }
 
-// Increments between -63 and -3
+// Increments between -60 and -3
 int setVolumeRaw(int volume, int add) {
     int recent_volume = 0;
     int fd = open("/dev/mi_ao", O_RDWR);
@@ -290,7 +290,7 @@ int setVolumeRaw(int volume, int add) {
         if (add) {
             buf2[1] += add;
             if (buf2[1] > -3) buf2[1] = -3;
-            else if (buf2[1] < -63) buf2[1] = -63;
+            else if (buf2[1] < -60) buf2[1] = -60;
         } else buf2[1] = volume;
         if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
         close(fd);
