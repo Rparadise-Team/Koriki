@@ -268,7 +268,7 @@ int getCurrentVolume() {
 	int volume;
 	int add;
 	sysvolume = getCurrentSystemValue("vol");
-	volume = (sysvolume * 3) - 63;
+	volume = (sysvolume * 3) - 60;
 	if (volume) {
             if (volume >= -3) volume = -3;
             else if (volume <= -60) volume = -60;
