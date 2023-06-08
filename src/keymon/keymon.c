@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
+#include <math.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <pthread.h>
 #include <linux/input.h>
+#include <linux/fb.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/reboot.h>
+#include <sys/stat.h>
 
 #include "cJSON.h"
+
+#define DISPLAY_WIDTH 640
+#define DISPLAY_HEIGHT 480
 
 //	Button Defines
 #define	BUTTON_MENU			KEY_ESC
@@ -46,10 +56,18 @@
 // Set Volume (Raw)
 #define MI_AO_SETVOLUME 0x4008690b
 #define MI_AO_GETVOLUME 0xc008690c
+#define MI_AO_SETMUTE 0x4008690d
 
 // Global Variables
 static struct input_event	ev;
 static int input_fd = 0;
+static uint32_t *fb_addr;
+static int fb_fd;
+static uint8_t *fbofs;
+static struct fb_fix_screeninfo finfo;
+static struct fb_var_screeninfo vinfo;
+static uint32_t stride, bpp;
+static uint8_t *savebuf;
 
 
 char* load_file(char const* path) {
@@ -147,7 +165,7 @@ int setVolume(int volume, int add) {
 	int rawVolumeValue = 0;
 	int rawAdd = 0;
 	
-	rawVolumeValue = (volume * 3) - 63;
+	rawVolumeValue = (volume * 3) - 60;
 	rawAdd = (add * 3);
 	
 	recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
@@ -275,6 +293,14 @@ void setmute(int mute) {
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+    }
 	}
 	if (mute == 0) {
 		cJSON_SetNumberValue(itemMute, mute);
@@ -282,6 +308,14 @@ void setmute(int mute) {
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+    }
 	}
 	
 	cJSON_Delete(request_json);
@@ -454,11 +488,52 @@ void restorevolume(int valuevol) {
 	}
 }
 
+void display_init(void)
+{
+    // Open and mmap FB
+    fb_fd = open("/dev/fb0", O_RDWR);
+    ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
+    fb_addr = (uint32_t *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE,
+                               MAP_SHARED, fb_fd, 0);
+}
+
 void display_setScreen(int value) {
 	if (value == 0) {
-		system("echo 0 > /sys/devices/soc0/soc/1f003400.pwm/pwm/pwmchip0/pwm0/enable");
+		system("echo 4 > /sys/class/gpio/export");
+		system("echo out > /sys/class/gpio/gpio4/direction");
+		system("echo 0 > /sys/class/gpio/gpio4/value");
+		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		stride = finfo.line_length;
+    	ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
+    	bpp = vinfo.bits_per_pixel / 8; // byte per pixel
+    	fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
+
+    	// Save display area and clear
+    	if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
+        	uint32_t i, ofss, ofsd;
+        	ofss = ofsd = 0;
+        	for (i = DISPLAY_HEIGHT; i > 0;
+            	 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
+            	memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
+            	memset(fbofs + ofss, 0, DISPLAY_WIDTH * bpp);
+        	}
+    	}
 	} else if (value == 1) {
-		system("echo 1 > /sys/devices/soc0/soc/1f003400.pwm/pwm/pwmchip0/pwm0/enable");
+		system("echo 1 > /sys/class/gpio/gpio4/value");
+		system("echo 4 > /sys/class/gpio/unexport");
+		system("echo 0 > /sys/class/pwm/pwmchip0/export");
+		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		// Restore display area
+    	if (savebuf) {
+        	uint32_t i, ofss, ofsd;
+        	ofss = ofsd = 0;
+        	for (i = DISPLAY_HEIGHT; i > 0;
+            	 i--, ofsd += stride, ofss += DISPLAY_WIDTH * bpp) {
+            	memcpy(fbofs + ofsd, savebuf + ofss, DISPLAY_WIDTH * bpp);
+        	}
+        	free(savebuf);
+        	savebuf = NULL;
+    	}
 	}
 }
 
@@ -474,6 +549,7 @@ void keyinput_send(unsigned short code, signed int value)
 int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
+	display_init();
 	modifyBrightness(0);
 	setcpu(0);
 	sethibernate(0);
