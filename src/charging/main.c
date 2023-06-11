@@ -11,14 +11,21 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <time.h>
-#include "sys/ioctl.h"
+#include <sys/mman.h>
+#include <sys/reboot.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <linux/input.h>
+#include <linux/fb.h>
 #include <poll.h>
-
 
 #define ANIMATION_DELAY 200000
 #define ANIMATION_LOOPS 10
 #define ANIMATION_IMAGES 6
+
+#define DISPLAY_WIDTH 640
+#define DISPLAY_HEIGHT 480
 
 //  Button Defines
 #define BUTTON_MENU   KEY_ESC
@@ -29,10 +36,16 @@
 #define BUTTON_R1     KEY_T
 #define BUTTON_L2     KEY_TAB
 #define BUTTON_R2     KEY_BACKSPACE
+#define BUTTON_A	  KEY_SPACE
+#define BUTTON_B	  KEY_LEFTCTRL
+#define BUTTON_X	  KEY_LEFTSHIFT
+#define BUTTON_Y	  KEY_LEFTALT
 #define BUTTON_UP     KEY_UP
 #define BUTTON_DOWN   KEY_DOWN
 #define BUTTON_LEFT   KEY_LEFT
 #define BUTTON_RIGHT  KEY_RIGHT
+#define BUTTON_VOLUMEUP		KEY_VOLUMEUP
+#define BUTTON_VOLUMEDOWN	KEY_VOLUMEDOWN
 
 //  for ev.value
 #define RELEASED  0
@@ -49,6 +62,13 @@ static bool running = true;
 static int animation_image = 0;
 static int animation_loop = 0;
 static int mmp = 0;
+static uint32_t *fb_addr;
+static int fb_fd;
+static uint8_t *fbofs;
+static struct fb_fix_screeninfo finfo;
+static struct fb_var_screeninfo vinfo;
+static uint32_t stride, bpp;
+static uint8_t *savebuf;
 
 void checkCharging(void) {
   int charging = 0;
@@ -102,6 +122,47 @@ static void sigHandler(int sig) {
   }
 }
 
+void display_init(void)
+{
+    // Open and mmap FB
+    fb_fd = open("/dev/fb0", O_RDWR);
+    ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
+    fb_addr = (uint32_t *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE,
+                               MAP_SHARED, fb_fd, 0);
+}
+
+
+void blankscreen(int blank){
+	stride = finfo.line_length;
+	ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
+	bpp = vinfo.bits_per_pixel / 8; // byte per pixel
+	fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
+	
+//    Save/Clear Display area
+	if (blank == 1) {
+		if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
+			uint32_t i, ofss, ofsd;
+			ofss = ofsd = 0;
+			for (i = DISPLAY_HEIGHT; i > 0;
+				 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
+				memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
+				memset(fbofs + ofss, 0, DISPLAY_WIDTH * bpp);
+			}
+		}
+	} else if (blank == 0) {
+//    Restore Display area
+		if (savebuf) {
+			uint32_t i, ofss, ofsd;
+			ofss = ofsd = 0;
+			for (i = DISPLAY_HEIGHT; i > 0;
+				 i--, ofsd += stride, ofss += DISPLAY_WIDTH * bpp) {
+				memcpy(fbofs + ofsd, savebuf + ofss, DISPLAY_WIDTH * bpp);
+			}
+			free(savebuf);
+			savebuf = NULL;
+		}
+	}
+}
 
 int main(void) {
   signal(SIGINT, sigHandler);
@@ -117,6 +178,9 @@ int main(void) {
   memset(&fds, 0, sizeof(fds));
   fds[0].fd = input_fd;
   fds[0].events = POLLIN;
+
+  display_init();
+  blankscreen(0);
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_ShowCursor(SDL_DISABLE);
@@ -149,8 +213,10 @@ int main(void) {
         animation_image = 0;
         animation_loop++;
       }
+	  blankscreen(0);
     } else {
       if (screen_on) SetBrightness(0);
+	  blankscreen(1);
       screen_on = false;
     }
 
