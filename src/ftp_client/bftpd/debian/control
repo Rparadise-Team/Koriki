@@ -1,0 +1,13 @@
+Source: bftpd
+Section: net
+Priority: extra
+Maintainer: Jesse Smith <jessefrgsmith@yahoo.ca>
+Standards-Version: 3.0.1
+
+Package: bftpd
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: A very configurable small FTP server
+ bftpd is a very configurable and small FTP server that supports chroot
+ without special directory preparation or configuration. Most FTP commands
+ are supported.

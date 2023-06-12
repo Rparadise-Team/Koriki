@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Bftpd Tutorial</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="Bftpd tutorial. How to setup a ftp server with bftpd." />
+  <meta name="keywords" content="ftp,server,bftp,bftpd,tutorial,easy,setup,configuration" />
+  <meta name="author" content="Daniel Zilli" />
+</head>
+<body>
+
+<div align="center"><h1>Bftpd Tutorial by Daniel Zilli</h1>If you need setup a FTP server, you came to the right place.</div>
+
+<br />
+<br />
+
+<p>
+  <ul>
+    <li><a href="#toc1">0.1. Introdution</a></li>
+    <li><a href="#toc2">0.2. Installation</a></li>
+    <li><a href="#toc3">0.3. Configuring</a></li>
+    <li><a href="#toc4">0.4. Running</a></li>
+    <li><a href="#toc5">0.5. Things that others tutorials don't say to you</a></li>
+    <li><a href="#toc6">0.6. The End</a></li>
+    <li><a href="#toc7">0.7. Credits</a></li>
+    <li><a href="#toc8">0.8. Change Log</a></li>
+  </ul>
+</p>
+
+<hr noshade="noshade" size="1">
+
+<a name="toc1"></a>
+<p><h2>0.1. Introdution</h2>
+Here you will learn how to setup a secure, simple and efficient FTP server. Of course I am talking about Bftpd, this great software maintained by Jesse Smith. This peace of art is all I need to make my FTP server run in a sweet way, and hope that the same happens to you. This document will not teach you how FTP works, here it is assumed that you know how things work and just want to setup a FTP server using the Bftpd, but if you are new, don't panic, I will explain every step in detail.</p>
+
+
+<a name="toc2"></a>
+<h2>0.2. Installation</h2>
+<p>The first thing you need is the package itself (of course!). Some distributions already have the package, so my advice is for you to
+look first if your distribution has the package. If your distro doesn't have it or you don't know or you want the fast way, let's compile, for ourselves the program. Compiling this software is fast and easy. But before compile let me say that Jesse provide two packages to us, the source package and the RPM package, so if your distribution use the RPM packager manager, your chances to have the package ready to you is very big, but don't worry, the RPM installation we will see later. Now let's have fun!</p>
+
+   <p><strong>Note-1:</strong> I will assume that you are working in the linux console.<br />
+   <strong>Note-2:</strong> Replacing 2.x by the correct version number.<br />
+   <strong>Note-3:</strong> Be root to avoid any problem of permissions.<br />
+   <strong>Note-4:</strong> The commands you need type are in <em>italic</em>.<br />
+   <strong>Note-5:</strong> You have to copy bftpd.conf from the source directory to /etc manually if you are <b>upgrading</b> from a previous version, as 'make install' does not overwrite your existing configuration.</p>
+
+<p>
+Bftpd, has two trees of development. The stable and the development one. Here I will use the stable version. <b>One  note:</b> The word
+"development" in the Bftpd world, doesn't mean "no test", "let's see what happens" or "I am playing with the code". Even the development version is very stable and ready to use, so if you want use go ahead.</p>
+
+<br />
+<b>Download</b>
+
+<p>First, choice a place to put the source file.
+To make the download please visit this page the Bftpd website and go to the download section
+<a href="http://bftpd.sourceforge.net/download.html">http://bftpd.sourceforge.net/download.html</a>
+and choose the "bftpd package source" for "The latest stable version of bftpd is 2.x".</p>
+
+<br />
+<b>Compile</b>
+
+<p>After you download the source is time to extract the contents. To make this, go to the directory you saved your bftpd source and type: </p>
+<pre><em>tar xzf bftpd-2.x.tar.gz</em></pre>
+
+<p>Good. Now that the content of the package is availible to us, let's get into the recently created directory.</p>
+<pre><em>cd bftpd-2.x</em></pre>
+
+<p>Now we are inside the source directory, you can see around. But we don't have time to lose so let's compile this now. This is made with three stpes.</p>
+
+<strong>Step 1 - Configure the source to be compile</strong>
+<p><em>./configure --prefix=/usr</em></p>
+
+<strong>Step 2 - Compiling the source</strong>
+<p><em>make</em></p>
+
+<strong>Step 3 - Installing the program</strong>
+<p><em>make install</em></p>
+
+<strong>Summary</strong>
+<p>Just to keep a track for what we did until now:</p>
+<pre>
+	./configure --prefix=usr
+	make
+	make install
+</pre>
+
+ <p><strong>Note-6:</strong> If you want to use the 'tar.gz on-the-fly' feature of Bftpd, you must grab the source code of the program "pax" and extract it into a subdirectory of the Bftpd source directory. Then, instead of doing "./configure", do "./configure --enable-pax=pax-sourcedir --enable-libz". You must also have the library libz and its header file, /usr/include/zlib.h.</p>
+
+<br />
+<strong>RPM</strong>
+
+<p>So, if your distribution is a RPM based, congratulations because a RPM file is waiting for your download in the same place where you got the sources. Just choose the package "bftpd RPM package" and go download !
+
+
+<strong>Installing RPM</strong>
+
+<p>To install a RPM file is very easy, just type:</p>
+
+<p><em>rpm -ivh bftpd-2.x-1.i386.rpm</em></p>
+
+<p>Congratulations!! If everything went well, you have the bftpd installed in your system.</p>
+
+
+<a name="toc3"></a>
+<h2>0.3. Configuring</h2>
+<p>Before running the server, is time to configure it. Now is the key point, but don't have any secret here. All configurations options are controlled from the <i>bftpd.conf</i> file, that reside at /etc. In a first sight, you don't need change anything, but know what is really happening is always a good thing. The bftpd.conf is a very explained file, all the variables are explained in detail, so it is
+easy to understand. If you want to know how my bftpd.conf is configured, take a look:</p>
+
+<pre>  global {
+    DENY_LOGIN="no"
+    PORT="21"
+    PASSIVE_PORTS="0"
+    DATAPORT20="no"
+    ADMIN_PASS="x"
+    PATH_BFTPDUTMP="/var/run/bftpd/bftpdutmp"
+    XFER_BUFSIZE="2048"
+    CHANGE_BUFSIZE="no"
+    XFER_DELAY="0"
+    SHOW_HIDDEN_FILES="no"
+    SHOW_NONREADABLE_FILES="no"
+    ALLOW_FXP="no"
+    CONTROL_TIMEOUT="300"
+    DATA_TIMEOUT="30"
+    RATIO="none"
+    ROOTDIR="%h"
+    UMASK="022"
+    LOGFILE="/var/log/bftpd.log"
+    HELLO_STRING="ftp at %i ready."
+    AUTO_CHDIR="/"
+    AUTH="PASSWD"
+    RESOLVE_CLIENT_IP="no"
+    MOTD_GLOBAL="/etc/ftpmotd"
+    MOTD_USER="/.ftpmotd"
+    RESOLVE_UIDS="yes"
+    DO_CHROOT="yes"
+    LOG_WTMP="yes"
+    BIND_TO_ADDR="any"
+    PATH_FTPUSERS="/etc/ftpusers"
+    AUTH_ETCSHELLS="no"
+    ALLOWCOMMAND_DELE="no"
+    ALLOWCOMMAND_STOR="yes"
+    ALLOWCOMMAND_SITE="no"
+    HIDE_GROUP=""
+    QUIT_MSG="See you later..."
+    USERLIMIT_GLOBAL="0"
+    USERLIMIT_SINGLEUSER="0"
+    USERLIMIT_HOST="0"
+    GZ_UPLOAD="no"
+    GZ_DOWNLOAD="no"
+  }
+  
+  user ftp {
+  #Any password fits.
+   ANONYMOUS_USER="yes"
+  }
+  
+  user anonymous {
+  #If the client wants anonymous, ftp is taken instead.
+   ALIAS="ftp"
+  }
+  
+  user root {
+   DENY_LOGIN="Root login not allowed."
+  }
+</pre>
+
+<a name="toc4"></a>
+<h2>0.4. Running</h2>
+<p>Our Bftpd is now installed and configured. So, now we need prepare Bftpd to start, and we can do this in two ways. Inetd or by script.
+I spoke Greek now ! :-) Don't worry, is not Greek is Free Software!</p>
+
+<p>If you want inetd mode, add the following to your /etc/inetd.conf:</p>
+
+<pre>ftp stream tcp nowait root /usr/sbin/bftpd bftpd</pre>
+
+<p>But, If you want inetd mode with xinetd, add the following to your
+    /etc/xinetd.conf:</p>
+
+<pre>      service ftp
+      {
+          disable         	  = no
+          socket_type             = stream
+          wait                    = no
+          user                    = root
+          server                  = /usr/sbin/bftpd
+          log_on_success          += HOST PID
+          log_on_failure          += HOST
+          nice                    = 10
+      }
+</pre>
+
+<p>In this mode, the program inetd will take care in start and stop the bftpd.</p>
+
+<p>But to be honest, I prefer the standalone mode. For me, seen that I have more control. Here is the command to execute in standalone mode:</p>
+
+<p>/usr/sbin/bftpd -d</p>
+
+<p>Executing the above command in the prompt you will have the Bftpd working. But isn't comfortable. Because every time that we
+want the server start, we need to execute that command. Ok, you can put the command in some file or script to have it automatically start, but to stop or restart you need kill the command and start by hand again. So to avoid all this and made my life easier I have this little script that do all the work for me. </p>
+
+<pre>  ---------------
+  #!/bin/bash
+  
+  case "$1" in
+    'start')
+      echo "Starting bftpd Server"
+      /usr/sbin/bftpd -d
+      ;;
+    'stop')
+      echo "Stopping bftpd Server"
+      killall bftpd
+      ;;
+    'restart')
+      $0 stop
+      sleep 1
+      $0 start
+      ;;
+    *)
+  echo "usage: $0 {start|stop|restart}"
+  esac
+  ---------------
+</pre>
+
+<p>You have to make this script executable and put it in your /etc/rc.d or /etc/init.d</p>
+
+<p>That's all! Now you have your Bftpd configured and working.</p>
+<p>Congratulations !</p>
+
+<a name="toc5"></a>
+<h2>0.5. Things that others tutorials don't say to you</h2>
+<p>All the information above is enough to start using a FTP server if you are a intermediate/advanced user, but for the beginners that will
+follow exactly every step here, there are some items that we need leave very clear.</p>
+
+<b>Firewall:</b> It's very important you don't forget the rules to allow FTP traffic pass through your firewall. Usually the follow rules
+is enough:
+
+	<blockquote>
+	<i>IPTABLES -A INPUT -p tcp --dport 21 -j ACCEPT</i> 
+	</blockquote>
+
+<p>But this is only an example. PLEASE STUDY IPTABLES, YOU WILL ALWAYS NEED IT.</p>
+
+<p><b>User account:</b> Ok...you now have your FTP server, but how can I access? Simple! Just create a normal user account in your Linux system. When we create the user account the home directory is created too. So when the user access our FTP, she/he will enter with the login and password, if everything goes well, the user will fall into your home directory (this can be setup to a different place at bftpd.conf).</p>
+
+<p><b>Ip or Domain:</b> If you going to make available your FTP to the world, you don't need have a domain, just a valid IP. To use your domain to access FTP, you must have the DNS configurated...and this is another story.</p>
+
+
+<a name="toc6"></a>
+<h2>0.6. The End</h2>
+<p>I think is that ! I hope in some way I helped anyone. Bftpd is very simple to use, no secrets. But if you have any doubt, please email me <a href="mailto:zilli.daniel@gmail.com">zilli.daniel@gmail.com</a> or visit the <a href="http://bftpd.sf.net/">bftpd.sf.net</a> website and contact Jesse Smith, bftd's maintainer.</p>
+
+<a name="toc7"></a>
+<h2>0.7. Credits</h2>
+<p>Author: Daniel Zilli <a href="mailto:zilli.daniel@gmail.com">zilli.daniel@gmail.com</a></p>
+<p>Thanks to: Jesse Smith <a href="mailto:jessefrgsmith@yahoo.ca">jessefrgsmith@yahoo.ca</a> (current maintainer) and
+Max-Wilhelm Bruker <a href="mailto:brukie@gmx.net">brukie@gmx.net</a> (original developer of bftpd).</p>
+
+
+<a name="toc8"></a>
+<h2>0.8. Change Log</h2>
+
+<pre>	Version 19 August 2007
+		- Initial release.
+	Version 18 April 2008
+		- I am back !
+		- Change from HMTL to XHTML document.
+		- Fix a lot of typos.
+		- Make the text more clear.
+</pre>
+
+
+<div align="center"><p>This is text is under GNU Free Documentation License version 1.2.</p></div>
+
+</body>
+</html>

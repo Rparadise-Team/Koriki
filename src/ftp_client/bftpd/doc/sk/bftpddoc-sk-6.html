@@ -1,0 +1,474 @@
+<html>
+<head>
+  <title>Config file options for bftpd.</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+Dalšie
+<A HREF="bftpddoc-sk-4.html">Predchadzajúce</A>
+<A HREF="bftpddoc-sk.html#toc5">Obsah</A>
+<br><br><br>
+<h2>Konfiguračné voľby pre configuračný súbor bftpd</h2><br>
+Nižšie je zoznám volieb pre bftpd server. Tieto voľby a ich hodnoty môžu byť uložené v konfiguračnom súbore.
+Východiskový konfiguračný súbor je umiestnený v /etc/bftpd.conf.
+Všimnite si, že všetky hodnoty musia byť zadavané v uvodzovkách.
+Napríklad, nasledujúce je správne:<br>
+<br>
+<b>PORT="21"</b><br>
+<br>
+Ale toto, <b>nie</b> je správne:<br>
+<br>
+<b>PORT=21</b><br>
+<br>
+Taktiež malá poznámka k tomu, že voľba je vždy veľkými pismenami.<br>
+<br><br>
+Konfiguračný súbor bftpd.conf ma dve hlavné časti.
+Prvá časť je <b>global</b> (globálna).
+V nej sú implicitné hodnoty, ktoré používa server.
+Druhá časť je <b>users</b> (uživateľská).
+Tá by mala byť vždy na konci súboru bftpd.conf.
+Uživaťeľská časť prepisuje globálne premenny pre špecifických uživateľov.
+Napr. vychodiskovo je nastavené v súbore bftpd.conf DENY_LOGIN na "no", ktorý úmožni sa všetkým uživateľom sa prihlásiť.
+Táto hodnota je v globálnej sekcie.
+Ale štandárne je DENY_LOGIN vypnúte pre uživateľa <i>root</i> v uživateľskej sekcie.
+Toto použitie vedie k zákazu príhlasenia uživateľa <i>root</i> k vášmu bftpd serveru.<br>
+<br><br>
+Teraz bez dalšieho zdržania si pozríte podporované voľby pre bftpd server.
+Tie budú predstavené pod menom premeny, stručný opis a jeho možnosti.<br>
+<br><br>
+<b>Meno:</b> DENY_LOGIN<br>
+<br>
+<b>Popis:</b> Nastavením tohto príkazu buď zakážete alebo povolíte prihlásenie.
+Je odporučané hlavné použiť pre prístup uživateľa root.<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - povolí sa prihlásiť<br>
+"yes" - zakáže uživateľovi sa prihlásiť.<br>
+"<i>Prihlásenie je odoporeté.</i>" - 
+Odoprie prihlásenie a vypíše prečo.<br>
+<br><br>
+  
+<b>Meno:</b> PORT<br>
+<br>
+<b>Popis:</b> Toto nastavenie nastaví číslo portu, na ktorom čaká na vstupné pripojenia na bftpd.
+Toto je len možné nastaviť, ak je bftpd spústeni ako deamón.<br>
+<br>
+<b>Hodnoty:</b><br>
+"21" - vychodisková<br>
+<br><br>
+
+<b>Meno:</b> PASSIVE_PORTS<br>
+<br>
+<b>Popis:</b>
+bftpd môžeš nechať prinútiť, aby počúval na špecialnom rozsahu portov v pasívnom móde.
+Pasívny mód známena, že účastník otvorí datové spojenie, ale server zostane pasivný.
+Táto voľba je veľmi vhodná na použitie na firewallovú konfiguráciu.
+Odeliš hodnoty s "," alebo ",". bftpd ich búde sa skúšať spájiť na jeden z týchto portov v zostupnom poradí, ako to vy presne určíte.<br>
+<br>
+<b>Hodnoty:</b><br>
+"0" - (nula) vychodiskové<br>
+"10000-20000" - nastavenie od 10,000 do 20,000<br>
+"15000-20000, 25000-30000" - unastavené od 15,000 do 20,000 a od 25,000 do 30,000.<br>
+<br><br>
+
+<b>Meno:</b> DATAPORT20<br>
+<br>
+<b>Popis:</b>
+Iba ak váše datové spojenie priebeha cez port 20, môžte tu dať "yes".
+Vy budete pravdepodobné toto potrebovať, ak máte slabý firewall, ktorý obmedzuje pakety odchadzajúce z portov vyšších ako 1024.
+Všimnite si, že toto môže byť bezpečnostná diera, pretože server nebude môcť dobré pracovať z pravámi roota.
+Ak súhlasite, zvolte "yes"<br><br>
+<b>Hodnoty:</b><br>
+"no" - Vychodiskové. Toto je odporučané z bezpečnostných dôvodov.<br>
+"yes" - povoli datový port 20. Odporučané jedine s firewall, ktorý obmedzuje odchadzajúce spojenia nad 1024.<br>
+<br><br>
+
+<b>Meno:</b> ADMIN_PASS<br>
+<br>
+<b>Popis:</b> Heslo, ktoré bude použivať systemový administrator na monitorovania a správu bftpd servera.
+Administratorské spojenie ešte nie je v tomto čase hotové.
+Malo by zostať ako "x".<br>
+<br>
+<b>Hodnoty:</b><br>
+"x" - vychodiskové a odporučané.<br>
+<br><br>
+
+<b>Meno:</b> INITIAL_CHROOT<br>
+<br>
+<b>Popis:</b>
+S touto voľbou môžete popísať celé vaše FTP okolie vrátane chroot.
+Okrem bezpečnosti, vám toto umožnuje vytvoriť použivateľov, ktorý neexistujú v systéme.
+Dodatočne môžete pre ne vytvoriť položky pre ich priečinky so súbormi.
+Vy môžete dokonca vytvoriť symlink pre ich uživateľský domovský priečinok ( to znamená nastavenie DO_CHROOT=no, aby uživatelia mohli pristupovať na disk.
+Všimnite si, že potrebujete nasledovné súbory, vo vašom počiatočnom chroot priečinku: /etc/passwd, /etc/shadow, /etc/group. NA GNU systémoch potrebujete NSS knižnice v /lib.<br>
+<br>
+<b>Hodnoty:</b>
+Táto voľba je vychodiskovo zablokovaná.
+Mali by ste zadať existujúcu cestu k spústiteľným súborom, ak si prajete tradičnú inštaláciu, bezpečné ftp spojenie.<br>
+<br><br>
+
+<b>Meno:</b> PATH_BFTPDUTMP<br>
+<br>
+<b>Popis:</b> Do súboru bftpdutmp vám dovolí zapísovať všetky prihlásenia a odhlásenia.
+Toto je schopné pracovať s obmedzeným počtom aktuálne prihlaseních uživateľov na počítač.
+Ak si čeláte, aby ftpd server bežal bez týchto bezpečnostných funkcií, ponechaj reťazec prázny.<br>
+<br>
+<b>Hodnoty:</b><br>
+"/var/run/bftpd/bftpdutmp" - vychodiskový<br>
+"" - disable the log file.<br>
+<br><br>
+
+<b>Meno:</b> XFER_BUFSIZE<br>
+<br>
+<b>Popis:</b> Táto voľba obmedzuje veľkosť vyrovnavácej pamäte počas prenosu súborov..
+Pokiaľ máš veľmi rýchlu sieť ( rýchly znamená 100 Mbit/s alebo viac), malo by byť na niečo také alebo niečo podobné XFER_BUFSIZE=64000.
+Prenos z localhost na localhost má prenosovú rýchlosť približne 15MB/s s XFER_BUFSIZE=2048 a rýchlosť 20MB/s s XFER_BUFSIZE=64000.
+Mal by si si dať menšiu hodnotu, ak máš pomalých (dialup) učastníkov. Tato voľba by mala byť použita pre (hrube) spomalenie prenosovej rýchlosti.
+Nastaviť na veľmi nízku hodnotu môže veľmi spomaliť prenosovú rýchlosť.<br>
+<br
+<b>Hodnoty:</b><br>
+"2048" - vychodiskové<br>
+<br><br>
+
+<b>Meno:</b> XFER_DELAY<br>
+<br>
+<b>Popis:</b>
+Táto voľba vám dovolí pridať oneskorenie ( v milisekundach) k času medzi odoslaným posledným a nasledujúcim paketom.
+Toto je vhodne, ak máte úzku priepusnosť a platí to pre každého účastnika. Škrtiaci efekt pre DATA prenos neplatí pre kontrolné pripojenia.
+Hodnota 0 znamená, že tam neprida meškanie.
+A hodnota asi tak 500000 ( päťsto tisíc) by malo meškanie asi tak pol sekundy.
+Týmto nastavením by ste sa mali vyvarovať oneskorovaniu datové spojenie.<br>
+<br>
+<b>Hodnoty:</b><br>
+"0" - vychodiskové (žiadne oneskorenie)<br>
+<br><br>
+
+<b>Meno:</b> ALLOW_FXP<br>
+<br>
+<b>Popis:</b>
+Pokiaľ je nastavené na "yes", tak dovolí datové spojenia aj nepovolením účastnikom.
+Toto je potrebné pre FXP.
+Táto voľba je odporučaná byť zablokovaná.<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - vychodiskové (odporučané)<br>
+"yes" - dovolí spojenie tretím účastníkom.<br>
+<br><br>
+
+<b>Meno:</b> CONTROL_TIMEOUT<br>
+<br>
+<b>Popis:</b> Táto voľba nastaví účastnikový, koľko minút môže byť v spojení bez vysielania nejakéj riadiacej inštrukcie.
+Táto hodnota udáva počet sekund, koľko sekúnd má čakať bftpd na príkaz pred ukončením spojenia.<br>
+<br>
+<b>Hodnoty:</b><br>
+"300" - vychodiskové (čaká päť minút)<br>
+<br><br>
+
+<b>Meno:</b> DATA_TIMEOUT<br>
+<br>
+<b>Popis:</b>Množstvo času, koľko času nemusí účastník pracovať v priebehu prenosu súboru.
+Tá je daná v sekundách.
+Táto voľba je obyčajné nastavená na desať, alebo pod 60.
+Pri nej by si mal brať v úvahe pomalé dialup spojenie.
+Na ich skoré vyčerpanie odchodu z prípojenia.
+Hodnota môže byť to pre ne veľmi malá.<br>
+<br>
+<b>Hodnoty:</b><br>
+"30" - vychodiskové (čaká dridsať sekund)<br>
+<br><br>
+
+<b>Meno:</b> RATIO<br>
+<br>
+<b>Popis:</b>
+Nastaví pomer, ak chcete, aby pred tým než stiahni nejaký súbor, najpr poslal nejaké súbory.
+Formát tohto nastavenia je "<i>upload</i>/<i>download</i>". 
+Napríklad, "2/1" nastaví uživateľovy, než predtým než stiahne 1 MB, musí najskôr poslať 2 MB dát.<br>
+<br>
+<b>Hodnoty:</b><br>
+"none" - predvolené. Neobmedzené stahovanie.<br>
+"2/1" - dovolí stiahnuť 1MB pre každe 2MB odoslané na server.<br>
+<br><br>
+
+<b>Meno:</b> ROOTDIR<br>
+<br>
+<b>Popis:</b>
+Špecifikuje koreňový priečinok pre klienta. Východiskovo je "%h" ( uživateľský domovský priečinok).
+"%u" je nahradené uživateľským menom.
+To je vyhodné, ak máte podriadené zložky na použivanie pre bftpd.
+Napríklad,
+/var/ftp/<i>username</i>/<br>
+Táto voľba by mala byť pravdepodobné nastavená na špecialnú hodnotu u anonymného uživateľov.
+Tie sú špecifikované na konci zoznamu.<br>
+<br>
+<b>Hodnoty:</b><br>
+"%h" - (vychodiskové) domovský priečinok prihlaseného uživateľa.<br>
+"%u" - tento symbol bude nahradený použivateľskym menom.<br>
+<br><br>
+
+<b>Meno:</b> UMASK<br>
+<br>
+<b>Popis:</b>
+Umask pre vytvorené priečinky a súbory v domovskom priečinku uživateľa.<br>
+<br>
+<b>Hodnoty:</b><br>
+"022" - (vychodiskové) Nové súbory sú vytvorené s právami 755.<br>
+<br><br>
+
+<b>Meno:</b> LOGFILE<br>
+<br>
+<b>Popis:</b> Cestá k súboru, do ktorého sa bude ukladať všeobecné logovacie informácie.
+To zahrňuje prijate a odoslané súbory, pokusy o prihlásenia a odhlásenia.
+Je možné nastaviť aj do systemového logu, zadaním "syslog"<br>
+<br>
+<b>Hodnoty:</b><br>
+"/var/log/bftpd.log" - vychodiskové<br>
+"syslog" -odošlé dáta do systemového logu.<br>
+"" - neukláda  logovacie informácie do súboru.<br>
+<br><br>
+
+<b>Meno:</b> HELLO_STRING<br>
+<br>
+<b>Popis:</b>
+Táto voľba nastaví, ako má bftpd pozdraviť prihlasených uživateľov.
+Vy môžete použiť reťazec, ktorý bude len jednom riadku.
+Tiež môžeš použiť tri špeciálne symboly (%h, %i, %v).
+Symbol %h je nahradený menom servera, %i je nahradené jeho IP adresou a %v zobrazí číslo verzie bftpd.<br>
+<br>
+Poznámka: Ak použijete symbol "%h" a vy inicializujete vlastný CHROOT, potom musíte /etc/hosts a /etc/host.conf súbory skopírovať do CHROOT umiestnenia.<br>
+<br>
+<b>Hodnoty:</b><br>
+"bftpd %v at %i ready." - vychodiskové (Zobrazí verziu a IP adresu servera)<br>
+"Welcome to bftpd at %h" - Zobrazi uvítaciu spávu so serverovým menom.<br>
+<br><br>
+
+<b>Meno:</b> AUTO_CHDIR<br>
+<br>
+<b>Popis:</b> Táto voľba povie bftpd serveru, v ktorom adresáry by mal štartovať.
+Cesta k adresáru je relatívna k chroot umiestneniu.<br>
+<br>
+<b>Hodnoty:</b><br>
+"/" - (default) ide do root priečinku v aktuálnom prostredí .<br>
+"/ftp" - start v ftp priečinku<br>
+<br><br>
+
+<b>Meno:</b> AUTH<br>
+<br>
+<b>Popis:</b> Toto nastavenie hovorí bftpd, aký typ hesla má na autorizáciu použiť.
+Aktuálne sú PAM a štandarné hesla využíte.<br>
+<br>
+<b>Hodnoty:</b><br>
+"PASSWD" - (vychodiskové) používa zakladné kľuče na overenie.<br>
+"PAM" - používa  PAM overenie.<br>
+<br><br>
+
+<b>Meno:</b> FILE_AUTH<br>
+<br>
+<b>Popis:</b> Táto voľba, ak je nastavená, hovorí bftpd, že má ignorovať premenu <b>AUTH</b> a používať pre príhlasenie úživateľov čistý textový súbor.
+Hodnota by mala ukazovať na umiestnenie textového súboru, čitateľného pre bftpd.
+Pozri časť hodnoty pre format súboru.
+bftpd bude prehľadávať textový súbor podľa priradeného uživateľského mena.
+Ak ho <i>najde</i>, porovná heslo podľa hesla v súbore.<br>
+Upozornenie:Táto voľba by sa mala použivať veľmi opatrne a len v situaciách, kde si prajete obísť vaše bezpečnostné zabezpečenie.<br>
+<br>
+<b>Hodnoty:</b><br>
+Text by mal mať nasledujúcu formu:<br>
+<i>uživateľ heslo skupina domovský_priečinok</i><br>
+<br>
+Kde učastnícke meno a heslo musí byť poslané účastníkovi na porovnanie. Inak bude príhlasenie odmietnuté.
+Skupina by mala byť pre uživateľa regulérna a domovský priečinok je pre účastnika chroot.<Br>
+john secret users /home/john<br>
+jane mypassword users /home/jane/ftp<br>
+<br><br>
+<b>Meno:</b> RESOLVE_CLIENT_IP<br>
+<br>
+<b>Popis:</b>
+Zápnite túto voľbu, ak chcete učastnikovú IP adresu previesť na hostname.
+Poznamka: Zvíši to mimoriadne systemové nároky a nemôže pracovať, ak váš DNS server nebol spávne nainštalovaný.
+Účastníci bez platnej DNS názvu mu bude dlho trvať, kým sa pripojení.<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - predvolené a odporučané<br>
+"yes" - zmeni klienta na host name, ak je to možné<br>
+<br><br>
+
+<b>Meno:</b> MOTD_GLOBAL<br>
+<br>
+<b>Popis:</b>
+Táto voľba bftpd hovorí, kde je "správa dňa" uložená. Obsah tohto súboru (ak existuje) sa pošle klientovi predtým, než sa prihlasí.<br>
+<br>
+<b>Hodnoty:</b>
+"/etc/ftpmotd" - vychodiskové<br>
+<br><br>
+
+<b>Meno:</b> MOTD_USER<br>
+<br>
+<b>Popis:</b>Cesta k súboru "správa dňa".
+Obsah tohto súboru (ak existuje) sa pošle klientovi po úspešnom prihlasí.
+Táto cesta je relatívna k uživateľskému root priečinku.<br>
+<br>
+<b>Hodnoty:</b><br>
+"/.ftpmotd" - vychodiskové<br>
+<br><br>
+
+<b>Meno:</b> RESOLVE_UIDS<br>
+<br>
+<b>Popis:</b> Ak je táto voľba aktívna, použivatelia a mená skupin su zobrazené vo výpisoch priečinkov, miesto čistých uživateľských/skupinových ID čisiel.
+Táto voľba môže spomaliť veľké výpisy priečinkov.<br>
+<br>
+<b>Hodnoty:</b><br>
+"yes" - (vychodiskové) zobrazí uživateľské a skupinové meno.<br>
+"no" - zobrazí uživateľské a skupinové čislo.<br>
+<br><br>
+
+<b>Meno:</b> DO_CHROOT<br>
+<br>
+<b>Popis:</b> Ak je táto voľba aktívna ("yes"), klient nemôže prístupovať k nejakému priečinku mimo chroot umiestnenia.
+Zablokovanie týmto reťazcom ("no") sa pokladá za serioznu bezpečnostnú dieru.<br>
+<br>
+<b>Hodnoty:</b><br>
+"yes" - (vychodiskové) odporúčané, spristupní iba domovské priečinky uživateľov.<br>
+"no" - (not recommended) toto nastavenie spristupní ostatným uživateľom hocijaký adresár na serveri.<br>
+<br><br>
+
+<b>Meno:</b> LOG_WTMP<br>
+<br>
+<b>Popis:</b>
+Zapnutím povolíte zalogovať každé príhlasenie do wtmp. Toto môže byť užitočné pre kontrolné bezpečnostné vypisy.<br>
+<br>
+<b>Hodnoty:</b><br>
+"yes" - (vychodiskové) Odošle prihlasovácie informácie do wtmp.<br>
+"no" - Neloguje do wtmp.<br>
+<br><br>
+
+<b>Meno:</b> BIND_TO_ADDR<br>
+<br>
+<b>Popis:</b>
+Ak by ste radi bftpd spojili do jedného špecifického sieťového rozhrania, hodnotou je IP adresa. Požitím hodnoty "any" použije prvé využité sieťové rozhranie.
+Táto voľba pracuje iba v deamon móde.<br>
+<br>
+<b>Hodnoty:</b><br>
+"any" - (vychodiskové) Použije prvé využité sieťové rozhranie.<br>
+"<i>tvoja IP adresa</i>" - skúsi sa spojiť k špecifickej adrese.<br>
+<br><br>
+
+<b>Meno:</b> PATH_FTPUSERS<br>
+<br>
+<b>Popis:</b>
+Toto nastavenie udáva cestu k súboru (ftpusers), ktorý obsahuje zoznam uživateľov, ktorý sa nemôžu prihlásiť k serveru.
+Ak chcete, aby sa mohol <i>ktokoľvek</i> prihlásiť, zadávajte tu názov neexistujúceho súboru.<br>
+<br>
+<b>Hodnoty:</b><br>
+"/etc/ftpusers" - vychodiskové<br>
+<br><br>
+
+<b>Meno:</b> AUTH_ETCSHELLS<br>
+<br>
+<b>Popis:</b>
+Zapnútim zakážete uživateľa, ktorý ma shell, ktorý nie je uvedený v /etc/shells.<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - (vychodiskové) dovoliť hocikomu sa prihlásiť<br>
+"yes" - zakážete uživateľa, ktorýho shell, nenájde v /etc/shells<br>
+<br><br>
+
+<b>Meno:</b> ALLOWCOMMAND_<br>
+<br>
+<b>Popis:</b>
+S položkou ALLOWCOMMAND_<i>XXXX</i> môžete vypnúť príkaz <i>XXXX</i>.
+Napríklad, ak chcete zakázať uživateľom vymazanie súborov, urobíte
+ALLOWCOMMAND_DELE="no"
+Vy môžete taktiež vypnúť príkaz pre špecifických uživateľov napisaním potrebných riadkov do použivateľskej štruktúre na konci konfiguračného zoznamu.
+Prosím, pozri si časť hodnoty pre niektoré príklady.<br>
+<br>
+<b>Hodnoty:</b><br>
+ALLOWCOMMAND_DELE="no" - zabráni uživateľom vymazanie alebo prepísanie súboru<br>
+ALLOWCOMMAND_STOR="yes" - dovolí uživateľom ukládať súbory na server<br>
+ALLOWCOMMAND_SITE="yes" - dovolí uživateľom príkaz pre umiestnenie<br>
+ALLOWCOMMAND_RETR="no" - zabráni uživateľom sťahovanie súborov<br>
+<br><br>
+
+<b>Meno:</b> HIDE_GROUP<br>
+<br>
+<b>Popis:</b>
+Súbory, ktoré patria týmto skupinam (čiarkou oddelené) sú skryté v zoznáme LIST/NLST. Ténto príkaz vám pomôže s bezpečnosťou na systémoch, kde bftpd má prístup k systemovým súborom.<br>
+<br>
+<b>Hodnoty:</b><br>
+"" - (prázny reťazec) vychodiskové. Neskrýva žiaden súbor.<br>
+"root" - skryje všetky súbory patriace skupine root.<br>
+<br><br>
+
+<b>Meno:</b> QUIT_MSG<br>
+<br>
+<b>Popis:</b>
+Ak uživateľ pošle príkaz "quit", tak táto správa sa mu pošle.<br>
+<br>
+<b>Hodnoty:</b><br>
+"See you later..." - vychodiskové.<br>
+Hocijaká správa môže byť v uvodzovkách, pokiaľ je na jednom riadku v konfiguračnom súbore.<br>
+<br><br>
+
+<b>Meno:</b> USERLIMIT_GLOBAL<br>
+<b>Popis:</b>
+Počet uživateľov, koľky môžu byť naraz prihlasený. Ak je nastavené na 0, môže sa pripojiť nekonečný počet uživateľov. Toto nie je odporučané, pre vytvorenie Dos útokov, aj keď sú účastnici zabytí po krátkom čase.<br>
+<br>
+<b>Hodnoty:</b><br>
+"0" - (nula) vychodiskové. Toto nie je odporučané.<br>
+Na väčšine malých serverov, by mal byť pod dvadsať ("20"), ale viac ako päť (5).<br>
+<br><br>
+
+<b>Meno:</b> USERLIMIT_SINGLEUSER<br>
+<br>
+<b>Popis:</b><br>
+Táto premenna kontroluje, koľko krát môže byť prihlasený jeden uživateľ v jednom čase. Toto vám dovolí mať veľký počet pripojení limit ( pozri hore) a napriek tomu zabráni jedným uživateľom mať veľa pripojení.<br>
+<br>
+<b>Hodnoty:</b><br>
+"0" - (nula) vychodiskové. Dovoľuje nekonečný počet pripojený od uživateľa.<br>
+<br><br>
+
+<b>Meno:</b> USERLIMIT_HOST<br>
+<br>
+<b>Popis:</b>
+Táto premená určuje, koľko použivateľov sa smú prípojiť z tej istej IP adresy. Táto voľba zabráni jednému uživateľovi (alebo stroji) brebrať všetky voľné pripojenia.
+Ak chcete dovoliť nelimitujúce pripojenia, nastav túto voľbu ako "0".
+<br><br>
+<b>Hodnoty:</b><br>
+"0" - (zero) je vychodiskové, dovolí nelimitujúce pripojenia  z tej istej IP adresy.<br>
+<br><br>
+
+<b>Meno:</b> GZ_UPLOAD<br>
+<br>
+<b>Popis:</b>
+Táto voľba donúti súbory priebežne kompromitovať v priebehu nahravania na server. A ".gz" príponu bude mať v zozname.
+Toto je obyčajne vypnuté ("no"),ale môže byť užitočné pre servery s menším uložním priestorom.
+Nastavením na "yes" zaktivuješ túto voľbu.<br>
+<br>
+NA použie tejto voľby, musí býť bftpd na toto použitie nakonfigurovaný<br>
+"./configure --enable-libz" <i>miesto</i> spustenia "make".<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - vychodiskové (odporučané vo väčšine nastavení)<br>
+"yes" - donúti súborý priebežne kompromitovať v priebehu nahravania na server.<br>
+<br><br>
+
+<b>Meno:</b> GZ_DOWNLOAD<br>
+<br>
+<b>Popis:</b>
+Táto voľba donúti súborý priebežne dekompromitovať v priebehu stahovania zo serveru. A ".gz" koncovka bude mať v zozname.
+Súbory s koncovkou ".gz" sa budú rozbaľovať, keď sa budú posielať k uživateľovi.
+Táto voľba by mala byť obyčajne vypnuté ("no"),ale môže byť užitočné pre servery s množstvom kompromitovaných suborov. Nastavením na "yes" aktivuješ túto voľbu.<br>
+<br>
+NA použie tejto voľby, musí býť bftpd na toto použitie nakonfigurovaný<br>
+"./configure --enable-libz" <i>miesto</i> spústenia "make".<br>
+<br>
+<b>Hodnoty:</b><br>
+"no" - vychodiskové (odporučané vo väčšine nastavení)<br>
+"yes" - Donúti súborý priebežne dekompromitovať v priebehu stahovania zo serveru.<br>
+<br><br>
+<br><br><br>
+Dalšie
+<A HREF="bftpddoc-sk-5.html">Predchadzajúce</A>
+<A HREF="bftpddoc-sk.html#toc5">Obsah</A>
+
+</body>
+</html>
+

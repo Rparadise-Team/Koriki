@@ -1,0 +1,385 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+  <title>Opcje konfiguracji bftpd</title>
+</head>
+<BODY>Dalej <A 
+href="bftpddoc-pl-4.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc5">Zawartość</A><HR>
+<H2>Opcje konfiguracji w pliku konfiguracyjnym bftpd</H2><BR>Poniżej znajduje się lista opcji obsługiwanych przez bftpd. Opcje z wartościami mogą znajdować się w pliku konfiguracyjnym, czyli /etc/bftpd.conf. Zwróć uwagę, że wartości opcji muszą znajdować się w cudzysłowiu. Przykładowo, poprawne jest:<BR><BR><B>PORT="21"</B><BR><BR>Natomiast to już <B>nie</B>:<BR><BR><B>PORT=21</B><BR><BR>Ponadto, wszystkie opcje muszą być pisane wielkimi literami.<BR><BR><BR>W pliku bftpd.conf znajdują się dwie główne sekcje. Pierwsza z nich to <B>global</B>. Zawiera ona globalne opcje dotyczące całego serwera FTP. Druga sekcja to
+<B>users</B>. Powinna znajdować się zawsze na dole pliku konfiguracyjnego i może ona nadpisywać wartości globalne dla poszczególnych użytkowników. 
+Przykładowo, domyślnie w pliku bftpd.conf ustawiono parametr DENY_LOGIN na "no", co pozwala się logować użytkownikom. Jest to ustawione w sekcji globalnej. Mimo to, także domyślnie, DENY_LOGIN ustawiono jest na "on" w sekcji użytkownika <I>root</I>. Chroni to przed dostępem do serwera FTP na koncie <I>root</I>.<BR><BR><BR>Poniżej opisane są wszystkie opcje konfiguracyjne bftpd. Każdy opis składa się z nazwy zmiennej, opisu oraz możliwych parametrów.<BR><BR><BR><B>Nazwa:</B> DENY_LOGIN<BR><BR><B>Opis:</B> Ta opcja pozwala lub zabrania zalogowania się do serwera. Rekomenduje się ograniczenie dostępu dla użytkownika root.<BR><BR><B>Wartości:</B><BR>"no" - zezwala na logowanie<BR>"yes" - zabrania logowania się na serwer<BR>"<I>Powód odmowy zalogowania.</I>" - Zabrania zalogowania i podaje użytkownikowi powód.<BR><BR><BR><B>Nazwa:</B> 
+PORT<BR><BR><B>Opis:</B> Numer portu, na którym nasłuchuje serwer. Opcja ta dotyczy tylko trybu standalone (demon).<BR><BR><B>Wartości:</B><BR>"21" - domyślna<BR><BR><BR><B>Nazwa:</B> 
+PASSIVE_PORTS<BR><BR><B>Opis:</B> Możesz wymusić stosowanie określonych portów w trybie pasywnym. Passive oznacza, że klient otwiera porty danych, a serwer pozostaje pasywny. Ta opcja może być przydatna przy niektórych kombinacjach z firewallami. Oddzielaj wartości "," i definiuj zakresy przy użyciu "-". Bftpd będzie próbował przydzielać porty w porządku wzrastającym. Jeśli żaden z portów nie będzie mógł zostać przydzielony, nastąpi odmowa połączenia. Jeśli jednak chcesz, aby przydzielono inny wolny port, dodaj "0" do listy.<BR><BR><B>Wartości:</B><BR>"0" - (zero) domyślna<BR>"10000-20000" - użyj portów od 10000 do 20000 
+<BR>"15000-20000, 25000-30000" - użyj portów od 15000 do 20000 i
+25000 do 30000.<BR><BR><BR><B>Nazwa:</B> DATAPORT20<BR><BR><B>Opis:</B> 
+which restrict out-going connections above port 1024.<BR><BR><BR><B>Name:</B> 
+Jeśli połączenia danych PORT powinny być otwierane na porcie 20, podaj tu "yes". Prawdopodobnie będzie Ci to potrzebne jeśli Twój serwer jest za firewallem, który zabrania wychodzić pakietom na wyższych niż 1024 port. Zwróć uwagę, że to może być traktowane jako luka bezpieczeństwa, ponieważ serwer nie będzie mógł całkowicie pozbyć się swoich uprawnień roota, jeśli odpowiesz tu "yes".<BR><BR><B>Wartości:</B><BR>"no" - domyślna. Jest ona rekomendowana ze względów bezpieczeństwa.<BR>"yes" - włącz port 20 do danych. Rekomendowane do połączeń firewallowanych.
+ADMIN_PASS<BR><BR><B>Opis:</B> Hasło administratora serwera bftpd służące do monitorowania serwera i obserwowania statystyk. Interfejs administratora nie jest póki co gotowy i na razie hasło powinno pozostać "x".<BR><BR><B>Wartości:</B><BR>"x" - domyślna i rekomendowana.<BR><BR><BR><B>Nazwa:</B> INITIAL_CHROOT<BR><BR><B>Opis:</B> 
+Korzystając z tej opcji możesz całe środowisko FTP umieścić w chroot. Oprócz poniesienia bezpieczeństwa, ta opcja pozwala Ci na możliwość posiadania wirtualnych użytkowników, którzy nie istnieją w systemie. Dodatkowo, możesz stworzyć coś na zasadzie puli plików tworząc katalog z plikami, które są dowiązaniami symbolicznymi plików znajdujących się w katalogach użytkownikówo (to oznacza ustawienie opcji DO_CHROOT na "no" aby użytkownicy mogli uzyskać dostęp do tych katalogów. W katalogu chroot potrzebujesz plików: /etc/passwd, /etc/shadow, /etc/group w systemach GNU, a także bibliotek NSS w /lib).<BR><BR><B>Wartości:</B> Ta opcja domyślnie jest wyłączona. Powinieneś podać ścieżkę do istniejącego katalogu jeśli chcesz stworzyć tradycyjne, bezpieczne środowisko ftp.<BR><BR><BR><B>Nazwa:</B> 
+PATH_BFTPDUTMP<BR><BR><B>Opis:</B> Plik bftpdump pozwala na logowanie wejść i wyjść użytkowników. Przydaje się to do ograniczania ilości jednocześnie zalogowanych użytkowników.Jeśli Cię nie interesuje ta funkcjonalność, możesz to wyłączyć (pusty string).<BR><BR><B>Wartości:</B><BR>"/var/run/bftpd/bftpdutmp" - domyślna<BR>"" -  
+wyłącza logowanie.<BR><BR><BR><B>Name:</B> 
+XFER_BUFSIZE<BR><BR><B>Opis:</B> Ta opcja ustala rozmiar bufora przy przesyłaniu plików. 
+Jeśli działasz w szybkiej sieci (co oznacza 100 
+Mbit/s lub więcej), powinieneś ustawić ją na 64000 lub coś podobnego. Transfer plików z localhosta na localhosta przy buforze 2048 daje około 15MB/s, a przy 64000 około 20MB/s. Przy klientach dialupowych powinieneś ustawiać mniejsze wartości. Tej opcji można także używać dla sztucznego ograniczenia przepustowości - ustaw wtedy niską wartość parametru XFER_BUFSIZE.<BR><BR><B>Wartości:</B><BR>"2048" - domyślna<BR><BR><BR><B>Nazwa:</B> 
+XFER_DELAY<BR><BR><B>Opis:</B> Ta opcja pozwala ustawić odstęp czasowy pomiędzy wysyłką kolejnych porcji danych (w mikrosekundach). Służy do sterowania przepustowością i dotyczy każdego klienta. Sterowanie dotyczy tylko transferu danych (nie  połączeń zarządzających). Wartość zero (0) oznacza brak opóźnień. Wartość 500000 wprowadza opóźnienie rzędu pół sekundy. Te wartości powinny być niskie aby uniknąć timeoutów przy połączeniach.<BR><BR><B>Wartości:</B><BR>"0" - domyślna (brak opóźnień)<br>
+<br><br>
+
+<b>Nazwa:</b> ALLOW_FXP<br>
+<br>
+<b>Opis:</b>
+Gdy ustawiona na "yes", serwer zezwala na połączenia danych, które nie idą do klienta, który je zainicjował.
+Potrzebna jest ona w FXP. Zalecane jest wyłączenie tej opcji.<br>
+<br>
+<b>Wartości:</b><br>
+"no" - domyślna (zalecana)<br>
+"yes" - pozwala na wysyłanie danych do trzeciej strony.<br>
+<br><br>
+
+<b>Nazwa:</b> CONTROL_TIMEOUT<br>
+<br>
+<b>Opis:</b> 
+Ta opcja określa czas (w sekundach), w którym klient może być nieaktywny (nie wysyła komend kontrolnych). 
+Po upłynięciu tego czasu bftpd zrywa połączenie.<br>
+<br>
+<b>Wartości:</b><br>
+"300" - domyślna (5 minut)<br>
+<br><br>
+
+<b>Nazwa:</b> DATA_TIMEOUT<br>
+<br>
+<b>Opis:</b> 
+Ta opcja określa długość przerwy przy ściąganiu plików (w trakcie transferu, w sekundach).
+Zwykle powinna być powyżej dziesięciu, jednak poniżej sześciesięciu.
+To pozwala sprawnie operować w przypadku połączeń dial-up.<br>
+<br>
+<b>Wartości:</b><br>
+"30" - domyślna (30 sekund)<br>
+<br><br>
+
+<b>Nazwa:</b> RATIO<br>
+<br>
+<b>Opis:</b>
+Używaj ratio, jeśli chcesz wymusić na użytkowniku wysłanie plików, zanim będzie
+mógł coś ściągnąć. Składnia wartości jest następująca: "<i>upload</i>/<i>download</i>". 
+Przykładowo, "2/1" pozwoli na ściągnięcie 1MB danych po uprzednim wgraniu 1MB.<br>
+<br>
+<b>Wartości:</b><br>
+"none" - domyślna. Nie ogranicza pobierania.<br>
+"2/1" - pozwala ściągnąć 1MB za każde 2MB przesłane na serwer.<br>
+<br><br>
+
+<b>Nazwa:</b> ROOTDIR<br>
+<br>
+<b>Opis:</b>
+ROOTDIR wskazuje na główny katalog użytkownika po zalogowaniu.
+Domyślnie jest to %h (katalog domowy). "%u" to nazwa użytkownika. 
+Ta opcja jest przydatna gdy ma się zestaw podkatalogów używanych przez
+bftpd. Na przykład, /var/ftp/<i>username</i>/<br>
+Wartość powinna być ustalona dla logowań anonimowych (na dole pliku konfiguracyjnego).<br>
+<br>
+<b>Wartości:</b><br>
+"%h" - (domyślna) logowanie do katalogu domowego użytkownika.<br>
+"%u" - zastępowane przez nazwę użytkownika.<br>
+<br><br>
+
+<b>Nazwa:</b> UMASK<br>
+<br>
+<b>Opis:</b>
+Domyślny umask dla plików i katalogów tworzonych przez użytkowników.<br>
+<br>
+<b>Wartości:</b><br>
+"022" - (domyślna) Nowe pliki tworzone są z prawami 755.<br>
+<br><br>
+
+<b>Nazwa:</b> LOGFILE<br>
+<br>
+<b>Opis:</b> 
+Ta opcja wskazuje na plik, w którym logowane są ogólne informacje bftpd, m.in.
+przesyłane pliki, próby logowania i wylogowania. Można także użyć sysloga do tego celu.<br>
+<br>
+<b>Wartości:</b><br>
+"/var/log/bftpd.log" - domyślna<br>
+"syslog" - logowanie do sysloga.<br>
+"" - nie zapisuj niczego w syslogu.<br>
+<br><br>
+
+<b>Nazwa:</b> HELLO_STRING<br>
+<br>
+<b>Opis:</b>
+Ta opcja określa tekst, który zostanie przesłany klientom w momencie pierwszego logowania.
+Możesz użyć dowolnego tekstu, który mieści się w jednej linii. 
+Dodatkowo, możesz stosować trzy wbudowane symbole (%h, %i, %v) aby umieścić dodatkową informację, gdzie:
+%h - nazwa hosta, <br>
+%i - adres IP serwera, <br>
+%v - wersja bftpd.<br>
+<br>
+Uwaga: jeśli używasz "%h" i CHROOT, musisz skopiować pliki /etc/hosts i /etc/host.conf do 
+katalogu chroot.<br>
+<br>
+<b>Wartości:</b><br>
+"bftpd %v at %i ready." - domyślna (pokaż adres IP oraz numer wersji serwera)<br>
+"Welcome to bftpd at %h" - wyświetl tekst powitalny z nazwą hosta.<br>
+<br><br>
+
+<b>Nazwa:</b> AUTO_CHDIR<br>
+<br>
+<b>Opis:</b> 
+Ta opcja wkazuje serwerowi bftpd, w którym katalogu powinien się uruchamiać.
+Ta opcja jest względna do chroot.
+<br>
+<br>
+<b>Wartości:</b><br>
+"/" - (domyślna) zacznij w katalogu root (/) obecnego środowiska.<br>
+"/ftp" - zacznij w katalogu "/ftp".<br>
+<br><br>
+
+<b>Nazwa:</b> AUTH<br>
+<br>
+<b>Opis:</b> 
+Ta opcja informuje bftpd, którego systemu autentyfikacji używać. Aktualnie dostępne są PAM i zwykły system haseł.<br>
+<br>
+<b>Wartości:</b><br>
+"PASSWD" - (domyślna) używaj podstawowego sprawdzania haseł.<br>
+"PAM" - używaj weryfikacji PAM.<br>
+<br><br>
+
+<b>Nazwa:</b> FILE_AUTH<br>
+<br>
+<b>Opis:</b> 
+Ta opcja, gdy ustawiona, każe bftpd ignorować parametr <b>AUTH</b> i
+korzystać z pliku tekstowego do autoryzacji użytkowników. Wartość
+powinna wskazywać na plik tekstowy, do którego dostęp ma bftpd.
+Zobacz sekcję <i>wartości</i> aby poznać format pliku. bftpd będzie przeszukiwał
+plik tekstowy w celu znalezienia nazwy użytkownika. Jak ją znajdzie, porówna hasła.<br>
+UWAGA: Z tej opcji powinieneś korzystać bardzo ostrożnie i tylko w przypadku, gdy chcesz nadpisać
+zwykły system zabezpieczeń!<br>
+<br>
+<b>Wartości:</b><br>
+Plik tekstowy powinien być następującego formatu:<br>
+<i>użytkownik hasło grupa katalog_domowy</i><br>
+<br>
+Gdy użytkownik i hasło zgadzają się z tymi wysłanymi przez klienta, zostanie zalogowany.
+W przeciwnym razie nastąpi odmowa zalogowania. Grupa powinna być grupą użytkownika, natomiast
+katalog_domowy wskazuje na katalog, w którym użytkownik zostanie chrootowany. Przykładowo:<Br>
+john secret users /home/john<br>
+jane mypassword users /home/jane/ftp<br>
+<br><br>
+
+<b>Nazwa:</b> RESOLVE_CLIENT_IP<br>
+<br>
+<b>Opis:</b>
+Włącz tę opcję, jeśli chcesz aby rozwiązywać adresy IP do nazw. 
+Ta opcja może nie działać, jeśli Twój DNS nie jest prawidłowo skonfigurowany. 
+Ponadto zwalnia to działanie całego systemu, gdyż klienci nie posiadający właściwych
+nazw DNS będą czekali długo na połączenie.<br>
+<br>
+<b>Wartości:</b><br>
+"no" - domyślna i zalecana<br>
+"yes" - rozwiązuje nazwy hostów, jeśli to możliwe<br>
+<br><br>
+
+<b>Nazwa:</b> MOTD_GLOBAL<br>
+<br>
+<b>Opis:</b>
+Ta opcja wskazuje bftpd gdzie znajduje się plik "motd". Zawartość tego pliku
+jest wysyłana klientowi przed zalogowaniem się.<br>
+<br>
+<b>Wartości:</b>
+"/etc/ftpmotd" - domyślna<br>
+<br><br>
+
+<b>Nazwa:</b> MOTD_USER<br>
+<br>
+<b>Opis:</b> 
+Ścieżka do wiadomości dnia (Motd). Zawartość pliku (jeśli plik istnieje) jest wysyłana 
+użytkownikom po zalogowaniu się. Ta ścieżka jest względna do katalogu domowego użytkownika.
+<br>
+<br>
+<b>Wartości:</b><br>
+"/.ftpmotd" - domyślna<br>
+<br><br>
+
+<b>Nazwa:</b> RESOLVE_UIDS<br>
+<br>
+<b>Opis:</b> 
+Gdy ta opcja jest włączona, nazwy użytkowników i grup są pokazywane zamiast zwykłych ich numerów (UID/GID).
+To może minimalnie zwolnić wyświetlanie zawartości dużych katalogów.<br>
+<br>
+<b>Wartości:</b><br>
+"yes" - (domyślna) pokazuje nazwy użytkowników i grup.<br>
+"no" - pokazuje numery użytkowników i grup.<br>
+<br><br>
+
+<b>Nazwa:</b> DO_CHROOT<br>
+<br>
+<b>Opis:</b> 
+Gdy ta opcja jest włączona ("yes"), klient nie może wyjść poza katalog chroot. 
+Wyłączenie opcji można traktować jako lukę bezpieczeństwa.
+<br>
+<br>
+<b>Wartości:</b><br>
+"yes" - (domyślna) rekomendowana - użytkownicy zostają w swoim katalogu domowym.<br>
+"no" - (niezalecana) pozwala na dostęp do dowolnego katalogu na serwerze.<br>
+<br><br>
+
+<b>Nazwa:</b> LOG_WTMP<br>
+<br>
+<b>Opis:</b>
+Włącz tę opcję, aby logować próby logowania w wtmp. To może być przydatne do audytów bezpieczeństwa.
+<br>
+<br>
+<b>Wartości:</b><br>
+"yes" - (domyślna) Wysyła informacje o próbach logowania do wtmp.<br>
+"no" - Nie loguje do wtmp.<br>
+<br><br>
+
+<b>Nazwa:</b> BIND_TO_ADDR<br>
+<br>
+<b>Opis:</b>
+Jeśli chcesz, żeby bftpd bindował się na jeden konkretny interfejs sieciowy,
+podaj tu jego adres. Możesz także użyć "any" aby bftpd wziął pierwszy dostępny
+interfejs. Ta opcja działa tylko w trybie demona.<br>
+<br>
+<b>Wartości:</b><br>
+"any" - (domyślna) Bierze pierwszy dostępny interfejs sieciowy.<br>
+"<i>Twój adres IP</i>" - próbuje bindować się na podanym adresie.<br>
+<br><br>
+
+<b>Nazwa:</b> PATH_FTPUSERS<br>
+<br>
+<b>Opis:</b>
+Ta opcja wskazuje plik (ftpusers), który zawiera listę użytkowników, którzy
+nie mogą logować się na serwer. Jeśli chcesz aby każdy mógł się logować, możesz
+podać tu nieistniejący plik.
+<br>
+<br>
+<b>Wartości:</b><br>
+"/etc/ftpusers" - domyślna<br>
+<br><br>
+
+<b>Nazwa:</b> AUTH_ETCSHELLS<br>
+<br>
+<b>Opis:</b>
+Włącz tę opcję jeśli chcesz zabronić logować się użytkownikom, których shell
+nie występuje w /etc/shells.
+<br>
+<br>
+<b>Wartości:</b><br>
+"no" - (default) pozwala logować się każdemu użytkownikowi<br>
+"yes" - Zabrania logować się użytkownikom bez shella w /etc/shells<br>
+<br><br>
+
+<b>Nazwa:</b> ALLOWCOMMAND_<br>
+<br>
+<b>Opis:</b>
+Przy użyciu opcji ALLOWCOMMAND_<i>XXXX</i>, możesz wyłączyć polecenie <i>XXXX</i>.
+Przykładowo, jeśli nie chesz, żeby użytkownik kasował pliki, możesz podać:
+ALLOWCOMMAND_DELE="no"
+Możliwe jest także wyłączenie komend dla specyficznych użytkowników, używając tych 
+opcji na dole pliku konfiguracyjnego. Zerknij do sekcji Wartości na kilka przykładów.
+<br>
+<br>
+<b>Wartości:</b><br>
+ALLOWCOMMAND_DELE="no" - zabrania kasować i nadpisywać pliki<br>
+ALLOWCOMMAND_STOR="yes" - pozwala na umieszczanie plików na serwerze<br>
+ALLOWCOMMAND_SITE="yes" - pozwala na użycie komendy site<br>
+ALLOWCOMMAND_RETR="no" - zabrania ściągać pliki użytkownikowi<br>
+<br><br>
+
+<b>Nazwa:</b> HIDE_GROUP<br>
+<br>
+<b>Opis:</b>
+Pliki, które należą do tych grup (oddzielanych przecinkiem) są chowane w przypadku LIST/NLST.
+Ta opcja może być pomocna w systemach, gdzie bftpd może mieć dostęp do plików systemowych.
+<br>
+<br>
+<b>Wartości:</b><br>
+"" - (pusty string) domyślna. Nie ukrywa żadnych plików.<br>
+"root" - chowa pliki należące do grupy root.<br>
+<br><br>
+
+<b>Nazwa</b> QUIT_MSG<br>
+<br>
+<b>Opis:</b>
+Wartość tego pola zawiera komunikat przesyłany klientowi, kiedy użyje komendy "quit".
+<br>
+<br>
+<b>Wartości:</b><br>
+"See you later..." - domyślna.<br>
+Można tu podać dowolną wiadomość, pod warunkiem, że zmieści się w jednej linii pliku konfiguracyjnego.
+<br>
+<br><br>
+
+<b>Nazwa:</b> USERLIMIT_GLOBAL<br>
+<b>Opis:</b>
+Określa ilość jednoczesnych połączeń z serwerem FTP. Jeśli ustawiona na "0",
+nie ma limitu jednoczesnych połączeń. To ustawienie nie jest polecane, ponieważ
+wprowadza możliwość ataków DoS, nawet jeśli użytkownicy są szybko wyrzucani.<br>
+<br>
+<b>Wartości:</b><br>
+"0" - (zero) domyślna i nie zalecana.<br>
+Na większości małych serwerów, liczba ta powinna być względnie niska ("20")
+ale powyżej ("5").<br>
+<br><br>
+
+<b>Nazwa:</b> USERLIMIT_SINGLEUSER<br>
+<br>
+<b>Opis:</b><br>
+Ta opcja określa, jak wiele połączeń może nawiązać jeden użytkownik jednocześnie.
+To pozwala doprowadzić do sytuacji, kiedy aktywnych jest wiele jednoczesnych połączeń, ale inicjowanych przez różnych użytkowników.
+<br>
+<br>
+<b>Wartości:</b><br>
+"0" - (zero) domyślna. Pozwala na nielimitowaną ilość połączeń z jednego konta.<br>
+<br><br>
+
+<b>Nazwa:</b> USERLIMIT_HOST<br>
+<br>
+<b>Opis:</b>
+Ta opcja określa ilu użytkowników może podłączać się z tego samego adresu IP.
+Pozwala to uniknąć sytuacji gdy jeden użytkownik zajmie wszystkie możliwe połączenia.
+Jeśli chcesz pozwolić na nielimitowaną ilość połączeń, ustaw "0".
+<br><br>
+<b>Wartości:</b><br>
+"0" - (zero) domyślna wartość, pozwala na nielimitowaną ilość połączeń z jednego IP.<br>
+<br><br>
+
+<b>Nazwa:</b> GZ_UPLOAD<br>
+<br>
+<b>Opis:</b>
+Ta opcja pozwala na kompresowanie plików w locie w trakcie
+uploadu. Plik otrzyma rozszerzenie ".gz". Zwykle ta opcja jest
+wyłączona, jednak może być przydatna w przypadku serwerów z mniejszą
+ilością przestrzeni dyskowej. Aby włączyć tę opcję, ustaw parametr na "yes".
+<br>
+Aby z tej opcji móc skorzystać, bftpd musi być skonfigurowany przy użyciu<br>
+"./configure --enable-libz" <i>przed</i> "make".<br>
+<br>
+<b>Wartości:</b><br>
+"no" - domyślna (rekomendowana dla większości zastosowań)<br>
+"yes" - Wymuszenie pakowania plików podczas transferu.<br>
+<br><br>
+
+<b>Nazwa:</b> GZ_DOWNLOAD<br>
+<br>
+<b>Opis:</b>
+Ta opcja pozwala na rozpakowywanie plików podczas ściągania
+Pliki z rozszerzeniami ".gz" będą rozpakowywany w trakcie wysyłki klientowi.
+Zwykle ta opcja powinna być wyłączona ("no"), ale w przypadku serwerów z wieloma skompresowanymi plikami można ją włączyć ("yes").<br>
+<br>
+Aby jej używać, bftpd musi być skonfigurowane<br>
+"./configure --enable-libz" <i>przed</i> uruchomieniem "make".<br>
+<br>
+<b>Wartości:</b><br>
+"no" - domyślna (rekomendowana)<br>
+"yes" - Rozpakowywanie plików w trakcie wysyłki.<br>
+
+<HR>
+Next
+<A HREF="bftpddoc-pl-4.html">Wstecz</A>
+<A HREF="bftpddoc-pl.html#toc5">Zawartość</A>
+
+</body>
+</html>
+

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Dokumentacja bftpd: Instalacja</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" /><LINK 
+href="bftpddoc-pl-3.html" rel=next><LINK href="bftpddoc-pl-1.html" 
+rel=previous><LINK href="bftpddoc-pl.html#toc2" rel=contents></HEAD>
+<BODY><A href="bftpddoc-pl-3.html">Dalej</A> 
+<A href="bftpddoc-pl-1.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc2">Zawartość</A> 
+<HR>
+
+<H2><A name=s2>2.</A> <A 
+href="bftpddoc-pl.html#toc2">Instalacja</A></H2>
+<H2><A name=ss2.1>2.1 Kompilacja</A> </H2>
+<P>Na początku wykonaj następujące polecenia (zastępując x.x.x numerem wersji, którą instalujesz): 
+<BLOCKQUOTE><CODE><PRE>tar xzf bftpd-x.x.x.tar.gz
+cd bftpd-x.x.x
+./configure
+make
+make install
+  
+</PRE></CODE></BLOCKQUOTE>Zauważ, że musisz skopiować plik bftpd.conf z katalogu ze źródłami do /etc w przypadku aktualizacji wersji, ponieważ polecenie 'make install' nie nadpisuje pliku konfiguracyjnego.
+<P></P>
+<P>Uwaga: Jeśli chcesz korzystać z możliwości 'tar.gz w locie', musisz ściągnąć kod źródłowy programu "pax" i rozpakować go do podkatalogu w źródłach bftpd. Następnie, zamiast pisać './configure' napisz 
+"./configure --enable-pax=pax-sourcedir --enable-libz". Musisz mieć także bibliotekę libz wraz z plikiem nagłówkowym, /usr/include/zlib.h.</P>
+<H2><A name=ss2.2>2.2 Uruchamianie serwera</A> </H2>
+<P>bftpd działa w wersji samodzielnej lub z inetd. 
+<DL>
+  <DT><B>Jeśli chcesz uruchamiać go z inetd</B>
+  <DD>
+  <P>Dodaj następujące wpisy do pliku /etc/inetd.conf: 
+  <BLOCKQUOTE><CODE><PRE>ftp stream tcp nowait root /usr/sbin/bftpd bftpd
+</PRE></CODE></BLOCKQUOTE>Potraktuj inetd HUPem lub zrestartuj serwer. bftpd powinien działać.
+  <P></P>
+  <DT><B>Jeśli bftpd ma działać z xinetd</B>
+  <DD>
+  <P>Dodaj następujące wpisy do pliku /etc/xinetd.conf: 
+  <BLOCKQUOTE><CODE><PRE>service ftp
+{
+    disable = no
+    socket_type             = stream
+    wait                    = no
+    user                    = root
+    server                  = /usr/sbin/bftpd
+    log_on_success          += DURATION USERID
+    log_on_failure          += USERID
+    nice                    = 10
+}
+</PRE></CODE></BLOCKQUOTE>(przesłane przez JackRipper'a)
+  <P></P>
+  <DT><B>Jeśli bftpd ma działać jako demon:</B>
+  <DD>
+  <P>Niech system operacyjny uruchamia komendę 
+  <BLOCKQUOTE><CODE><PRE>/usr/sbin/bftpd -d
+</PRE></CODE></BLOCKQUOTE>przy starcie.
+  <P></P></DD></DL>
+<P></P>
+<HR>
+<A href="bftpddoc-pl-3.html">Dalej</A> <A 
+href="bftpddoc-pl-1.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc2">Zawartość</A> 
+</BODY></HTML>

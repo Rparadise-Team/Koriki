@@ -529,15 +529,13 @@ void display_init(void)
 }
 
 void display_setScreen(int value) {
+	stride = finfo.line_length;
+    ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
+    bpp = vinfo.bits_per_pixel / 8; // byte per pixel
+    fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
+	
 	if (value == 0) {
-		system("echo 4 > /sys/class/gpio/export");
-		system("echo out > /sys/class/gpio/gpio4/direction");
-		system("echo 0 > /sys/class/gpio/gpio4/value");
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
-		stride = finfo.line_length;
-    	ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
-    	bpp = vinfo.bits_per_pixel / 8; // byte per pixel
-    	fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
 
     	// Save display area and clear
     	if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
@@ -550,9 +548,6 @@ void display_setScreen(int value) {
         	}
     	}
 	} else if (value == 1) {
-		system("echo 1 > /sys/class/gpio/gpio4/value");
-		system("echo 4 > /sys/class/gpio/unexport");
-		system("echo 0 > /sys/class/pwm/pwmchip0/export");
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		// Restore display area
     	if (savebuf) {

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Dokumentacja bftpd: FAQ</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<LINK 
+href="bftpddoc-pl-5.html" rel=next><LINK href="bftpddoc-pl-3.html" 
+rel=previous><LINK href="bftpddoc-pl.html#toc4" rel=contents></HEAD>
+<BODY><A href="bftpddoc-pl-5.html">Dalej</A> 
+<A href="bftpddoc-pl-3.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc4">Zawartość</A> 
+<HR>
+
+<H2><A name=s4>4.</A> <A 
+href="bftpddoc-pl.html#toc4">FAQ</A></H2>
+<H2><A name=ss4.1>4.1 Problemy z kompilacją</A> </H2>
+<H3>Nie mogę skompilować bftpd</H3>
+<P>Daj mi znać. Powiedz na jakim systemie i architekturze go kompilowałeś, 
+prześlij też wyjście całego procesu kompilacji (configure i make). Nie dostaję póki co  
+ton poczty, więc postaram się rozwiązać Twój problem. Jeśli natomiast nie 
+odpowiem, pewnie zapomniałem o Twoim mailu, więc go ponów :)</P>
+<H3>Występują dziwne ostrzeżenia</H3>
+<P>To jest całkiem możliwe na platformach, na których nie testowałem bftpd. 
+Nawet jeśli bftpd skompiluje się prawidłowo i działa bez zarzutu, proszę, 
+prześlij mi informacje na ten temat, gdyż kompilator moze powodować 
+niezauważalne na pierwszy rzut oka problemy.</P>
+<H3>Make mówi, że nie mogę używac wtmp</H3>
+<P>Prawdopodobnie używasz Solarisa. Ponieważ nie mam dostępu do takiej maszyny, 
+nigdy nie mogłem sprawdzić jej wtmp. Jeśli otrzymujesz taki komunikat i nie 
+wiesz czym jest w ogóle wtmp, nie martw się o to. Jeśli jest inaczej, pomóż mi 
+rozwiązać problem.</P>
+<H2><A name=ss4.2>4.2 Problemy przy uruchamianiu</A> </H2>
+<H3>Otrzymuję komunikat "Could not get peer IP address."</H3>
+<P>Uruchomiłes bftpd przez konsolę. Jeśli chciałbyś z niego korzystać w trybie 
+standalone, musisz dodac opcje "-d". Jeśli jednak ustawiłes go jako usługę 
+inetd, sprawdź to przez: 
+<BLOCKQUOTE><CODE><PRE>hostname:~$ ftp localhost
+</PRE></CODE></BLOCKQUOTE>
+<P></P>
+<H3>Dostaję błąd "Bind failed: Address already in use."</H3>
+<P>Ten błąd oznacza, że inny proces już wykorzystuje port, na którym chcesz 
+uruchomić serwer bftpd. Możesz zmienić numer portu bftpd w pliku konfiguracyjnym 
+(bftpd.conf) - opcja PORT w strukturze globalnej. Domyślnie ustawiony jest na 
+21. Jeśli nie zmieniałeś tego portu, prawdopodobnie zapomniałeś wyłączyc swój 
+stary serwer FTP. Zajrzyj do /etc/inetd.conf oraz do wydruku polecenia "ps aux | 
+grep ftp".</P>
+<H2><A name=ss4.3>4.3 Problemy podczas sesji FTP</A> </H2>
+<H3>Mam błąd podobny do "500 Unknown command: 'foo'"</H3>
+<P>Twój program wysłał komendę, której bftpd nie rozpoznał. To jest mój błąd, 
+chyba ze rzeczywiscie wysłałes nieistniejące polecenie. Sprawdź czy się nie 
+pomyliłeś przy jego wpisywaniu i wyślij mi raport, jeśli masz pewność, że 
+komenda byla dobra.</P>
+<H3>Sesja konczy się błędem 421</H3>
+<P>Jeśli próbujesz się zalogować ze złym hasłem, bftpd zerwie połączenie. Jeśli 
+się zalogowaleś zanim błąd się pojawił, bądź błąd wystapił przed zalogowaniem, 
+to na pewno jest moj błąd. Powiedz mi o tym.</P>
+<H2><A name=ss4.4>4.4 Różne</A> </H2>
+<H3>Jak działa kompresja w locie?</H3>
+<P>Załóżmy, ze masz katalog nazywający sie foo. Nawet jeśli nie ma pliku o 
+nazwie foo.tar.gz, możesz jednak użyc polecenia RETR i bedzie on zawerał 
+zawartość katalogu foo, tar-gzipowaną. Możesz rownież ściagać pliki: 
+<UL>
+  <LI>dirname.tar 
+  <LI>filename.gz </LI></UL>Jeśli chcesz korzystać z tej opcji, wkompiluj ja 
+najpierw (patrz sekcja: instalacja)
+<P></P>
+<H3>Moje opcje dla połączeć anonymous nie działają</H3>
+<P>Jeśli w strukturze jest opcja ALIAS=...., nie musisz uzupelniać jej opcjami. 
+Zamiast tego, zrób to w sekcji, do której sie alias odnosi.</P>
+<H3>Dlaczego dokumentacja jest tak uboga?</H3>
+<P>Odpowiedź jest prosta, nikt niczego nie napisał :)<BR>Nigdy nie wiem co 
+napisać, więc jeśli masz jakąś wizję wzbogacenia dokumentacji, proszę, 
+poinformuj mnie o tym. To samo dotyczy tłumaczen na inne języki. Jeśli chciałbyś 
+coś stworzyć, zrób to, jednak zwracaj uwagę styl i literówki.</P>
+<HR>
+<A href="bftpddoc-pl-5.html">Dalej</A> <A 
+href="bftpddoc-pl-3.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc4">Zawartość</A> 
+</BODY></HTML>

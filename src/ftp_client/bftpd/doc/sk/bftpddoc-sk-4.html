@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+  <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <TITLE>bftpd dokumentácia: FAQ</TITLE>
+ <LINK HREF="bftpddoc-sk-5.html" REL=next>
+ <LINK HREF="bftpddoc-sk-3.html" REL=previous>
+ <LINK HREF="bftpddoc-sk.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="bftpddoc-sk-5.html">Ďalšia</A>
+<A HREF="bftpddoc-sk-3.html">Prdchadzajúca</A>
+<A HREF="bftpddoc-sk.html#toc4">Obsah</A>
+<HR>
+<H2><A NAME="s4">4.</A> <A HREF="bftpddoc-sk.html#toc4">FAQ</A></H2>
+
+<H2><A NAME="ss4.1">4.1</A> <A HREF="bftpddoc-sk.html#toc4.1">Problémy s prekladom</A>
+</H2>
+
+<H3>Nemôžem preložit bftpd</H3>
+
+<P>Dajte mi vedieť. Prosím povedte mi, akú architekturu a OS použivate a dajte mi kompletný výstup kompilácie (configure a make). Ja nedostávam veľa mailov, tak skúsim odpovedať na Vaše otázky. Pokiaľ neodpovedám, tak som určite na vašu poštu zabudol, tak mi to prosím pošlite ešte raz :)</P>
+<H3>Sú tam neznáme upozornenia</H3>
+
+<P>Je pravdepodobné, že kompilovanie bftp na danej flatforme nemám otestované, kľudne Vám môže <EM>dať</EM> nejaké upozornenia. Dokonca to môže preloži úspešne a bez havárie. Prosím povedzte, aké nejasné upozornenia môžu zapričíniť problémy prekladaču.</P>
+<H3>Hovorí mi "I can't use wtmp"</H3>
+
+<P>Ty máš pravdepodobne spustený Solaris. Nemám prístup k počitaču Solaris, takže som nebol na ňom schopný odskúšať wtmp funkcie. Ak ty dostáváš tieto upozonenia, tak nevieš, čo je to wtmp a nemám zaujem, ti inak ti pomôcť.</P>
+<H2><A NAME="ss4.2">4.2</A> <A HREF="bftpddoc-sk.html#toc4.2">Problém, keď sa ho pokúsim spustiť</A>
+</H2>
+
+<H3>Ja dostanem také upozornenie &quot;Could not get peer IP address.&quot;</H3>
+
+<P>Ty si naštartovat bftpd z konzoly. Pokiaľ ho chceš spustiť samostatné, musíš ho použiť s voľbou &quot;-d&quot;. Keď ho chceš nastaviť ako inetd server, pozri hore. Ty ho môžeš testovať s použitím:
+<BLOCKQUOTE><CODE>
+<PRE>
+hostname:~$ ftp localhost
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<H3>Dostánem také upozornenie &quot;Bind failed: Address already in use.&quot;</H3>
+
+<P>Táto chyba znamená, že už iný proces obsadil tento port, hoci vy chcete, aby bftp behal na ňom. Vy môžet tento port nastaviť v bftp.conf s nastavením portu v globálnej štruktúre. Vychodiskový je 21. Ak nemôžete zmeniť, tak ste pravdepodobne zabudli vypnúť váš povôdný FTP server. Pozri v /etc/inetd.conf a v &quot;ps auxwww | grep ftp&quot;.</P>
+<H2><A NAME="ss4.3">4.3</A> <A HREF="bftpddoc-sk.html#toc4.3">Problémy s FTP behom.</A>
+</H2>
+
+<H3>Dostanem takú chybu &quot;500 Unknown command: 'foo'&quot;</H3>
+
+<P>Váš učastnik poslal serveru príkaz, ktorému nerozumie. Toto je vaša chyba, pokiaľ nemáte zapísane skutočne príkazy. Prosim skontrolujte typografické chyby a pošlite my chybu, ak ste si isty, pokiaľ je tá chyba naozaj skutočna.</P>
+<H3>Ukončenie terminalového sedenia s chybou 421 </H3>
+
+<P>Ak sa pokúsite prihlásiť s chybným heslom, tak bftpd ukonči spojenie. Ak sa už predtým objavila chyba, alebo chyba prišla pred prihlasením, tak je to určite bug. Prosím povedzte mi o tom.</P>
+<H2><A NAME="ss4.4">4.4</A> <A HREF="bftpddoc-sk.html#toc4.4">Rôzne</A>
+</H2>
+
+<H3>Ako urobí počas behu kompresiu?</H3>
+
+<P>Povedzte, či máte priečinok nazvaný foo. Pokiaľ tam nie je súbor foo.tar.gz, vy môžete RETR tento súbor cez FTP a on bude obsahovať priečinok foo, tar-gzipovaný. Vy môžete RETR nasledujúce súbory:
+<UL>
+<LI>dirname.tar</LI>
+<LI>filename.gz</LI>
+</UL>
+
+Ak chcete použivať tieto, tak musíte ich preložiť s bftpd ( pozrí inštálačnu sekciu).</P>
+<H3>Moje nastavenia pre anonymného uživateľa neexistujú.</H3>
+
+<P>Pokiaľ máte štruktúru s názvom ALIAS=... v ňom, tak nesmieš doňho vložiť dalšie nastavenia. Miesto toho ju zapísať do štruktúry ukazujúceho aliasom.</P>
+<H3>Kde je taká malá dokumentácia?</H3>
+
+<P>Na to je odpoveť jednodúcha, niekto napíše niečo :)<BR>
+Ja neviem už toho viac niečo zapísať, pokiaľ keď vy máte lepšiu predstavu zlepšiť dokumentáciu, <EM>prosím</EM> povedzte mi. Rovnáko to platí pre preklad dokumentácie. Ak chcete niečo prispieť, urobte to, ale dbajte na typografické chyby a gramatiku.</P>
+<HR>
+<A HREF="bftpddoc-sk-5.html">Ďalšia</A>
+<A HREF="bftpddoc-sk-3.html">Predchadzajúca</A>
+<A HREF="bftpddoc-sk.html#toc4">Obsah</A>
+</BODY>
+</HTML>

@@ -1,0 +1,232 @@
+<!doctype linuxdoc system>
+
+<article>
+
+<!-- Title information -->
+
+<title>dokumentacja bftpd [jezyk polski]</title>
+<author>
+ <name>napisana przez Max-Wilhelm Bruker <tt/&lt;brukie@gmx.net/&gt;</name>
+</author>
+<!--<date>$Id: bftpddoc-pl.sgml,v 1.1.1.1 2001/07/31 11:00:27 brukie Exp $</date>-->
+
+<abstract>
+Ten dokument stanowi dokumentacje serwera bftpd.
+</abstract>
+
+<!-- Table of contents -->
+<toc>
+
+<!-- Begin the document -->
+
+<sect>Wprowadzenie 
+
+ <p>
+bfptd jest serwerem FTP dla Linuxa, BSD/OS, FreeBSD, Solarisa, DG-UXa oraz Tru64 (nie wiem czy dziala on na innych systemach, jesli probowales, napisz do mnie). Uruchamiany moze byc poprzez inetd badz w trybie standalone (demon).
+ </p>
+ <p>
+  bftpd stara sie byc bardzo elastycznym przy zachowaniu malego rozmiaru oraz swojej szybkosci. Mozesz wprowadzac wartosci domyslne dla kazdej opcji w konfiguracji a nastepnie nadpisywac je poprzez lokalne parametry.
+</p>
+ <p>
+Do zalet bftpd zaliczyc mozna: 
+  <itemize>
+<item> Prosta konfiguracje 
+<item> Predkosc 
+<item> Obsluge wiekszosci komend FTP RFC 
+<item> Kompresje w locie do archiwow .tar.gz 
+<item> Bezpieczenstwo poprzez proste wprowadzenie chroota 
+<item> Brak koniecznosci udostepniania basha oraz innych komend w srodowisku chroot 
+<item> Logowanie do wtmp oraz do pliku badz demona syslogd 
+<item> Obsluge PAM oraz hasel passwd/shadow 
+<item> Obsluge komend SITE CHOWN/CHMOD
+ 
+  </itemize>
+ </p>
+</sect>
+
+<sect> Instalacja
+<sect1> Kompilacja
+<p>
+Najpierw uruchom nastepujace polecenia (zamieniajac x.x.x na wersje, ktora instalujesz):
+  <tscreen><verb>
+tar xzf bftpd-x.x.x.tar.gz
+cd bftpd-x.x.x
+./configure
+make
+make install [wymaga roota]
+  </verb></tscreen>
+Wiedz, ze jesli upgradujesz bftpd ze starszej wersji, musisz recznie skopiowac plik bftpd.conf do katalogu /etc, poniewaz polecenie 'make install' nie nadpisuje pliku konfiguracyjnego.
+ </p>
+ <p>
+ Uwaga: Jesli chcesz korzystac z opcji kompresji w locie do .tar.gz, musisz sciagnac kody zrodlowe gzipa oraz paxa i rozpakowac je do katalogu zrodlowego bftpd. Nastepnie, zamiast uruchomic "./configure", wykonaj &dquot;./configure --enable-pax=katalog-z-paxem --enable-gzip=katalog-z-gzipem&dquot;.
+ </p>
+<sect1> Uruchamianie serwera
+<p>
+Do wyboru masz uruchamianie bftpd poprzez inetd oraz w trybie standalone (demon). 
+ <descrip>
+<tag> Jesli chcesz korzystac z inetd: </tag>
+ Dodaj nastepujacy wpis do /etc/inetd.conf: 
+<tscreen>ftp stream tcp nowait root /usr/sbin/bftpd bftpd<verb></verb></tscreen>
+ Wyslij inetdowi sygnal HUP lub zrestartuj system. Od tego momentu bftpd powinien pracowac.
+<tag> Jesli chcesz uruchomic bftpd jako demona (standalone): </tag>
+ Kaz systemowi uruchamiac: 
+  <tscreen><verb>/usr/sbin/bftpd -d</verb></tscreen>
+  przy  starcie.
+  </descrip>
+ </p>
+
+<sect>Konfiguracja
+<sect1>Zarzadzanie uzytkownikami<p>
+Mozesz obslugiwac konta uzytkownikow w bardzo prosty sposob, edytujac plik /etc/passwd oraz, jesli Twoj system to obsluguje, /etc/shadow. Kazdy uzytkownik wystepujacy w /etc/passwd moze sie polaczyc z serwerem jesli poda haslo i spelni wymagania konfiguracji serwera bftpd. Mozna rowniez zalozyc konto anonymous, ustawiajac zmienna ANONYMOUS_USER na yes. bftpd obsluguje rowniez PAM.
+</p>
+<sect1> Plik konfiguracji (/etc/bftp.conf)
+<sect2> Sekcja globalna
+<p>
+W tej sekcji mozesz nadawac wartosci opcjom konfiguracji. Skladnia jest nastepujaca:
+<tscreen><verb>
+global {
+  nazwa1=wartosc1
+  nazwa2=wartosc2
+}
+</verb></tscreen>
+</p>
+<sect2>Sekcja uzytkownikow
+<p>
+W konfiguracji wystepuje rowniez sekcja uzytkownikow, w ktorej mozesz nadpisywac wartosci globalne dla poszczegolnych uzytkownikow. Przyklad: 
+<tscreen><verb>
+global {
+  nazwa1=wartosc1
+  nazwa2=wartosc2
+}
+user foo {
+  nazwa1=wartosc3
+}
+</verb></tscreen>
+Jesli uzytkownik foo sie zaloguje, to nazwa pierwsza bedzie miala wartosc3. Jesli zalogowany jest inny uzytkownik, nazwa1 ma warosc1, natomiast nazwa2 ma zawsze wartosc2.
+
+</p>
+<sect2>Sekcja grup uzytkownikow
+<p>
+Mozesz takze definiowac konfiguracje grupom uzytkownikow - podobnie jak dla jednego uzytkownika, tylko mozesz przydzielic ich kilku pod postacia grupy. Mozesz rowniez umieszczac w konfiguracji grupy systemowe dodajac do ich nazwy znak @. Przyklad:
+<tscreen><verb>
+group foo,bar,@baz {
+  nazwa1=wartosc1
+}
+</verb></tscreen>
+Te opcje oddzialuja na uzytkownikow foo i bar oraz na kazdego z grupy systemowej baz.
+</p>
+<sect2>Sekcja katalogow
+<p>
+Mozesz ustalac opcje, ktore beda wazne tylko dla uzytkownikow znajdujacych sie w danym katalogu, badz jego podkatalogach. Wez pod uwage, ze musisz umiescic te struktury w opcjach globalnych, uzytkownikow oraz grup. W ten sposob mozesz takze nadpisywac specyficzne ustawienia katalogu dla danych uzytkownikow. Przykladowo:
+<tscreen><verb>
+global {
+  nazwa=wartosc1
+  directory /foo {
+    nazwa1=wartosc2
+  }
+}
+user bar {
+  directory /foo {
+    nazwa1=wartosc3
+  }
+}
+</verb></tscreen>
+Tutaj, nazwa1 bedzie miala warosc3 jesli uzytkownik bar bedzie w katalogu /foo. Natomiast wartosc2 przybierze jesli inny uzytkownik znajdzie sie w katalogu /foo. Kazdy inny przypadek spowoduje nadanie nazwie1 wartosci1.
+</p>
+<p>
+Wyjasnienie tych opcji znajdziesz w pliku konfiguracyjnym bftpd (jesli nie upgradowales bftpd, plik zostal juz skopiowany do /etc). Zmodyfikuj oczywiscie plik do twoich potrzeb. Jednak domyslna konfiguracja tez powinna byc w porzadku.
+</p>
+
+<sect>FAQ
+<sect1>Problemy z kompilacja
+<sect2>Nie moge skompilowac bftpd
+<p>
+Daj mi znac. Powiedz na jakim systemie i architekturze go kompilowales, przeslij tez wyjscie calego procesu kompilacji (configure i make). Nie dostaje ton poczty, wiec postaram sie rozwiazac Twoj problem. Jesli natomiast nie odpowiem, prawie zapomnialem o Twoim mailu, wiec go ponow :)
+</p>
+<sect2>Wystepuja dziwne ostrzezenia
+<p>
+To jest calkiem mozliwe na platformach, na ktorych nie testowalem bftpd. Nawet jesli bftpd skompiluje sie prawidlowo i dziala bez zarzutu, prosze, przeslij mi informacje na ten temat, gdyz kompilator moze powodowac niezauwazalne na pierwszy rzut oka problemy.
+</p>
+<sect2>Make mowi ze nie moge uzywac wtmp
+<p>
+Prawdopodobnie uzywasz Solarisa. Poniewaz nie mam dostepu do takiej maszyny, nigdy nie moglem sprawdzic jej wtmp. Jesli otrzymujesz taki komunikat i nie wiesz czym jest w ogole wtmp, nie martw sie o to. Jesli jest inaczej, pomoz mi rozwiazac problem.
+</p>
+<sect1>Problemy przy uruchamianiu
+<sect2>Otrzymuje komunikat &dquot;Could not get peer IP address.&dquot;
+<p>
+Uruchomiles bftpd przez konsole. Jesli chcialbys z niego korzystac w trybie standalone, musisz dodac opcje &dquot;-d&dquot;. Jesli jednak ustawiles go jako usluge inetd, sprawdz to przez:
+<tscreen><verb>
+hostname:&tilde;$ ftp localhost
+</verb></tscreen>
+</p>
+<sect2>Dostaje blad &dquot;Bind failed: Address already in use.&dquot;
+<p>
+Ten blad oznacza, ze inny proces juz wykorzystuje port, na ktorym chcesz uruchomic serwer bftpd. Mozesz zmienic numer portu bftpd w pliku konfiguracyjnym (bftpd.conf) - opcja PORT w strukturze globalnej. Domyslnie ustawiony jest na 21. Jesli nie zmieniales tego portu, prawdopodobnie zapomniales wylaczyc swoj stary serwer FTP. Zajrzyj do /etc/inetd.conf oraz do wydruku polecenia  &dquot;ps aux | grep ftp&dquot;.
+</p>
+<sect1>Problemy podczas sesji FTP
+<sect2>Mam blad podobny do &dquot;500 Unknown command: 'foo'&dquot;
+<p>
+Twoj program wyslal komende, ktorej bftpd nie rozpoznal. To jest moj blad, chyba ze rzeczywiscie wyslales nieistniejace polecenie. Sprawdz czy sie nie pomyliles przy jego wpisywaniu i wyslij mi raport, jesli masz pewnosc, ze komenda byla dobra.
+</p>
+<sect2>Sesja sie konczy bledem 421
+<p>
+Jesli porobujesz sie zalogowac ze zlym haslem, bftpd zerwie polaczenie. Jesli sie zalogowales zanim blad sie pojawil, badz blad wystapil przed zalogowaniem, to na pewno jest moj blad. Powiedz mi o tym.
+</p>
+<sect1>Rozne
+<sect2>Jak dziala kompresja w locie?
+<p>
+Zalozmy, ze masz katalog nazywajacy sie foo. Nawet jesli nie ma pliku o nazwie foo.tar.gz, mozesz jednak uzyc polecenia RETR i bedzie on zaweral zawartosc katalogu foo, tar-gzipowana. Mozesz rowniez sciagac pliki:
+<itemize>
+<item>dirname.tar</item>
+<item>filename.gz</item>
+</itemize>
+Jesli chcesz korzystac z tej opcji, wkompiluj ja najpierw (patrz: instalacja)
+</p>
+<sect2>Moje opcje dla polaczen anonymous nie dzialaja
+<p>
+Jesli w strukturze jest opcja ALIAS=...., nie musisz uzupelniac jej opcjami. Zamiast tego, zrob to w sekcji, do ktorej sie alias odnosi.
+</p>
+<sect2>Dlaczego dokumentacja jest tak uboga?
+<p>
+Odpowiedz jest prosta, nikt niczego nie napisal :)<newline>
+Nigdy nie wiem co napisac, wiec jesli masz jakas wizje wzbogacenia dokumentacji, prosze, poinformuj mnie o tym. To samo dotyczy tlumaczen na inne jezyki. Jesli chcialbyc cos stworzyc, zrob to, jednak zwracaj uwage na bledy stylistyczne i literowki.
+</p>
+<sect>Credits
+<sect1>Testowanie na roznych platformach
+<p>
+<itemize>
+<item>David L. Nicol (david@kasey.umkc.edu) testowal bftpd na Tru64.</item>
+<item>JackRipper (vic@altoona.net) testowal bftpd na BSD/OS oraz DG-UX.</item>
+<item>Christian Beyerlein (christian@beyerlein.de) testowal bftpd na FreeBSD i Solarisie.</item>
+<item>Ludzie z kanalu #linux (IRCNet) sprawdzali bftpd na roznych systemach.</item>
+</itemize>
+</p>
+<sect1>Pomysly, uwagi&amp; fragmenty kodu
+<p>
+<itemize>
+<item>Josh Woodcock (josh@hamparts.com) podzielil sie kiloma uwagami - Solaris 8.</item>
+<item>Floh (floh@maflohsoft.de) zasugerowal wbudowac obsluge ASCII.</item>
+<item>Erik Hensema (erik@hensema.xs4all.nl) znalazl blad w netfilterze 2.4.0 wplywajacy na bftpd.</item>
+<item>Heiko Rother (rother@cmsnet.de) mial wiele dobrych pomyslow (patrz changelog).</item>
+<item>Christophe Bailleux (cb@grolier.fr) wprost uwielbia znajdowac problemy w listingowaniu katalogow. Poza tym mial wiele uwag i podeslal wiele fragmentow kodu.</item>
+<item>Jonathan Heusser (jonathanheusser@gyml.unibas.ch) znalazl blad przepelnienia bufora.</item>
+<item>Christian Beyerlein (christian@beyerlein.de) zaproponowal aliasy uzytkownikow.</item>
+<item>Elmusafir (jslmarti@campus.cem.itesm.mx) doniosl o bledzie we wspolpracy ze Staroffice, ktory naprawiono w wersji 1.0.8.</item>
+<item>Alex Madden (alexm@immstudios.com) oraz Daniel Mack (daniel.mack@nextra.de) napisali o niekompatybilnosci z Solarisem -  naprawiono w 1.0.8.</item>
+<item>Daniel Mack (daniel.mack@nextra.de) podeslal duzego patcha (patrz changelog).</item>
+</itemize>
+</p>
+<sect1>Pisanie dokumentacji
+<p>
+<itemize>
+<item>Radek Michalski (radek@end.p-s.com.pl) przetlumaczyl dokumentacje bftpd na jezyk polski.</item>
+</itemize>
+</p>
+<sect1>Inne
+<p>
+<itemize>
+<item>
+Kilka pomyslow struktry kodu zaczerpnalem z betaftpd Steinera H. Gutersona. Ale to raptem kilka linii.
+</itemize>
+</p>
+</article>

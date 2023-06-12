@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Dokumentacja bftpd: Konfiguracja</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2" />
+<META content="MSHTML 6.00.2900.2963" name=GENERATOR><LINK 
+href="bftpddoc-pl-4.html" rel=next><LINK href="bftpddoc-pl-2.html" 
+rel=previous><LINK href="bftpddoc-pl.html#toc3" rel=contents></HEAD>
+<BODY><A href="bftpddoc-pl-4.html">Dalej</A> 
+<A href="bftpddoc-pl-2.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc3">Zawartość</A> 
+<HR>
+
+<H2><A name=s3>3.</A> <A 
+href="bftpddoc-pl.html#toc3">Konfiguracja</A></H2>
+<H2><A name=ss3.1>3.1 Zarządzanie użytkownikami</A> </H2>
+<P>Możesz obsługiwac konta użytkownikow w bardzo prosty sposób, edytując plik 
+/etc/passwd oraz, jeśli Twój system to obsługuje, /etc/shadow. Każdy użytkownik 
+występujący w /etc/passwd może się połączyć z serwerem jeśli poda hasło i spełni 
+wymagania konfiguracji serwera bftpd. Można również założyć konto anonymous, 
+ustawiając zmienną ANONYMOUS_USER na yes. bftpd obsługuje również PAM.</P>
+<H2><A name=ss3.2>3.2 Plik konfiguracji (/etc/bftp.conf)</A> </H2>
+<H3>Sekcja globalna</H3>
+<P>W tej sekcji możesz nadawać wartości opcjom konfiguracji. Składnia jest 
+następująca: 
+<BLOCKQUOTE><CODE><PRE>global {
+  nazwa1=wartość1
+  nazwa2=wartość2
+}
+</PRE></CODE></BLOCKQUOTE>
+<P></P>
+<H3>Sekcja użytkowników</H3>
+<P>W konfiguracji występuje również sekcja użytkowników, w której możesz 
+nadpisywać wartości globalne dla poszczególnych użytkownikow. Przykład: 
+<BLOCKQUOTE><CODE><PRE>global {
+  nazwa1=wartość1
+  nazwa2=wartość2
+}
+user foo {
+  nazwa1=wartość3
+}
+</PRE></CODE></BLOCKQUOTE>Jeśli użytkownik foo się zaloguje, to nazwa pierwsza 
+będzie miała wartość3. Jeśli zalogowany jest inny użytkownik, nazwa1 ma warość1, 
+natomiast nazwa2 ma zawsze wartość2.
+<P></P>
+<H3>Sekcja grup użytkowników</H3>
+<P>Możesz także definiować konfigurację grupom użytkownikow - podobnie jak dla 
+jednego użytkownika, tylko możesz przydzielić ich kilku pod postacią grupy. 
+Możesz rownież umieszczać w konfiguracji grupy systemowe dodając do ich nazwy 
+znak @. Przykład: 
+<BLOCKQUOTE><CODE><PRE>group foo,bar,@baz {
+  nazwa1=wartość1
+}
+</PRE></CODE></BLOCKQUOTE>Te opcje oddziałuja na użytkowników foo i bar oraz na 
+każdego z grupy systemowej baz.
+<P></P>
+<H3>Sekcja katalogów</H3>
+<P>Mozesz ustalać opcje, które będą ważne tylko dla użytkowników znajdujących 
+się w danym katalogu, bądź w jego podkatalogach. Weź pod uwagę, że musisz umieścić 
+te struktury w opcjach globalnych, użytkowników oraz grup. W ten sposób możesz 
+także nadpisywać specyficzne ustawienia katalogu dla danych użytkowników. 
+Przykładowo: 
+<BLOCKQUOTE><CODE><PRE>global {
+  nazwa=wartość1
+  directory /foo {
+    nazwa1=wartość2
+  }
+}
+user bar {
+  directory /foo {
+    nazwa1=wartość3
+  }
+}
+</PRE></CODE></BLOCKQUOTE>Tutaj, nazwa1 będzie miała wartość3 jeśli użytkownik 
+bar będzie w katalogu /foo. Natomiast wartość2 przybierze jeśli inny użytkownik 
+znajdzie sie w katalogu /foo. Każdy inny przypadek spowoduje nadanie nazwie1 
+wartości1.
+<P></P>
+<P>Wyjaśnienie tych opcji znajdziesz w pliku konfiguracyjnym bftpd (jeśli nie 
+upgradowales bftpd, plik został juz skopiowany do /etc). Zmodyfikuj oczywiście 
+plik do twoich potrzeb. Jednak domyślna konfiguracja też powinna być w 
+porządku.</P>
+<HR>
+<A href="bftpddoc-pl-4.html">Dalej</A> <A 
+href="bftpddoc-pl-2.html">Wstecz</A> <A 
+href="bftpddoc-pl.html#toc3">Zawartość</A> 
+</BODY></HTML>

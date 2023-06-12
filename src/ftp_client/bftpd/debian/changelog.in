@@ -1,0 +1,9 @@
+bftpd (VERSION-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Max-Wilhelm Bruker <brukie@gmx.net>  Sun, 18 Dec 2000 20:50:44 +0100
+
+Local variables:
+mode: debian-changelog
+End:
