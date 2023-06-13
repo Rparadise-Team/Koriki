@@ -14,7 +14,7 @@ OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
 # NOTE: These flags aren't strickly necessary...
 CFLAGS = -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -march=armv7ve 
 CXXFLAGS = $(CFLAGS)
-LDFLAGS = -lSDL -lSDL_image
+LDFLAGS = -lSDL -lSDL_image -lpthread -lmi_sys -lmi_gfx -lmi_ao -lmi_common -Wl,--gc-sections -s
 
 $(TARGET): $(OFILES)
 	$(CXX) $(OFILES) -o $@ $(LDFLAGS)
