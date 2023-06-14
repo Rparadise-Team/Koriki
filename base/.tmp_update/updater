@@ -258,6 +258,11 @@ if [ ! -f ${SDCARD_PATH}/.simplemenu/favorites.sav ]; then
 touch ${SDCARD_PATH}/.simplemenu/favorites.sav
 fi
 
+# clear ftp log file
+if [ -f ${SYSTEM_PATH}/bftpdutmp ]; then
+rm ${SYSTEM_PATH}/bftpdutmp
+touch ${SYSTEM_PATH}/bftpdutmp
+fi
 
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
