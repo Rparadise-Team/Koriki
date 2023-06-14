@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <linux/input.h>
 #include <linux/fb.h>
+#include <SDL/SDL.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -24,23 +25,23 @@
 #define DISPLAY_HEIGHT 480
 
 //	Button Defines
-#define	BUTTON_MENU			KEY_ESC
-#define	BUTTON_POWER		KEY_POWER
-#define	BUTTON_SELECT		KEY_RIGHTCTRL
-#define	BUTTON_START		KEY_ENTER
-#define	BUTTON_L1			KEY_E
-#define	BUTTON_R1			KEY_T
-#define	BUTTON_L2			KEY_TAB
-#define	BUTTON_R2			KEY_BACKSPACE
-#define BUTTON_A			KEY_SPACE
-#define BUTTON_B			KEY_LEFTCTRL
-#define BUTTON_X			KEY_LEFTSHIFT
-#define BUTTON_Y			KEY_LEFTALT
-#define BUTTON_UP			KEY_UP
-#define BUTTON_DOWN			KEY_DOWN
-#define BUTTON_LEFT			KEY_LEFT
-#define BUTTON_RIGHT		KEY_RIGHT
-#define BUTTON_VOLUMEUP		KEY_VOLUMEUP
+#define	BUTTON_MENU		KEY_ESC
+#define BUTTON_POWER		KEY_POWER
+#define BUTTON_SELECT		KEY_RIGHTCTRL
+#define BUTTON_START		KEY_ENTER
+#define	BUTTON_L1		KEY_E
+#define	BUTTON_R1		KEY_T
+#define	BUTTON_L2		KEY_TAB
+#define	BUTTON_R2		KEY_BACKSPACE
+#define BUTTON_A		KEY_SPACE
+#define BUTTON_B		KEY_LEFTCTRL
+#define BUTTON_X		KEY_LEFTSHIFT
+#define BUTTON_Y		KEY_LEFTALT
+#define BUTTON_UP		KEY_UP
+#define BUTTON_DOWN		KEY_DOWN
+#define BUTTON_LEFT		KEY_LEFT
+#define BUTTON_RIGHT	KEY_RIGHT
+#define BUTTON_VOLUMEUP	KEY_VOLUMEUP
 #define BUTTON_VOLUMEDOWN	KEY_VOLUMEDOWN
 
 #define CPUSAVE "/mnt/SDCARD/.simplemenu/cpu.sav"
@@ -530,13 +531,12 @@ void display_init(void)
 
 void display_setScreen(int value) {
 	stride = finfo.line_length;
-    ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
-    bpp = vinfo.bits_per_pixel / 8; // byte per pixel
-    fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
+	ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
+	bpp = vinfo.bits_per_pixel / 8; // byte per pixel
+	fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
 	
 	if (value == 0) {
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
-
     	// Save display area and clear
     	if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
         	uint32_t i, ofss, ofsd;
@@ -544,7 +544,7 @@ void display_setScreen(int value) {
         	for (i = DISPLAY_HEIGHT; i > 0;
             	 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
             	memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
-            	memset(fbofs + ofss, 0, DISPLAY_WIDTH * bpp);
+            	memset(fb_addr, 0, vinfo.xres * vinfo.yres * bpp);
         	}
     	}
 	} else if (value == 1) {
@@ -576,6 +576,7 @@ int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
 	display_init();
+	display_setScreen(1);
 	modifyBrightness(0);
 	setcpu(0);
 	sethibernate(0);
@@ -638,13 +639,13 @@ int main (int argc, char *argv[]) {
 				} else if (val == RELEASED && power_pressed) {
 					if (power_pressed_duration < 5) { // Short press
 						if (sleep == 0) {
-							display_setScreen(0); // Turn screen back off
 							setmute(1);
 							sethibernate(1);
 							restorevolume(0);
 							setcpu(1);
 							keyinput_send(1, 1);
 							keyinput_send(1, 2);
+							display_setScreen(0); // Turn screen back off
 							power_pressed = 0;
 							repeat_power = 0;
 							sleep = 1;
