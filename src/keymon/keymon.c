@@ -641,7 +641,7 @@ int main (int argc, char *argv[]) {
 						if (sleep == 0) {
 							setmute(1);
 							sethibernate(1);
-							restorevolume(0);
+							//restorevolume(0);
 							setcpu(1);
 							keyinput_send(1, 1);
 							keyinput_send(1, 2);
@@ -652,7 +652,7 @@ int main (int argc, char *argv[]) {
 						} else if (sleep == 1) {
 							setmute(0);
 							sethibernate(0);
-							restorevolume(1);
+							//restorevolume(1);
 							setcpu(0);
 							keyinput_send(1, 1);
 							keyinput_send(1, 2);
