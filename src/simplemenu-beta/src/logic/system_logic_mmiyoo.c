@@ -16,6 +16,7 @@
 // Set Volume (Raw)
 #define MI_AO_SETVOLUME 0x4008690b
 #define MI_AO_GETVOLUME 0xc008690c
+#define MI_AO_SETMUTE 0x4008690d
 
 
 volatile uint32_t *memregs;
@@ -130,6 +131,108 @@ void setCPU(uint32_t mhz) {
     currentCPU = mhz;
 }
 
+char* load_file(char const* path) {
+    char* buffer = 0;
+    long length = 0;
+
+    FILE * f = fopen(path, "rb"); //was "rb"
+    if (f) {
+        fseek(f, 0, SEEK_END);
+        length = ftell(f);
+        fseek(f, 0, SEEK_SET);
+        buffer = (char*) malloc((length+1)*sizeof(char));
+        if (buffer) {
+            fread(buffer, sizeof(char), length, f);
+        }
+        fclose(f);
+    }
+    buffer[length] = '\0';
+
+    return buffer;
+}
+
+int getCurrentSystemValue(char const *key) {
+    cJSON* request_json = NULL;
+    cJSON* item = NULL;
+    int result = 0;
+
+    const char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
+  }
+
+    char* request_body = load_file(settings_file);
+    request_json = cJSON_Parse(request_body);
+    item = cJSON_GetObjectItem(request_json, key);
+    result = cJSON_GetNumberValue(item);
+    free(request_body);
+    return result;
+}
+
+void setSystemValue(char const *key, int value) {
+    cJSON* request_json = NULL;
+    cJSON* item = NULL;
+
+    const char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL) {
+	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+	  if (!pipe) {
+		settings_file = "/appconfigs/system.json";
+	  } else {
+		char buffer[128];
+		int flash_detected = 0;
+		
+		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+				flash_detected = 1;
+				break;
+			}
+		}
+		
+		pclose(pipe);
+		
+		if (flash_detected) {
+			settings_file = "/mnt/SDCARD/system.json";
+		} else {
+			settings_file = "/appconfigs/system.json";
+		}
+	}
+  }
+
+    // Store in system.json
+    char* request_body = load_file(settings_file);
+    request_json = cJSON_Parse(request_body);
+    item = cJSON_GetObjectItem(request_json, key);
+    cJSON_SetNumberValue(item, value);
+
+    FILE *file = fopen(settings_file, "w");
+    char *test = cJSON_Print(request_json);
+    fputs(test, file);
+    fclose(file);
+    free(request_body);
+}
+
 void turnScreenOnOrOff(int state) {
     const char *path = "/sys/class/graphics/fb0/blank";
     const char *blank = state ? "0" : "1";
@@ -224,26 +327,6 @@ int getBatteryLevel() {
     else                  return 6;
 }
 
-char* load_file(char const* path) {
-    char* buffer = 0;
-    long length = 0;
-
-    FILE * f = fopen(path, "rb"); //was "rb"
-    if (f) {
-        fseek(f, 0, SEEK_END);
-        length = ftell(f);
-        fseek(f, 0, SEEK_SET);
-        buffer = (char*) malloc((length+1)*sizeof(char));
-        if (buffer) {
-            fread(buffer, sizeof(char), length, f);
-        }
-        fclose(f);
-    }
-    buffer[length] = '\0';
-
-    return buffer;
-}
-
 int getCurrentBrightness() {
     return getCurrentSystemValue("brightness");
 }
@@ -275,6 +358,7 @@ int getCurrentVolume() {
         }
 	add = 0;
 	setVolumeRaw(volume, add);
+	
     return sysvolume;
 }
 
@@ -295,6 +379,26 @@ int setVolumeRaw(int volume, int add) {
         if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
         close(fd);
     }
+	
+	if (volume == -60) {
+		setSystemValue("mute", 1);
+    if (fd >= 0) {
+        int buf2[] = {0, 1};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+	}
+	} else if (volume > -60) {
+		setSystemValue("mute", 0);
+    if (fd >= 0) {
+        int buf2[] = {0, 0};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+	}
+	}
   
   return recent_volume;
 }
@@ -310,86 +414,4 @@ int setVolume(int volume, int add) {
     
     recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
     return recent_volume;
-}
-
-int getCurrentSystemValue(char const *key) {
-    cJSON* request_json = NULL;
-    cJSON* item = NULL;
-    int result = 0;
-
-    const char *settings_file = getenv("SETTINGS_FILE");
-    if (settings_file == NULL) {
-	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
-	  if (!pipe) {
-		settings_file = "/appconfigs/system.json";
-	  } else {
-		char buffer[128];
-		int flash_detected = 0;
-		
-		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
-			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
-				flash_detected = 1;
-				break;
-			}
-		}
-		
-		pclose(pipe);
-		
-		if (flash_detected) {
-			settings_file = "/mnt/SDCARD/system.json";
-		} else {
-			settings_file = "/appconfigs/system.json";
-		}
-	}
-  }
-
-    char* request_body = load_file(settings_file);
-    request_json = cJSON_Parse(request_body);
-    item = cJSON_GetObjectItem(request_json, key);
-    result = cJSON_GetNumberValue(item);
-    free(request_body);
-    return result;
-}
-
-void setSystemValue(char const *key, int value) {
-    cJSON* request_json = NULL;
-    cJSON* item = NULL;
-
-    const char *settings_file = getenv("SETTINGS_FILE");
-    if (settings_file == NULL) {
-	  FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
-	  if (!pipe) {
-		settings_file = "/appconfigs/system.json";
-	  } else {
-		char buffer[128];
-		int flash_detected = 0;
-		
-		while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
-			if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
-				flash_detected = 1;
-				break;
-			}
-		}
-		
-		pclose(pipe);
-		
-		if (flash_detected) {
-			settings_file = "/mnt/SDCARD/system.json";
-		} else {
-			settings_file = "/appconfigs/system.json";
-		}
-	}
-  }
-
-    // Store in system.json
-    char* request_body = load_file(settings_file);
-    request_json = cJSON_Parse(request_body);
-    item = cJSON_GetObjectItem(request_json, key);
-    cJSON_SetNumberValue(item, value);
-
-    FILE *file = fopen(settings_file, "w");
-    char *test = cJSON_Print(request_json);
-    fputs(test, file);
-    fclose(file);
-    free(request_body);
 }

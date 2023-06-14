@@ -228,11 +228,17 @@ if [ ! -f /customer/app/axp_test ]; then
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ]; then
 	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ${SDCARD_PATH}/.simplemenu/apps/Wifi
 	fi
+	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh ]; then
+	mv ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh ${SDCARD_PATH}/.simplemenu/apps/Ftp
+	fi
 else
 	rm ${RETROARCH_PATH}/retroarch
 	cp ${RETROARCH_PATH}/retroarch.plus ${RETROARCH_PATH}/retroarch
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi ]; then
 	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh
+	fi
+	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Ftp ]; then
+	mv ${SDCARD_PATH}/.simplemenu/apps/Ftp ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh
 	fi
 fi
 
@@ -261,7 +267,7 @@ fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ $MODEL = "MM" ]; then
-	sed -i 's/^1;1;0;9;9\([^;]*;[^;]*\)$/1;1;0;8;8\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;10;10\([^;]*;[^;]*\)$/1;1;0;8;8\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
 
 # Set the last CPU change
