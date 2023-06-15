@@ -318,4 +318,4 @@ else
 	sync
 	sleep 5
 	poweroff
-if
+fi
