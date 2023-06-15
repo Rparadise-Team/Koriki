@@ -541,6 +541,7 @@ void display_setScreen(int value) {
 	
 	if (value == 0) {
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
     	// Save display area and clear
     	//if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
         //	uint32_t i, ofss, ofsd;
@@ -553,6 +554,7 @@ void display_setScreen(int value) {
     	//}
 	} else if (value == 1) {
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		// Restore display area
     	//if (savebuf) {
         //	uint32_t i, ofss, ofsd;
@@ -677,120 +679,40 @@ int main (int argc, char *argv[]) {
 				}
 				break;
 			case BUTTON_MENU:
-				if (sleep == 1) {
-					if (val != REPEAT) menu_pressed = val;
-				} else if (sleep == 0) { 
-					if (val != REPEAT) menu_pressed = val;
-				}
+				if (val != REPEAT) menu_pressed = val;
 				break;
 			case BUTTON_UP:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				} else if (sleep == 0) {
-					if (val == REPEAT) {
-						// Adjust repeat speed to 1/2
-						val = repeat;
-						repeat ^= PRESSED;
-					} else {
-						repeat = 0;
-					}
-					if (val == PRESSED && menu_pressed) {
-						// Increase brightness
-						modifyBrightness(1);
-					}
+				if (val == REPEAT) {
+					// Adjust repeat speed to 1/2
+					val = repeat;
+					repeat ^= PRESSED;
+				} else {
+					repeat = 0;
+				}
+				if (val == PRESSED && menu_pressed) {
+					// Increase brightness
+					modifyBrightness(1);
 				}
 				break;
 			case BUTTON_DOWN:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				} else if (sleep == 0) {
-					if (val == REPEAT) {
-						// Adjust repeat speed to 1/2
-						val = repeat;
-						repeat ^= PRESSED;
-					} else {
-						repeat = 0;
-					}
-					if (val == PRESSED && menu_pressed) {
-						// Decrease brightness
-						modifyBrightness(-1);
-					}
+				if (val == REPEAT) {
+					// Adjust repeat speed to 1/2
+					val = repeat;
+					repeat ^= PRESSED;
+				} else {
+					repeat = 0;
 				}
-				break;
-			case BUTTON_LEFT:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_RIGHT:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_A:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_B:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_Y:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_X:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_START:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_SELECT:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_L1:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_R1:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_L2:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				}
-				break;
-			case BUTTON_R2:
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
+				if (val == PRESSED && menu_pressed) {
+					// Decrease brightness
+					modifyBrightness(-1);
 				}
 			case BUTTON_VOLUMEUP:
 				// Increase volume
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				} else if (sleep == 0) {
-					setVolume(volume, 1);
-				}
+				setVolume(volume, 1);
 				break;
 			case BUTTON_VOLUMEDOWN:
 				// Decrease volume
-				if (sleep == 1) {
-					if (val == PRESSED && menu_pressed) {}
-				} else if (sleep == 0) {
-					setVolume(volume, -1);
-				}
+				setVolume(volume, -1);
 				break;
 			default:
 				break;
