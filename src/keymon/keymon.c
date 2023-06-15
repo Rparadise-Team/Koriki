@@ -265,6 +265,12 @@ void setcpu(int cpu) {
 		char cpuValue[10];
 		
 		file = fopen(CPUSAVE, "r");
+		 if (file == NULL) {
+			 file = fopen(CPUSAVE, "w");
+			 fprintf(file, "%d", 1200000);
+			 fclose(file);
+			 file = fopen(CPUSAVE, "r");
+        }
 		fgets(cpuValue, sizeof(cpuValue), file);
 		fclose(file);
 		
