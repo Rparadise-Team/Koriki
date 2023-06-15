@@ -276,7 +276,8 @@ if [ -f ${SYSTEM_PATH}/bftpdutmp ]; then
 fi
 
 # Detect 'B' press to fix SM boot loops
-if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1 then
+if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
+then
 	rm ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
 
