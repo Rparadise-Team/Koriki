@@ -20,121 +20,121 @@ export RETROARCH_PATH=/mnt/SDCARD/RetroArch
 
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
-    export SETTINGS_FILE=$SETTINGS_EXT_FILE
+	export SETTINGS_FILE=$SETTINGS_EXT_FILE
 else
-    export SETTINGS_FILE=$SETTINGS_INT_FILE
+	export SETTINGS_FILE=$SETTINGS_INT_FILE
 fi
 
 # Detect model and init charger GPIO
 if [ ! -f /customer/app/axp_test ]; then
-    export MODEL="MM"
-    if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
-        echo 59 > /sys/class/gpio/export
-        echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
-    fi
+	export MODEL="MM"
+	if [ ! -f /sys/devices/gpiochip0/gpio/gpio59/direction ]; then
+		echo 59 > /sys/class/gpio/export
+		echo in > /sys/devices/gpiochip0/gpio/gpio59/direction
+	fi
 else
-    export MODEL="MMP"
+	export MODEL="MMP"
 fi
 
 killprocess() {
-   pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
-   kill -9 $pid
+	pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
+	kill -9 $pid
 }
 
 init_lcd() {
-   cat /proc/ls
-   if [ $1 -ne 0 ] ; then
-	sleep $1
-   fi 
+	cat /proc/ls
+	if [ $1 -ne 0 ] ; then
+		sleep $1
+	fi 
 }
 
 runifnecessary() {
-    a=`ps | grep $1 | grep -v grep`
-    if [ "$a" == "" ] ; then
-        $2 &
-    fi
+	a=`ps | grep $1 | grep -v grep`
+	if [ "$a" == "" ] ; then
+		$2 &
+	fi
 }
 
 reset_settings() {
-    if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-        if [ $MODEL = "MM" ]; then
-            cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+	if [ -f ${SDCARD_PATH}/.reset_settings ]; then
+		if [ $MODEL = "MM" ]; then
+			cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
 			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
-            rm ${SDCARD_PATH}/.reset_settings
-            sync
+			rm ${SDCARD_PATH}/.reset_settings
+			sync
 			reboot
 			sleep 5
-        else
-            cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+		else
+			cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
 			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
-            rm ${SDCARD_PATH}/.reset_settings
-            sync
-            poweroff
-            sleep 5
-        fi
-    fi
+			rm ${SDCARD_PATH}/.reset_settings
+			sync
+			poweroff
+			sleep 5
+		fi
+	fi
 }
 
 update() {
-    if [ -f ${SDCARD_PATH}/.deletes ]; then
-        while read file_to_delete; do
-            rm -rf "${file_to_delete}"
-        done < ${SDCARD_PATH}/.deletes
-        rm ${SDCARD_PATH}/.deletes
-    fi
+	if [ -f ${SDCARD_PATH}/.deletes ]; then
+		while read file_to_delete; do
+		rm -rf "${file_to_delete}"
+		done < ${SDCARD_PATH}/.deletes
+		rm ${SDCARD_PATH}/.deletes
+	fi
 
-    if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
-        for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
-            unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
-            sync
-            show ${SDCARD_PATH}/.update_splash.png
+	if [ -f ${SDCARD_PATH}/update_koriki_*.zip ]; then
+		for file in `ls ${SDCARD_PATH}/update_koriki_*.zip`; do
+		unzip -q -o ${file} .update_splash.png -d ${SDCARD_PATH}
+		sync
+		show ${SDCARD_PATH}/.update_splash.png
 
-            unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
-            if [ -f ${SDCARD_PATH}/.deletes ]; then
-                while read file_to_delete; do
-                    if [ -f "${file_to_delete}" ]; then
-                        rm "${file_to_delete}"
-                    elif [ -d "${file_to_delete}" ]; then
-                        rm -rf "${file_to_delete}"
-                    fi
-                done < ${SDCARD_PATH}/.deletes
-            fi
+		unzip -q -o ${file} .deletes -d ${SDCARD_PATH}
+		if [ -f ${SDCARD_PATH}/.deletes ]; then
+			while read file_to_delete; do
+			if [ -f "${file_to_delete}" ]; then
+				rm "${file_to_delete}"
+			elif [ -d "${file_to_delete}" ]; then
+				rm -rf "${file_to_delete}"
+			fi
+			done < ${SDCARD_PATH}/.deletes
+		fi
 
-            unzip -q -o ${file} -d ${SDCARD_PATH}
+		unzip -q -o ${file} -d ${SDCARD_PATH}
 
-            rm ${file}
-            if [ -f ${SDCARD_PATH}/.deletes ]; then
-                rm ${SDCARD_PATH}/.deletes
-            fi
-            sleep 5s
-        done
-        sync
-        if [ $MODEL = "MMP" ]; then
-            reboot
-            sleep 10s
-        fi
-    fi
+		rm ${file}
+		if [ -f ${SDCARD_PATH}/.deletes ]; then
+			rm ${SDCARD_PATH}/.deletes
+		fi
+		sleep 5s
+		done
+		sync
+		if [ $MODEL = "MMP" ]; then
+			reboot
+			sleep 10s
+		fi
+	fi
 
-    if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
-        rm ${SDCARD_PATH}/.update_splash.png
-    fi
+	if [ -f ${SDCARD_PATH}/.update_splash.png ]; then
+		rm ${SDCARD_PATH}/.update_splash.png
+	fi
 }
 
 dir_scaffolding() {
-    ## Quake fbl's by @neilswann80
-    pak="exec=pak0.pak"
-    for dir2 in QUAKE/id1 QUAKE/hipnotic QUAKE/rogue QUAKE/dopa; do
-        dir="/mnt/SDCARD/Roms/${dir2}"
-        count=`ls -1 ${dir}/*.fbl 2>/dev/null | wc -l`
-        if [ $count -eq 0 ] && [ -e "${dir}/pak0.pak" ]; then
-            case ${dir2} in
-                QUAKE/id1)      echo "$pak" > "${dir}/Quake.fbl" ;;
-                QUAKE/hipnotic) echo "$pak" > "${dir}/Mission pack 1.fbl" ;;
-                QUAKE/rogue)    echo "$pak" > "${dir}/Mission pack 2.fbl" ;;
-                QUAKE/dopa)     echo "$pak" > "${dir}/Episode 5. Dimension of the Past.fbl" ;;
-            esac
-        fi
-    done
+	## Quake fbl's by @neilswann80
+	pak="exec=pak0.pak"
+	for dir2 in QUAKE/id1 QUAKE/hipnotic QUAKE/rogue QUAKE/dopa; do
+		dir="/mnt/SDCARD/Roms/${dir2}"
+		count=`ls -1 ${dir}/*.fbl 2>/dev/null | wc -l`
+		if [ $count -eq 0 ] && [ -e "${dir}/pak0.pak" ]; then
+			case ${dir2} in
+				QUAKE/id1)      echo "$pak" > "${dir}/Quake.fbl" ;;
+				QUAKE/hipnotic) echo "$pak" > "${dir}/Mission pack 1.fbl" ;;
+				QUAKE/rogue)    echo "$pak" > "${dir}/Mission pack 2.fbl" ;;
+				QUAKE/dopa)     echo "$pak" > "${dir}/Episode 5. Dimension of the Past.fbl" ;;
+			esac
+		fi
+		done
 }
 
 # Init_lcd
@@ -161,14 +161,15 @@ SWAPSIZE=`stat -c %s "${SWAPFILE}"`
 MINSIZE=$((256 * 1024 * 1024))
 
 if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
-  rm ${SWAPFILE}
+	rm ${SWAPFILE}
 fi
 
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
-    show ${SDCARD_PATH}/.simplemenu/resources/loading.png
-    dd if=/dev/zero of=${SWAPFILE} bs=1M count=256
-    mkswap ${SWAPFILE}
+	show ${SDCARD_PATH}/.simplemenu/resources/loading.png
+	dd if=/dev/zero of=${SWAPFILE} bs=1M count=256
+	mkswap ${SWAPFILE}
+	sync
 fi
 swapon -p 50 ${SWAPFILE}
 
@@ -200,21 +201,22 @@ fi
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
-    /mnt/SDCARD/Koriki/bin/audioserver &
-    if [ -f /customer/lib/libpadsp.so ]; then
-        export LD_PRELOAD=/customer/lib/libpadsp.so
-    fi
+	/mnt/SDCARD/Koriki/bin/audioserver &
+	if [ -f /customer/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/customer/lib/libpadsp.so
+	fi
 	if [ $MODEL = "MMP" ]; then
-	touch /tmp/audioserver_on
+		touch /tmp/audioserver_on
+		sync
 	fi
 fi
 
 # free memory when audioserver is stoped
 if [ "$runsvr" == "0" ] ; then
 	if [ $MODEL = "MMP" ]; then
-    	if [ -f /tmp/audioserver_on ]; then
-		/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
-		rm /tmp/audioserver_on
+		if [ -f /tmp/audioserver_on ]; then
+			/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
+			rm /tmp/audioserver_on
 		fi
 	fi
 fi
@@ -223,22 +225,28 @@ fi
 # autochange retroarch version and show/quit wifi app
 
 if [ ! -f /customer/app/axp_test ]; then
-    rm ${RETROARCH_PATH}/retroarch
+	rm ${RETROARCH_PATH}/retroarch
 	cp ${RETROARCH_PATH}/retroarch.mini ${RETROARCH_PATH}/retroarch
+	sync
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ]; then
-	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ${SDCARD_PATH}/.simplemenu/apps/Wifi
+		mv ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh ${SDCARD_PATH}/.simplemenu/apps/Wifi
+		sync
 	fi
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh ]; then
-	mv ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh ${SDCARD_PATH}/.simplemenu/apps/Ftp
+		mv ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh ${SDCARD_PATH}/.simplemenu/apps/Ftp
+		sync
 	fi
 else
 	rm ${RETROARCH_PATH}/retroarch
 	cp ${RETROARCH_PATH}/retroarch.plus ${RETROARCH_PATH}/retroarch
+	sync
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Wifi ]; then
-	mv ${SDCARD_PATH}/.simplemenu/apps/Wifi ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh
+		mv ${SDCARD_PATH}/.simplemenu/apps/Wifi ${SDCARD_PATH}/.simplemenu/apps/Wifi.sh
+		sync
 	fi
 	if [ -f ${SDCARD_PATH}/.simplemenu/apps/Ftp ]; then
-	mv ${SDCARD_PATH}/.simplemenu/apps/Ftp ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh
+		mv ${SDCARD_PATH}/.simplemenu/apps/Ftp ${SDCARD_PATH}/.simplemenu/apps/Ftp.sh
+		sync
 	fi
 fi
 
@@ -250,53 +258,56 @@ ${SYSTEM_PATH}/bin/batmon &
 
 # create dhcp.leases
 if [ ! -f /appconfigs/dhcp.leases ]; then
-touch /appconfigs/dhcp.leases
+	touch /appconfigs/dhcp.leases
+	sync
 fi
 
 # fix simplemenu bootloop
 if [ ! -f ${SDCARD_PATH}/.simplemenu/favorites.sav ]; then
-touch ${SDCARD_PATH}/.simplemenu/favorites.sav
+	touch ${SDCARD_PATH}/.simplemenu/favorites.sav
+	sync
 fi
 
 # clear ftp log file
 if [ -f ${SYSTEM_PATH}/bftpdutmp ]; then
-rm ${SYSTEM_PATH}/bftpdutmp
-touch ${SYSTEM_PATH}/bftpdutmp
+	rm ${SYSTEM_PATH}/bftpdutmp
+	touch ${SYSTEM_PATH}/bftpdutmp
+	sync
 fi
 
 # Detect 'B' press to fix SM boot loops
-if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
-then
-    rm ${SDCARD_PATH}/.simplemenu/last_state.sav
+if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1 then
+	rm ${SDCARD_PATH}/.simplemenu/last_state.sav
 fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ $MODEL = "MM" ]; then
 	sed -i 's/^1;1;0;10;10\([^;]*;[^;]*\)$/1;1;0;8;8\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+	sync
 fi
 
 # Set the last CPU change
 if [ -f ${CPUSAVE} ]; then
-    CPU=`cat "${CPUSAVE}"`
-    echo ${CPU} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+	CPU=`cat "${CPUSAVE}"`
+	echo ${CPU} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 	echo ${CPU} > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 fi
 
 # Launch SimpleMenu
 while [ 1 ]; do
-    HOME=${SDCARD_PATH}
-    cd ${SDCARD_PATH}/.simplemenu
-    ./simplemenu
-    sleep 4s
+	HOME=${SDCARD_PATH}
+	cd ${SDCARD_PATH}/.simplemenu
+	./simplemenu
+	sleep 4s
 done
 
 # turf off the console.
 if [ ! -f /customer/app/axp_test ]; then
-     sync
-	 sleep 5
-     reboot
+	sync
+	sleep 5
+	reboot
 else
-     sync
-	 sleep 5
-     poweroff
+	sync
+	sleep 5
+	poweroff
 if
