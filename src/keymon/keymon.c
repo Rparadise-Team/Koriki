@@ -10,13 +10,11 @@
 #include <pthread.h>
 #include <linux/input.h>
 #include <linux/fb.h>
-#include <SDL/SDL.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
-#include <sys/reboot.h>
 #include <sys/stat.h>
 
 #include "cJSON.h"
@@ -62,13 +60,13 @@
 // Global Variables
 static struct input_event	ev;
 static int input_fd = 0;
-static uint32_t *fb_addr;
-static int fb_fd;
-static uint8_t *fbofs;
-static struct fb_fix_screeninfo finfo;
-static struct fb_var_screeninfo vinfo;
-static uint32_t stride, bpp;
-static uint8_t *savebuf;
+//static uint32_t *fb_addr;
+//static int fb_fd;
+//static uint8_t *fbofs;
+//static struct fb_fix_screeninfo finfo;
+//static struct fb_var_screeninfo vinfo;
+//static uint32_t stride, bpp;
+//static uint8_t *savebuf;
 
 
 char* load_file(char const* path) {
@@ -523,43 +521,43 @@ void restorevolume(int valuevol) {
 void display_init(void)
 {
     // Open and mmap FB
-    fb_fd = open("/dev/fb0", O_RDWR);
-    ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
-    fb_addr = (uint32_t *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE,
-                               MAP_SHARED, fb_fd, 0);
+    //fb_fd = open("/dev/fb0", O_RDWR);
+    //ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
+    //fb_addr = (uint32_t *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE,
+    //                           MAP_SHARED, fb_fd, 0);
 }
 
 void display_setScreen(int value) {
-	stride = finfo.line_length;
-	ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
-	bpp = vinfo.bits_per_pixel / 8; // byte per pixel
-	fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
+	//stride = finfo.line_length;
+	//ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
+	//bpp = vinfo.bits_per_pixel / 8; // byte per pixel
+	//fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
 	
 	if (value == 0) {
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
     	// Save display area and clear
-    	if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
-        	uint32_t i, ofss, ofsd;
-        	ofss = ofsd = 0;
-        	for (i = DISPLAY_HEIGHT; i > 0;
-            	 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
-            	memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
-            	memset(fb_addr, 0, vinfo.xres * vinfo.yres * bpp);
-        	}
-    	}
+    	//if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
+        //	uint32_t i, ofss, ofsd;
+        //	ofss = ofsd = 0;
+        //	for (i = DISPLAY_HEIGHT; i > 0;
+        //    	 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
+        //    	memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
+        //    	memset(fb_addr, 0, vinfo.xres * vinfo.yres * bpp);
+        //	}
+    	//}
 	} else if (value == 1) {
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		// Restore display area
-    	if (savebuf) {
-        	uint32_t i, ofss, ofsd;
-        	ofss = ofsd = 0;
-        	for (i = DISPLAY_HEIGHT; i > 0;
-            	 i--, ofsd += stride, ofss += DISPLAY_WIDTH * bpp) {
-            	memcpy(fbofs + ofsd, savebuf + ofss, DISPLAY_WIDTH * bpp);
-        	}
-        	free(savebuf);
-        	savebuf = NULL;
-    	}
+    	//if (savebuf) {
+        //	uint32_t i, ofss, ofsd;
+        //	ofss = ofsd = 0;
+        //	for (i = DISPLAY_HEIGHT; i > 0;
+        //    	 i--, ofsd += stride, ofss += DISPLAY_WIDTH * bpp) {
+        //    	memcpy(fbofs + ofsd, savebuf + ofss, DISPLAY_WIDTH * bpp);
+        //	}
+        //	free(savebuf);
+        //	savebuf = NULL;
+    	//}
 	}
 }
 
@@ -575,8 +573,8 @@ void keyinput_send(unsigned short code, signed int value)
 int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
-	display_init();
-	display_setScreen(1);
+	//display_init();
+	//display_setScreen(1);
 	modifyBrightness(0);
 	setcpu(0);
 	sethibernate(0);
