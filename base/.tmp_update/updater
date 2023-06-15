@@ -278,7 +278,9 @@ fi
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
 then
-	rm ${SDCARD_PATH}/.simplemenu/last_state.sav
+	rm  ${SDCARD_PATH}/.simplemenu/last_state.sav
+	cp  ${SDCARD_PATH}/Koriki/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
+	sync
 fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.

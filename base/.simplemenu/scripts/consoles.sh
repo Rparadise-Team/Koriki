@@ -15,7 +15,7 @@ romDirs = /mnt/SDCARD/Roms/FDS/
 romExts = .fds,.zip,.7z
 
 [SNES]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/quicknes_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2018_libretro
 romDirs = /mnt/SDCARD/Roms/SFC/
 romExts = .smc,.sfc,.zip,.7z
 
@@ -96,7 +96,7 @@ romDirs = /mnt/SDCARD/Roms/PCECD/
 romExts = .pce,.tg16,.cue,.chd,.zip,.7z
 
 [PLAYSTATION]
-execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun
+execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro
 romDirs = /mnt/SDCARD/Roms/PS/
-romExts = .bin,.pbp,.chd,.zip,.cue,.img,.iso,.m3u
+romExts = .pbp,.chd,.zip,.cue,.img,.iso,.m3u,.mdf
 EOF
