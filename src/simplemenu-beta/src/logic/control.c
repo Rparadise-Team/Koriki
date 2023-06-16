@@ -915,16 +915,16 @@ void performSystemSettingsChoosingAction() {
 					int volume;
 					volume = getCurrentSystemValue("vol");
 					volValue-=1;
-					setVolume(volume, -1);
 					setSystemValue("vol", volValue);
+					setVolume(volume, -1);
 				}
 			} else {
 				if (volValue<20) {
 					int volume;
 					volume = getCurrentSystemValue("vol");
 					volValue+=1;
-					setVolume(volume, 1);
 					setSystemValue("vol", volValue);
+					setVolume(volume, 1);
 				}
 			}
 		}
