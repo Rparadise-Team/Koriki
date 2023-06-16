@@ -283,20 +283,26 @@ int getCurrentVolume() {
 	int sysvolume;
 	int volume;
 	int add;
+	int tiny;
 	sysvolume = getCurrentSystemValue("vol");
 	volume = (sysvolume * 3) - 60;
+	tiny = (sysvolume * 3) + 40;
 	if (volume) {
             if (volume >= -3) volume = -3;
             else if (volume <= -60) volume = -60;
         }
+	if (tiny) {
+            if (tiny >= 100) tiny = 100;
+            else if (tiny <= 40) tiny = 40;
+        }
 	add = 0;
-	setVolumeRaw(volume, add);
+	setVolumeRaw(volume, add, tiny);
 	
     return sysvolume;
 }
 
-// Increments between -60 and -3
-int setVolumeRaw(int volume, int add) {
+// Increments between -60 and -3 or 40 and 100
+int setVolumeRaw(int volume, int add, int tiny) {
 	int fix;
     int recent_volume = 0;
 	int set = 0;
@@ -319,8 +325,11 @@ int setVolumeRaw(int volume, int add) {
             close(fd);
         }
 	} else if (fix == 0) {
-		recent_volume = getCurrentSystemValue("vol");
-		set = ((recent_volume*3)+40); //tinymix work in 100-40 // 0-(-60)
+		if (tiny) {
+            if (tiny >= 100) tiny = 100;
+            else if (tiny <= 40) tiny = 40;
+        }
+		set = tiny; //tinymix work in 100-40 // 0-(-60)
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);
@@ -332,13 +341,15 @@ int setVolumeRaw(int volume, int add) {
 // Increments between 0 and 20
 int setVolume(int volume, int add) {
     int recent_volume = 0;
+	int tinyvol = 0;
     int rawVolumeValue = 0;
     int rawAdd = 0;
 	
     rawVolumeValue = (volume * 3) - 60;
+	tinyvol = (volume * 3) + 40;
     rawAdd = (add * 3);
     
-    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
+    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd, tinyvol);
     return recent_volume;
 }
 

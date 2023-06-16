@@ -16,7 +16,7 @@ int getCurrentBrightness();
 int getMaxBrightness();
 void setBrightness(int value);
 int getCurrentVolume();
-int setVolumeRaw(int volume, int add);
+int setVolumeRaw(int volume, int add, int tiny);
 int setVolume(int volume, int add);
 int getCurrentSystemValue(char const *key);
 void setSystemValue(char const *key, int value);
