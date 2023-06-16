@@ -137,16 +137,6 @@ int setVolumeRaw(int volume, int add) {
 	int audiofix = cJSON_GetNumberValue(itemFix);
 	int set = 0;
 	
-	if (add == 3 && vol < 20) vol++;
-	if (add == -3 && vol > 0) vol--;
-	if (add != 0) {
-		cJSON_SetNumberValue(itemVol, vol);
-		FILE *file = fopen(settings_file, "w");
-		char *test = cJSON_Print(request_json);
-		fputs(test, file);
-		fclose(file);
-	}
-	
 	if (audiofix == 1) {
 	if (fd >= 0) {
 		int buf2[] = {0, 0};
@@ -195,6 +185,16 @@ int setVolumeRaw(int volume, int add) {
         close(fd);
 	}
 	}	
+	
+	if (add == 3 && vol < 20) vol++;
+	if (add == -3 && vol > 0) vol--;
+	if (add != 0) {
+		cJSON_SetNumberValue(itemVol, vol);
+		FILE *file = fopen(settings_file, "w");
+		char *test = cJSON_Print(request_json);
+		fputs(test, file);
+		fclose(file);
+	}
 	
 	cJSON_Delete(request_json);
 	free(request_body);
