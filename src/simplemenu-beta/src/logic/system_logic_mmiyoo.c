@@ -277,16 +277,73 @@ void initSuspendTimer() {
     logMessage("INFO","initSuspendTimer","Suspend timer initialized");
 }
 
+
+// Read volume from system config and set this automatic
+int getCurrentVolume() {
+	int sysvolume;
+	int volume;
+	int add;
+	sysvolume = getCurrentSystemValue("vol");
+	volume = (sysvolume * 3) - 60;
+	if (volume) {
+            if (volume >= -3) volume = -3;
+            else if (volume <= -60) volume = -60;
+        }
+	add = 0;
+	setVolumeRaw(volume, add);
+	
+    return sysvolume;
+}
+
+// Increments between -60 and -3
+int setVolumeRaw(int volume, int add) {
+	int fix;
+    int recent_volume = 0;
+	int set = 0;
+	
+	fix = getCurrentSystemValue("audiofix");
+	
+	if (fix == 1) {
+        int fd = open("/dev/mi_ao", O_RDWR);
+        if (fd >= 0) {
+            int buf2[] = {0, 0};
+            uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+            ioctl(fd, MI_AO_GETVOLUME, buf1);
+            recent_volume = buf2[1];
+            if (add) {
+                buf2[1] += add;
+                if (buf2[1] > -3) buf2[1] = -3;
+                else if (buf2[1] < -60) buf2[1] = -60;
+            } else buf2[1] = volume;
+            if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+            close(fd);
+        }
+	} else if (fix == 0) {
+		recent_volume = getCurrentSystemValue("vol");
+		set = ((recent_volume*3)+40); //tinymix work in 100-40 // 0-(-60)
+		char command[100];
+		sprintf(command, "tinymix set 6 %d", set);
+		system(command);
+	}
+  
+  return recent_volume;
+}
+
+// Increments between 0 and 20
+int setVolume(int volume, int add) {
+    int recent_volume = 0;
+    int rawVolumeValue = 0;
+    int rawAdd = 0;
+	
+    rawVolumeValue = (volume * 3) - 60;
+    rawAdd = (add * 3);
+    
+    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
+    return recent_volume;
+}
+
 void HW_Init() {
     initADC();
-
-    // set volumen lever save from last sesion
-    uint32_t fa = open("/dev/mi_ao", O_RDWR);
-    int level = getCurrentSystemValue("vol");
-    int volini = 0;
-    volini = ((level*3)-60);
-    ioctl(fa, MI_AO_SETVOLUME, volini);
-    close(fa);
     getCurrentVolume();
 
     logMessage("INFO","HW_Init","HW Initialized");
@@ -343,75 +400,4 @@ void setBrightness(int value) {
     }
 
     setSystemValue("brightness", value);
-}
-
-// Read volume from system config and set this automatic
-int getCurrentVolume() {
-	int sysvolume;
-	int volume;
-	int add;
-	sysvolume = getCurrentSystemValue("vol");
-	volume = (sysvolume * 3) - 60;
-	if (volume) {
-            if (volume >= -3) volume = -3;
-            else if (volume <= -60) volume = -60;
-        }
-	add = 0;
-	setVolumeRaw(volume, add);
-	
-    return sysvolume;
-}
-
-// Increments between -60 and -3
-int setVolumeRaw(int volume, int add) {
-    int recent_volume = 0;
-    int fd = open("/dev/mi_ao", O_RDWR);
-    if (fd >= 0) {
-        int buf2[] = {0, 0};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-        ioctl(fd, MI_AO_GETVOLUME, buf1);
-        recent_volume = buf2[1];
-        if (add) {
-            buf2[1] += add;
-            if (buf2[1] > -3) buf2[1] = -3;
-            else if (buf2[1] < -60) buf2[1] = -60;
-        } else buf2[1] = volume;
-        if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-        close(fd);
-    }
-	
-	if (volume == -60) {
-		setSystemValue("mute", 1);
-    if (fd >= 0) {
-        int buf2[] = {0, 1};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-	}
-	} else if (volume > -60) {
-		setSystemValue("mute", 0);
-    if (fd >= 0) {
-        int buf2[] = {0, 0};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-	}
-	}
-  
-  return recent_volume;
-}
-
-// Increments between 0 and 20
-int setVolume(int volume, int add) {
-    int recent_volume = 0;
-    int rawVolumeValue = 0;
-    int rawAdd = 0;
-	
-    rawVolumeValue = (volume * 3) - 63;
-    rawAdd = (add * 3);
-    
-    recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
-    return recent_volume;
 }

@@ -93,24 +93,6 @@ char* load_file(char const* path) {
 int setVolumeRaw(int volume, int add) {
 	int recent_volume = 0;
 	int fd = open("/dev/mi_ao", O_RDWR);
-	if (fd >= 0) {
-		int buf2[] = {0, 0};
-		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-		ioctl(fd, MI_AO_GETVOLUME, buf1);
-		recent_volume = buf2[1];
-		if (add) {
-			buf2[1] += add;
-			if (buf2[1] > -3) buf2[1] = -3;
-			else if (buf2[1] < -60) buf2[1] = -60;
-		} else buf2[1] = volume;
-		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-		close(fd);
-	}
-
-	// Increase/Decrease Volume
-	cJSON* request_json = NULL;
-	cJSON* itemVol;
-	cJSON* itemMute;
 	
 	const char *settings_file = getenv("SETTINGS_FILE");
 	if (settings_file == NULL) {
@@ -138,12 +120,23 @@ int setVolumeRaw(int volume, int add) {
 		}
 	}
 	
+	// Increase/Decrease Volume
+	cJSON* request_json = NULL;
+	cJSON* itemVol;
+	cJSON* itemMute;
+	cJSON* itemFix;
+	
 	// Store in system.json
 	char *request_body = load_file(settings_file);
 	request_json = cJSON_Parse(request_body);
+	
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
 	itemMute = cJSON_GetObjectItem(request_json, "mute");
+	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
 	int vol = cJSON_GetNumberValue(itemVol);
+	int audiofix = cJSON_GetNumberValue(itemFix);
+	int set = 0;
+	
 	if (add == 3 && vol < 20) vol++;
 	if (add == -3 && vol > 0) vol--;
 	if (add != 0) {
@@ -153,13 +146,34 @@ int setVolumeRaw(int volume, int add) {
 		fputs(test, file);
 		fclose(file);
 	}
+	
+	if (audiofix == 1) {
+	if (fd >= 0) {
+		int buf2[] = {0, 0};
+		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+		ioctl(fd, MI_AO_GETVOLUME, buf1);
+		recent_volume = buf2[1];
+		if (add) {
+			buf2[1] += add;
+			if (buf2[1] > -3) buf2[1] = -3;
+			else if (buf2[1] < -60) buf2[1] = -60;
+		} else buf2[1] = volume;
+		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+		close(fd);
+		}
+	} else {
+		set = ((vol*3)+40); //tinymix work in 100-40 // 0-(-60)
+		char command[100];
+		sprintf(command, "tinymix set 6 %d", set);
+		system(command);
+	}
+	
 	if (vol == 0) {
 		cJSON_SetNumberValue(itemMute, 1);
 		FILE *file = fopen(settings_file, "w");
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
-		int fd = open("/dev/mi_ao", O_RDWR);
     if (fd >= 0) {
         int buf2[] = {0, 1};
         uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -173,7 +187,6 @@ int setVolumeRaw(int volume, int add) {
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
-		int fd = open("/dev/mi_ao", O_RDWR);
     if (fd >= 0) {
         int buf2[] = {0, 0};
         uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -201,6 +214,95 @@ int setVolume(int volume, int add) {
 	recent_volume = setVolumeRaw(rawVolumeValue, rawAdd);
 	return (int)((recent_volume/3)+20);
 }
+
+int getVolume() {
+	int recent_volume = 0;
+	int fd = open("/dev/mi_ao", O_RDWR);
+	
+	const char *settings_file = getenv("SETTINGS_FILE");
+	if (settings_file == NULL) {
+		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+		if (!pipe) {
+			settings_file = "/appconfigs/system.json";
+		} else {
+			char buffer[128];
+			int flash_detected = 0;
+			
+			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+					flash_detected = 1;
+					break;
+				}
+			}
+			
+			pclose(pipe);
+			
+			if (flash_detected) {
+				settings_file = "/mnt/SDCARD/system.json";
+			} else {
+				settings_file = "/appconfigs/system.json";
+			}
+		}
+	}
+	
+	// get Volume level
+	cJSON* request_json = NULL;
+	cJSON* itemVol;
+	cJSON* itemMute;
+	cJSON* itemFix;
+	
+	// Store in system.json
+	char *request_body = load_file(settings_file);
+	request_json = cJSON_Parse(request_body);
+	
+	itemVol = cJSON_GetObjectItem(request_json, "vol");
+	itemMute = cJSON_GetObjectItem(request_json, "mute");
+	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
+	int vol = cJSON_GetNumberValue(itemVol);
+	int audiofix = cJSON_GetNumberValue(itemFix);
+	int mute = cJSON_GetNumberValue(itemMute);
+	int set = 0;
+	
+	if (mute == 0) {
+		if (audiofix == 1) {
+			if (fd >= 0) {
+				int buf2[] = {0, 0};
+				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+				ioctl(fd, MI_AO_GETVOLUME, buf1);
+				recent_volume = ((vol * 3) - 60);
+				buf2[1] = recent_volume;
+				ioctl(fd, MI_AO_SETVOLUME, buf1);
+				close(fd);
+			}
+		} else {
+			set = ((vol*3)+40); //tinymix work in 100-40 // 0-(-60)
+			char command[100];
+			sprintf(command, "tinymix set 6 %d", set);
+			system(command);
+		}
+		
+		if (vol > 0) {
+	    	if (fd >= 0) {
+	        	int buf2[] = {0, 0};
+	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						
+   		     	ioctl(fd, MI_AO_SETMUTE, buf1);
+	        	close(fd);
+			}
+		}
+	} else if (mute == 1) {
+		if (fd >= 0) {
+	        	int buf2[] = {0, 1};
+	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						
+   		     	ioctl(fd, MI_AO_SETMUTE, buf1);
+	        	close(fd);
+			}
+		}
+	
+	return 0;
+}
+	
 
 // Increase/Decrease Brightness
 void modifyBrightness(int inc) {
@@ -582,7 +684,8 @@ int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
 	//display_init();
-	//display_setScreen(1);
+	display_setScreen(1);
+	getVolume();
 	modifyBrightness(0);
 	setcpu(0);
 	sethibernate(0);
@@ -660,10 +763,9 @@ int main (int argc, char *argv[]) {
 							sethibernate(0);
 							//restorevolume(1);
 							setcpu(0);
+							display_setScreen(1); // Turn screen back on
 							keyinput_send(1, 1);
 							keyinput_send(1, 2);
-							usleep(1000);
-							display_setScreen(1); // Turn screen back on
 							keyinput_send(1, 1);
 							power_pressed = 0;
             				repeat_power = 0;
@@ -706,6 +808,7 @@ int main (int argc, char *argv[]) {
 					// Decrease brightness
 					modifyBrightness(-1);
 				}
+				break;
 			case BUTTON_VOLUMEUP:
 				// Increase volume
 				setVolume(volume, 1);
