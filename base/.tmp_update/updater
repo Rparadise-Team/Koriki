@@ -197,6 +197,22 @@ if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; t
 	fi
 fi
 
+# fix if the settings files is missing
+if [ ! -f $SETTINGS_FILE ]; then
+	if [ $MODEL = "MMP" ]; then
+		cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+		sync
+		reboot
+		sleep 5
+	fi
+	if [ $MODEL = "MM" ]; then
+		cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+		sync
+		reboot
+		sleep 5
+	fi
+fi
+
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
