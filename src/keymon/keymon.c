@@ -152,7 +152,9 @@ int setVolumeRaw(int volume, int add) {
 		close(fd);
 		}
 	} else {
-		set = ((vol*3)+40); //tinymix work in 100-40 // 0-(-60)
+		set = ((vol*3)+add+40); //tinymix work in 100-40 // 0-(-60)
+  if (set =<40) set=40;
+  if (set =>100) set=100;
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);
