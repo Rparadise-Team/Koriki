@@ -60,14 +60,6 @@
 // Global Variables
 static struct input_event	ev;
 static int input_fd = 0;
-//static uint32_t *fb_addr;
-//static int fb_fd;
-//static uint8_t *fbofs;
-//static struct fb_fix_screeninfo finfo;
-//static struct fb_var_screeninfo vinfo;
-//static uint32_t stride, bpp;
-//static uint8_t *savebuf;
-
 
 char* load_file(char const* path) {
 	char* buffer = 0;
@@ -124,7 +116,6 @@ int setVolumeRaw(int volume, int add) {
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
 	cJSON* itemMute;
-	cJSON* itemFix;
 	
 	// Store in system.json
 	char *request_body = load_file(settings_file);
@@ -132,12 +123,8 @@ int setVolumeRaw(int volume, int add) {
 	
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
 	itemMute = cJSON_GetObjectItem(request_json, "mute");
-	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
 	int vol = cJSON_GetNumberValue(itemVol);
-	int audiofix = cJSON_GetNumberValue(itemFix);
-	int set = 0;
 	
-	if (audiofix == 1) {
 	if (fd >= 0) {
 		int buf2[] = {0, 0};
 		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -151,14 +138,6 @@ int setVolumeRaw(int volume, int add) {
 		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
 		close(fd);
 		}
-	} else {
-		set = ((vol*3)+add+40); //tinymix work in 100-40 // 0-(-60)
-		if (set <= 40) set=40;
-		else if (set >= 100) set=100;
-		char command[100];
-		sprintf(command, "tinymix set 6 %d", set);
-		system(command);
-	}
 	
 	if (vol == 0) {
 		cJSON_SetNumberValue(itemMute, 1);
@@ -166,13 +145,13 @@ int setVolumeRaw(int volume, int add) {
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
-    if (fd >= 0) {
-        int buf2[] = {0, 1};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+    	if (fd >= 0) {
+        	int buf2[] = {0, 1};
+        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-	}
+        	ioctl(fd, MI_AO_SETMUTE, buf1);
+        	close(fd);
+		}
 	} else if (vol > 0) {
 		cJSON_SetNumberValue(itemMute, 0);
 		FILE *file = fopen(settings_file, "w");
@@ -251,7 +230,6 @@ int getVolume() {
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
 	cJSON* itemMute;
-	cJSON* itemFix;
 	
 	// Store in system.json
 	char *request_body = load_file(settings_file);
@@ -259,29 +237,20 @@ int getVolume() {
 	
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
 	itemMute = cJSON_GetObjectItem(request_json, "mute");
-	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
 	int vol = cJSON_GetNumberValue(itemVol);
-	int audiofix = cJSON_GetNumberValue(itemFix);
 	int mute = cJSON_GetNumberValue(itemMute);
-	int set = 0;
+
 	
 	if (mute == 0) {
-		if (audiofix == 1) {
-			if (fd >= 0) {
-				int buf2[] = {0, 0};
-				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-				ioctl(fd, MI_AO_GETVOLUME, buf1);
-				recent_volume = ((vol * 3) - 60);
-				buf2[1] = recent_volume;
-				ioctl(fd, MI_AO_SETVOLUME, buf1);
-				close(fd);
+		if (fd >= 0) {
+			int buf2[] = {0, 0};
+			uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+			ioctl(fd, MI_AO_GETVOLUME, buf1);
+			recent_volume = ((vol * 3) - 60);
+			buf2[1] = recent_volume;
+			ioctl(fd, MI_AO_SETVOLUME, buf1);
+			close(fd);
 			}
-		} else {
-			set = ((vol*3)+40); //tinymix work in 100-40 // 0-(-60)
-			char command[100];
-			sprintf(command, "tinymix set 6 %d", set);
-			system(command);
-		}
 		
 		if (vol > 0) {
 	    	if (fd >= 0) {
@@ -520,7 +489,6 @@ void sethibernate(int hibernate) {
 void restorevolume(int valuevol) {
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
-	cJSON* itemFix;
 	
 	const char *settings_file = getenv("SETTINGS_FILE");
 	if (settings_file == NULL) {
@@ -552,72 +520,48 @@ void restorevolume(int valuevol) {
 	char *request_body = load_file(settings_file);
 	request_json = cJSON_Parse(request_body);
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
 	int volumesave = cJSON_GetNumberValue(itemVol);
-	int audiofix = cJSON_GetNumberValue(itemFix);
+	int recent_volume = 0;
+	int add = 0;
+	int fd = open("/dev/mi_ao", O_RDWR);
+	
 	if (valuevol == 0) {
 		if (access("/tmp/volsav", F_OK) == 0) {
-			if (audiofix == 1) {
-				int fd = open("/dev/mi_ao", O_RDWR);
-				if (fd >= 0) {
-					int buf2[] = {0, -60};
-					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-					ioctl(fd, MI_AO_SETVOLUME, buf1);
-					close(fd);
-				}
+			if (fd >= 0) {
+				int buf2[] = {0, -60};
+				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+				ioctl(fd, MI_AO_SETVOLUME, buf1);
+				close(fd);
 			}
-			int set = 0;
-			set = 40; //tinymix work in 100-40 // 0-(-60)
-			char command[100];
-			sprintf(command, "tinymix set 6 %d", set);
-			system(command);
-			
 		} else { 
 			system("touch /tmp/volsav");
 			char command[100];
 			sprintf(command, "echo %d > /tmp/volsav", volumesave);
 			system(command);
-			if (audiofix == 1) {
-				int fd = open("/dev/mi_ao", O_RDWR);
-				if (fd >= 0) {
-					int buf2[] = {0, -60};
-					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-					ioctl(fd, MI_AO_SETVOLUME, buf1);
-					close(fd);
-				}
+
+			if (fd >= 0) {
+				int buf2[] = {0, -60};
+				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+				ioctl(fd, MI_AO_SETVOLUME, buf1);
+				close(fd);
 			}
-			int set = 0;
-			set = 40; //tinymix work in 100-40 // 0-(-60)
-			char command2[100];
-			sprintf(command2, "tinymix set 6 %d", set);
-			system(command2);
 		}
 	} else if (valuevol == 1){
 		if (access("/tmp/volsav", F_OK) == 0) {
-			int set = 0;
-			set = ((volumesave*3)+40); //tinymix work in 100-40 // 0-(-60)
-			char command[100];
-			sprintf(command, "tinymix set 6 %d", set);
-			system(command);
-			if (audiofix == 1) {
-				int recent_volume = 0;
-				int add;
-				int fd = open("/dev/mi_ao", O_RDWR);
-				if (fd >= 0) {
-					int buf2[] = {0, 0};
-					buf2[1] = (volumesave * 3) - 60;
-					add = volumesave * 3;
-					uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-					ioctl(fd, MI_AO_GETVOLUME, buf1);
-					recent_volume = buf2[1];
-					if (add) {
-						buf2[1] += add;
-						if (buf2[1] > -3) buf2[1] = -3;
-						else if (buf2[1] < -60) buf2[1] = -60;
-					} else buf2[1] = (volumesave * 3) - 60;
-					if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-					close(fd);
-				}
+			if (fd >= 0) {
+				int buf2[] = {0, 0};
+				buf2[1] = (volumesave * 3) - 60;
+				add = volumesave * 3;
+				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+				ioctl(fd, MI_AO_GETVOLUME, buf1);
+				recent_volume = buf2[1];
+				if (add) {
+					buf2[1] += add;
+					if (buf2[1] > -3) buf2[1] = -3;
+					else if (buf2[1] < -60) buf2[1] = -60;
+				} else buf2[1] = (volumesave * 3) - 60;
+				if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+				close(fd);
 			}
 		} else { 
 			system("touch /tmp/volsav");
@@ -680,10 +624,6 @@ void display_setScreen(int value) {
 	} else if (value == 1) {
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		if (isRetroarchRunning() == 1) {
-		keymulti_send(1, 2, 42, 2);
-		keymulti_send(1, 1, 42, 1);
-		}
 		usleep(0.5);
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 	}
