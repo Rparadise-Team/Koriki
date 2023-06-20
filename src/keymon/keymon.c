@@ -153,8 +153,8 @@ int setVolumeRaw(int volume, int add) {
 		}
 	} else {
 		set = ((vol*3)+add+40); //tinymix work in 100-40 // 0-(-60)
-  if (set =<40) set=40;
-  if (set =>100) set=100;
+		if (set <= 40) set=40;
+		else if (set >= 100) set=100;
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);
@@ -628,51 +628,6 @@ void restorevolume(int valuevol) {
 	}
 }
 
-void display_init(void)
-{
-    // Open and mmap FB
-    //fb_fd = open("/dev/fb0", O_RDWR);
-    //ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
-    //fb_addr = (uint32_t *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE,
-    //                           MAP_SHARED, fb_fd, 0);
-}
-
-void display_setScreen(int value) {
-	//stride = finfo.line_length;
-	//ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
-	//bpp = vinfo.bits_per_pixel / 8; // byte per pixel
-	//fbofs = (uint8_t *)fb_addr + (vinfo.yoffset * stride);
-	
-	if (value == 0) {
-		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
-		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
-    	// Save display area and clear
-    	//if ((savebuf = (uint8_t *)malloc(DISPLAY_WIDTH * bpp * DISPLAY_HEIGHT))) {
-        //	uint32_t i, ofss, ofsd;
-        //	ofss = ofsd = 0;
-        //	for (i = DISPLAY_HEIGHT; i > 0;
-        //    	 i--, ofss += stride, ofsd += DISPLAY_WIDTH * bpp) {
-        //    	memcpy(savebuf + ofsd, fbofs + ofss, DISPLAY_WIDTH * bpp);
-        //    	memset(fb_addr, 0, vinfo.xres * vinfo.yres * bpp);
-        //	}
-    	//}
-	} else if (value == 1) {
-		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
-		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		// Restore display area
-    	//if (savebuf) {
-        //	uint32_t i, ofss, ofsd;
-        //	ofss = ofsd = 0;
-        //	for (i = DISPLAY_HEIGHT; i > 0;
-        //    	 i--, ofsd += stride, ofss += DISPLAY_WIDTH * bpp) {
-        //    	memcpy(fbofs + ofsd, savebuf + ofss, DISPLAY_WIDTH * bpp);
-        //	}
-        //	free(savebuf);
-        //	savebuf = NULL;
-    	//}
-	}
-}
-
 void keyinput_send(unsigned short code, signed int value)
 {
 	char cmd[100];
@@ -682,11 +637,61 @@ void keyinput_send(unsigned short code, signed int value)
 	printf("Keys sent");
 }
 
+void keymulti_send(unsigned short code1, signed int value1, unsigned short code2, signed int value2)
+{
+    char cmd[200];
+    sprintf(cmd, "/mnt/SDCARD/Koriki/bin/sendkeys %d %d %d %d", code1, value1, code2, value2);
+    printf("Send keys: code1=%d, value1=%d, code2=%d, value2=%d\n", code1, value1, code2, value2);
+    system(cmd);
+    printf("Keys sent");
+}
+
+int isRetroarchRunning()
+{
+	FILE *fp;
+	char buffer[128];
+	const char *cmd = "pgrep retroarch";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep retroarch'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
+void display_setScreen(int value) {
+	if (value == 0) {
+		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		if (isRetroarchRunning() == 1) {
+		keymulti_send(1, 2, 42, 2);
+		keymulti_send(1, 1, 42, 1);
+		}
+		usleep(0.5);
+		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
+		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
+	} else if (value == 1) {
+		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
+		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
+		if (isRetroarchRunning() == 1) {
+		keymulti_send(1, 2, 42, 2);
+		keymulti_send(1, 1, 42, 1);
+		}
+		usleep(0.5);
+		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
+	}
+}
+
 int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
-	//display_init();
-	display_setScreen(1);
 	getVolume();
 	modifyBrightness(0);
 	setcpu(0);
@@ -752,10 +757,7 @@ int main (int argc, char *argv[]) {
 						if (sleep == 0) {
 							setmute(1);
 							sethibernate(1);
-							//restorevolume(0);
 							setcpu(1);
-							keyinput_send(1, 1);
-							keyinput_send(1, 2);
 							display_setScreen(0); // Turn screen back off
 							power_pressed = 0;
 							repeat_power = 0;
@@ -763,12 +765,8 @@ int main (int argc, char *argv[]) {
 						} else if (sleep == 1) {
 							setmute(0);
 							sethibernate(0);
-							//restorevolume(1);
 							setcpu(0);
 							display_setScreen(1); // Turn screen back on
-							keyinput_send(1, 1);
-							keyinput_send(1, 2);
-							keyinput_send(1, 1);
 							power_pressed = 0;
             				repeat_power = 0;
 							sleep = 0;

@@ -325,11 +325,9 @@ int setVolumeRaw(int volume, int add, int tiny) {
             close(fd);
         }
 	} else if (fix == 0) {
-		if (tiny) {
-            if (tiny >= 100) tiny = 100;
-            else if (tiny <= 40) tiny = 40;
-        }
-		set = tiny; //tinymix work in 100-40 // 0-(-60)
+		set = tiny+add; //tinymix work in 100-40 // 0-(-60)
+        if (set >= 100) set = 100;
+        else if (set <= 40) set = 40;
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);

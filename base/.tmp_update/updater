@@ -156,12 +156,14 @@ update
 ${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.simplemenu/resources/loading.png
 
 # check swap size
+if [ -f ${SWAPFILE} ]; then
 SWAPSIZE=`stat -c %s "${SWAPFILE}"`
 
 MINSIZE=$((256 * 1024 * 1024))
 
 if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
 	rm ${SWAPFILE}
+fi
 fi
 
 # Enable swap
