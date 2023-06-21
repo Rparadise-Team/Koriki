@@ -615,16 +615,19 @@ void display_setScreen(int value) {
 	if (value == 0) {
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		if (isRetroarchRunning() == 1) {
-		keymulti_send(1, 2, 42, 2);
-		keymulti_send(1, 1, 42, 1);
+		keyinput_send(1, 2);
+		keyinput_send(1, 1);
 		}
-		usleep(0.5);
 		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
 	} else if (value == 1) {
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		usleep(0.5);
+		if (isRetroarchRunning() == 1) {
+		keyinput_send(1, 2);
+		keyinput_send(1, 1);
+		usleep(100000);
+		}
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 	}
 }
