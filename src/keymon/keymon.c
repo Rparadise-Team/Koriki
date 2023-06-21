@@ -572,22 +572,64 @@ void restorevolume(int valuevol) {
 	}
 }
 
-void keyinput_send(unsigned short code, signed int value)
+void keyinput_send(int code, int mode)
 {
-	char cmd[100];
-	sprintf(cmd, "/mnt/SDCARD/Koriki/bin/sendkeys %d %d", code, value);
-	printf("Send keys: code=%d, value=%d\n", code, value);
-	system(cmd);
-	printf("Keys sent");
+    struct input_event events[1];
+
+    events[0].type = EV_KEY;
+    events[0].code = code;
+    events[0].value = mode;
+
+    int input_fd = open("/dev/input/event0", O_WRONLY);
+    if (input_fd == -1) {
+        perror("Failed to open input device");
+        return;
+    }
+
+    printf("sendkeys: code = %d, value = %d\n", code, mode);
+
+    ssize_t bytes_written = write(input_fd, events, sizeof(events));
+    if (bytes_written == -1) {
+        perror("Failed to write to input device");
+    }
+
+    fsync(input_fd);
+    close(input_fd);
 }
 
-void keymulti_send(unsigned short code1, signed int value1, unsigned short code2, signed int value2)
-{
-    char cmd[200];
-    sprintf(cmd, "/mnt/SDCARD/Koriki/bin/sendkeys %d %d %d %d", code1, value1, code2, value2);
-    printf("Send keys: code1=%d, value1=%d, code2=%d, value2=%d\n", code1, value1, code2, value2);
-    system(cmd);
-    printf("Keys sent");
+void keymulti_send(int code1, int mode1, int code2, int mode2) {
+    int num_events = 2;
+    struct input_event *events = (struct input_event*)malloc(num_events * sizeof(struct input_event));
+
+    events[0].type = EV_KEY;
+    events[0].code = code1;
+    events[0].value = mode1;
+
+    events[1].type = EV_KEY;
+    events[1].code = code2;
+    events[1].value = mode2;
+
+    int input_fd = open("/dev/input/event0", O_WRONLY);
+    if (input_fd == -1) {
+        perror("Failed to open input device");
+        free(events);
+        return;
+    }
+
+    for (int i = 0; i < num_events; i++) {
+        printf("sendkeys: code = %d, value = %d\n", events[i].code, events[i].value);
+        ssize_t bytes_written = write(input_fd, &events[i], sizeof(events[i]));
+        if (bytes_written == -1) {
+            perror("Failed to write to input device");
+            free(events);
+            close(input_fd);
+            return;
+        }
+    }
+
+    fsync(input_fd);
+    close(input_fd);
+    free(events);
 }
 
 int isRetroarchRunning()
