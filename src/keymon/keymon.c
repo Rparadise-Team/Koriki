@@ -1,26 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
-#include <math.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
 #include <pthread.h>
 #include <linux/input.h>
-#include <linux/fb.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
 
 #include "cJSON.h"
-
-#define DISPLAY_WIDTH 640
-#define DISPLAY_HEIGHT 480
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
@@ -586,8 +578,6 @@ void keyinput_send(int code, int mode)
         return;
     }
 
-    printf("sendkeys: code = %d, value = %d\n", code, mode);
-
     ssize_t bytes_written = write(input_fd, events, sizeof(events));
     if (bytes_written == -1) {
         perror("Failed to write to input device");
@@ -597,7 +587,8 @@ void keyinput_send(int code, int mode)
     close(input_fd);
 }
 
-void keymulti_send(int code1, int mode1, int code2, int mode2) {
+void keymulti_send(int code1, int mode1, int code2, int mode2) 
+{
     int num_events = 2;
     struct input_event *events = (struct input_event*)malloc(num_events * sizeof(struct input_event));
 
@@ -617,7 +608,6 @@ void keymulti_send(int code1, int mode1, int code2, int mode2) {
     }
 
     for (int i = 0; i < num_events; i++) {
-        printf("sendkeys: code = %d, value = %d\n", events[i].code, events[i].value);
         ssize_t bytes_written = write(input_fd, &events[i], sizeof(events[i]));
         if (bytes_written == -1) {
             perror("Failed to write to input device");
@@ -657,8 +647,9 @@ void display_setScreen(int value) {
 	if (value == 0) {
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		if (isRetroarchRunning() == 1) {
-		keyinput_send(1, 2);
-		keyinput_send(1, 1);
+			keyinput_send(1, 2);
+			keyinput_send(1, 1);
+			usleep(30000);
 		}
 		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
@@ -666,9 +657,9 @@ void display_setScreen(int value) {
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		if (isRetroarchRunning() == 1) {
-		keyinput_send(1, 2);
-		keyinput_send(1, 1);
-		usleep(100000);
+			keyinput_send(1, 2);
+			keyinput_send(1, 1);
+			usleep(30000);
 		}
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 	}
