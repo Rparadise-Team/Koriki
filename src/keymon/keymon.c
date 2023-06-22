@@ -645,24 +645,25 @@ int isRetroarchRunning()
 
 void display_setScreen(int value) {
 	if (value == 0) {  // enter in savepower mode
-		system("echo 4 > /sys/class/gpio/export");
-		system("echo out > /sys/class/gpio/gpio4/direction");
-		system("echo 0 > /sys/class/gpio/gpio4/value");
 		if (isRetroarchRunning() == 1) {
 			system("pkill -STOP retroarch");
 		}
+		system("echo 4 > /sys/class/gpio/export");
+		system("echo out > /sys/class/gpio/gpio4/direction");
+		system("echo 0 > /sys/class/gpio/gpio4/value");
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
 	} else if (value == 1) {  // exit for savepower mode
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		if (isRetroarchRunning() == 1) {
-			system("pkill -CONT retroarch");
-		}
 		system("echo 1 > /sys/class/gpio/gpio4/value");
 		system("echo 4 > /sys/class/gpio/unexport");
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
+		usleep(20000);
+		if (isRetroarchRunning() == 1) {
+			system("pkill -CONT retroarch");
+		}
 	}
 }
 
@@ -732,10 +733,10 @@ int main (int argc, char *argv[]) {
 				} else if (val == RELEASED && power_pressed) {
 					if (power_pressed_duration < 5) { // Short press
 						if (sleep == 0) {
+							display_setScreen(0); // Turn screen back off
 							setmute(1);
 							sethibernate(1);
 							setcpu(1);
-							display_setScreen(0); // Turn screen back off
 							power_pressed = 0;
 							repeat_power = 0;
 							sleep = 1;
