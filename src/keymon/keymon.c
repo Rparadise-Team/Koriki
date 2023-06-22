@@ -649,9 +649,7 @@ void display_setScreen(int value) {
 		system("echo out > /sys/class/gpio/gpio4/direction");
 		system("echo 0 > /sys/class/gpio/gpio4/value");
 		if (isRetroarchRunning() == 1) {
-			keyinput_send(1, 2);
-			keyinput_send(1, 1);
-			usleep(30000);
+			system("pkill -STOP retroarch");
 		}
 		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
@@ -660,9 +658,7 @@ void display_setScreen(int value) {
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		if (isRetroarchRunning() == 1) {
-			keyinput_send(1, 2);
-			keyinput_send(1, 1);
-			usleep(30000);
+			system("pkill -CONT retroarch");
 		}
 		system("echo 1 > /sys/class/gpio/gpio4/value");
 		system("echo 4 > /sys/class/gpio/unexport");
