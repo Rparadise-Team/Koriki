@@ -644,16 +644,19 @@ int isRetroarchRunning()
 }
 
 void display_setScreen(int value) {
-	if (value == 0) {
-		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
+	if (value == 0) {  // enter in savepower mode
+		system("echo 4 > /sys/class/gpio/export");
+		system("echo out > /sys/class/gpio/gpio4/direction");
+		system("echo 0 > /sys/class/gpio/gpio4/value");
 		if (isRetroarchRunning() == 1) {
 			keyinput_send(1, 2);
 			keyinput_send(1, 1);
 			usleep(30000);
 		}
+		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
 		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
-	} else if (value == 1) {
+	} else if (value == 1) {  // exit for savepower mode
 		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
 		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
 		if (isRetroarchRunning() == 1) {
@@ -661,6 +664,8 @@ void display_setScreen(int value) {
 			keyinput_send(1, 1);
 			usleep(30000);
 		}
+		system("echo 1 > /sys/class/gpio/gpio4/value");
+		system("echo 4 > /sys/class/gpio/unexport");
 		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
 	}
 }
@@ -800,9 +805,9 @@ int main (int argc, char *argv[]) {
 		if (shutdown) {
 			power_pressed = 0;
 			if (access("/customer/app/axp_test", F_OK) == 0)
-				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall simplemenu; killall batmon; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; poweroff");
+				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
 			else
-				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall simplemenu; killall batmon; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; reboot");
+				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
 			while (1) pause();
 		}
 	}
