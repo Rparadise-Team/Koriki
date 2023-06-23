@@ -15,6 +15,7 @@ export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE=/mnt/SDCARD/cachefile
 export CPUSAVE=/mnt/SDCARD/.simplemenu/cpu.sav
+export GOVSAVE=/mnt/SDCARD/.simplemenu/governor.sav
 
 export RETROARCH_PATH=/mnt/SDCARD/RetroArch
 
@@ -268,6 +269,27 @@ else
 	fi
 fi
 
+# Set the last CPU and GOV change
+if [ -f ${CPUSAVE} ]; then
+	CPU=`cat "${CPUSAVE}"`
+	echo ${CPU} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+	echo ${CPU} > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
+fi
+if [ ! -f ${CPUSAVE} ]; then
+	touch ${CPUSAVE}
+	echo 1200000 > ${CPUSAVE}
+	sync
+fi
+if [ -f ${GOVSAVE} ]; then
+	echo ondemand > ${GOVSAVE}
+	sync
+fi
+if [ ! -f ${GOVSAVE} ]; then
+	touch ${GOVSAVE}
+	echo ondemand > ${GOVSAVE}
+	sync
+fi
+
 # Koriki keymon
 runifnecessary "keymon" ${SYSTEM_PATH}/bin/keymon
 
@@ -305,18 +327,6 @@ fi
 if [ $MODEL = "MM" ]; then
 	sed -i 's/^1;1;0;10;10\([^;]*;[^;]*\)$/1;1;0;9;9\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;11;11\([^;]*;[^;]*\)$/1;1;0;9;9\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sync
-fi
-
-# Set the last CPU change
-if [ -f ${CPUSAVE} ]; then
-	CPU=`cat "${CPUSAVE}"`
-	echo ${CPU} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-	echo ${CPU} > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
-fi
-if [ ! -f ${CPUSAVE} ]; then
-	touch ${CPUSAVE}
-	echo 1200000 > ${CPUSAVE}
 	sync
 fi
 
