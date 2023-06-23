@@ -176,8 +176,8 @@ int main(void) {
 	  SDL_BlitSurface(black_image, NULL, screen, NULL);
 	  SDL_BlitSurface(screen, NULL, video, NULL);
 	  SDL_Flip(video);
+	  system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 	  system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
-	  system("echo 400000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
       screen_on = false;
     }
 
@@ -201,7 +201,7 @@ int main(void) {
           power_pressed = false;
         } else if (ev.value == REPEAT) {
           if (repeat_power >= 5) {
-			system("echo 1200000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+			system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/governor");
 			system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
             running = false; // power on
           }

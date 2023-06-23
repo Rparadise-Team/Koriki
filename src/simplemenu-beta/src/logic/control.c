@@ -871,10 +871,9 @@ void performSystemSettingsChoosingAction() {
 					char cpuclock0[200];
 					snprintf(cpuclock0, sizeof(cpuclock0), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
 					system(cpuclock0);
-					char cpuclock1[200];
-					snprintf(cpuclock1, sizeof(cpuclock1), "echo %d > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq", CPUMIYOO);
-					system(cpuclock1);
+					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
 					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq /mnt/SDCARD/.simplemenu/cpu.sav");
+					system("sync");
 				}
 			} else {
 				if (CPUMIYOO<1200000) {
@@ -882,10 +881,9 @@ void performSystemSettingsChoosingAction() {
 					char cpuclock0[200];
 					snprintf(cpuclock0, sizeof(cpuclock0), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
 					system(cpuclock0);
-					char cpuclock1[200];
-					snprintf(cpuclock1, sizeof(cpuclock1), "echo %d > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq", CPUMIYOO);
-					system(cpuclock1);
+					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
 					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq /mnt/SDCARD/.simplemenu/cpu.sav");
+					system("sync");
 				}
 			}
 		} else if (chosenSetting==AUDIOFIX_OPTION) {

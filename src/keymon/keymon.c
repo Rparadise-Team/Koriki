@@ -35,6 +35,7 @@
 #define BUTTON_VOLUMEDOWN	KEY_VOLUMEDOWN
 
 #define CPUSAVE "/mnt/SDCARD/.simplemenu/cpu.sav"
+#define GOVSAVE "/mnt/SDCARD/.simplemenu/governor.sav"
 
 #define BRIMAX		10
 #define BRIMIN		1
@@ -326,30 +327,45 @@ void modifyBrightness(int inc) {
 
 void setcpu(int cpu) {
 	if (cpu == 0) {
-		FILE *file;
+		FILE *file0;
+		FILE *file1;
 		char cpuValue[10];
+		char govValue[20];
 		
-		file = fopen(CPUSAVE, "r");
-		 if (file == NULL) {
-			 file = fopen(CPUSAVE, "w");
-			 fprintf(file, "%d", 1200000);
-			 fclose(file);
-			 file = fopen(CPUSAVE, "r");
+		file0 = fopen(CPUSAVE, "r");
+		 if (file0 == NULL) {
+			 file0 = fopen(CPUSAVE, "w");
+			 fprintf(file0, "%d", 1200000);
+			 fclose(file0);
+			 file0 = fopen(CPUSAVE, "r");
+		 }
+		
+		file1 = fopen(GOVSAVE, "r");
+		 if (file1 == NULL) {
+			 file1 = fopen(GOVSAVE, "w");
+			 fprintf(file1, "ondemand");
+			 fclose(file1);
+			 file1 = fopen(GOVSAVE, "r");
         }
-		fgets(cpuValue, sizeof(cpuValue), file);
-		fclose(file);
 		
-		FILE *cpuFile0 = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
-		FILE *cpuFile1 = fopen("/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq", "w");
+		fgets(cpuValue, sizeof(cpuValue), file0);
+		fclose(file0);
 		
-		fprintf(cpuFile0, "%s", cpuValue);
-		fprintf(cpuFile1, "%s", cpuValue);
+		fgets(govValue, sizeof(govValue), file1);
+		fclose(file1);
 		
-		fclose(cpuFile0);
-		fclose(cpuFile1);
+		FILE *cpuFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
+		fprintf(cpuFile, "%s", cpuValue);
+		fclose(cpuFile);
+			 
+		FILE *govFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "w");
+		fprintf(govFile, "%s", govValue);
+		fclose(govFile);
 	} else if (cpu == 1) {
-		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo powersaver > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 400000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+		system("sync");
 	}
 }
 
