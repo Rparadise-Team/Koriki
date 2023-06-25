@@ -597,7 +597,7 @@ def startap():
 	time.sleep(2.0)
 	#SU.Popen(['/mnt/SDCARD/Koriki/bin/dhcpcd', '-f', '/mnt/SDCARD/App/Wifi/udhcpd.conf'], close_fds=True)
 	SU.Popen(['sysctl', '-w', 'net.ipv4.ip_forward=1'], close_fds=True).wait()
-	SU.Popen(['/mnt/SDCARD/Koriki/bin/openport', '55435'], close_fds=True)
+	#SU.Popen(['/mnt/SDCARD/Koriki/bin/openport', '55435'], close_fds=True)
 	modal('AP created!', timeout=True)
 	return True
 ## Input methods
