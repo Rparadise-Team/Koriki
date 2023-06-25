@@ -363,7 +363,7 @@ void setcpu(int cpu) {
 		fclose(govFile);
 	} else if (cpu == 1) {
 		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-		system("echo powersaver > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 400000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
 		system("sync");
 	}
