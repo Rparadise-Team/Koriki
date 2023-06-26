@@ -569,7 +569,7 @@ def startap():
 	if checkinterfacestatus(wlan):
 		disconnect(wlan)
 
-	modal("Creating AP...")
+	modal("Creating ADHOC...")
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
@@ -583,7 +583,7 @@ def startap():
 			time.sleep(0.1);
 		else:
 			#SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
-			modal('Failed to create AP...', wait=True)
+			modal('Failed to create ADHOC...', wait=True)
 			redraw()
 			return False
 		
@@ -595,10 +595,12 @@ def startap():
 	SU.Popen(['/sbin/ifconfig', 'wlan0', '192.168.4.100', 'netmask', '255.255.255.0', 'up'], close_fds=True).wait()
 	SU.Popen(['/mnt/SDCARD/Koriki/bin/dnsmasq', '-i', 'wlan0', '-C', '/mnt/SDCARD/App/Wifi/dnsmasq.conf'], close_fds=True)
 	time.sleep(2.0)
+	#SU.Popen(['ip', 'route', 'add', 'default', 'via', '192.168.4.100'], close_fds=True).wait()
 	#SU.Popen(['/mnt/SDCARD/Koriki/bin/dhcpcd', '-f', '/mnt/SDCARD/App/Wifi/udhcpd.conf'], close_fds=True)
-	SU.Popen(['sysctl', '-w', 'net.ipv4.ip_forward=1'], close_fds=True).wait()
+	#SU.Popen(['sysctl', '-w', 'net.ipv4.ip_forward=1'], close_fds=True).wait()
 	#SU.Popen(['/mnt/SDCARD/Koriki/bin/openport', '55435'], close_fds=True)
-	modal('AP created!', timeout=True)
+	modal('ADHOC created!', timeout=True)
+	modal('AP MiyooMini Pass 12345678', wait=True)
 	return True
 ## Input methods
 
@@ -1284,7 +1286,7 @@ def mainmenu():
 		if mac == ap:
 			elems = ['AP info'] + elems
 	except:
-		elems = ['Create AP'] + elems
+		elems = ['Create ADHOC'] + elems
 
 	elems = ["Saved Networks", 'Scan for APs', "Manual Setup"] + elems
 
@@ -1610,7 +1612,7 @@ if __name__ == "__main__":
 							except:
 								active_menu = to_menu("main")
 
-						elif menu.get_selected() == 'Create AP':
+						elif menu.get_selected() == 'Create ADHOC':
 							startap()
 
 						elif menu.get_selected() == 'AP info':
