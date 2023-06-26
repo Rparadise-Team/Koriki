@@ -59,6 +59,7 @@ static int  input_fd = 0;
 static struct pollfd fds[1];
 static int is_charging = 0;
 static bool running = true;
+static bool screen_on = true;
 static int animation_image = 0;
 static int animation_loop = 0;
 static int mmp = 0;
@@ -184,9 +185,9 @@ int main(void) {
     checkCharging();
     if (is_charging == 0){
       if (mmp)
-        system("sync; poweroff; sleep 10");
+        system("/etc/init.d/K00_Sys; sync; umount -l /mnt/SDCARD; poweroff; sleep 10");
       else
-        system("sync; reboot; sleep 10");
+        system("/etc/init.d/K00_Sys; sync; umount -l /mnt/SDCARD; reboot; sleep 10");
     }
 
     while (poll(fds, 1, 0)) {
@@ -199,6 +200,9 @@ int main(void) {
           repeat_power = 0;
         } else if (ev.value == RELEASED && power_pressed) {
           power_pressed = false;
+		  screen_on = true;
+		  SetBrightness(8);
+		  animation_loop = 0;
         } else if (ev.value == REPEAT) {
           if (repeat_power >= 5) {
 			system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");

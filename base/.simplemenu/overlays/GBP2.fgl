@@ -1,0 +1,3 @@
+title=GBP [Gearboy]
+exec="/mnt/SDCARD/App/Overlay/GBP/GBP2.sh"
+editable=false

@@ -1,5 +1,5 @@
-CONSOLE = SGB
-CORE = mSGB_OFF
+CONSOLE = SUPERVISION
+CORE = Potator
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

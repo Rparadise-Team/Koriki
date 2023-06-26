@@ -29,8 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"SGB"
-#define CORE	"mSGB"
+#define CONSOLA	"SUPERVISION"
+#define CORE	"Potator"
 #define BORDER	"OFF"
 
 #define NUM_IMAGES 3
@@ -55,32 +55,33 @@
 #define VALOR8	"23"
 #define VALOR9	"0"
 #define VALOR10	":/.retroarch/overlay/ATC/ATC-GB.cfg"
-#define VALOR11	":/.retroarch/overlay/ATC/ATC-LYNX.cfg"
-#define VALOR12	":/.retroarch/overlay/ATC/ATC-POKEMINI.cfg"
-#define VALOR13	":/.retroarch/overlay/ATC/ATC-GG.cfg"
-#define VALOR14	":/.retroarch/overlay/ATC/ATC-GBA.cfg"
-#define VALOR15	":/.retroarch/overlay/ATC/ATC-WS.cfg"
-#define VALOR16	":/.retroarch/overlay/ATC/ATC-GBC.cfg"
-#define VALOR17	":/.retroarch/overlay/ATC/ATC-NGP.cfg"
-#define VALOR18	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
-#define VALOR19	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
-#define VALOR20	":/.retroarch/overlay/ATC/ATC-PICO8.cfg"
-#define VALOR21	":/.retroarch/overlay/ATC-GRID/ATC-GB.cfg"
-#define VALOR22	":/.retroarch/overlay/ATC-GRID/ATC-LYNX.cfg"
-#define VALOR23	":/.retroarch/overlay/ATC-GRID/ATC-POKEMINI.cfg"
-#define VALOR24	":/.retroarch/overlay/ATC-GRID/ATC-GG.cfg"
-#define VALOR25	":/.retroarch/overlay/ATC-GRID/ATC-GBA.cfg"
-#define VALOR26	":/.retroarch/overlay/ATC-GRID/ATC-WS.cfg"
-#define VALOR27	":/.retroarch/overlay/ATC-GRID/ATC-GBC.cfg"
-#define VALOR28	":/.retroarch/overlay/ATC-GRID/ATC-NGP.cfg"
-#define VALOR29	":/.retroarch/overlay/ATC-GRID/ATC-SUPERVISION.cfg"
-#define VALOR30	":/.retroarch/overlay/ATC-GRID/ATC-SGB2.cfg"
-#define VALOR31	":/.retroarch/overlay/ATC-GRID/ATC-PICO8.cfg"
-#define VALOR32	":/.retroarch/overlay/ATC-GRID/fullscreen_grid3x.cfg"
-#define VALOR33	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
-#define VALOR34	":/.retroarch/filters/video/Grid3x.filt"
-#define VALOR35	":/.retroarch/filters/video/Scanline2x.filt"
-#define VALOR36	":/.retroarch/overlay/CTR/horizontal-crt.cfg"
+#define VALOR11	":/.retroarch/overlay/ATC/ATC-GBPOCKET.cfg"
+#define VALOR12	":/.retroarch/overlay/ATC/ATC-LYNX.cfg"
+#define VALOR13	":/.retroarch/overlay/ATC/ATC-POKEMINI.cfg"
+#define VALOR14	":/.retroarch/overlay/ATC/ATC-GG.cfg"
+#define VALOR15	":/.retroarch/overlay/ATC/ATC-GBA.cfg"
+#define VALOR16	":/.retroarch/overlay/ATC/ATC-WS.cfg"
+#define VALOR17	":/.retroarch/overlay/ATC/ATC-GBC.cfg"
+#define VALOR18	":/.retroarch/overlay/ATC/ATC-NGP.cfg"
+#define VALOR19	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
+#define VALOR20	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
+#define VALOR21	":/.retroarch/overlay/ATC/ATC-PICO8.cfg"
+#define VALOR22	":/.retroarch/overlay/ATC-GRID/ATC-GB.cfg"
+#define VALOR23	":/.retroarch/overlay/ATC-GRID/ATC-LYNX.cfg"
+#define VALOR24	":/.retroarch/overlay/ATC-GRID/ATC-POKEMINI.cfg"
+#define VALOR25	":/.retroarch/overlay/ATC-GRID/ATC-GG.cfg"
+#define VALOR26	":/.retroarch/overlay/ATC-GRID/ATC-GBA.cfg"
+#define VALOR27	":/.retroarch/overlay/ATC-GRID/ATC-WS.cfg"
+#define VALOR28	":/.retroarch/overlay/ATC-GRID/ATC-GBC.cfg"
+#define VALOR29	":/.retroarch/overlay/ATC-GRID/ATC-NGP.cfg"
+#define VALOR30	":/.retroarch/overlay/ATC-GRID/ATC-SUPERVISION.cfg"
+#define VALOR31	":/.retroarch/overlay/ATC-GRID/ATC-SGB2.cfg"
+#define VALOR32	":/.retroarch/overlay/ATC-GRID/ATC-PICO8.cfg"
+#define VALOR33	":/.retroarch/overlay/ATC-GRID/fullscreen_grid3x.cfg"
+#define VALOR34	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
+#define VALOR35	":/.retroarch/filters/video/Grid3x.filt"
+#define VALOR36	":/.retroarch/filters/video/Scanline2x.filt"
+#define VALOR37	":/.retroarch/overlay/CTR/horizontal-crt.cfg"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -218,21 +219,21 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR36, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR0, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR30, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR19, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 2:
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR36, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR0, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
