@@ -1,6 +1,6 @@
 fuse_ay_stereo_separation = "none"
 fuse_fast_load = "enabled"
-fuse_hide_border = "enabled"
+fuse_hide_border = "disabled"
 fuse_joypad_a = "<none>"
 fuse_joypad_b = "<none>"
 fuse_joypad_down = "<none>"
