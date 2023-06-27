@@ -324,8 +324,8 @@ fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ $MODEL = "MM" ]; then
-	sed -i 's/^1;1;0;11;11\([^;]*;[^;]*\)$/1;1;0;9;9\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sed -i 's/^1;1;0;12;12\([^;]*;[^;]*\)$/1;1;0;9;9\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;11;11\([^;]*;[^;]*\)$/1;1;0;10;10\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;12;12\([^;]*;[^;]*\)$/1;1;0;10;10\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
 	sync
 fi
 
