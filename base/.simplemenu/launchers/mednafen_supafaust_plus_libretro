@@ -1,0 +1,4 @@
+#!/bin/sh
+cd /mnt/SDCARD/RetroArch/
+HOME=/mnt/SDCARD/RetroArch/
+LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/mednafen_supafaust_plus_libretro.so "$1"
