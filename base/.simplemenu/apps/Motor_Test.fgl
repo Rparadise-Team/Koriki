@@ -1,0 +1,3 @@
+title=Motor Test
+exec="/mnt/SDCARD/App/motortest/Motor_Test.sh"
+editable=false
