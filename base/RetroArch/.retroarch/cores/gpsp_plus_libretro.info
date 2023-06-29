@@ -1,8 +1,8 @@
 # Software Information
-display_name = "Nintendo - Game Boy Advance (gpSP)"
+display_name = "Nintendo - Game Boy Advance (gpSP) [plus]"
 authors = "Exophase"
 supported_extensions = "gba|bin"
-corename = "gpSP"
+corename = "gpSP [plus]"
 categories = "Emulator"
 license = "GPLv2"
 permissions = ""
