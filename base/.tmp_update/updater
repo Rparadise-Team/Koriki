@@ -318,7 +318,6 @@ fi
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
 then
 	rm  ${SDCARD_PATH}/.simplemenu/last_state.sav
-	cp  ${SDCARD_PATH}/Koriki/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
 	sync
 fi
 
