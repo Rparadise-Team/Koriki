@@ -24,12 +24,10 @@ fi
 reset_settings() {
         if [ $MODEL = "MM" ]; then
             cp ${SYSTEM_PATH}/assets/system-stock.json $SETTINGS_FILE
-			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             reboot
             sleep 10s
         else
             cp ${SYSTEM_PATH}/assets/system.mmp-stock.json $SETTINGS_FILE
-			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
             sync
             reboot
             sleep 10s
