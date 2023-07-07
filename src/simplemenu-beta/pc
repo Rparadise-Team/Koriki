@@ -1,6 +1,0 @@
-#!/bin/sh
-make clean
-make PLATFORM=PC
-cd output
-./simplemenu
-cd ..

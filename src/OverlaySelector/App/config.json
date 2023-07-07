@@ -1,6 +1,0 @@
-{
-"label":"BootScreen Selector",
-"icon":"icon.png",
-"launch":"launch.sh",
-"description":"Change your boot screen"
-}
