@@ -1,7 +1,0 @@
-{
-"label":"RetroArch (1.14.0 Dingux)",
-"icon":"retroarch.png",
-"iconsel":"retroarch.png",
-"launch":"launch.sh",
-"description":"Libretro Frontend for emulators"
-}
