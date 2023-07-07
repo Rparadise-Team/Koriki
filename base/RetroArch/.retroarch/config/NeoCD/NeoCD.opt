@@ -1,5 +1,0 @@
-neocd_bios = "uni-bioscd.rom (CDZ, Universe 3.3)"
-neocd_cdspeedhack = "On"
-neocd_loadskip = "On"
-neocd_per_content_saves = "Off"
-neocd_region = "Europe"
