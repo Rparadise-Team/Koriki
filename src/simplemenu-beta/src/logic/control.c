@@ -888,9 +888,10 @@ void performSystemSettingsChoosingAction() {
 			}
 		} else if (chosenSetting==AUDIOFIX_OPTION) {
 		 	int Fix;
+			getCurrentVolume();
             audioFix = 1 - audioFix;
             setSystemValue("audiofix", audioFix);
-		 	Fix = audioFix;
+		 	Fix = getCurrentSystemValue("audiofix");
 		 	if (Fix == 1) {
 				if (mmModel) {
 					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
@@ -907,6 +908,7 @@ void performSystemSettingsChoosingAction() {
 					system ("/mnt/SDCARD/Koriki/bin/freemma");
 				}
 			}
+			getCurrentVolume();
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {
