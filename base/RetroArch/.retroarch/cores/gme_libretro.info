@@ -1,20 +1,23 @@
-# Software Information
+# Name displayed when the user is selecting the core:
 display_name = "Game Music Emu"
+
+# Name of the authors who wrote the core:
 authors = "Blargg"
+
+# List of extensions the core supports:
 supported_extensions = "ay|gbs|gym|hes|kss|nsf|nsfe|sap|spc|vgm|vgz|zip"
-corename = "Game Music Emu"
-categories = "Music player"
-license = "GPLv3"
-permissions = ""
-display_version = "Git"
 
-# Hardware Information
-manufacturer = "Various"
-systemname = "Music"
-systemid = "game_music"
+# Name of the core:
+corename = "GME"
 
-# Libretro Features
+# License of the cores source code:
+license = "LGPLv2, GPLv2"
+
+# Version of the core:
+display_version = "v0.6.1"
+
+# Whether or not the core requires an external file to work:
 supports_no_game = "false"
-savestate = "false"
 
-description = "A port of blargg's classic Game Music Emu to libretro. This core allows playback of a wide variety of video game music formats and is a good first choice for this purpose, though some emulator cores will also support playback of their respective native formats and may do so with additional options (low-pass filtering, etc.) or accuracy."
+categories = "Music player"
+systemname = "Music"
