@@ -23,7 +23,7 @@ dosbox_svn_ce_libretro.so.zip 532344F2
 dosbox_svn_libretro.so.zip 0FA035B9
 easyrpg_libretro.so.zip 38E9DD45
 ecwolf_libretro.so.zip 8E3B4647
-fake08_libretro.so.zip 59133FCE
+fake08_libretro.so.zip 28ad8b8b
 fb_32b_libretro.so.zip 896F8535
 fbalpha2012_cps1_libretro.so.zip B7E03EC5
 fbalpha2012_cps2_libretro.so.zip 8286D754
@@ -108,7 +108,7 @@ quasi88_libretro.so.zip C6D8D27F
 quicknes_libretro.so.zip 1723DF43
 race_libretro.so.zip 8A1D8F78
 reminiscence_libretro.so.zip 274BE371
-retro8_libretro.so.zip E4007117
+retro8_libretro.so.zip 8aa3980b
 sameboy_libretro.so.zip FDBCEB8A
 sameduck_libretro.so.zip B8D9A452
 scummvm_libretro.so.zip 4D659BD6
