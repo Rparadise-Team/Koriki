@@ -45,7 +45,7 @@ gearsystem_libretro.so.zip B1ABD564
 genesis_plus_gx_libretro.so.zip C8FD6136
 gme_libretro.so.zip 457348ae
 gpsp_libretro.so.zip 37905C94
-gpsp_plus_libretro.so.zip 5CF9C80D
+gpsp_plus_libretro.so.zip 70fbbb26
 gw_libretro.so.zip 12F548D7
 handy_libretro.so.zip 3AEBA5CD
 hatari_libretro.so.zip 99348DDE
@@ -78,7 +78,7 @@ mednafen_wswan_libretro.so.zip 57BC3F97
 mesen_libretro.so.zip C6253038
 meteor_libretro.so.zip EEDE423A
 mgba_libretro.so.zip 897D5120
-mgba_plus_libretro.so.zip A8225214
+mgba_plus_libretro.so.zip 4dfa805a
 mrboom_libretro.so.zip D5494EFE
 msgb_libretro.so.zip 6B080BF2
 mu_libretro.so.zip 38E81DF9
