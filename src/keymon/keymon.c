@@ -659,6 +659,27 @@ int isRetroarchRunning()
 	return 0;
 }
 
+int isGMERunning()
+{
+	FILE *fp;
+	char buffer[128];
+	const char *cmd = "pgrep GME";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep GME'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 void display_setScreen(int value) {
 	if (value == 0) {  // enter in savepower mode
 		if (isRetroarchRunning() == 1) {
@@ -750,7 +771,11 @@ int main (int argc, char *argv[]) {
 					if (power_pressed_duration < 5) { // Short press
 						if (sleep == 0) {
 							display_setScreen(0); // Turn screen back off
+							if (isGMERunning() == 1) {
+								setmute(0);
+							} else {
 							setmute(1);
+							}
 							sethibernate(1);
 							setcpu(1);
 							power_pressed = 0;
