@@ -169,7 +169,7 @@ fi
 
 # Enable swap
 if [ ! -f ${SWAPFILE} ]; then
-	show ${SDCARD_PATH}/.simplemenu/resources/loading.png
+	show ${SYSTEM_PATH}/images/swap.png
 	dd if=/dev/zero of=${SWAPFILE} bs=1M count=256
 	mkswap ${SWAPFILE}
 	sync
