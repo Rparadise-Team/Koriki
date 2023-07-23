@@ -1,0 +1,48 @@
+#!/bin/sh
+
+source_dir="/mnt/SDCARD/Saves/RA_saves/TGB Dual/.netplay"
+destination_dir="/mnt/SDCARD/Saves/RA_saves/TGB Dual"
+tgb_dual_config="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.opt"
+tgb_dual_config_p2="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.p2"
+backup_config="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.backup"
+
+if [ ! -f "$backup_config" ]; then
+    cp "$tgb_dual_config" "$backup_config"
+	cp "$tgb_dual_config_p2" "$tgb_dual_config"
+fi
+
+
+if [ -d "$source_dir" ]; then
+    cp "$destination_dir"/* "$source_dir"
+else
+    mkdir -p "$source_dir"
+	cp "$destination_dir"/* "$source_dir"
+fi
+
+for file in "$destination_dir"/*; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            cp "$file" "$source_dir/client-$filename"
+        fi
+    done
+
+file_name=$(basename "$1")
+
+client_file="/mnt/SDCARD/Roms/GB/client-$file_name"
+
+cp "$1" "$client_file"
+
+cd /mnt/SDCARD/RetroArch/
+HOME=/mnt/SDCARD/RetroArch/
+LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
+
+cp "$backup_config" "$tgb_dual_config"
+rm "$backup_config"
+
+if [ -d "$source_dir" ]; then
+    rm -f "$source_dir"/client-*
+    cp "$source_dir"/* "$destination_dir"
+    rm -rf "$source_dir"
+fi
+
+rm -f "$client_file"

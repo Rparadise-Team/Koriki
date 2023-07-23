@@ -5,13 +5,13 @@ cat > ${consoles} <<EOF
 consoleList = GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,GAME & WATCH,GAME GEAR,ATARI LYNX,NEO GEO POCKET,WONDERSWAN,POKEMON MINI,SUPERVISION
 
 [GAME BOY]
-execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client
 romDirs = /mnt/SDCARD/Roms/GB/
 romExts = .gb,.gz,.zip,.7z
 scaling = 1
 
 [GAME BOY COLOR]
-execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client
 romDirs = /mnt/SDCARD/Roms/GBC/
 romExts = .gbc,.zip,.7z
 scaling = 1
