@@ -89,9 +89,9 @@ nxengine_libretro.so.zip
 o2em_libretro.so.zip
 oberon_libretro.so.zip
 opera_libretro.so.zip
-pcsx_rearmed_libretro_miyoo.so.zip
-pcsx_rearmed_libretro_old.so.zip
-pcsx_rearmed_libretro_shaun.so.zip
+pcsx_rearmed_miyoo_libretro.so.zip
+pcsx_rearmed_old_libretro.so.zip
+pcsx_rearmed_shaun_libretro.so.zip
 pcsx_rearmed_libretro.so.zip
 picodrive_libretro.so.zip
 pocketsnes_libretro.so.zip

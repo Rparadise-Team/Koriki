@@ -91,10 +91,10 @@ nxengine_libretro.so.zip 5E5ED4B6
 o2em_libretro.so.zip 0C8BAB52
 oberon_libretro.so.zip C419CBA8
 opera_libretro.so.zip 91DA08D4
-pcsx_rearmed_libretro_miyoo.so.zip D3111309
-pcsx_rearmed_libretro_old.so.zip 3D00F174
-pcsx_rearmed_libretro_shaun.so.zip F5C13091
-pcsx_rearmed_libretro.so.zip 0603E84D
+pcsx_rearmed_miyoo_libretro.so.zip c1e0c566
+pcsx_rearmed_old_libretro.so.zip 05a80de9
+pcsx_rearmed_shaun_libretro.so.zip de3ec425
+pcsx_rearmed_libretro.so.zip 43649074
 picodrive_libretro.so.zip 08EDD17F
 pocketsnes_libretro.so.zip 1178DE44
 pokemini_libretro.so.zip AE7994CE
