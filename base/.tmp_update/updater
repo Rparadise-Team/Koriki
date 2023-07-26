@@ -328,6 +328,16 @@ if [ $MODEL = "MM" ]; then
 	sync
 fi
 
+# Set timezone
+if [ -f ${SDCARD_PATH}/App/Clock/timezone.txt ]; then
+    timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
+	export TZ=UTC$((-1*timezone))
+else
+    touch ${SDCARD_PATH}/App/Clock/timezone.txt
+	echo +0 > ${SDCARD_PATH}/App/Clock/timezone.txt
+	export TZ=UTC+0
+fi
+
 # Launch SimpleMenu
 while [ 1 ]; do
 	HOME=${SDCARD_PATH}
