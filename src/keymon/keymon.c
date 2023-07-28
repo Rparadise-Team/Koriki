@@ -663,11 +663,11 @@ int isGMERunning()
 {
 	FILE *fp;
 	char buffer[128];
-	const char *cmd = "pgrep GME";
+	const char *cmd = "pgrep gme_player";
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep GME'\n");
+		printf("Error al ejecutar el comando 'pgrep gme_player'\n");
 		return 0;
 	}
     

@@ -50,7 +50,7 @@ CXXFLAGS += -DRESDIR="\"$(RESDIR)\""
 LINKFLAGS += -s
 LINKFLAGS += $(shell $(SDL_CONFIG) --libs) -lSDL_image -lSDL_ttf
 ifeq ($(PLATFORM),miyoomini)
-LINKFLAGS += -lmi_sys -lmi_gfx
+LINKFLAGS += -lmi_sys -lmi_gfx -lgme -lz
 endif
 
 CMD := @

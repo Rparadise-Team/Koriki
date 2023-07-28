@@ -404,7 +404,14 @@ void File_utils::executeFile(const std::string &p_file)
     ::chdir(getPath(p_file).c_str());
     if (getLowercaseFileExtension(p_file) == "opk")
         ::execlp("opkrun", "opkrun", p_file.c_str(), nullptr);
-    else
+	else if (getLowercaseFileExtension(p_file) == "ay" || getLowercaseFileExtension(p_file) == "gbs" || getLowercaseFileExtension(p_file) == "gym" ||
+             getLowercaseFileExtension(p_file) == "hes" || getLowercaseFileExtension(p_file) == "kss" || getLowercaseFileExtension(p_file) == "nsf" ||
+             getLowercaseFileExtension(p_file) == "nsfe" || getLowercaseFileExtension(p_file) == "sap" || getLowercaseFileExtension(p_file) == "spc" ||
+             getLowercaseFileExtension(p_file) == "vgm" || getLowercaseFileExtension(p_file) == "vgz" || getLowercaseFileExtension(p_file) == "m3u")
+    {
+        ::execl("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
+    }
+	else
         ::execl(p_file.c_str(), p_file.c_str(), nullptr);
 
     // If we're here, exec failed
