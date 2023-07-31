@@ -410,7 +410,7 @@ void File_utils::executeFile(const std::string &p_file)
              getLowercaseFileExtension(p_file) == "vgm" || getLowercaseFileExtension(p_file) == "vgz" || getLowercaseFileExtension(p_file) == "m3u" ||
 			 getLowercaseFileExtension(p_file) == "rsn")
     {
-        ::execl("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
+        ::execlp("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
     }
 	else
         ::execl(p_file.c_str(), p_file.c_str(), nullptr);

@@ -40,6 +40,11 @@ SDL_Surface *CPanel::icon_file() const
     return resources_.getSurface(CResourceManager::T_SURFACE_FILE);
 }
 
+SDL_Surface *CPanel::icon_gme() const
+{
+    return resources_.getSurface(CResourceManager::T_SURFACE_FILE_GME);
+}
+
 SDL_Surface *CPanel::icon_img() const
 {
     return resources_.getSurface(CResourceManager::T_SURFACE_FILE_IMAGE);
@@ -173,6 +178,12 @@ void CPanel::render(const bool p_active) const
                 l_surfaceTmp = icon_ipk();
             else if (ext == "opk")
                 l_surfaceTmp = icon_opk();
+			else if (ext == "ay" || ext == "gbs" || ext == "gym" ||
+					 ext == "hes" || ext == "kss" || ext == "nsf" ||
+					 ext == "nsfe" || ext == "sap" || ext == "spc" ||
+					 ext == "vgm" || ext == "vgz" || ext == "m3u" ||
+					 ext == "rsn")
+                l_surfaceTmp = icon_gme();
             else
                 l_surfaceTmp = icon_file();
             // Color

@@ -434,6 +434,13 @@ OpenFileResult OpenFileDialog(const std::string &path,
 
     if (ext == "opk")
         return OpenFileResult::EXECUTE;
+	
+	if (ext == "ay" || ext == "gbs" || ext == "gym" ||
+		ext == "hes" || ext == "kss" || ext == "nsf" ||
+		ext == "nsfe" || ext == "sap" || ext == "spc" ||
+		ext == "vgm" || ext == "vgz" || ext == "m3u" ||
+		ext == "rsn")
+        return OpenFileResult::EXECUTE;
 
     if (ext == "png" || ext == "jpg" || ext == "bmp")
         return OpenFileResult::VIEW;

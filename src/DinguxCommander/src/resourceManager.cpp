@@ -101,6 +101,7 @@ void CResourceManager::onResize()
         m_surfaces[T_SURFACE_FOLDER] = LoadIcon(ResPath("folder.png"));
         m_surfaces[T_SURFACE_FILE] = LoadIcon(ResPath("file-text.png"));
         m_surfaces[T_SURFACE_FILE_IMAGE] = LoadIcon(ResPath("file-image.png"));
+		m_surfaces[T_SURFACE_FILE_GME] = LoadIcon(ResPath("file-gme.png"));
         m_surfaces[T_SURFACE_FILE_INSTALLABLE_PACKAGE]
             = LoadIcon(ResPath("file-ipk.png"));
         m_surfaces[T_SURFACE_FILE_PACKAGE] = LoadIcon(ResPath("file-opk.png"));
