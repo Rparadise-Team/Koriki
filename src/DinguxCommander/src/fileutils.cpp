@@ -409,9 +409,9 @@ void File_utils::executeFile(const std::string &p_file)
              getLowercaseFileExtension(p_file) == "nsfe" || getLowercaseFileExtension(p_file) == "sap" || getLowercaseFileExtension(p_file) == "spc" ||
              getLowercaseFileExtension(p_file) == "vgm" || getLowercaseFileExtension(p_file) == "vgz" || getLowercaseFileExtension(p_file) == "m3u" ||
 			 getLowercaseFileExtension(p_file) == "rsn")
-    {
         ::execlp("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
-    }
+	else if (getLowercaseFileExtension(p_file) == "mp4" || getLowercaseFileExtension(p_file) == "mkv")
+        ::execlp("/mnt/SDCARD/Koriki/bin/ffplayer", "ffplayer", p_file.c_str(), nullptr);
 	else
         ::execl(p_file.c_str(), p_file.c_str(), nullptr);
 

@@ -1,0 +1,4 @@
+#!/bin/sh
+export LD_PRELOAD=/mnt/SDCARD/Koriki/ffmpeg/libSDL-1.2.so.0
+ffplay -autoexit -vf "hflip,vflip" -i "$1"
+unset LD_PRELOAD

@@ -23,7 +23,7 @@ void setMouseCursorEnabled(bool enabled) {
 }
 
 bool isSupportedImageExt(const std::string &ext) {
-    return ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "ico" || ext == "bmp" || ext == "xcf";
+    return ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "ico" || ext == "bmp" || ext == "xcf" || ext == "mp4" || ext == "mkv";
 }
 
 SDLSurfaceUniquePtr loadImageToFit(

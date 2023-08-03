@@ -441,7 +441,10 @@ OpenFileResult OpenFileDialog(const std::string &path,
 		ext == "vgm" || ext == "vgz" || ext == "m3u" ||
 		ext == "rsn")
         return OpenFileResult::EXECUTE;
-
+	
+    if (ext == "mp4" || ext == "mkv")
+        return OpenFileResult::EXECUTE;
+	
     if (ext == "png" || ext == "jpg" || ext == "bmp")
         return OpenFileResult::VIEW;
 
