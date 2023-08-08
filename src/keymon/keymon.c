@@ -74,7 +74,7 @@ char* load_file(char const* path) {
 	return buffer;
 }
 
-// Increments between -60 and -3
+// Increments between -60 and 0
 int setVolumeRaw(int volume, int add) {
 	int recent_volume = 0;
 	int fd = open("/dev/mi_ao", O_RDWR);
@@ -125,7 +125,7 @@ int setVolumeRaw(int volume, int add) {
 		recent_volume = buf2[1];
 		if (add) {
 			buf2[1] += add;
-			if (buf2[1] > -3) buf2[1] = -3;
+			if (buf2[1] > 0) buf2[1] = 0;
 			else if (buf2[1] < -60) buf2[1] = -60;
 		} else buf2[1] = volume;
 		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
@@ -366,6 +366,11 @@ void setcpu(int cpu) {
 		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 400000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
 		system("sync");
+	} else if (cpu == 2) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 600000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+		system("sync");
 	}
 }
 
@@ -565,7 +570,7 @@ void restorevolume(int valuevol) {
 				recent_volume = buf2[1];
 				if (add) {
 					buf2[1] += add;
-					if (buf2[1] > -3) buf2[1] = -3;
+					if (buf2[1] > 0) buf2[1] = 0;
 					else if (buf2[1] < -60) buf2[1] = -60;
 				} else buf2[1] = (volumesave * 3) - 60;
 				if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
@@ -777,7 +782,13 @@ int main (int argc, char *argv[]) {
 							setmute(1);
 							}
 							sethibernate(1);
+							if (isGMERunning() == 1) {
+								setcpu(2);
+							} else if (isRetroarchRunning() == 1) {
+								setcpu(2);
+							} else {
 							setcpu(1);
+							}
 							power_pressed = 0;
 							repeat_power = 0;
 							sleep = 1;

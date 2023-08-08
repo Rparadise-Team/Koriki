@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <mi_ao.h>
-#include <SDL/SDL_sound.h>
+#include <SDL/SDL_audio.h>
 #include "../headers/logic.h"
 #include "../headers/system_logic.h"
 #include "../headers/globals.h"
@@ -288,7 +288,7 @@ int getCurrentVolume() {
 	volume = (sysvolume * 3) - 60;
 	tiny = (sysvolume * 3) + 40;
 	if (volume) {
-            if (volume >= -3) volume = -3;
+            if (volume >= 0) volume = 0;
             else if (volume <= -60) volume = -60;
         }
 	if (tiny) {
@@ -301,7 +301,7 @@ int getCurrentVolume() {
     return sysvolume;
 }
 
-// Increments between -60 and -3 or 40 and 100
+// Increments between -60 and 0 or 40 and 100
 int setVolumeRaw(int volume, int add, int tiny) {
 	int fix;
     int recent_volume = 0;
@@ -318,7 +318,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
             recent_volume = buf2[1];
             if (add) {
                 buf2[1] += add;
-                if (buf2[1] > -3) buf2[1] = -3;
+                if (buf2[1] > 0) buf2[1] = 0;
                 else if (buf2[1] < -60) buf2[1] = -60;
             } else buf2[1] = volume;
             if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
