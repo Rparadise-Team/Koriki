@@ -371,8 +371,12 @@ void setcpu(int cpu) {
 		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 600000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
 		system("sync");
-	}
-}
+	} else if (cpu == 3) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 1000000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+		system("sync");
+	}}
 
 void setmute(int mute) {
 	cJSON* request_json = NULL;
@@ -685,6 +689,27 @@ int isGMERunning()
 	return 0;
 }
 
+int isGMURunning()
+{
+	FILE *fp;
+	char buffer[128];
+	const char *cmd = "pgrep gmu.bin";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep gmu.bin'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 void display_setScreen(int value) {
 	if (value == 0) {  // enter in savepower mode
 		if (isRetroarchRunning() == 1) {
@@ -778,12 +803,16 @@ int main (int argc, char *argv[]) {
 							display_setScreen(0); // Turn screen back off
 							if (isGMERunning() == 1) {
 								setmute(0);
+							} else if (isGMURunning() == 1) {
+								setmute(0);
 							} else {
 							setmute(1);
 							}
 							sethibernate(1);
 							if (isGMERunning() == 1) {
-								setcpu(2);
+								setcpu(3);
+							} else if (isGMURunning() == 1) {
+								setcpu(3);
 							} else if (isRetroarchRunning() == 1) {
 								setcpu(2);
 							} else {
