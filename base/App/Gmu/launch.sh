@@ -34,4 +34,3 @@ if [ "$runsvr" != "0" ] ; then
 		export LD_PRELOAD=/customer/lib/libpadsp.so
 	fi
 fi
-
