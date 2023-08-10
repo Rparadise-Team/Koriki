@@ -5,8 +5,8 @@
 # FileBrowserAddFileToPlaylistOrChDir
 Modifier=Menu
 # Global mappings:
-Left=Left
-Right=Right
+#Left=Left
+#Right=Right
 Up=Up
 Down=Down
 ShutdownTimer=Mod+Down
@@ -16,8 +16,8 @@ ToggleTime=Mod+Left
 Pause=X
 Stop=Mod+X
 ToggleView=Start
-PreviousTrack=L1
-NextTrack=R1
+PreviousTrack=Left
+NextTrack=Right
 SeekForward=Mod+R1
 SeekBackward=Mod+L1
 #Lock=Lock
