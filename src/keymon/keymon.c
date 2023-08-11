@@ -362,8 +362,9 @@ void setcpu(int cpu) {
 		fprintf(govFile, "%s", govValue);
 		fclose(govFile);
 
-  system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");	
-} else if (cpu == 1) {
+        system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		
+    } else if (cpu == 1) {
 		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
 		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
@@ -378,7 +379,8 @@ void setcpu(int cpu) {
 		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
 		system("sync");
-	}}
+	}
+}
 
 void setmute(int mute) {
 	cJSON* request_json = NULL;
