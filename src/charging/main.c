@@ -63,6 +63,7 @@ static bool screen_on = true;
 static int animation_image = 0;
 static int animation_loop = 0;
 static int mmp = 0;
+static time_t last_activity_time;
 
 void checkCharging(void) {
   int charging = 0;
@@ -162,6 +163,7 @@ int main(void) {
   bool power_pressed = false;
   int repeat_power = 0;
   bool screen_on = true;
+  last_activity_time = time(NULL);
 
   while (running) {
     if (animation_loop < ANIMATION_LOOPS) {
@@ -213,6 +215,14 @@ int main(void) {
         }
       }
     }
+    
+    if (mmp) { // autopoweroff MMP in 60s
+            time_t current_time = time(NULL);
+            if (current_time - last_activity_time >= 60) {
+                system("/sbin/poweroff");
+                running = false;
+            }
+        }
 
     usleep(ANIMATION_DELAY);
   }

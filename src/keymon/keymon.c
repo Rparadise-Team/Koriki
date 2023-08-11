@@ -889,9 +889,9 @@ int main (int argc, char *argv[]) {
 		if (shutdown) {
 			power_pressed = 0;
 			if (access("/customer/app/axp_test", F_OK) == 0)
-				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
+				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
 			else
-				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
+				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
 			while (1) pause();
 		}
 	}
