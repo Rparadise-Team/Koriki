@@ -39,10 +39,10 @@
 #define BUTTON_R1     KEY_T
 #define BUTTON_L2     KEY_TAB
 #define BUTTON_R2     KEY_BACKSPACE
-#define BUTTON_A	  KEY_SPACE
-#define BUTTON_B	  KEY_LEFTCTRL
-#define BUTTON_X	  KEY_LEFTSHIFT
-#define BUTTON_Y	  KEY_LEFTALT
+#define BUTTON_A      KEY_SPACE
+#define BUTTON_B      KEY_LEFTCTRL
+#define BUTTON_X      KEY_LEFTSHIFT
+#define BUTTON_Y      KEY_LEFTALT
 #define BUTTON_UP     KEY_UP
 #define BUTTON_DOWN   KEY_DOWN
 #define BUTTON_LEFT   KEY_LEFT
@@ -80,7 +80,7 @@ void checkCharging(void) {
 
     FILE *fp;
     fp = popen(cmd, "r");
-      if (fgets(buf, axp_response_size, fp) != NULL)
+    if (fgets(buf, axp_response_size, fp) != NULL)
         sscanf(buf,  "{\"battery\":%d, \"voltage\":%d, \"charging\":%d}", &battery, &voltage, &charging);
     pclose(fp);
     is_charging = charging;
@@ -140,7 +140,7 @@ int main(void) {
 
   // Prepare for Poll button input
   input_fd = open("/dev/input/event0", O_RDONLY);
-	int fd = open("/dev/mi_ao", O_RDWR);
+  int fd = open("/dev/mi_ao", O_RDWR);
   memset(&fds, 0, sizeof(fds));
   fds[0].fd = input_fd;
   fds[0].events = POLLIN;
@@ -175,14 +175,14 @@ int main(void) {
       SDL_BlitSurface(screen, NULL, video, NULL);
       SDL_Flip(video);
       if (fd >= 0) {
-						int buf2[] = {0, 0};
-						uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-						ioctl(fd, MI_AO_GETVOLUME, buf1);
-						int recent_volume = buf2[1];
-						buf2[1] = 0;
-						if (buf2[1] != recent_volume) 
-							ioctl(fd, MI_AO_SETVOLUME, buf1);
-					}
+	int buf2[] = {0, 0};
+	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	ioctl(fd, MI_AO_GETVOLUME, buf1);
+	int recent_volume = buf2[1];
+	buf2[1] = 0;
+	if (buf2[1] != recent_volume) 
+	    ioctl(fd, MI_AO_SETVOLUME, buf1);
+      }
       if (animation_image == ANIMATION_IMAGES) {
         animation_image = 0;
         animation_loop++;
@@ -192,18 +192,18 @@ int main(void) {
 	  SDL_BlitSurface(black_image, NULL, screen, NULL);
 	  SDL_BlitSurface(screen, NULL, video, NULL);
 	  SDL_Flip(video);
-    if (fd >= 0) {
-						int buf2[] = {0, 0};
-						uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-						ioctl(fd, MI_AO_GETVOLUME, buf1);
-						int recent_volume = buf2[1];
-						buf2[1] = -60;
-						if (buf2[1] != recent_volume) 
-							ioctl(fd, MI_AO_SETVOLUME, buf1);
-					}
+          if (fd >= 0) {
+	     int buf2[] = {0, 0};
+	     uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	     ioctl(fd, MI_AO_GETVOLUME, buf1);
+	     int recent_volume = buf2[1];
+	     buf2[1] = -60;
+	     if (buf2[1] != recent_volume) 
+		ioctl(fd, MI_AO_SETVOLUME, buf1);
+		}
 	  system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 	  system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
-      screen_on = false;
+          screen_on = false;
     }
 
     checkCharging();
@@ -224,13 +224,13 @@ int main(void) {
           repeat_power = 0;
         } else if (ev.value == RELEASED && power_pressed) {
           power_pressed = false;
-		  screen_on = true;
-		  SetBrightness(8);
-		  animation_loop = 0;
+	  screen_on = true;
+	  SetBrightness(8);
+	  animation_loop = 0;
         } else if (ev.value == REPEAT) {
           if (repeat_power >= 5) {
-			system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-			system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
             running = false; // power on
           }
           repeat_power++;
