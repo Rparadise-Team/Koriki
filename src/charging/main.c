@@ -175,35 +175,35 @@ int main(void) {
       SDL_BlitSurface(screen, NULL, video, NULL);
       SDL_Flip(video);
       if (fd >= 0) {
-	int buf2[] = {0, 0};
-	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-	ioctl(fd, MI_AO_GETVOLUME, buf1);
-	int recent_volume = buf2[1];
-	buf2[1] = 0;
-	if (buf2[1] != recent_volume) 
-	    ioctl(fd, MI_AO_SETVOLUME, buf1);
-      }
+	       int buf2[] = {0, 0};
+	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	       ioctl(fd, MI_AO_GETVOLUME, buf1);
+	       int recent_volume = buf2[1];
+	       buf2[1] = 0;
+	       if (buf2[1] != recent_volume) 
+	          ioctl(fd, MI_AO_SETVOLUME, buf1);
+            }
       if (animation_image == ANIMATION_IMAGES) {
         animation_image = 0;
         animation_loop++;
       }
     } else {
       if (screen_on) SetBrightness(0);
-	  SDL_BlitSurface(black_image, NULL, screen, NULL);
-	  SDL_BlitSurface(screen, NULL, video, NULL);
-	  SDL_Flip(video);
-          if (fd >= 0) {
-	     int buf2[] = {0, 0};
-	     uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-	     ioctl(fd, MI_AO_GETVOLUME, buf1);
-	     int recent_volume = buf2[1];
-	     buf2[1] = -60;
-	     if (buf2[1] != recent_volume) 
-		ioctl(fd, MI_AO_SETVOLUME, buf1);
-		}
-	  system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-	  system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
-          screen_on = false;
+	    SDL_BlitSurface(black_image, NULL, screen, NULL);
+	    SDL_BlitSurface(screen, NULL, video, NULL);
+	    SDL_Flip(video);
+      if (fd >= 0) {
+	       int buf2[] = {0, 0};
+	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	       ioctl(fd, MI_AO_GETVOLUME, buf1);
+	       int recent_volume = buf2[1];
+	       buf2[1] = -60;
+	       if (buf2[1] != recent_volume) 
+		        ioctl(fd, MI_AO_SETVOLUME, buf1);
+		     }
+	    system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+	    system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+      screen_on = false;
     }
 
     checkCharging();
@@ -224,13 +224,13 @@ int main(void) {
           repeat_power = 0;
         } else if (ev.value == RELEASED && power_pressed) {
           power_pressed = false;
-	  screen_on = true;
-	  SetBrightness(8);
-	  animation_loop = 0;
+	        screen_on = true;
+	        SetBrightness(8);
+	        animation_loop = 0;
         } else if (ev.value == REPEAT) {
           if (repeat_power >= 5) {
-		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-		system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
+		        system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		        system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
             running = false; // power on
           }
           repeat_power++;
