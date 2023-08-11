@@ -801,17 +801,13 @@ int main (int argc, char *argv[]) {
 					if (power_pressed_duration < 5) { // Short press
 						if (sleep == 0) {
 							display_setScreen(0); // Turn screen back off
-							if (isGMERunning() == 1) {
-								setmute(0);
-							} else if (isGMURunning() == 1) {
+							if (isGMERunning() == 1 || isGMURunning() == 1) {
 								setmute(0);
 							} else {
 							setmute(1);
 							}
 							sethibernate(1);
-							if (isGMERunning() == 1) {
-								setcpu(3);
-							} else if (isGMURunning() == 1) {
+							if (isGMERunning() == 1 || isGMURunning() == 1) {
 								setcpu(3);
 							} else if (isRetroarchRunning() == 1) {
 								setcpu(2);
@@ -870,11 +866,17 @@ int main (int argc, char *argv[]) {
 				break;
 			case BUTTON_VOLUMEUP:
 				// Increase volume
+				if (isGMERunning() == 1 || isGMURunning() == 1){
+				} else {
 				setVolume(volume, 1);
+				}
 				break;
 			case BUTTON_VOLUMEDOWN:
 				// Decrease volume
+				if (isGMERunning() == 1 || isGMURunning() == 1){
+				} else {
 				setVolume(volume, -1);
+				}
 				break;
 			default:
 				break;
