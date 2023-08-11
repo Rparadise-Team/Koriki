@@ -24,6 +24,9 @@
 #define ANIMATION_LOOPS 10
 #define ANIMATION_IMAGES 6
 
+#define MI_AO_SETVOLUME 0x4008690b
+#define MI_AO_GETVOLUME 0xc008690c
+
 #define DISPLAY_WIDTH 640
 #define DISPLAY_HEIGHT 480
 
@@ -137,6 +140,7 @@ int main(void) {
 
   // Prepare for Poll button input
   input_fd = open("/dev/input/event0", O_RDONLY);
+	int fd = open("/dev/mi_ao", O_RDWR);
   memset(&fds, 0, sizeof(fds));
   fds[0].fd = input_fd;
   fds[0].events = POLLIN;
@@ -170,6 +174,15 @@ int main(void) {
       SDL_BlitSurface(images[animation_image++], NULL, screen, NULL);
       SDL_BlitSurface(screen, NULL, video, NULL);
       SDL_Flip(video);
+      if (fd >= 0) {
+						int buf2[] = {0, 0};
+						uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						ioctl(fd, MI_AO_GETVOLUME, buf1);
+						int recent_volume = buf2[1];
+						buf2[1] = 0;
+						if (buf2[1] != recent_volume) 
+							ioctl(fd, MI_AO_SETVOLUME, buf1);
+					}
       if (animation_image == ANIMATION_IMAGES) {
         animation_image = 0;
         animation_loop++;
@@ -179,6 +192,15 @@ int main(void) {
 	  SDL_BlitSurface(black_image, NULL, screen, NULL);
 	  SDL_BlitSurface(screen, NULL, video, NULL);
 	  SDL_Flip(video);
+    if (fd >= 0) {
+						int buf2[] = {0, 0};
+						uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						ioctl(fd, MI_AO_GETVOLUME, buf1);
+						int recent_volume = buf2[1];
+						buf2[1] = -60;
+						if (buf2[1] != recent_volume) 
+							ioctl(fd, MI_AO_SETVOLUME, buf1);
+					}
 	  system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 	  system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
       screen_on = false;
