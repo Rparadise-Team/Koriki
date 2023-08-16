@@ -167,6 +167,7 @@ int main(void) {
   bool power_pressed = false;
   int repeat_power = 0;
   bool screen_on = true;
+  bool sound = false;
   last_activity_time = time(NULL);
 
   while (running) {
@@ -174,15 +175,6 @@ int main(void) {
       SDL_BlitSurface(images[animation_image++], NULL, screen, NULL);
       SDL_BlitSurface(screen, NULL, video, NULL);
       SDL_Flip(video);
-      if (fd >= 0) {
-	       int buf2[] = {0, 0};
-	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-	       ioctl(fd, MI_AO_GETVOLUME, buf1);
-	       int recent_volume = buf2[1];
-	       buf2[1] = 0;
-	       if (buf2[1] != recent_volume) 
-	          ioctl(fd, MI_AO_SETVOLUME, buf1);
-            }
       if (animation_image == ANIMATION_IMAGES) {
         animation_image = 0;
         animation_loop++;
@@ -192,17 +184,6 @@ int main(void) {
 	    SDL_BlitSurface(black_image, NULL, screen, NULL);
 	    SDL_BlitSurface(screen, NULL, video, NULL);
 	    SDL_Flip(video);
-      if (fd >= 0) {
-	       int buf2[] = {0, 0};
-	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-	       ioctl(fd, MI_AO_GETVOLUME, buf1);
-	       int recent_volume = buf2[1];
-	       buf2[1] = -60;
-	       if (buf2[1] != recent_volume) 
-		        ioctl(fd, MI_AO_SETVOLUME, buf1);
-		     }
-	    system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-	    system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
       screen_on = false;
     }
 
@@ -214,6 +195,33 @@ int main(void) {
         system("/etc/init.d/K00_Sys; sync; umount -l /mnt/SDCARD; reboot; sleep 10");
     }
 
+    if (!screen_on && !sound) {
+      if (fd >= 0) {
+	       int buf2[] = {0, 0};
+	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	       ioctl(fd, MI_AO_GETVOLUME, buf1);
+	       int recent_volume = buf2[1];
+	       buf2[1] = -60;
+	       if (buf2[1] != recent_volume) 
+		        ioctl(fd, MI_AO_SETVOLUME, buf1);
+		     }
+      system("tinymix set 6 40 &");
+	    system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		  sound = true;
+    } else if (screen_on && sound) {
+      if (fd >= 0) {
+	       int buf2[] = {0, 0};
+	       uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+	       ioctl(fd, MI_AO_GETVOLUME, buf1);
+	       int recent_volume = buf2[1];
+	       buf2[1] = 0;
+	       if (buf2[1] != recent_volume) 
+	          ioctl(fd, MI_AO_SETVOLUME, buf1);
+            }
+	    system("tinymix set 6 100 &");
+      sound = false;
+    }
+      
     while (poll(fds, 1, 0)) {
       read(input_fd, &ev, sizeof(ev));
       if (ev.type != EV_KEY || ev.value > REPEAT) continue;

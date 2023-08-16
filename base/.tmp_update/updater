@@ -138,6 +138,9 @@ dir_scaffolding() {
 		done
 }
 
+# set virtual memory size
+echo 4096 > /proc/sys/vm/max_map_count
+
 # Init_lcd
 init_lcd 1
 
@@ -223,11 +226,13 @@ fi
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
+
+if [ -f /customer/lib/libpadsp.so ]; then
+    export LD_PRELOAD=/customer/lib/libpadsp.so
+fi
+
 if [ "$runsvr" != "0" ] ; then
 	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ -f /customer/lib/libpadsp.so ]; then
-		export LD_PRELOAD=/customer/lib/libpadsp.so
-	fi
 	if [ $MODEL = "MMP" ]; then
 		touch /tmp/audioserver_on
 		sync

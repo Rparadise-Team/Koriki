@@ -277,30 +277,6 @@ void initSuspendTimer() {
     logMessage("INFO","initSuspendTimer","Suspend timer initialized");
 }
 
-
-// Read volume from system config and set this automatic
-int getCurrentVolume() {
-	int sysvolume;
-	int volume;
-	int add;
-	int tiny;
-	sysvolume = getCurrentSystemValue("vol");
-	volume = (sysvolume * 3) - 60;
-	tiny = (sysvolume * 3) + 40;
-	if (volume) {
-            if (volume >= 0) volume = 0;
-            else if (volume <= -60) volume = -60;
-        }
-	if (tiny) {
-            if (tiny >= 100) tiny = 100;
-            else if (tiny <= 40) tiny = 40;
-        }
-	add = 0;
-	setVolumeRaw(volume, add, tiny);
-	
-    return sysvolume;
-}
-
 // Increments between -60 and 0 or 40 and 100
 int setVolumeRaw(int volume, int add, int tiny) {
 	int fix;
@@ -336,7 +312,40 @@ int setVolumeRaw(int volume, int add, int tiny) {
   return recent_volume;
 }
 
-// Increments between 0 and 20
+// Read volume from system config and set this automatic
+int getCurrentVolume() {
+	int sysvolume;
+	int volume;
+	int tiny;
+    int fix;
+	sysvolume = getCurrentSystemValue("vol");
+    fix = getCurrentSystemValue("audiofix");
+	volume = (sysvolume * 3) - 60;
+	tiny = (sysvolume * 3) + 40;
+
+    if (fix == 1) {
+	int fv = open("/dev/mi_ao", O_RDWR);
+	if (fv >= 0) {
+		int buf2[] = {0, 0};
+		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						
+		ioctl(fv, MI_AO_GETVOLUME, buf1);
+		buf2[1] = volume;
+		ioctl(fv, MI_AO_SETVOLUME, buf1);
+        close(fv); 
+	    }
+    }
+	
+    if (fix == 0) {
+	char command[100];
+	sprintf(command, "tinymix set 6 %d", tiny);
+	system(command);
+    }
+	
+	return sysvolume;
+}
+
+// Increments between 0 and 20 or 40 and 100
 int setVolume(int volume, int add) {
     int recent_volume = 0;
 	int tinyvol = 0;

@@ -223,6 +223,7 @@ int getVolume() {
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
 	cJSON* itemMute;
+	cJSON* itemFix;
 	
 	// Store in system.json
 	char *request_body = load_file(settings_file);
@@ -230,11 +231,13 @@ int getVolume() {
 	
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
 	itemMute = cJSON_GetObjectItem(request_json, "mute");
+	itemFix = cJSON_GetObjectItem(request_json, "audiofix");
 	int vol = cJSON_GetNumberValue(itemVol);
 	int mute = cJSON_GetNumberValue(itemMute);
+	int audiofix = cJSON_GetNumberValue(itemFix);
 
-	
 	if (mute == 0) {
+		if (audiofix == 1) {
 		if (fd >= 0) {
 			int buf2[] = {0, 0};
 			uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -244,6 +247,13 @@ int getVolume() {
 			ioctl(fd, MI_AO_SETVOLUME, buf1);
 			close(fd);
 			}
+		} else if (audiofix == 0) {
+			char command[100];
+			int tiny;
+			tiny = (vol * 3) + 40;
+			sprintf(command, "tinymix set 6 %d", tiny);
+			system(command);
+		}
 		
 		if (vol > 0) {
 	    	if (fd >= 0) {
@@ -505,92 +515,6 @@ void sethibernate(int hibernate) {
 	
 	cJSON_Delete(request_json);
 	free(request_body);
-}
-
-void restorevolume(int valuevol) {
-	cJSON* request_json = NULL;
-	cJSON* itemVol;
-	
-	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL) {
-		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
-		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
-		} else {
-			char buffer[128];
-			int flash_detected = 0;
-			
-			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
-				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
-					flash_detected = 1;
-					break;
-				}
-			}
-			
-			pclose(pipe);
-			
-			if (flash_detected) {
-				settings_file = "/mnt/SDCARD/system.json";
-			} else {
-				settings_file = "/appconfigs/system.json";
-			}
-		}
-	}
-	
-	// Store in system.json
-	char *request_body = load_file(settings_file);
-	request_json = cJSON_Parse(request_body);
-	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	int volumesave = cJSON_GetNumberValue(itemVol);
-	int recent_volume = 0;
-	int add = 0;
-	int fd = open("/dev/mi_ao", O_RDWR);
-	
-	if (valuevol == 0) {
-		if (access("/tmp/volsav", F_OK) == 0) {
-			if (fd >= 0) {
-				int buf2[] = {0, -60};
-				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-				ioctl(fd, MI_AO_SETVOLUME, buf1);
-				close(fd);
-			}
-		} else { 
-			system("touch /tmp/volsav");
-			char command[100];
-			sprintf(command, "echo %d > /tmp/volsav", volumesave);
-			system(command);
-
-			if (fd >= 0) {
-				int buf2[] = {0, -60};
-				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-				ioctl(fd, MI_AO_SETVOLUME, buf1);
-				close(fd);
-			}
-		}
-	} else if (valuevol == 1){
-		if (access("/tmp/volsav", F_OK) == 0) {
-			if (fd >= 0) {
-				int buf2[] = {0, 0};
-				buf2[1] = (volumesave * 3) - 60;
-				add = volumesave * 3;
-				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-				ioctl(fd, MI_AO_GETVOLUME, buf1);
-				recent_volume = buf2[1];
-				if (add) {
-					buf2[1] += add;
-					if (buf2[1] > 0) buf2[1] = 0;
-					else if (buf2[1] < -60) buf2[1] = -60;
-				} else buf2[1] = (volumesave * 3) - 60;
-				if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-				close(fd);
-			}
-		} else { 
-			system("touch /tmp/volsav");
-			char command[100];
-			sprintf(command, "echo %d > /tmp/volsav", volumesave);
-			system(command);
-		}
-	}
 }
 
 void keyinput_send(int code, int mode)

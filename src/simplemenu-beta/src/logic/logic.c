@@ -203,7 +203,23 @@ void quit() {
 		exit(0);
 #endif
 		if (selectedShutDownOption == 1) {
+			#ifdef MIYOOMINI
+			audioFix = getCurrentSystemValue("audiofix");
+			
+			if (audioFix == 1){
+				if (mmModel)
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				else
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+			} else if (audioFix == 0){
+				if (mmModel)
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				else
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+			}	
+			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
+			#endif
 		} else {
 			#ifdef MIYOOMINI
 			audioFix = getCurrentSystemValue("audiofix");
@@ -225,7 +241,23 @@ void quit() {
 		}
 	} else {
 		if (selectedShutDownOption == 1) {
+			#ifdef MIYOOMINI
+			audioFix = getCurrentSystemValue("audiofix");
+			
+			if (audioFix == 1){
+				if (mmModel)
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				else
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+			} else if (audioFix == 0){
+				if (mmModel)
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				else
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+			}	
+			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
+			#endif
 		} else if (selectedShutDownOption == 2) {
 			#ifdef MIYOOMINI
 			audioFix = getCurrentSystemValue("audiofix");
