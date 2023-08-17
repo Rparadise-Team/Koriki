@@ -227,16 +227,16 @@ fi
 # NOTE: could cause performance issues on more demanding cores...maybe?
 runsvr=`/customer/app/jsonval audiofix`
 
-if [ -f /customer/lib/libpadsp.so ]; then
-    export LD_PRELOAD=/customer/lib/libpadsp.so
-fi
-
 if [ "$runsvr" != "0" ] ; then
 	/mnt/SDCARD/Koriki/bin/audioserver &
 	if [ $MODEL = "MMP" ]; then
 		touch /tmp/audioserver_on
 		sync
 	fi
+fi
+
+if [ -f /customer/lib/libpadsp.so ]; then
+    export LD_PRELOAD=/customer/lib/libpadsp.so
 fi
 
 # free memory when audioserver is stoped

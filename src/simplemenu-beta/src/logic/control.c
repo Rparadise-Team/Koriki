@@ -894,18 +894,26 @@ void performSystemSettingsChoosingAction() {
 		 	Fix = getCurrentSystemValue("audiofix");
 		 	if (Fix == 1) {
 				if (mmModel) {
-					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
+					system("/mnt/SDCARD/Koriki/bin/audioserver &");
+					system("LD_PRELOAD=/customer/lib/libpadsp.so");
 				} else {
-					system ("LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &");
-					system ("touch /tmp/audioserver_on");
+					system("/mnt/SDCARD/Koriki/bin/audioserver &");
+					system("LD_PRELOAD=/customer/lib/libpadsp.so");
+					system("touch /tmp/audioserver_on");
+					system("sync");
 				}
 			} else if (Fix == 0) {
 				if (mmModel) {
-					system ("killall audioserver && killall audioserver.min");
+					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
+					system("killall audioserver && killall audioserver.min");
+					system("unset LD_PRELOAD");
 				} else {
-					system ("killall audioserver && killall audioserver.plu");
-					system ("rm /tmp/audioserver_on");
-					system ("/mnt/SDCARD/Koriki/bin/freemma");
+					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
+					system("killall audioserver && killall audioserver.plu");
+					system("unset LD_PRELOAD");
+					system("rm /tmp/audioserver_on");
+					system("sync");
+					system("/mnt/SDCARD/Koriki/bin/freemma");
 				}
 			}
 			getCurrentVolume();

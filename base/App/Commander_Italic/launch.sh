@@ -5,6 +5,10 @@ runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
 	FILE=/customer/app/axp_test
+	
+	if [ -f /customer/lib/libpadsp.so ]; then
+		unset LD_PRELOAD
+	fi
 
     if [ -f "$FILE" ]; then
         killall audioserver
