@@ -913,7 +913,6 @@ void performSystemSettingsChoosingAction() {
 					system("unset LD_PRELOAD");
 					system("rm /tmp/audioserver_on");
 					system("sync");
-					system("/mnt/SDCARD/Koriki/bin/freemma");
 				}
 			}
 			getCurrentVolume();
