@@ -895,10 +895,10 @@ void performSystemSettingsChoosingAction() {
 		 	if (Fix == 1) {
 				if (mmModel) {
 					system("/mnt/SDCARD/Koriki/bin/audioserver &");
-					system("LD_PRELOAD=/customer/lib/libpadsp.so");
+					system("export LD_PRELOAD=/customer/lib/libpadsp.so");
 				} else {
 					system("/mnt/SDCARD/Koriki/bin/audioserver &");
-					system("LD_PRELOAD=/customer/lib/libpadsp.so");
+					system("export LD_PRELOAD=/customer/lib/libpadsp.so");
 					system("touch /tmp/audioserver_on");
 					system("sync");
 				}
