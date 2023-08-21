@@ -1,0 +1,3422 @@
+'***************************************
+'ARKANOID PORTING BY JEAN-MILOST REYMOND
+'ORIGINAL GAME BY TAITO (C) 1986
+'THANKS TO WAS8BIT FOR THE DYNAMIX ADDON
+'***************************************
+
+GAMEPAD 1
+
+'GLOBAL VARIABLES
+GLOBAL SCREENWIDTH, SCREENHEIGHT, PIXELTOCHAR, PLAYFIELDX, PLAYFIELDY, PLAYFIELDWIDTH, PLAYFIELDHEIGHT, PLAYFIELDSTARTX, PLAYFIELDENDX, PLAYFIELDSTARTY, PLAYFIELDENDY, BORDERLEFT, BORDERRIGHT, BORDERTOP, BORDERBOTTOM, BARWIDTH, BARX, BARY, LIVESX, LIVESY, LIMITLEFT, LIMITRIGHT, LIMITTOP, LIMITBOTTOM, MAINMENU, CONTINUETIMER, CONTINUESTART, SHOWCONTINUE, CREATETIMER, GOTONEXTLEVEL, LIVES, SUMMARYSCREEN, LEVEL, GAMEOVER, DOEXIT, LASER, GLUE, BAREXTEND, EXTENDOFFSET, NEXTLVLDOOROPEN, DOORFRAMETOP, DOORFRAMEMDL, DOORFRAMEBTM, SKIPLEVEL, BLOCKCOUNT, BALLCOUNT, MONSTERCOUNT, LASERCOUNT, PROJCOUNT, STARCOUNT, PARTICLECOUNT, BLOCKOFFSET, BALLOFFSET, MONSTEROFFSET, LASEROFFSET, PROJOFFSET, PARTICLEOFFSET, FINALBOSS, DOHLIVES, DOHFRAME, DOHHIT, DOHDEFEATED, DOHBLINKTIMER, DOHBLINKOFFSET, STARTTEXT$, ENDTEXT$
+
+'GAME VARIABLES
+SCREENWIDTH     = 160
+SCREENHEIGHT    = 128
+PIXELTOCHAR     = 8
+PLAYFIELDX      = 32
+PLAYFIELDY      = 8
+PLAYFIELDWIDTH  = 104
+PLAYFIELDHEIGHT = SCREENHEIGHT - 8
+PLAYFIELDSTARTX = PLAYFIELDX / PIXELTOCHAR
+PLAYFIELDENDX   = (PLAYFIELDX + PLAYFIELDWIDTH) / PIXELTOCHAR
+PLAYFIELDSTARTY = 0
+PLAYFIELDENDY   = SCREENHEIGHT / PIXELTOCHAR
+BORDERLEFT      = PLAYFIELDSTARTX - 1
+BORDERRIGHT     = PLAYFIELDENDX + 1
+BORDERTOP       = 0
+BORDERBOTTOM    = (PLAYFIELDY + PLAYFIELDHEIGHT) / PIXELTOCHAR
+BARWIDTH        = 24
+BARX            = PLAYFIELDX + ((PLAYFIELDWIDTH / 2) - (BARWIDTH / 2))
+BARY            = 110
+LIVESX          = 0
+LIVESY          = 0
+LIMITLEFT       = PLAYFIELDX
+LIMITRIGHT      = PLAYFIELDX + PLAYFIELDWIDTH
+LIMITTOP        = PLAYFIELDY
+LIMITBOTTOM     = PLAYFIELDY + PLAYFIELDHEIGHT
+MAINMENU        = 1
+CONTINUETIMER   = 10
+CONTINUESTART   = 0
+SHOWCONTINUE    = 0
+CREATETIMER     = 0
+GOTONEXTLEVEL   = 0
+LIVES           = 3
+SUMMARYSCREEN   = 1
+LEVEL           = 1
+GAMEOPENING     = 1
+GAMEOVER        = 0
+DOEXIT          = 0
+LASER           = 0
+GLUE            = 0
+BAREXTEND       = 0
+EXTENDOFFSET    = 0
+NEXTLVLDOOROPEN = 0
+DOORFRAMETOP    = 0
+DOORFRAMEMDL    = 0
+DOORFRAMEBTM    = 0
+SKIPLEVEL       = 0
+BLOCKCOUNT      = 30
+BALLCOUNT       = 3
+MONSTERCOUNT    = 3
+LASERCOUNT      = 3
+PROJCOUNT       = 5
+STARCOUNT       = 128
+PARTICLECOUNT   = 12
+BLOCKOFFSET     = 8
+BALLOFFSET      = 6
+MONSTEROFFSET   = 11
+LASEROFFSET     = 4
+PROJOFFSET      = 6
+PARTICLEOFFSET  = 5
+FINALBOSS       = 0
+DOHLIVES        = 20
+DOHFRAME        = 0
+DOHHIT          = 0
+DOHDEFEATED     = 0
+DOHBLINKTIMER   = 0
+DOHBLINKOFFSET  = 50
+STARTTEXT$      = "THE ERA AND TIME OF THIS STORY IS UNKNOWN. AFTER THE MOTHERSHIP 'ARKANOID' WAS DESTROYED, A SPACECRAFT 'VAUS' SCRAMBLED AWAY FROM IT. BUT ONLY TO BE TRAPPED IN SPACE WARPED BY SOMEONE......"
+ENDTEXT$        = "DIMENSION-CONTROLLING FORT 'DOH' HAS NOW BEEN DEMOLISHED, AND TIME STARTED FLOWING REVERSLY. 'VAUS' MANAGED TO ESCAPE FROM THE DISTORDED SPACE. BUT THE REAL VOYAGE OF 'ARKANOID' IN THE GALAXY HAS ONLY STARTED......"
+
+'THE LEVEL 6X5 BLOCK TABLE, IT'S A 5 BYTES ARRAY ORGANIZED AS FOLLOW:
+'0 = THE BLOCK TYPE, WHICH MAY BE:
+'    0   -> NO BLOCK
+'    1   -> RED BLOCK
+'    2   -> ORANGE BLOCK
+'    3   -> YELLOW BLOCK
+'    4   -> GREEN BLOCK
+'    5   -> BLUE BLOCK
+'    6   -> PURPLE BLOCK
+'    7   -> 2 TIME BREAKABLE BLOCK, BROKEN STATE
+'    8   -> 2 TIME BREAKABLE BLOCK
+'    9   -> UNBREAKABLE BLOCK
+'    10> -> UNBREAKABLE BLOCK, BLINKING STATE (UNTIL 15)
+'1 = THE BLOCK LEFT POSITION IN PIXELS
+'2 = THE BLOCK TOP POSITION IN PIXELS
+'3 = IF SET TO TRUE, THE MATCHING BLOCK CONTAINS A BONUS
+'4 = THE BONUS X POSITION IN PIXELS
+'5 = THE BONUS Y POSITION IN PIXELS
+'6 = THE BONUS FRAME
+'7 = THE BONUS TYPE, WHICH MAY BE:
+'    0 -> NO BONUS
+'    1 -> LASERS
+'    2 -> BALL SLOW DOWN
+'    3 -> MULTIBALLS
+'    4 -> GLUE
+'    5 -> BAR EXTEND
+'    6 -> NEXT LEVEL DOOR
+'...AND REPEAT FOR EACH BONUS
+DIM GLOBAL BLOCKS(BLOCKCOUNT, BLOCKOFFSET)
+
+'THE BALL(S) TABLE, IT'S A 6 BYTES ARRAY ORGANIZED AS FOLLOW:
+'BYTE 0 = THE X POSITION
+'BYTE 1 = THE Y POSITION
+'BYTE 2 = THE X OFFSET
+'BYTE 3 = THE Y OFFSET
+'BYTE 4 = IF TRUE THE BALL IS VISIBLE ON THE SCREEN
+'BYTE 5 = IF TRUE THE BALL IS GLUED ON THE BAR
+'...AND REPEAT FOR EACH BALLS
+DIM GLOBAL BALLS(BALLCOUNT, BALLOFFSET)
+
+'THE MONSTERS TABLE, IT'S A 8 BYTES ARRAY ORGANIZED AS FOLLOW:
+'BYTE 0  = THE X POSITION
+'BYTE 1  = THE Y POSITION
+'BYTE 2  = THE ANIMATION FRAME
+'BYTE 3  = THE X OFFSET
+'BYTE 4  = THE Y OFFSET
+'BYTE 5  = THE ENTERING ANIMATION FRAME
+'BYTE 6  = IF TRUE THE MIDDLE SCREEN WAS REACHED (2ND ANIM PATTERN)
+'BYTE 7  = IF TRUE THE MONSTER IS VISIBLE ON SCREEN
+'BYTE 8  = THE DOOR X POSITION
+'BYTE 9  = THE EXPLODING STATE
+'BYTE 10 = THE EXPLODING FRAME
+'...AND REPEAT FOR EACH MONSTERS
+DIM GLOBAL MONSTERS(MONSTERCOUNT, MONSTEROFFSET)
+
+'THE LASER TABLE, IT'S A 4 BYTES ARRAY ORGANIZED AS FOLLOW:
+'BYTE 0 = THE X POSITION
+'BYTE 1 = THE Y POSITION
+'BYTE 2 = IF TRUE THE LEFT LASER IS VISIBLE ON THE SCREEN
+'BYTE 3 = IF TRUE THE RIGHT LASER IS VISIBLE ON THE SCREEN
+'...AND REPEAT FOR EACH LASER
+DIM GLOBAL LASERS(LASERCOUNT, LASEROFFSET)
+
+'THE DOH PROJECTILES TABLE, IT'S A 6 BYTES ARRAY ORGANIZED AS FOLLOW:
+'BYTE 0 = THE X POSITION
+'BYTE 1 = THE Y POSITION
+'BYTE 2 = THE X OFFSET
+'BYTE 3 = THE Y OFFSET
+'BYTE 4 = THE FRAME
+'BYTE 5 = IF TRUE THE PROJECTILE IS VISIBLE ON THE SCREEN
+'...AND REPEAT FOR EACH PROJECTILE
+DIM GLOBAL PROJECTILES(PROJCOUNT, PROJOFFSET)
+
+'DOH EXPLOSION PARTICLE TABLE, IT'S A 5 BYTES ARRAY ORGANIZED AS FOLLOW:
+'BYTE 0 = THE X POSITION
+'BYTE 1 = THE Y POSITION
+'BYTE 2 = THE X OFFSET
+'BYTE 3 = THE Y OFFSET
+'BYTE 4 = IF TRUE THE PARTICLE IS VISIBLE ON SCREEN
+DIM GLOBAL PARTICLES(PARTICLECOUNT, PARTICLEOFFSET)
+
+'THE STARS X POSITION TABLE, EACH ITEM KEEPS A STAR X POSITION
+DIM GLOBAL STARS(STARCOUNT)
+
+'NOTE SPRITES ARE ORGANIZED AS FOLLOW:
+'NORMAL GAME SEQUENCE
+'0  TO 4  => THE BAR
+'5  TO 7  => THE BALLS
+'8  TO 10 => THE MONSTERS
+'11 TO 20 => THE LIVES (MAX 10)
+'21 TO 50 => THE BONUS
+'51 TO 60 => THE LASERS (MAX 5 GROUP OF 2 LASERS)
+'FINAL BOSS SEQUENCE
+'0 TO 4   => THE BAR
+'5 TO 7   => THE BALL
+'11 TO 20 => THE LIVES (MAX 10)
+'21 TO 30 => THE DOH PROJECTILES
+'31 TO 42 => THE DOH CHARACTER
+RANDOMIZE TIMER
+
+MAIN:
+    DO
+        'SHOW THE MAIN MENU
+        IF MAINMENU = 1 THEN
+            MAINMENU = 0
+
+            CALL MAINMENULOOP
+
+            STOP
+            CLS
+            PAL 0
+
+            GAMEOPENING = 1
+        END IF
+
+        'SHOW THE GAME OPENING MESSAGE, IF NEEDED
+        IF GAMEOPENING = 1 THEN
+            GAMEOPENING = 0
+
+            CALL STARTLOOP
+
+            STOP
+            CLS
+            PAL 0
+        END IF
+
+        'RESET THE VALUES FOR THE NEXT LEVEL
+        DOEXIT        = 0
+        GOTONEXTLEVEL = 0
+        SKIPLEVEL     = 0
+        SUMMARYSCREEN = 1
+
+        CALL RESETLEVEL
+        CALL RESETMONSTERS
+        CALL RESETBONUS
+        CALL POPULATELEVEL
+
+        ON RASTER OFF
+
+        IF DOHDEFEATED = 1 THEN
+            CALL RESETPROJECTILES
+            CALL ENDLOOP
+            CALL RESETGAME
+        ELSE IF FINALBOSS = 1 THEN
+            DOHLIVES    = 20
+            DOHFRAME    = 0
+            DOHHIT      = 0
+            DOHDEFEATED = 0
+
+            CALL POPULATEPARTICLES
+            CALL FINALBOSSLOOP
+
+            'SHOW DOH DESTRUCTION
+            IF DOHDEFEATED = 1 THEN
+                CALL DOHDESTRUCTIONLOOP
+            END IF
+        ELSE
+            CALL GAMELOOP
+        END IF
+    LOOP
+
+'***************************************
+'MAIN MENU LOOP
+'***************************************
+SUB MAINMENULOOP
+    SPRITE OFF
+
+    STARTTIME = TIMER
+    PAGE      = 1
+
+    REPEAT
+        'CHANGE THE PAYE AND RESTART THE MUSIC EVERY 20 SECONDS
+        IF ((TIMER - STARTTIME) MOD 2000) = 0 THEN
+            CLS
+
+            'RESTART THE MUSIC
+            IF MUSIC(3) = 0 THEN
+                MUSIC 5
+            END IF
+
+            'CHANGE THE PAGE
+            IF PAGE = 0 THEN
+                PAGE = 1
+            ELSE
+                PAGE = 0
+            END IF
+        END IF
+
+        PAL 1
+        BG 0
+
+        'DRAW THE TITLE
+        FOR I = 0 TO 7
+            FOR J = 0 TO 1
+                X = I + 6
+                Y = J + 2
+
+                BG FILL X, Y TO X, Y CHAR 136 + (J * 16) + I
+            NEXT J
+        NEXT I
+
+        'DRAW THE PAGE CONTENT
+        IF PAGE = 0 THEN
+            PAL 0
+
+            IF (TIMER MOD 96) < 48 THEN
+                TEXT 2, 8, "PRESS A TO START"
+            ELSE
+                BG FILL 2, 8 TO 18, 8 CHAR 0
+            END IF
+        
+            PAL 1
+
+            TEXT 2, 13, "ORIGINAL GAME BY"
+            TEXT 3, 14, "TAITO (C) 1986"
+        ELSE
+            PAL 1
+            TEXT 0, 6, "LOWRESNX VERSION BY"
+            PAL 0
+            TEXT 0, 7, "JEAN-MILOST REYMOND"
+            PAL 1
+            TEXT 1, 10, "THANKS TO"
+            PAL 0
+            TEXT 11, 10, "WAS8BIT"
+            PAL 1
+            TEXT 1, 11, "FOR DYNAMIX ADDON"
+        END IF
+
+        WAIT VBL
+    UNTIL BUTTON TAP (0, 0)
+END SUB
+
+'***************************************
+'GAME MAIN LOOP
+'***************************************
+SUB GAMELOOP
+    REPEAT
+        CALL MOVEBAR
+        CALL MOVEBALL
+        CALL MOVEMONSTERS
+        CALL MOVEBONUS
+
+        CALL DRAWPLAYFIELD
+        CALL DRAWLEVEL
+        CALL DRAWLIVES
+        CALL DRAWBAR
+        CALL DRAWBALLS
+        CALL DRAWMONSTERS
+        CALL DRAWBONUS
+        CALL DRAWMESSAGES
+
+        CALL CHECKLEVELCOMPLETED
+
+        WAIT VBL
+    UNTIL GOTONEXTLEVEL = 1 OR DOEXIT = 1
+END SUB
+
+'***************************************
+'FINAL BOSS LOOP
+'***************************************
+SUB FINALBOSSLOOP
+    REPEAT
+        CALL MOVEBAR
+        CALL MOVEBALL
+        CALL MOVEPROJECTILE
+
+        CALL DRAWPLAYFIELD
+        CALL DRAWDOH
+        CALL DRAWBAR
+        CALL DRAWBALLS
+        CALL DRAWPROJECTILES
+        CALL DRAWLIVES
+        CALL DRAWMESSAGES
+
+        WAIT VBL
+    UNTIL DOHDEFEATED = 1 OR DOEXIT = 1
+END SUB
+
+'***************************************
+'DOH DESTRUCTION LOOP
+'***************************************
+SUB DOHDESTRUCTIONLOOP
+    CALL RESETMULTIBALLS
+    CALL RESETPROJECTILES
+
+    REPEAT
+        CALL MOVEBAR
+        CALL MOVEDOHPARTICLES
+
+        CALL DRAWPLAYFIELD
+        CALL DRAWDOH
+        CALL DRAWBAR
+        CALL DRAWLIVES
+
+        WAIT VBL
+    UNTIL DOEXIT = 1
+END SUB
+
+'***************************************
+'START LOOP
+'***************************************
+SUB STARTLOOP
+    CALL SCROLLTEXTLOOP(STARTTEXT$)
+END SUB
+
+'***************************************
+'END LOOP
+'***************************************
+SUB ENDLOOP
+    CALL SCROLLTEXTLOOP(ENDTEXT$)
+
+    'RETURN TO MAIN MENU ON THE END
+    MAINMENU = 1
+END SUB
+
+'***************************************
+'SCROLLING TEXT LOOP
+'SCROLLTEXT$ - THE TEXT TO SCROLL
+'***************************************
+SUB SCROLLTEXTLOOP(SCROLLTEXT$)
+    CLS 0
+    SPRITE OFF
+
+    CALL SHOWSTARS
+
+    MUSIC(1)
+
+    PAL 1
+
+    L     = LEN(SCROLLTEXT$)
+    C     = 1
+    INDEX = 0
+
+    REPEAT
+        'DO DRAW THE NEXT CHAR?
+        IF (INDEX MOD 8) = 0 THEN
+            'CALCULATE THE NEXT POS ON THE RIGHT, OUT OF THE SCREEN
+            TX = (SCREENWIDTH \ 8) + (INDEX \ 8)
+            TY = SCREENHEIGHT \ 16
+
+            'ALL THE TEXT WAS DRAWN?
+            IF C < L THEN
+                'GET THE NEXT CHAR TO DRAW
+                C$ = MID$(SCROLLTEXT$, C, 1)
+                TEXT TX, TY, C$
+            ELSE
+                TEXT TX, TY, " "
+            END IF
+
+            INC C
+        END IF
+
+        'SCROLL THE TEXT
+        SCROLL 0, INDEX, 0
+        ADD INDEX, 2
+        WAIT VBL
+    UNTIL (MUSIC(0) = 4 AND MUSIC(1) = 31) OR BUTTON TAP (0, 0)
+END SUB
+
+'***************************************
+'SHOW THE STAR BACKGROUND
+'***************************************
+SUB SHOWSTARS
+    'INITIALIZE RANDOMLY THE STAR X POSITIONS
+    FOR I = 0 TO STARCOUNT - 1
+        STARS(I) = INT(RND * 256)
+    NEXT I
+
+    'DRAW THE STARS TO THEIR INITIAL POSITION ON THE 2ND BACKGROUND
+    BG 1
+    PAL 5
+    BG FILL 0,0 TO 0,15 CHAR 115
+
+    'RESTORE THE DEFAULT BACKGROUND AND PALETTE
+    BG 0
+    PAL 0
+
+    'USE THE RASTER TO SCROLL THE 4 PLANE PARALLAX STARFIELD ONCE
+    ON RASTER CALL SCROLLSTARS
+END SUB
+
+'***************************************
+'RESET THE WHOLE GAME
+'***************************************
+SUB RESETGAME
+    STOP
+    CLS
+    PAL 0
+
+    LEVEL       = 1
+    LIVES       = 3
+    FINALBOSS   = 0
+    DOHDEFEATED = 0
+    GAMEOPENING = 1
+END SUB
+
+'***************************************
+'RESET THE LEVEL
+'***************************************
+SUB RESETLEVEL
+    'CLEAR THE LEVEL
+    FOR I = 0 TO BLOCKCOUNT - 1
+        BLOCKS(I, 0) = 0
+    NEXT I
+END SUB
+
+'***************************************
+'RESET THE MULTIBALLS
+'***************************************
+SUB RESETMULTIBALLS
+    'CLEAR THE MULTIBALLS TABLE
+    FOR I = 0 TO BALLCOUNT - 1
+        FOR J = 0 TO BALLOFFSET - 1
+            BALLS(I, J) = 0
+        NEXT J
+    NEXT I
+
+    'HIDE THE SPRITES
+    FOR I = 5 TO 7
+        SPRITE OFF I
+    NEXT I
+
+    'RESTORE THE FIRST BALL DEFAULT VALUES
+    BALLS(0, 0) = BARX + 12
+    BALLS(0, 1) = BARY - 6
+    BALLS(0, 2) = 0.25
+    BALLS(0, 3) = 0.75
+    BALLS(0, 4) = 1
+    BALLS(0, 5) = 1
+END SUB
+
+'***************************************
+'RESET THE MONSTERS
+'***************************************
+SUB RESETMONSTERS
+    'CLEAR THE MONSTERS DATA
+    FOR I = 0 TO MONSTERCOUNT - 1
+        FOR J = 0 TO MONSTEROFFSET - 1
+            MONSTERS(I, J) = 0
+        NEXT J
+    NEXT I
+
+    'HIDE THE MONSTERS SPRITES
+    FOR I = 8 TO 10
+        SPRITE OFF I
+    NEXT I
+END SUB
+
+'***************************************
+'RESET THE BONUS
+'***************************************
+SUB RESETBONUS
+    'RESET THE BONUS EFFECTS
+    LASER           = 0
+    GLUE            = 0
+    BAREXTEND       = 0
+    NEXTLVLDOOROPEN = 0
+
+    'RESET THE BONUS STATUS
+    FOR I = 0 TO BLOCKCOUNT - 1
+        BLOCKS(I, 7) = 0
+        SPRITE OFF I + 21
+    NEXT I
+
+    'RESET THE LASER STATE
+    FOR I = 0 TO LASERCOUNT - 1
+        FOR J = 0 TO LASEROFFSET - 1
+            LASERS(I, J) = 0
+        NEXT J
+    NEXT I
+
+    'HIDE THE LASER SPRITES
+    FOR I = 51 TO 60
+        SPRITE OFF I
+    NEXT I
+
+    CALL RESETMULTIBALLS
+END SUB
+
+'***************************************
+'RESET THE PROJECTILES
+'***************************************
+SUB RESETPROJECTILES
+    'CLEAR THE PROJECTILES DATA
+    FOR I = 0 TO PROJCOUNT - 1
+        FOR J = 0 TO PROJOFFSET - 1
+            PROJECTILES(I, J) = 0
+        NEXT J
+    NEXT I
+
+    'HIDE THE PROJECTILES SPRITES
+    FOR I = 21 TO 30
+        SPRITE OFF I
+    NEXT I
+END SUB
+
+'***************************************
+'POPULATE THE LEVEL DATA
+'***************************************
+SUB POPULATELEVEL
+    IF LEVEL = 1 THEN
+        FOR I = 0 TO BLOCKCOUNT - 1
+            IF I < 6 THEN
+                BLOCKS(I, 0) = 8
+            ELSE
+                BLOCKS(I, 0) = (I MOD 6) + 1
+            END IF
+        NEXT I
+    ELSE IF LEVEL = 2 THEN
+        FOR I = 0 TO 4
+            FOR J = 0 TO I + 1
+                IF I = 4 THEN
+                    BLOCKS((I * 6) + J, 0) = 8
+                ELSE
+                    BLOCKS((I * 6) + J, 0) = I + 1
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 3 THEN
+        FOR I = 1 TO 4
+            BLOCKS(I, 0)      = 9
+            BLOCKS(12 + I, 0) = 9
+            BLOCKS(24 + I, 0) = 9
+        NEXT I
+        
+        BLOCKS(6,  0) = 6
+        BLOCKS(11, 0) = 5
+        BLOCKS(18, 0) = 1
+        BLOCKS(23, 0) = 3
+    ELSE IF LEVEL = 4 THEN
+        FOR I = 0 TO 1
+            FOR J = 0 TO 4
+                LEFTINDEX  =     (J * 6) + I
+                RIGHTINDEX = 4 + (J * 6) + I
+
+                BLOCKS(LEFTINDEX,  0) = (((J * 6) + I)     MOD 7) + 1
+                BLOCKS(RIGHTINDEX, 0) = (((J * 6) + I + 4) MOD 7) + 1
+
+                IF BLOCKS(LEFTINDEX, 0) = 7 THEN
+                    BLOCKS(LEFTINDEX, 0) = 8
+                END IF
+
+                IF BLOCKS(RIGHTINDEX, 0) = 7 THEN
+                    BLOCKS(RIGHTINDEX, 0) = 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 5 THEN
+        BLOCKS(1,  0) = 3
+        BLOCKS(4,  0) = 3
+        BLOCKS(7,  0) = 8
+        BLOCKS(8,  0) = 8
+        BLOCKS(9,  0) = 8
+        BLOCKS(10, 0) = 8
+        BLOCKS(12, 0) = 8
+        BLOCKS(13, 0) = 1
+        BLOCKS(14, 0) = 8
+        BLOCKS(15, 0) = 8
+        BLOCKS(16, 0) = 1
+        BLOCKS(17, 0) = 8
+        BLOCKS(19, 0) = 8
+        BLOCKS(20, 0) = 8
+        BLOCKS(21, 0) = 8
+        BLOCKS(22, 0) = 8
+        BLOCKS(25, 0) = 8
+        BLOCKS(28, 0) = 8
+    ELSE IF LEVEL = 6 THEN
+        FOR I = 0 TO 2
+            FOR J = 0 TO 4
+                LINDEX = (J * 6) + I
+                RINDEX = (J * 6) + I + 3
+
+                IF J = 1THEN
+                    IF (I MOD 2) = 0 THEN
+                        BLOCKS(LINDEX, 0) = 9
+                        BLOCKS(RINDEX, 0) = 9
+                    ELSE
+                        BLOCKS(LINDEX, 0) = 2
+                        BLOCKS(RINDEX, 0) = 2
+                    END IF
+                'NOTE DEACTIVATED BECAUSE TURN THE LEVEL TOO DIFFICULT
+                'ELSE IF J = 3 THEN
+                    'IF (I MOD 2) = 0 THEN
+                        'BLOCKS(LINDEX, 0) = 9
+                        'BLOCKS(RINDEX, 0) = 9
+                    'END IF
+                ELSE
+                    IF (I MOD 2) = 0 THEN
+                        IF I = 0 THEN
+                            BLOCKS(LINDEX, 0) = 1
+                            BLOCKS(RINDEX, 0) = 4
+                        ELSE
+                            BLOCKS(LINDEX, 0) = 4
+                            BLOCKS(RINDEX, 0) = 1
+                        END IF
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 7 THEN
+        FOR I = 0 TO 3
+            FOR J = 0 TO 4
+                INDEX = 1 + (J * 6) + I
+
+                BLOCKS(INDEX, 0) = (((J * 6) + I + 1) MOD 7) + 1
+
+                IF I = 0 AND J = 0 THEN
+                    BLOCKS(INDEX, 0) = 0
+                ELSE IF I = 3 AND J = 0 THEN
+                    BLOCKS(INDEX, 0) = 0
+                ELSE IF I = 0 AND J = 4 THEN
+                    BLOCKS(INDEX, 0) = 0
+                ELSE IF I = 3 AND J = 4 THEN
+                    BLOCKS(INDEX, 0) = 0
+                ELSE IF BLOCKS(INDEX, 0) = 7 THEN
+                    BLOCKS(INDEX, 0) = 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 8 THEN
+        FOR I = 0 TO 4
+            INDEX = (I * 6) + 2
+            
+            BLOCKS(INDEX,     0) = (I + 1) MOD 6
+            BLOCKS(INDEX + 1, 0) = (I + 1) MOD 6
+        NEXT I
+
+        BLOCKS(0,  0) = 9
+        BLOCKS(5,  0) = 9
+        BLOCKS(7,  0) = 9
+        BLOCKS(10, 0) = 9
+        BLOCKS(19, 0) = 9
+        BLOCKS(22, 0) = 9
+        BLOCKS(24, 0) = 9
+        BLOCKS(29, 0) = 9
+    ELSE IF LEVEL = 9 THEN
+        FOR I = 0 TO 3
+            FOR J = 0 TO 1
+                INDEX = (J * 6) + I + 1
+
+                IF J = 0 AND (I = 1 OR I = 2) THEN
+                    BLOCKS(INDEX, 0) = 4
+                ELSE
+                    BLOCKS(INDEX, 0) = 9
+                END IF
+            NEXT J
+        NEXT I
+
+        FOR I = 0 TO 5
+            FOR J = 3 TO 4
+                INDEX = (J * 6) + I
+
+                BLOCKS(INDEX, 0) = (I + 1) MOD 7
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 10 THEN
+        FOR I = 0 TO 4
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I + 1
+
+                IF J = 4 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF I = 0 AND (J = 2 OR J = 3) THEN
+                    BLOCKS(INDEX, 0) = 9
+                END IF
+            NEXT J
+        NEXT I
+
+        FOR I = 0 TO 2
+            FOR J = 1 TO 3
+                INDEX = (J * 6) + I + 3
+
+                IF I = 1 OR J = 2 THEN
+                    IF I = 1 AND J = 2 THEN
+                        BLOCKS(INDEX, 0) = 6
+                    ELSE
+                        BLOCKS(INDEX, 0) = 5
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 11 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I = 0 OR J = 0 OR I = 5 OR J = 4 THEN
+                    BLOCKS(INDEX, 0) = 8
+                ELSE IF J = 2 AND (I = 2 OR I = 3) THEN
+                    BLOCKS(INDEX, 0) = 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 12 THEN
+        FOR I = 0 TO 4
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I + 1
+
+                IF J = 0 OR J = 4 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF I = 0 AND J = 3 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF I = 2 AND J = 1 THEN
+                    BLOCKS(INDEX, 0) = 9
+                END IF
+            NEXT J
+        NEXT I
+
+        BLOCKS(21, 0) = 1
+    ELSE IF LEVEL = 13 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I <> 1 AND I <> 4 THEN
+                    BLOCKS(INDEX, 0) = ((INDEX \ 2) MOD 6) + 1
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 14 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I = 0 OR I = 5 THEN
+                    IF J = 1 OR J = 3 THEN
+                        BLOCKS(INDEX, 0) = (INDEX MOD 6) + 1
+                    ELSE
+                        BLOCKS(INDEX, 0) = 9
+                    END IF
+                ELSE IF J <> 1 AND J <> 3 THEN
+                    IF J = 4 THEN
+                        BLOCKS(INDEX, 0) = 1
+                    ELSE
+                        BLOCKS(INDEX, 0) = 8
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 15 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J <> 4 AND (I = 0 OR I = 5) THEN
+                    BLOCKS(INDEX, 0) = 8
+                ELSE IF I = 1 OR I = 2 THEN
+                    IF J = 0 AND I = 2 THEN
+                        BLOCKS(INDEX, 0) = 5
+                    ELSE IF J = 4 AND I = 1 THEN
+                        BLOCKS(INDEX, 0) = 5
+                    ELSE
+                        BLOCKS(INDEX, 0) = 2
+                    END IF
+                ELSE IF I = 3 OR I = 4 THEN
+                    IF J = 0 AND I = 3 THEN
+                        BLOCKS(INDEX, 0) = 5
+                    ELSE IF J = 4 AND I = 4 THEN
+                        BLOCKS(INDEX, 0) = 5
+                    ELSE
+                        BLOCKS(INDEX, 0) = 4
+                    END IF
+                ELSE
+                    BLOCKS(INDEX, 0) = 5
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 16 THEN
+        FOR I = 0 TO 1
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I + 2
+
+                BLOCKS(INDEX, 0) = 9
+                BLOCKS(INDEX, 0) = 9
+            NEXT J
+        NEXT I
+
+        BLOCKS(7,  0) = 2
+        BLOCKS(10, 0) = 2
+        BLOCKS(12, 0) = 2
+        BLOCKS(17, 0) = 2
+        BLOCKS(19, 0) = 4
+        BLOCKS(22, 0) = 4
+        BLOCKS(24, 0) = 4
+        BLOCKS(29, 0) = 4
+    ELSE IF LEVEL = 17 THEN
+        BLOCKS(3,  0) = 8
+        BLOCKS(8,  0) = 5
+        BLOCKS(9,  0) = 3
+        BLOCKS(10, 0) = 4
+        BLOCKS(13, 0) = 5
+        BLOCKS(14, 0) = 3
+        BLOCKS(15, 0) = 3
+        BLOCKS(16, 0) = 3
+        BLOCKS(17, 0) = 4
+        BLOCKS(21, 0) = 8
+        BLOCKS(26, 0) = 9
+        BLOCKS(27, 0) = 9
+    ELSE IF LEVEL = 18 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I = 0 OR I = 5 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF J = 0 THEN
+                    BLOCKS(INDEX, 0) = 2
+                ELSE IF J = 1 OR J = 4 THEN
+                    IF I = 1 OR I = 4 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE IF I = 2 OR I = 3 THEN
+                        IF J = 1 THEN
+                            BLOCKS(INDEX, 0) = 2
+                        ELSE
+                            BLOCKS(INDEX, 0) = 4
+                        END IF
+                    END IF
+                ELSE IF I = 2 OR I = 3 THEN
+                    IF J = 2 THEN
+                        BLOCKS(INDEX, 0) = 8
+                    ELSE
+                        BLOCKS(INDEX, 0) = 4
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 19 THEN
+        FOR I = 1 TO 4
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+                IF J = 0 OR J = 4 OR I = 2 OR I = 3 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF I = 1 THEN
+                    BLOCKS(INDEX, 0) = 1
+                ELSE
+                    BLOCKS(INDEX, 0) = 5
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 20 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF (J = 0 OR J = 1) AND (I = 2 OR I = 5) THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF (J = 3 OR J = 4) AND (I = 1 OR I = 4) THEN
+                    BLOCKS(INDEX, 0) = 9
+                END IF
+            NEXT J
+        NEXT I
+
+        BLOCKS(1,  0) = 6
+        BLOCKS(8,  0) = 6
+        BLOCKS(15, 0) = 6
+        BLOCKS(20, 0) = 6
+        BLOCKS(25, 0) = 6
+    ELSE IF LEVEL = 21 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I = 0 OR I = 5 OR J = 0 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE
+                    BLOCKS(INDEX, 0) = J + 2
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 22 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    BLOCKS(INDEX, 0) = 2
+                ELSE IF J = 4 THEN
+                    BLOCKS(INDEX, 0) = 3
+                ELSE IF J = 2 THEN
+                    IF I = 0 OR I = 5 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE
+                        BLOCKS(INDEX, 0) = 1
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 23 THEN
+        FOR I = 0 TO 5
+            FOR J = 1 TO 3
+                INDEX = (J * 6) + I
+
+                IF J = 2 AND (I = 1 OR I = 4) THEN
+                    BLOCKS(INDEX, 0) = 1
+                ELSE
+                    BLOCKS(INDEX, 0) = 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 24 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 AND (I = 2 OR I = 3) THEN
+                    BLOCKS(INDEX, 0) = 3
+                ELSE IF J = 1 AND (I = 1 OR I = 4) THEN
+                    BLOCKS(INDEX, 0) = 3
+                ELSE IF J = 1 AND (I = 2 OR I = 3) THEN
+                    BLOCKS(INDEX, 0) = 5
+                ELSE IF J = 2 AND I >= 1 AND I <= 4 THEN
+                    BLOCKS(INDEX, 0) = 5
+                ELSE IF J >= 3 THEN
+                    BLOCKS(INDEX, 0) = 5
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 25 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    IF I <= 1 OR I >= 4 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    END IF
+                ELSE IF J = 1 AND (I = 1 OR I = 4) THEN
+                    BLOCKS(INDEX, 0) = 1
+                ELSE IF J = 3 THEN
+                    IF I = 1 OR I = 4 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE IF I = 2 OR I = 3 THEN
+                        BLOCKS(INDEX, 0) = 4
+                    END IF
+                ELSE IF J = 4 THEN
+                    IF I >= 1 AND I <= 4 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE
+                        BLOCKS(INDEX, 0) = 8
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 26 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    IF I = 1 OR I = 2 THEN
+                        BLOCKS(INDEX, 0) = 8
+                    END IF
+                ELSE IF J = 4 AND I >= 1 AND I <= 2 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF J >= 1 AND J <= 3 THEN
+                    IF I = 0 OR I = 3 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE IF I = 1 OR I = 2 THEN
+                        BLOCKS(INDEX, 0) = J
+                    END IF
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 27 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 OR J = 2 OR J = 4 THEN
+                    BLOCKS(INDEX, 0) = 8
+                ELSE IF J = 1 THEN
+                    BLOCKS(INDEX, 0) = 2
+                ELSE IF J = 3 THEN
+                    BLOCKS(INDEX, 0) = 1
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 28 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    BLOCKS(INDEX, 0) = 6
+                ELSE IF (J = 1 OR J = 2) AND I >= 1 AND I <= 4 THEN
+                    IF I >= 2 AND I <= 3 THEN
+                        BLOCKS(INDEX, 0) = 5
+                    ELSE
+                        BLOCKS(INDEX, 0) = 6
+                    END IF
+                ELSE IF I = 2 OR I = 3 THEN
+                    BLOCKS(INDEX, 0) = 6
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 29 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF I = 1 OR I = 4 THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF J = 1 AND (I = 0 OR I = 5) THEN
+                    BLOCKS(INDEX, 0) = 9
+                ELSE IF J <> 0 AND (I <> 2 AND I <> 3) THEN
+                    BLOCKS(INDEX, 0) = J - 1
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 30 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 AND I = 0 THEN
+                    BLOCKS(INDEX, 0) = I + 1
+                ELSE IF J = 1 THEN
+                    IF I = 0 THEN
+                        BLOCKS(INDEX, 0) = 8
+                    ELSE IF I = 1 OR I = 2 THEN
+                        BLOCKS(INDEX, 0) = I + 1
+                    END IF
+                ELSE IF J = 2 THEN
+                    IF I = 1 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE IF I = 2 THEN
+                        BLOCKS(INDEX, 0) = 8
+                    ELSE IF I = 3 OR I = 4 THEN
+                        BLOCKS(INDEX, 0) = I + 1
+                    END IF
+                ELSE IF J = 3 THEN
+                    IF I = 3 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE IF I = 4 THEN
+                        BLOCKS(INDEX, 0) = 8
+                    ELSE IF I = 5 THEN
+                        BLOCKS(INDEX, 0) = I + 1
+                    END IF
+                ELSE IF J = 4 AND I = 5 THEN
+                    BLOCKS(INDEX, 0) = 9
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 31 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 3
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    BLOCKS(INDEX, 0) = ((I + 1) MOD 2) * 1
+                ELSE IF J = 1 THEN
+                    BLOCKS(INDEX, 0) = ((I + 1) MOD 2) * 8
+                ELSE IF J = 2 THEN
+                    BLOCKS(INDEX, 0) = (I MOD 2) * 6
+                ELSE IF J = 3 THEN
+                    BLOCKS(INDEX, 0) = (I MOD 2) * 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE IF LEVEL = 32 THEN
+        FOR I = 0 TO 5
+            FOR J = 0 TO 4
+                INDEX = (J * 6) + I
+
+                IF J = 0 THEN
+                    BLOCKS(INDEX, 0) = ((I + 1) MOD 2) * 8
+                ELSE IF J = 1 THEN
+                    IF I = 0 THEN
+                        BLOCKS(INDEX, 0) = 9
+                    ELSE
+                        BLOCKS(INDEX, 0) = 1
+                    END IF
+                ELSE IF J = 2 THEN
+                    BLOCKS(INDEX, 0) = ((I + 1) MOD 2) * 9
+                ELSE IF J = 3 THEN
+                    BLOCKS(INDEX, 0) = 2
+                ELSE IF J = 4 THEN
+                    BLOCKS(INDEX, 0) = 8
+                END IF
+            NEXT J
+        NEXT I
+    ELSE
+        'FINAL BOSS WAS REACHED
+        FINALBOSS = 1
+    END IF
+
+    'CALCULATE THE BLOCKS LEFT AND TOP POSITION (IN CELLS)
+    BX = PLAYFIELDSTARTX + ((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2) - 6
+    BY = 3
+
+    'CALCULATE EACH BLOCK RECT POSITION AND CREATE THE BONUS TABLE
+    FOR I = 0 TO BLOCKCOUNT - 1
+        'CALCULATE THE BLOCK RECT IN PIXELS
+        RX  = ((BX + ((I MOD 6) * 2)) * 8) + 4
+        RY  =  (BY +  (I \ 6))        * 8
+
+        'SET THE BLOCK RECT LEFT AND TOP POSITION
+        BLOCKS(I, 1) = RX
+        BLOCKS(I, 2) = RY
+
+        'SET IF THE BLOCK CONTAINS A BONUS
+        IF RND(500) < 100 THEN
+            BLOCKS(I, 3) = 1
+        ELSE
+            BLOCKS(I, 3) = 0
+        END IF
+
+        'POPULATE THE BONUS TABLE
+        BLOCKS(I, 4) = RX + 4
+        BLOCKS(I, 5) = RY
+        BLOCKS(I, 6) = 0
+        BLOCKS(I, 7) = 0
+    NEXT I
+END SUB
+
+'***************************************
+'POPULATE THE DOH PARTICLE DATA
+'***************************************
+SUB POPULATEPARTICLES
+    'CALCULATE THE CHARACTER POSITION
+    X  = PLAYFIELDX + 4 + ((PLAYFIELDWIDTH / 2) - 12)
+    Y  = 32
+
+    'CALCULATE THE CHARACTER CENTER
+    CX = X + 12
+    CY = Y + 16
+
+    'ITERATE THROUGH PARTICLES TO CREATE
+    FOR I = 0 TO PARTICLECOUNT - 1
+        'CALCULATE THE PARTICLE POSITION
+        PX = X + ((I MOD 3) * 8)
+        PY = Y + ((I  \  3) * 8)
+
+        'CALCULATE THE PARTICLE DIRECTION
+        DX = (PX + 4) - CX
+        DY = (PY + 4) - CY
+        NX = 0.0
+        NY = 0.0
+        CALL VEC2NORMALIZE(DX, DY, NX, NY)
+
+        'POPULATE THE PARTICLE
+        PARTICLES(I, 0) = PX
+        PARTICLES(I, 1) = PY
+        PARTICLES(I, 2) = NX
+        PARTICLES(I, 3) = NY
+        PARTICLES(I, 4) = 1
+    NEXT I
+END SUB
+
+'***************************************
+'MOVE THE BAR IN RESPONSE TO USER INPUT
+'***************************************
+SUB MOVEBAR
+    'IS SKIPPING THE LEVEL?
+    IF SKIPLEVEL = 1 THEN
+        FOR I = 0 TO BALLCOUNT - 1
+            IF BALLS(I, 4) = 1 THEN
+                BALLS(I, 5) = 0
+            END IF
+        NEXT I
+
+        INC BARX
+
+        IF BARX > LIMITRIGHT + 8 THEN
+            BARX = PLAYFIELDX + ((PLAYFIELDWIDTH / 2) - (BARWIDTH / 2))
+            INC LEVEL
+            SKIPLEVEL     = 0
+            GOTONEXTLEVEL = 1
+        END IF
+
+        EXIT SUB
+    END IF
+
+    'WAS THE "A" BUTTON HIT?
+    IF BUTTON TAP (0, 0) AND SUMMARYSCREEN = 0 THEN
+        FOR I = 0 TO BALLCOUNT - 1
+            IF BALLS(I, 4) = 1 THEN
+                BALLS(I, 5) = 0
+            END IF
+        NEXT I
+        CALL PLAYREBOUNDONBAR
+    END IF
+
+    'LASER ENABLED AND "B" BUTTON WAS PRESSED?
+    IF LASER = 1 AND BUTTON TAP (0, 1) THEN
+        FOUND = 0
+
+        FOR I = 0 TO LASERCOUNT - 1
+            IF FOUND = 0 AND LASERS(I, 2) = 0 THEN
+                FOUND        = 1
+                LASERS(I, 0) = BARX + 1
+                LASERS(I, 1) = BARY - 6
+                LASERS(I, 2) = 1
+                LASERS(I, 3) = 1
+
+                CALL PLAYLASER
+                EXIT SUB
+            END IF
+        NEXT I
+    END IF
+
+    'LEFT ARROW WAS PRESSED?
+    IF LEFT(0) THEN
+        'IF THE BAR NOT EXCEEDED THE PLAYFIELD, MOVE IT
+        IF BARX >= LIMITLEFT THEN
+            DEC BARX
+            DEC BARX
+
+            'ALSO MOVE THE BALL WITH THE BAR IF STILL ON IT
+            IF GAMEOVER = 0 THEN
+                FOR I = 0 TO BALLCOUNT - 1
+                    IF BALLS(I, 4) AND BALLS(I, 5) THEN
+                        DEC BALLS(I, 0)
+                        DEC BALLS(I, 0)
+                    END IF
+                NEXT I
+            END IF
+        END IF
+    END IF
+
+    'RIGHT ARROW WAS PRESSED?
+    IF RIGHT(0) THEN
+        'IF THE BAR NOT EXCEEDED THE PLAYFIELD, MOVE IT
+        IF BARX <= LIMITRIGHT - (BARWIDTH + EXTENDOFFSET) THEN
+            INC BARX
+            INC BARX
+
+            'ALSO MOVE THE BALL WITH THE BAR IS STILL ON IT
+            IF GAMEOVER = 0 THEN
+                FOR I = 0 TO BALLCOUNT - 1
+                    IF BALLS(I, 4) AND BALLS(I, 5) THEN 
+                        INC BALLS(I, 0)
+                        INC BALLS(I, 0)
+                    END IF
+                NEXT I
+            END IF
+        ELSE IF NEXTLVLDOOROPEN = 1 THEN
+            SKIPLEVEL = 1
+            CALL PLAYBARGOTONEXTLEVEL
+        END IF
+    END IF
+
+    'FINAL BOSS?
+    IF FINALBOSS = 1 THEN
+        EXIT SUB
+    END IF
+
+    'CHECK IF THE BAR HIT A MONSTER
+    FOR I = 0 TO MONSTERCOUNT - 1
+        IF SPRITE HIT(I + 8, 0 TO 4) THEN
+            MONSTERS(I, 9) = 1
+
+            FOR J = 0 TO BALLCOUNT - 1
+                IF BALLS(J, 4) = 1 THEN
+                    BALLS(J, 5) = 0
+                END IF
+            NEXT J
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'MOVE THE BALL AND TEST ITS COLLISIONS
+'***************************************
+SUB MOVEBALL
+    'NOTHING TO DO IF THE SUMMARY SCREEN IS SHOWN OR IF GAME IS OVER
+    IF SUMMARYSCREEN = 1 OR GAMEOVER = 1 THEN
+        EXIT SUB
+    END IF
+
+    'ITERATE THROUGH BALLS
+    FOR I = 0 TO BALLCOUNT - 1
+        'IF NOT VISIBLE OR STILL ON BAR, SKIP THE BALL
+        IF BALLS(I, 4) = 1 AND BALLS(I, 5) = 0 THEN
+            'MOVE THE BALL TO THE NEXT POSITION
+            ADD BALLS(I, 0),  BALLS(I, 2)
+            ADD BALLS(I, 1), -BALLS(I, 3)
+
+            'CHECK IF THE BALL EXCEEDS THE PLAYFIELD ON THE X AXIS
+            IF BALLS(I, 0) <= LIMITLEFT THEN
+                BALLS(I, 0) =  LIMITLEFT
+                BALLS(I, 2) = -BALLS(I, 2)
+                CALL INCREASEOFFSET(BALLS(I, 2))
+            ELSE IF BALLS(I, 0) >= LIMITRIGHT THEN
+                BALLS(I, 0) =  LIMITRIGHT
+                BALLS(I, 2) = -BALLS(I, 2)
+                CALL INCREASEOFFSET(BALLS(I, 2))
+            END IF
+
+            'CHECK IF THE BALL EXCEEDS THE PLAYFIELD ON THE Y AXIS
+            IF BALLS(I, 1) <= LIMITTOP THEN
+                BALLS(I, 1) =  LIMITTOP
+                BALLS(I, 3) = -BALLS(I, 3)
+                CALL INCREASEOFFSET(BALLS(I, 3))
+            ELSE IF BALLS(I, 1) >= LIMITBOTTOM THEN
+                COUNT = 0
+
+                'COUNT THE NUMBER OF BALLS REMAINING ON THE SCREEN
+                CALL COUNTBALLS(COUNT)
+
+                'LOOSE ONE EXTRA BALL OR BAR IS LEAVING THE LEVEL?
+                IF COUNT > 1 OR SKIPLEVEL = 1 OR GOTONEXTLEVEL = 1 THEN
+                    'HIDE THE BALL
+                    BALLS(I, 4) = 0
+                    SPRITE OFF I + 5
+                ELSE
+                    'REMOVE A LIVE
+                    DEC LIVES
+
+                    CALL PLAYLOOSELIVE
+                    WAIT 25
+
+                    IF LIVES = 0 THEN
+                        GAMEOVER = 1
+                    ELSE
+                        SUMMARYSCREEN = 1
+                    END IF
+
+                    CALL RESETBONUS
+                    CALL RESETMONSTERS
+                    CALL RESETPROJECTILES
+
+                    EXIT SUB
+                END IF
+            END IF
+
+            'CHECK IF THE BALL HIT THE BAR
+            IF BALLS(I, 3) < 0 AND SPRITE HIT(I + 5, 0 TO 4) THEN
+                'CALCULATE THE NEW ANGLE (THANKS TO WAS8BIT FOR THIS
+                'CODE)
+                DYNAMIX     =  BALLS(I, 0) - SPRITE.X(3) + 4
+                BALLS(I, 2) =  BALLS(I, 2) + DYNAMIX / 12
+                BALLS(I, 1) =  BARY - 6
+                BALLS(I, 3) = -BALLS(I, 3)
+                CALL INCREASEOFFSET(BALLS(I, 3))
+        
+                IF GLUE = 0 THEN
+                    CALL PLAYREBOUNDONBAR
+                ELSE
+                    BALLS(I, 5) = 1
+                END IF
+            END IF
+
+            'FINAL BOSS?
+            IF FINALBOSS = 1 THEN
+                'CALCULATE THE BALL INDEX
+                BI =  I + 5
+
+                'IF DOH WAS HIT BY THE BALL, SEARCH HOW SHOULD REBOUND
+                IF SPRITE HIT(BI, 32) THEN
+                    IF BALLS(I, 3) < 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 41) THEN
+                    IF BALLS(I, 3) > 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 34) THEN
+                    IF BALLS(I, 2) > 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 36) THEN
+                    IF BALLS(I, 2) < 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 37) THEN
+                    IF BALLS(I, 2) > 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 39) THEN
+                    IF BALLS(I, 2) < 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 31) THEN
+                    IF BALLS(I, 2) > 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+
+                    IF BALLS(I, 3) < 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 33) THEN
+                    IF BALLS(I, 2) < 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+
+                    IF BALLS(I, 3) < 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 40) THEN
+                    IF BALLS(I, 2) > 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+
+                    IF BALLS(I, 3) > 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                ELSE IF SPRITE HIT(BI, 42) THEN
+                    IF BALLS(I, 2) < 0 THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        DOHHIT      =  1
+                    END IF
+
+                    IF BALLS(I, 3) > 0 THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                        DOHHIT      =  1
+                    END IF
+                END IF
+
+                'DOH WAS HIT?
+                IF DOHHIT = 1 THEN
+                    'DECREASE A LIVE
+                    DEC DOHLIVES
+
+                    'PLAY THE DOH HIT SOUND
+                    CALL PLAYDOHHIT
+
+                    'WAS DOH DEFEATED?
+                    IF DOHLIVES = 0 THEN
+                        DOHDEFEATED = 1
+                    END IF
+                END IF
+
+                'ON FINAL BOSS ONLY ONE BALL IS USED, SO CAN BREAK HERE
+                EXIT SUB
+            END IF
+
+            'ITERATE THROUGH MONSTERS
+            FOR J = 0 TO MONSTERCOUNT - 1
+                'CHECK IF THE BALL HIT A MONSTER
+                IF MONSTERS(J, 9) = 0 AND SPRITE HIT(I + 5, J + 8) THEN
+                    MONSTERS(J, 9) = 1
+
+                    'GET THE MONSTER CENTER, THE BALL CENTER, AND
+                    'CALCULATE THE DELTAS ON EACH AXIS BETWEEN EACH
+                    'CENTERS
+                    CXM = MONSTERS(J, 0) + 4
+                    CYM = MONSTERS(J, 1) + 4
+                    CXB = BALLS(I, 0)    + 4
+                    CYB = BALLS(I, 1)    + 4
+                    DX  = ABS(CXM - CXB)
+                    DY  = ABS(CYM - CYB)
+
+                    'DETERMINE HOW THE BALL SHOULD REBOUND ON MONSTER
+                    IF DX > DY THEN
+                        BALLS(I, 2) = -BALLS(I, 2)
+                    ELSE IF DX < DY THEN
+                        BALLS(I, 3) = -BALLS(I, 3)
+                    ELSE
+                        BALLS(I, 2) = -BALLS(I, 2)
+                        BALLS(I, 3) = -BALLS(I, 3)
+                    END IF
+                END IF
+            NEXT J
+
+            CALL BALLHITBLOCK(I)
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+' MOVE THE MONSTERS
+'***************************************
+SUB MOVEMONSTERS
+    'MONSTERS MOVEMENT IS DIVIDED IN 2 PATTERNS:
+    '- BEFORE PASSING THE LAST BLOCKS LINE, THEY ARE MOVING DOWN
+    '  UNTIL BE STOPPED BY SOMETHING, THEN THEY ARE MOVING ON THE
+    '  LEFT OR THE RIGHT
+    '- AFTER PASSING THE LAST BLOCK LINE, THEY ARE MOVING FOLLOWING
+    '  A CIRCULAR MOVEMENT UNTIL GOING OUT OF SCOPE ON THE BOTTOM OF
+    '  THE SCREEN
+
+    'NOTHING TO DO IF THE SUMMARY SCREEN IS SHOWN OR IF GAME IS OVER
+    IF SUMMARYSCREEN = 1 OR GAMEOVER = 1 THEN
+        EXIT SUB
+    END IF
+
+    'INCREMENT THE TIMER BETWEEN 2 MONSTER CREATIONS
+    IF CREATETIMER > 0 AND CREATETIMER < 100 THEN
+        INC CREATETIMER
+    ELSE
+        CREATETIMER = 0
+    END IF
+
+    'ITERATE THROUGH MONSTERS
+    FOR I = 0 TO MONSTERCOUNT - 1
+        Y = MONSTERS(I, 1)
+
+        'DO CREATE A NEW MONSTER, OR MOVE AN EXISTING ONE?
+        IF MONSTERS(I, 7) = 0 AND CREATETIMER = 0 THEN
+            CALL CREATEMONSTER(I)
+
+            'ENABLE THE MONSTER CREATION TIMER TO AVOID TO CREATE 2
+            'MONSTERS TOO QUICKLY ON THE SAME LOCATION
+            IF MONSTERS(I, 7) = 1 THEN
+                INC CREATETIMER
+            END IF
+        ELSE IF Y <= 72 AND MONSTERS(I, 6) = 0 THEN
+            CALL MOVEMONSTERUP(I)
+        ELSE
+            MONSTERS(I, 6) = 1
+            
+            CALL MOVEMONSTERDOWN(I)
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'CREATE A NEW MONSTER
+'***************************************
+SUB CREATEMONSTER(INDEX)
+    IF RND(500) = 12 THEN
+        MONSTERS(INDEX, 0)  = PLAYFIELDX + 32
+        MONSTERS(INDEX, 1)  = PLAYFIELDY
+        MONSTERS(INDEX, 2)  = 0
+        MONSTERS(INDEX, 3)  = 0.5
+        MONSTERS(INDEX, 4)  = 0.25
+        MONSTERS(INDEX, 5)  = 0
+        MONSTERS(INDEX, 6)  = 0
+        MONSTERS(INDEX, 7)  = 1
+        MONSTERS(INDEX, 9)  = 0
+        MONSTERS(INDEX, 10) = 0
+
+        IF RND(1) = 1 THEN
+            MONSTERS(INDEX, 0) =  PLAYFIELDX + PLAYFIELDWIDTH - 32
+            MONSTERS(INDEX, 3) = -0.75
+        END IF
+
+        MONSTERS(INDEX, 8) = MONSTERS(INDEX, 0) / PIXELTOCHAR
+    END IF
+END SUB
+
+'***************************************
+'MOVE THE MONSTER (UP PATTERN)
+'***************************************
+SUB MOVEMONSTERUP(INDEX)
+    'IS DOOR STILL OPENING OR MONSTER EXPLODING?
+    IF MONSTERS(INDEX, 5) < 40 OR MONSTERS(INDEX, 9) = 1 THEN
+        EXIT SUB
+    END IF
+
+    'CALCULATE THE NEXT MONSTER POSITION
+    X = MONSTERS(INDEX, 0)
+    Y = MONSTERS(INDEX, 1) + MONSTERS(INDEX, 4)
+
+    SBI = 0
+
+    'GET THE CLOSEST INDEX TO CHECK FROM
+    CALL POSTOBLOCKINDEX(X, Y, SBI)
+
+    'ITERATE THROUGH THE 4 CLOSEST BLOCKS TO CHECK
+    FOR I = 0 TO 3
+        'CALCULATE THE BLOCK INDEX TO CHECK
+        BI = SBI + (((I \ 2) * 6) + (I MOD 2))
+
+        'IS THE BLOCK INDEX OUT OF BOUNDS?
+        IF BI >= 0 AND BI <= BLOCKCOUNT - 1 THEN
+            IF BLOCKS(BI, 0) <> 0 THEN
+                'GET THE BLOCK RECT LEFT AND TOP POSITION IN PIXELS
+                RX  = BLOCKS(BI, 1)
+                RY  = BLOCKS(BI, 2)
+                COL = 0
+
+                'NOTE 15 INSTEAD OF 16 TO AVOID A SMALL BUG WHILE
+                'MONSTER IS FALLING DOWN
+                CALL CHECKRECTCOL(X, Y, 8, 8, RX, RY, 15, 8, COL)
+
+                'FOUND A COLLISION WITH A BLOCK?
+                IF COL = 1 THEN
+                    'CALCULATE A NEW POSITION
+                    Y = MONSTERS(INDEX, 1)
+                    ADD X, MONSTERS(INDEX, 3)
+
+                    'NOTE 15 INSTEAD OF 16 TO AVOID A SMALL BUG WHILE
+                    'MONSTER IS FALLING DOWN
+                    CALL CHECKRECTCOL(X, Y, 8, 8, RX, RY, 15, 8, COL)
+
+                    'STILL IN COLLISION WITH A BLOCK?
+                    IF COL = 1 THEN
+                        X                  =  MONSTERS(INDEX, 0)
+                        MONSTERS(INDEX, 3) = -MONSTERS(INDEX, 3)
+                    END IF
+
+                    'COMMIT THE NEW POSITION
+                    MONSTERS(INDEX, 0) = X
+                    MONSTERS(INDEX, 1) = Y
+
+                    EXIT SUB
+                END IF
+            END IF
+        END IF
+    NEXT I
+
+    'COMMIT THE NEW POSITION
+    MONSTERS(INDEX, 0) = X
+    MONSTERS(INDEX, 1) = Y
+END SUB
+
+'***************************************
+'MOVE THE MONSTER (DOWN PATTERN)
+'***************************************
+SUB MOVEMONSTERDOWN(INDEX)
+    ADD MONSTERS(INDEX, 0), MONSTERS(INDEX, 3)
+    ADD MONSTERS(INDEX, 1), MONSTERS(INDEX, 4)
+
+    'CHECK IF THE MONSTER EXCEEDS THE PLAYFIELD ON THE X AXIS
+    IF MONSTERS(INDEX, 0) <= LIMITLEFT THEN
+        MONSTERS(INDEX, 0) =  LIMITLEFT
+        MONSTERS(INDEX, 3) = -MONSTERS(INDEX, 3)
+    ELSE IF MONSTERS(INDEX, 0) >= LIMITRIGHT THEN
+        MONSTERS(INDEX, 0) =  LIMITRIGHT
+        MONSTERS(INDEX, 3) = -MONSTERS(INDEX, 3)
+    END IF
+
+    IF MONSTERS(INDEX, 1) > LIMITBOTTOM THEN
+        MONSTERS(INDEX, 7) = 0
+    END IF
+END SUB
+
+'***************************************
+'MOVE THE BONUS
+'***************************************
+SUB MOVEBONUS
+    'ITERATE THROUGH ALL THE BONUS
+    FOR I = 0 TO BLOCKCOUNT - 1
+        'IS BONUS VISIBLE ON SCREEN?
+        IF BLOCKS(I, 7) > 0 THEN
+            'CALCULATE THE NEXT BONUS POSITION
+            ADD BLOCKS(I, 5), 0.25
+
+            'CHECK IF THE BONUS EXITED THE SCREEN OR HIT THE BAR
+            IF BLOCKS(I, 5) > LIMITBOTTOM THEN
+                'THE BONUS EXITED THE SCREEN, HIDE IT
+                BLOCKS(I, 7) = 0
+                SPRITE OFF I + 21
+            ELSE IF SPRITE HIT(21 + I, 0 TO 4) THEN
+                'THE BONUS HIT THE BAR, APPLY THE EFFECT
+                IF BLOCKS(I, 7) = 1 THEN
+                    LASER = 1
+                ELSE IF BLOCKS(I, 7) = 2 THEN
+                    'SLOW DOWN THE BALLS
+                    FOR J = 0 TO BALLCOUNT - 1
+                        BALLS(J, 2) = BALLS(J, 2) * 0.5
+                        BALLS(J, 3) = BALLS(J, 3) * 0.5
+                    NEXT J
+                ELSE IF BLOCKS(I, 7) = 3 THEN
+                    SRCIDX = 0
+
+                    'SEARCH FOR THE FIRST VISIBLE BALL
+                    FOR J = 0 TO BALLCOUNT - 1
+                        IF BALLS(J, 4) = 1 THEN
+                            SRCIDX = J
+                        END IF
+                    NEXT J
+
+                    'GET THE SOURCE BALL DATA TO COPY FROM
+                    BSX  = BALLS(SRCIDX, 0)
+                    BSY  = BALLS(SRCIDX, 1)
+                    BSOX = BALLS(SRCIDX, 2)
+                    BSOY = BALLS(SRCIDX, 3)
+                    BSV  = BALLS(SRCIDX, 4)
+
+                    'IS THE FIRST BALL VISIBLE?
+                    IF BALLS(0, 4) = 0 THEN
+                        'CONFIGURE THE FIRST BALL
+                        BALLS(0, 0) = BSX
+                        BALLS(0, 1) = BSY
+                        BALLS(0, 2) = BSOX *  1.0
+                        BALLS(0, 3) = BSOY * -1.0
+                        BALLS(0, 4) = BSV
+                    END IF
+
+                    BALLS(0, 5) = 0
+
+                    'IS THE SECOND BALL VISIBLE?
+                    IF BALLS(1, 4) = 0 THEN
+                        'CONFIGURE THE SECOND BALL
+                        BALLS(1, 0) = BSX
+                        BALLS(1, 1) = BSY
+                        BALLS(1, 2) = BSOX * -1.0
+                        BALLS(1, 3) = BSOY *  1.0
+                        BALLS(1, 4) = BSV
+                    END IF
+
+                    BALLS(1, 5) = 0
+
+                    'IS THE THIRD BALL VISIBLE?
+                    IF BALLS(2, 4) = 0 THEN
+                        'THIRD BALL DUPLICATE
+                        BALLS(2, 0) = BSX
+                        BALLS(2, 1) = BSY
+                        BALLS(2, 2) = BSOX * -1.0
+                        BALLS(2, 3) = BSOY * -1.0
+                        BALLS(2, 4) = BSV
+                    END IF
+
+                    BALLS(2, 5) = 0
+                ELSE IF BLOCKS(I, 7) = 4 THEN
+                    GLUE = 1
+                ELSE IF BLOCKS(I, 7) = 5 THEN
+                    BAREXTEND = 1
+                    CALL PLAYBAREXTENDSOUND
+                ELSE IF BLOCKS(I, 7) = 6 THEN
+                    NEXTLVLDOOROPEN = 1
+                END IF
+
+                'AND HIDE IT
+                BLOCKS(I, 7) = 0
+                SPRITE OFF I + 21
+            END IF
+        END IF
+    NEXT I
+
+    'ITERATE THROUGH LASERS
+    FOR I = 0 TO LASERCOUNT - 1
+        'IS LASER VISIBLE
+        IF LASERS(I, 2) = 1 OR LASERS(I, 3) = 1 THEN
+            'MOVE THE LASER
+            DEC LASERS(I, 1)
+            DEC LASERS(I, 1)
+            DEC LASERS(I, 1)
+
+            'LASER REACHED THE PLAYFIELD TOP?
+            IF LASERS(I, 1) <= PLAYFIELDY - 4 THEN
+                LASERS(I, 2) = 0
+                LASERS(I, 3) = 0
+            END IF
+        END IF
+    NEXT I
+
+    CALL LASERHITBLOCK
+END SUB
+
+'***************************************
+'MOVE THE PROJECTILE
+'***************************************
+SUB MOVEPROJECTILE
+    'NOTHING TO DO IF THE SUMMARY SCREEN IS SHOWN OR IF GAME IS OVER
+    IF SUMMARYSCREEN = 1 OR GAMEOVER = 1 THEN
+        EXIT SUB
+    END IF
+
+    'MAY DOH CREATE A NEW PROJECTILE?
+    IF (DOHFRAME = 40) THEN
+        'CALCULATE THE PROJECTILE START POSITION
+        X  = PLAYFIELDX + 12 + ((PLAYFIELDWIDTH / 2) - 12)
+        Y  = 48
+
+        'ITERATE THROUGH PROJECTILES
+        FOR I = 0 TO PROJCOUNT - 1
+            'IS PROJECTILE AVAILABLE?
+            IF PROJECTILES(I, 5) = 0 THEN
+                'SET THE PROJECTILE START POSITION AND TURN IT VISIBLE
+                PROJECTILES(I, 0) = X
+                PROJECTILES(I, 1) = Y
+                PROJECTILES(I, 5) = 1
+
+                'CALCULATE THE PROJECTILE DIRECTION
+                DX = (BARX + 12) - X
+                DY = PLAYFIELDHEIGHT - Y
+                NX = 0.0
+                NY = 0.0
+                CALL VEC2NORMALIZE(DX, DY, NX, NY)
+
+                'SET THE PROJECTILE X AND Y OFFSETS
+                PROJECTILES(I, 2) = NX
+                PROJECTILES(I, 3) = NY
+
+                CALL PLAYDOHTHROWPROJ
+                EXIT SUB
+            END IF
+        NEXT I
+    END IF
+
+    'ITERATE THROUGH PROJECTILES
+    FOR I = 0 TO PROJCOUNT - 1
+        IF PROJECTILES(I, 5) = 1 THEN
+            'MOVE THE PROJECTILE
+            ADD PROJECTILES(I, 0), PROJECTILES(I, 2)
+            ADD PROJECTILES(I, 1), PROJECTILES(I, 3)
+
+            'IS THE PROJECTILE OUT OF SCREEN?
+            IF PROJECTILES(I, 1) >= LIMITBOTTOM THEN
+                PROJECTILES(I, 5) = 0
+            ELSE IF SPRITE HIT(I + 21, 0 TO 4) THEN
+                'REMOVE A LIVE
+                DEC LIVES
+
+                CALL PLAYLOOSELIVE
+                WAIT 25
+
+                IF LIVES = 0 THEN
+                    GAMEOVER = 1
+                ELSE
+                    SUMMARYSCREEN = 1
+                END IF
+
+                CALL RESETPROJECTILES
+                CALL RESETMULTIBALLS
+                EXIT SUB
+            END IF
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'MOVE THE DOH PARTICLES
+'***************************************
+SUB MOVEDOHPARTICLES
+    'MOVE THE PARTICLES AFTER DOH EXPLOSED
+    IF DOHBLINKOFFSET < 1 THEN
+        FOR I = 0 TO PARTICLECOUNT - 1
+            'IS PARTICLE VISIBLE?
+            IF PARTICLES(I, 4) = 1 THEN
+                'CALCULATE NEXT PARTICLE POSITION
+                ADD PARTICLES(I, 0), PARTICLES(I, 2)
+                ADD PARTICLES(I, 1), PARTICLES(I, 3)
+
+                'APPLY THE GRAVITY
+                ADD PARTICLES(I, 3), 0.02
+
+                'GET THE CURRENT PARTICLE POSITION
+                PX = PARTICLES(I, 0)
+                PY = PARTICLES(I, 1)
+
+                'IS THE PARTICLE OUT OF BOUNDS?
+                IF (PX < -8) OR (PX > SCREENWIDTH) THEN
+                    PARTICLES(I, 4) = 0
+                ELSE IF (PY < -8) OR (PY > SCREENHEIGHT) THEN
+                    PARTICLES(I, 4) = 0
+                END IF
+            END IF
+        NEXT I
+
+        'AT LEAST ONE PARTICLE IS STILL VISIBLE?
+        FOR I = 0 TO PARTICLECOUNT - 1
+            IF PARTICLES(I, 4) = 1 THEN
+                EXIT SUB
+            END IF
+        NEXT I
+
+        'HIDE DOH SPRITES AND QUIT THE LOOP
+        SPRITE OFF 31 TO 42
+        DOEXIT = 1
+
+        EXIT SUB
+    END IF
+
+    'BLINK DOH EACH TIME QUICKER
+    IF DOHBLINKTIMER >= DOHBLINKOFFSET THEN
+        DOHBLINKOFFSET = DOHBLINKOFFSET \ 2
+        DOHBLINKTIMER  = 0
+        DOHHIT         = 1
+    ELSE
+        INC DOHBLINKTIMER
+    END IF
+
+    'PLAY THE EXPLOSION SOUND ONCE WHEN BLINKING REACHED THE MAXIMUM
+    IF DOHBLINKOFFSET < 1 THEN
+        CALL PLAYDOHEXPLODE
+    END IF
+END SUB
+
+'***************************************
+'CHECK IF THE BALL HIT A BLOCK
+'***************************************
+SUB BALLHITBLOCK(INDEX)
+    'IS BALL VISIBLE?
+    IF BALLS(INDEX, 4) = 0 THEN
+        EXIT SUB
+    END IF
+
+    'GET THE BALL POSITION IN PIXELS
+    BX  = BALLS(INDEX, 0)
+    BY  = BALLS(INDEX, 1)
+    SBI = 0
+
+    'GET THE CLOSEST INDEX TO CHECK FROM
+    CALL POSTOBLOCKINDEX(BX, BY, SBI)
+
+    'ITERATE THROUGH THE 4 CLOSEST BLOCKS TO CHECK
+    FOR I = 0 TO 3
+        'CALCULATE THE BLOCK INDEX TO CHECK
+        BI = SBI + (((I \ 2) * 6) + (I MOD 2))
+
+        'IS THE BLOCK INDEX OUT OF BOUNDS?
+        IF BI >= 0 AND BI <= BLOCKCOUNT - 1 THEN
+            IF BLOCKS(BI, 0) <> 0 THEN
+                'GET THE BLOCK RECT LEFT AND TOP POS IN PIXELS
+                RX  = BLOCKS(BI, 1)
+                RY  = BLOCKS(BI, 2)
+                COL = 0
+        
+                'CHECK IF THE BALL HIT THE BLOCK
+                CALL CHECKRECTCOL(BX, BY, 8, 8, RX, RY, 16, 8, COL)
+
+                'A COLLISION WAS FOUND?
+                IF COL = 1 THEN
+                    'SEARCH FOR THE KIND OF HIT BLOCK
+                    IF BLOCKS(BI, 0) >= 9 THEN
+                        'UNBREAKABLE BLOCK
+                        BLOCKS(BI, 0) = 15
+                    ELSE IF BLOCKS(BI, 0) = 8 THEN
+                        '2 HITS BLOCK, NOT DAMAGED
+                        BLOCKS(BI, 0) = 7
+                    ELSE IF BLOCKS(BI, 0) <> 0 THEN
+                        'DAMAGED OR NORMAL BLOCK, SHOW THE BONUS IF ANY
+                        CALL ASSIGNBONUS(BI)
+
+                        'HIDE THE BLOCK
+                        BLOCKS(BI, 0) = 0
+                    END IF
+
+                    CX         = BALLS(INDEX, 0) + 4
+                    CY         = BALLS(INDEX, 1) + 4
+                    RECTLEFT   = RX
+                    RECTTOP    = RY
+                    RECTRIGHT  = RECTLEFT +  16
+                    RECTBOTTOM = RECTTOP  +  8
+                    DLT        = 0
+                    DLB        = 0
+                    DRT        = 0
+                    DRB        = 0
+                
+                    'CALCULATE THE DISTANCE BETWEEN THE BALL CENTER AND
+                    'EACH CORNER OF THE BRICK
+                    CALL CALCDIST(CX, CY, RECTLEFT,  RECTTOP,    DLT)
+                    CALL CALCDIST(CX, CY, RECTLEFT,  RECTBOTTOM, DLB)
+                    CALL CALCDIST(CX, CY, RECTRIGHT, RECTTOP,    DRT)
+                    CALL CALCDIST(CX, CY, RECTRIGHT, RECTBOTTOM, DRB)
+
+                    'SEARCH FOR THE REBOUND TO APPLY
+                    IF DLT < 4 OR DLB < 4 OR DRT < 4 OR DRB < 4 THEN
+                        'A CORNER WAS HIT
+                        BALLS(INDEX, 2) = -BALLS(INDEX, 2)
+                        CALL INCREASEOFFSET(BALLS(INDEX, 2))
+                        BALLS(INDEX, 3) = -BALLS(INDEX, 3)
+                        CALL INCREASEOFFSET(BALLS(INDEX, 3))
+                    ELSE IF BY <= RECTTOP OR BY + 8 >= RECTBOTTOM THEN
+                        'TOP OR BOTTOM EDGE, INVERT THE Y AXIS
+                        BALLS(INDEX, 3) = -BALLS(INDEX, 3)
+                        CALL INCREASEOFFSET(BALLS(INDEX, 3))
+                    ELSE IF BX <= RECTLEFT OR BX + 8 >= RECTRIGHT THEN
+                        'LEFT OR RIGHT EDGE, INVERT THE X OFFSET
+                        BALLS(INDEX, 2) = -BALLS(INDEX, 2)
+                        CALL INCREASEOFFSET(BALLS(INDEX, 2))
+                    END IF
+
+                    CALL PLAYREBOUNDONBLOCK
+                    EXIT SUB
+                END IF
+            END IF
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'CHECK IF A LASER HIT A BLOCK OR MONSTER
+'***************************************
+SUB LASERHITBLOCK
+    'ITERATE THROUGH LASERS
+    FOR I = 0 TO LASERCOUNT - 1
+        IF LASERS(I, 2) = 1 OR LASERS(I, 3) = 1 THEN
+            SBI1 = 0
+            SBI2 = 0
+
+            'GET THE CLOSEST INDEX TO CHECK FROM
+            CALL POSTOBLOCKINDEX(LASERS(I, 0),      LASERS(I, 1), SBI1)
+            CALL POSTOBLOCKINDEX(LASERS(I, 0) + 22, LASERS(I, 1), SBI2)
+
+            'ITERATE THROUGH THE 4 CLOSEST BLOCKS TO CHECK
+            FOR J = 0 TO 3
+                'CALCULATE THE BLOCK INDEX TO CHECK
+                BI1 = SBI1 + (((J \ 2) * 6) + (J MOD 2))
+                BI2 = SBI2 + (((J \ 2) * 6) + (J MOD 2))
+
+                'IS THE BLOCK INDEX OUT OF BOUNDS?
+                IF BI1 >= 0 AND BI1 <= BLOCKCOUNT - 1 THEN
+                    'CHECK LEFT LASER
+                    IF BLOCKS(BI1, 0) <> 0 THEN
+                        'GET THE BLOCK RECT LEFT AND TOP POS IN PIXELS
+                        RX = BLOCKS(BI1, 1)
+                        RY = BLOCKS(BI1, 2)
+                        X  = LASERS(I,   0)
+                        Y  = LASERS(I,   1)
+                        CO = 0
+
+                        'CHECK IF THE LASER HIT THE BLOCK
+                        CALL CHECKRECTCOL(X, Y, 1, 8, RX, RY, 16, 8, CO)
+
+                        'THE LEFT LASER HIT A BLOCK?
+                        IF CO = 1 AND LASERS(I, 2) = 1 THEN
+                            'HIDE THE LASER
+                            LASERS(I, 2) = 0
+
+                            'BREAK THE BLOCK, IF BREAKABLE
+                            IF BLOCKS(BI1, 0) = 8 THEN
+                                BLOCKS(BI1, 0) = 7
+                            ELSE IF BLOCKS(BI1, 0) <= 7 THEN
+                                BLOCKS(BI1, 0) = 0
+                            END IF
+                        END IF
+                    END IF
+                END IF
+
+                'IS THE BLOCK INDEX OUT OF BOUNDS?
+                IF BI2 >= 0 AND BI2 <= BLOCKCOUNT - 1 THEN
+                    'CHECK RIGHT LASER
+                    IF BLOCKS(BI2, 0) <> 0 THEN
+                        'GET THE BLOCK RECT LEFT AND TOP POS IN PIXELS
+                        RX = BLOCKS(BI2, 1)
+                        RY = BLOCKS(BI2, 2)
+                        X  = LASERS(I,   0) + 22
+                        Y  = LASERS(I,   1)
+                        CO = 0
+
+                        'CHECK IF THE LASER HIT THE BLOCK
+                        CALL CHECKRECTCOL(X, Y, 1, 8, RX, RY, 16, 8, CO)
+
+                        'THE RIGHT LASER HIT A BLOCK?
+                        IF CO = 1 AND LASERS(I, 3) = 1 THEN
+                            'HIDE THE LASER
+                            LASERS(I, 3) = 0
+
+                            'BREAK THE BLOCK, IF BREAKABLE
+                            IF BLOCKS(BI2, 0) = 8 THEN
+                                BLOCKS(BI2, 0) = 7
+                            ELSE IF BLOCKS(BI2, 0) <= 7 THEN
+                                BLOCKS(BI2, 0) = 0
+                            END IF
+                        END IF
+                    END IF
+                END IF
+            NEXT J
+
+            'ITERATE THROUGH MONSTERS
+            FOR J = 0 TO MONSTERCOUNT - 1
+                LI = 51 + (I * 2)
+
+                'CHECK IF THE LASER HIT A MONSTER
+                IF MONSTERS(J, 9) = 0 THEN
+                    IF SPRITE HIT(LI, J + 8) THEN
+                        MONSTERS(J, 9) = 1
+                        LASERS(I, 2)   = 0
+                    ELSE IF SPRITE HIT(LI + 1, J + 8) THEN
+                        MONSTERS(J, 9) = 1
+                        LASERS(I, 3)   = 0
+                    END IF
+                END IF
+            NEXT J
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'COUNT THE NUMBER OF BALLS ON SCREEN
+'***************************************
+SUB COUNTBALLS(COUNT)
+    COUNT = 0
+
+    FOR I = 0 TO BALLCOUNT - 1
+        IF BALLS(I, 4) = 1 THEN
+            INC COUNT
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'CHECK IF THE LEVEL WAS COMPLETED
+'***************************************
+SUB CHECKLEVELCOMPLETED
+    'CHECK IF A BLOCK REMAINS IN THE LEVEL
+    FOR I = 0 TO BLOCKCOUNT - 1
+        IF BLOCKS(I, 0) <> 0 AND BLOCKS(I, 0) <> 9 THEN
+            EXIT SUB
+        END IF
+    NEXT I
+
+    GOTONEXTLEVEL = 1
+    INC LEVEL
+END SUB
+
+'***************************************
+'CONVERT A POS IN PIXELS TO BLOCK INDEX
+'X - POS X COORDINATE IN PIXELS
+'Y - POS Y COORDINATE IN PIXELS
+'[OUT] INDEX - RESULTING BLOCK INDEX
+'***************************************
+SUB POSTOBLOCKINDEX(X, Y, INDEX)
+    'CALCULATE THE BLOCKS START POSITION IN CELLS
+    SX = PLAYFIELDSTARTX + ((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2) - 5
+    SY = 3
+
+    'CONVERT THE POSITION TO BLOCK COLUMN AND ROW
+    COL = ((X \ PIXELTOCHAR) - SX) \ 2
+    ROW =  (Y \ PIXELTOCHAR) - SY
+
+    'CALCULATE THE INDEX
+    INDEX = (ROW * 6) + COL
+END SUB
+
+'***************************************
+'ASSIGN A BONUS FROM A BLOCK, IF ANY
+'INDEX - BLOCK INDEX
+'***************************************
+SUB ASSIGNBONUS(INDEX)
+    'THE BLOCK CONTAINS A BONUS?
+    IF BLOCKS(INDEX, 3) = 0 THEN
+        EXIT SUB
+    END IF
+
+    'SHOW THE BONUS AND ASSIGN ITS TYPE
+    IF BLOCKS(INDEX, 0) >= 1 AND BLOCKS(INDEX, 0) <= 6 THEN
+        BLOCKS(INDEX, 7) = BLOCKS(INDEX, 0)
+    END IF
+END SUB
+
+'***************************************
+'REGURARLY INCREASE THE OFFSET SPEED
+'[IN, OUT] OFFSET - OFFSET TO INCREASE
+'***************************************
+SUB INCREASEOFFSET(OFFSET)
+    IF OFFSET >= 2 THEN
+        EXIT SUB
+    END IF
+
+    IF OFFSET > 0 THEN
+        OFFSET = OFFSET + 0.01
+    ELSE
+        OFFSET = OFFSET - 0.01
+    END IF
+END SUB
+
+'***************************************
+'CALCULATE THE DISTANCE BETWEEN 2 POINTS
+'X1 - FIRST POINT X POS IN PIXELS
+'Y1 - FIRST POINT Y POS IN PIXELS
+'X2 - SECOND POINT X POS IN PIXELS
+'Y2 - SECOND POINT Y POS IN PIXELS
+'[OUT] DIST - DISTANCE BETWEEN POINTS
+'***************************************
+SUB CALCDIST(X1, Y1, X2, Y2, DIST)
+    DIST = SQR((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2))
+END SUB
+
+'***************************************
+'CALCULATE THE LENGTH OF A VECTOR
+'VX - THE VECTOR X COMPONENT
+'VY - THE VECTOR Y COMPONENT
+'LN - THE VECTOR LENGTH
+'***************************************
+SUB VEC2LENGTH(VX, VY, LN)
+    LN = SQR((VX * VX) + (VY * VY))
+END SUB
+
+'***************************************
+'NORMALIZE A 2D VECTOR
+'VX - THE VECTOR X COMPONENT
+'VY - THE VECTOR Y COMPONENT
+'NX - THE NORMALIZED VECTOR X COMPONENT
+'NY - THE NORMALIZED VECTOR Y COMPONENT
+'***************************************
+SUB VEC2NORMALIZE(VX, VY, NX, NY)
+    LN = 0.0
+
+    'CALCULATE THE VECTOR LENGTH
+    CALL VEC2LENGTH(VX, VY, LN)
+
+    'NO VECTOR LENGTH?
+    IF LN = 0.0 THEN
+        NX = 0.0
+        NY = 0.0
+        EXIT SUB
+    END IF
+
+    'NORMALIZE VECTOR (THUS VALUES WILL ALWAYS BE BETWEEN 0.0 AND 1.0)
+    NX = (VX / LN)
+    NY = (VY / LN)
+END SUB
+
+'***************************************
+'CHECK IF 2 RECTANGLES ARE IN COLLISION
+'R1X - FIRST RECT X POS IN PIXELS
+'R1Y - FIRST RECT Y POS IN PIXELS
+'R1W - FIRST RECT WIDTH IN PIXELS
+'R1H - FIRST RECT HEIGHT IN PIXELS
+'R2X - SECOND RECT X POS IN PIXELS
+'R2Y - SECOND RECT Y POS IN PIXELS
+'R2W - SECOND RECT WIDTH IN PIXELS
+'R2H - SECOND RECT HEIGHT IN PIXELS
+'[OUT] COLLISION - IF TRUE RECTS COLLIDE
+'***************************************
+SUB CHECKRECTCOL(R1X, R1Y, R1W, R1H, R2X, R2Y, R2W, R2H, COLLISION)
+    IF R1X + R1W >= R2X THEN
+        IF R1X <= R2X + R2W THEN
+            IF R1Y + R1H >= R2Y THEN
+                IF R1Y <= R2Y + R2H THEN
+                    COLLISION = 1
+                    EXIT SUB
+                END IF
+            END IF
+        END IF
+    END IF
+
+    COLLISION = 0
+END SUB
+
+'***************************************
+'DRAW THE PALYFIELD BACKGROUND
+'***************************************
+SUB DRAWPLAYFIELD
+    'TO DIVERSIFY THE BACKGROUND, TURN IT GREEN ON EVEN LEVELS
+    'AND BLUE ON ODD (PLEASE FORGIVE THE STRANGE FORMULA BELOW,
+    'IT'S JUST BECAUSE THE BOTH PALETTES TO USE AREN'T SIDE BY
+    'SIDE IN MEMORY, BLUE IS 2ND AND GREEN IS 7TH)
+    BP = 7 - ((LEVEL MOD 2) * 5)
+
+    'ALSO TURN THE BACKGROUND RED EVERY 4 LEVELS
+    IF (LEVEL MOD 4) = 0 THEN
+        BP = 0
+    END IF
+
+    'ON FINAL BOSS, THE BACKGROUND IS ALWAYS BLUE
+    IF (FINALBOSS) THEN
+        BP = 2
+    END IF
+
+    BG FILL PLAYFIELDSTARTX, 1 TO PLAYFIELDENDX, PLAYFIELDHEIGHT CHAR 5
+    BG TINT PLAYFIELDSTARTX, 1 TO PLAYFIELDENDX, PLAYFIELDHEIGHT PAL BP
+
+    BG FILL BORDERLEFT, 1 TO BORDERLEFT, PLAYFIELDHEIGHT CHAR 6
+    BG TINT BORDERLEFT, 1 TO BORDERLEFT, PLAYFIELDHEIGHT PAL 1
+ 
+    BG FILL BORDERRIGHT, 1 TO BORDERRIGHT, PLAYFIELDHEIGHT CHAR 7
+    BG TINT BORDERRIGHT, 1 TO BORDERRIGHT, PLAYFIELDHEIGHT PAL 1
+
+    BG FILL BORDERLEFT, 0 TO BORDERRIGHT, 0 CHAR 8
+    BG TINT BORDERLEFT, 0 TO BORDERRIGHT, 0 PAL 1
+
+    BG FILL BORDERLEFT, 0 TO BORDERLEFT, 0 CHAR 9
+    BG TINT BORDERLEFT, 0 TO BORDERLEFT, 0 PAL 1
+
+    BG FILL BORDERRIGHT, 0 TO BORDERRIGHT, 0 CHAR 10
+    BG TINT BORDERRIGHT, 0 TO BORDERRIGHT, 0 PAL 1
+END SUB
+
+'***************************************
+'DRAW THE LEVEL
+'***************************************
+SUB DRAWLEVEL
+    'CALCULATE THE BLOCKS START POSITION IN CELLS
+    SX = PLAYFIELDSTARTX + ((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2) - 5
+    SY = 3
+
+    'ITERATE THROUGH BLOCKS TO DRAW
+    FOR I = 0 TO BLOCKCOUNT - 1
+        'CALCULATE THE NEXT BLOCK POSITION IN CELLS
+        X = SX + ((I MOD 6) * 2)
+        Y = SY +  (I / 6)
+
+        'SEARCH FOR BLOCK TYPE TO DRAW
+        IF BLOCKS(I, 0) = 1 THEN
+            CALL DRAWBLOCK(X, Y, 12, 3)
+        ELSE IF BLOCKS(I, 0) = 2 THEN
+            CALL DRAWBLOCK(X, Y, 14, 3)
+        ELSE IF BLOCKS(I, 0) = 3 THEN
+            CALL DRAWBLOCK(X, Y, 16, 3)
+        ELSE IF BLOCKS(I, 0) = 4 THEN
+            CALL DRAWBLOCK(X, Y, 12, 4)
+        ELSE IF BLOCKS(I, 0) = 5 THEN
+            CALL DRAWBLOCK(X, Y, 14, 4)
+        ELSE IF BLOCKS(I, 0) = 6 THEN
+            CALL DRAWBLOCK(X, Y, 16, 4)
+        ELSE IF BLOCKS(I, 0) = 7 THEN
+            CALL DRAWBLOCK(X, Y, 20, 5)
+        ELSE IF BLOCKS(I, 0) = 8 THEN
+            CALL DRAWBLOCK(X, Y, 18, 5)
+        ELSE IF BLOCKS(I, 0) = 9 THEN
+            CALL DRAWBLOCK(X, Y, 18, 6)
+        ELSE IF BLOCKS(I, 0) >= 10 THEN
+            BLOCKS(I, 0) = BLOCKS(I, 0) - 1
+            CALL DRAWBLOCK(X, Y, 18, 5)
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'DRAW A BLOCK
+'X - THE BLOCK X POSITION IN CELLS
+'Y - THE BLOCK Y POSITION IN CELLS
+'CHARNB - THE CHAR NUMBER TO DRAW
+'PALNB - THE PALETTE NUMBER TO USE
+'***************************************
+SUB DRAWBLOCK(X, Y, CHARNB, PALNB)
+    BG FILL X,     Y TO X,     Y CHAR CHARNB
+    BG TINT X,     Y TO X,     Y PAL PALNB
+    BG FILL X + 1, Y TO X + 1, Y CHAR CHARNB + 1
+    BG TINT X + 1, Y TO X + 1, Y PAL PALNB
+END SUB
+
+'***************************************
+'DRAW THE BALLS
+'***************************************
+SUB DRAWBALLS
+    IF GAMEOVER = 1 THEN
+        FOR I = 0 TO BALLCOUNT - 1
+            SPRITE OFF I + 5
+        NEXT I
+
+        EXIT SUB
+    END IF
+
+    FOR I = 0 TO BALLCOUNT - 1
+        IF BALLS(I, 4) = 1 THEN
+            SPRITE I + 5 PAL 1
+            SPRITE I + 5, BALLS(I, 0), BALLS(I, 1), 4
+        ELSE
+            SPRITE OFF I + 5
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'DRAW THE BAR
+'***************************************
+SUB DRAWBAR
+    FOR I = 0 TO 4
+        IF I >= 1 AND I <= 3 THEN
+            SPRITE I PAL 1
+        ELSE IF LASER = 1 THEN
+            SPRITE I PAL 5
+        ELSE
+            SPRITE I PAL 0
+        END IF
+    NEXT I
+
+    'EXTEND SMOOTHLY THE BAR OR RESET IT TO ITS DEFAULT LENGTH
+    IF BAREXTEND = 1 AND EXTENDOFFSET < 8 THEN
+        ADD EXTENDOFFSET, 0.25
+        
+        'IF THE BAR IS EXTENDED WHILE ITS POS IS TOUCHING THE RIGHT
+        'LIMIT, THEN ALSO UPDATE THE BAR POSITION
+        IF BARX > LIMITRIGHT - (BARWIDTH + EXTENDOFFSET) THEN
+            ADD BARX, -0.25
+        END IF
+    ELSE IF BAREXTEND = 0 AND EXTENDOFFSET > 0 THEN
+        ADD EXTENDOFFSET, -0.25
+    END IF
+    
+    STARTIMG = 1
+    ENDIMG   = 3
+
+    IF LASER = 1 THEN
+        STARTIMG = 111
+        ENDIMG   = 112
+    END IF
+
+    'DRAW THE BAR
+    SPRITE 0, BARX,                     BARY, STARTIMG
+    SPRITE 1, BARX + 8,                 BARY, 2
+    SPRITE 2, BARX + 16,                BARY, 2
+    SPRITE 3, BARX + 16 + EXTENDOFFSET, BARY, 2
+    SPRITE 4, BARX + 24 + EXTENDOFFSET, BARY, ENDIMG
+
+    'HIDE THE SPRITE 0 IF GOING OUT OF SCOPE THROUGH THE DOOR
+    IF SPRITE.X(0) > LIMITRIGHT + 8 THEN
+        SPRITE OFF 0
+    END IF
+
+    'HIDE THE SPRITE 1 IF GOING OUT OF SCOPE THROUGH THE DOOR
+    IF SPRITE.X(1) > LIMITRIGHT + 8 THEN
+        SPRITE OFF 1
+    END IF
+
+    'HIDE THE SPRITE 2 IF GOING OUT OF SCOPE THROUGH THE DOOR
+    IF SPRITE.X(2) > LIMITRIGHT + 8 THEN
+        SPRITE OFF 2
+    END IF
+
+    'HIDE THE SPRITE 3 IF GOING OUT OF SCOPE THROUGH THE DOOR
+    IF SPRITE.X(3) > LIMITRIGHT + 8 THEN
+        SPRITE OFF 3
+    END IF
+
+    'HIDE THE SPRITE 4 IF GOING OUT OF SCOPE THROUGH THE DOOR
+    IF SPRITE.X(4) > LIMITRIGHT + 8 THEN
+        SPRITE OFF 4
+    END IF
+END SUB
+
+'***************************************
+'DRAW THE MONSTERS
+'***************************************
+SUB DRAWMONSTERS
+    MPAL = 3
+
+    'EVERY 4 LEVELS THE BACKGROUND IS RED SO USE ANOTHER PALETTE
+    IF (LEVEL MOD 4) = 0 THEN
+        MPAL = 1
+    END IF
+
+    FOR I = 0 TO MONSTERCOUNT - 1
+        'IS MONSTER VISIBLE?
+        IF MONSTERS(I, 7) = 1 THEN
+            'GET THE MONSTER POSITION
+            MX = MONSTERS(I, 0)
+            MY = MONSTERS(I, 1)
+            
+            'CALCULATE THE SPRITE INDEX
+            SI = I + 8
+
+            'IS MONSTER EXPLODING?
+            IF MONSTERS(I, 9) = 1 THEN
+                'IS MONSTER EXPLOSION IN PROCESS?
+                IF MONSTERS(I, 10) < 50 THEN
+                    FRAME = 0
+
+                    'CALCULATE THE CURRENT EXPLOSION FRAME
+                    IF MONSTERS(I, 10) < 30 THEN
+                        'ALSO PLAY THE EXPLOSION SOUND ON THE 1ST FRAME
+                        IF MONSTERS(I, 10) = 0 THEN
+                            CALL PLAYMONSTEREXPLODE
+                        END IF
+
+                        FRAME = 43 -  (MONSTERS(I, 10) \ 10)
+                      ELSE
+                        FRAME = 41 + ((MONSTERS(I, 10) \ 10) - 2)
+                    END IF
+
+                    'DRAW THE SPRITE
+                    SPRITE SI PAL 0
+                    SPRITE SI, MX, MY, FRAME
+
+                    INC MONSTERS(I, 10)
+                ELSE
+                    'SPRITE EXPLOSION REACHED THE END, HIDE THE MONSTER
+                    SPRITE OFF SI
+                    MONSTERS(I, 7) = 0
+                END IF
+            ELSE IF MONSTERS(I, 5) >= 40 THEN
+                'UPDATE THE MONSTER DATA
+                MONSTERS(I, 2) = (MONSTERS(I, 2) + 1) MOD 75
+        
+                'CALCULATE THE NEXT FRAME
+                FRAME = 22 + (MONSTERS(I, 2) / 5)
+
+                'DRAW THE SPRITE
+                SPRITE SI PAL MPAL
+                SPRITE SI, MX, MY, FRAME
+            END IF
+
+            'DO DRAW THE DOOR FROM WHICH THE MONSTER ENTERED?
+            IF MONSTERS(I, 5) < 80 THEN
+                'CALCULATE THE DOOR FRAME
+                IF MONSTERS(I, 5) < 40 THEN
+                    FRAME = 37 +  (MONSTERS(I, 5) \ 10)
+                ELSE
+                    FRAME = 40 - ((MONSTERS(I, 5) \ 10) - 4)
+                END IF
+
+                'GET THE DOOR X POSITION
+                DOORX = MONSTERS(I, 8)
+
+                'DRAW THE DOOR
+                BG FILL DOORX, 0 TO DOORX, 0 CHAR FRAME
+                BG TINT DOORX, 0 TO DOORX, 0 PAL 1
+
+                'GO TO NEXT FRAME
+                INC MONSTERS(I, 5)
+            END IF
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'DRAW THE FINAL BOSS (DOH)
+'***************************************
+SUB DRAWDOH
+    'CALCULATE THE BACKGROUND POSITION
+    BX = PLAYFIELDSTARTX + (((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2) - 3)
+    BY = PLAYFIELDSTARTY + 2
+
+    'DRAW THE BACKGROUND TOP
+    BG FILL BX,     BY TO BX,     BY CHAR 133
+    BG FILL BX + 1, BY TO BX + 6, BY CHAR 134
+    BG FILL BX + 7, BY TO BX + 7, BY CHAR 135
+    BG TINT BX,     BY TO BX + 7, BY PAL 2
+
+    'DRAW THE BACKGROUND MIDDLE
+    FOR I = 0 TO 5
+        BG FILL BX,     BY + I + 1 TO BX,     BY + I + 1 CHAR 149
+        BG FILL BX + 1, BY + I + 1 TO BX + 6, BY + I + 1 CHAR 150
+        BG FILL BX + 7, BY + I + 1 TO BX + 7, BY + I + 1 CHAR 151
+        BG TINT BX,     BY + I + 1 TO BX + 7, BY + I + 1 PAL 2
+    NEXT I
+
+    'DRAW THE BACKGROUND BOTTOM
+    BG FILL BX,     BY + 7 TO BX,     BY + 7 CHAR 165
+    BG FILL BX + 1, BY + 7 TO BX + 6, BY + 7 CHAR 166
+    BG FILL BX + 7, BY + 7 TO BX + 7, BY + 7 CHAR 167
+    BG TINT BX,     BY + 7 TO BX + 7, BY + 7 PAL 2
+
+    PA = 3
+
+    'IF DOH WAS HIT, BLINK IT AND RESET THE HIT
+    IF DOHHIT = 1 THEN
+        DOHHIT = 0
+        PA     = 0
+    END IF
+
+    'DRAW THE CHARACTER
+    FOR I = 0 TO 2
+        FOR J = 0 TO 3
+            SI    = 31  + ((J * 3)  + I)
+            CH    = 128 + ((J * 16) + I)
+            INDEX = (J * 3) + I
+
+            SPRITE SI PAL PA
+            SPRITE SI PRIO 1
+            SPRITE SI, PARTICLES(INDEX, 0), PARTICLES(INDEX, 1), CH
+        NEXT J
+    NEXT I
+
+    'IS SUMMARY STILL VISIBLE, GAME OVER, OR DOH DEFEATED?
+    IF SUMMARYSCREEN = 1 OR GAMEOVER = 1 OR DOHDEFEATED = 1 THEN
+        EXIT SUB
+    END IF
+
+    'FRAME EXCEEDED THE MAX LIMIT?
+    IF DOHFRAME >= 80 THEN
+        DOHFRAME = 0
+    END IF
+
+    SI = 38
+
+    'DRAW THE CORRECT FRAME
+    IF DOHFRAME < 20 THEN
+        SPRITE SI PAL 3
+        SPRITE SI, PARTICLES(7, 0), PARTICLES(7, 1), 161
+    ELSE IF DOHFRAME < 40 THEN
+        SPRITE SI PAL 3
+        SPRITE SI, PARTICLES(7, 0), PARTICLES(7, 1), 131
+    ELSE IF DOHFRAME < 60 THEN
+        SPRITE SI PAL 3
+        SPRITE SI, PARTICLES(7, 0), PARTICLES(7, 1), 147
+    ELSE
+        SPRITE SI PAL 3
+        SPRITE SI, PARTICLES(7, 0), PARTICLES(7, 1), 131
+    END IF
+
+    'CALCULATE THE NEXT FRAME
+    INC DOHFRAME
+END SUB
+
+'***************************************
+'DRAW THE DOH PROJECTILES
+'***************************************
+SUB DRAWPROJECTILES
+    'ITERATE THROUGH PROJECTILES TO DRAW
+    FOR I = 0 TO PROJCOUNT
+        'IS PROJECTILE VISIBLE?
+        IF PROJECTILES(I, 5) = 1 THEN
+            FRAME = 0
+
+            'GET THE RIGHT PROJECTILE FRAME TO SHOW
+            IF PROJECTILES(I, 4) > 70 THEN
+                FRAME = 132
+            ELSE IF PROJECTILES(I, 4) > 60 THEN
+                FRAME = 148
+            ELSE IF PROJECTILES(I, 4) > 50 THEN
+                FRAME = 164
+            ELSE IF PROJECTILES(I, 4) > 30 THEN
+                FRAME = 180
+            ELSE IF PROJECTILES(I, 4) > 20 THEN
+                FRAME = 164
+            ELSE IF PROJECTILES(I, 4) > 10 THEN
+                FRAME = 148
+            ELSE
+                FRAME = 132
+            END IF
+
+            'DRAW THE PROJECTILE
+            SPRITE 21 + I PAL 0
+            SPRITE 21 + I, PROJECTILES(I, 0), PROJECTILES(I, 1), FRAME
+
+            'CALCULATE THE NEXT PROJECTILE FRAME
+            INC PROJECTILES(I, 4)
+
+            'IF FRAME IS OUT OF BOUNDS, UPDATE IT
+            IF PROJECTILES(I, 4) >= 80 THEN
+                PROJECTILES(I, 4) = 0
+            END IF
+        ELSE
+            SPRITE OFF 21 + I
+        END IF
+    NEXT I
+END SUB
+
+'***************************************
+'DRAW THE BONUS
+'***************************************
+SUB DRAWBONUS
+    'ITERATE THROUGH THE BONUS
+    FOR I = 0 TO BLOCKCOUNT - 1
+        'IS THE BONUS VISIBLE?
+        IF BLOCKS(I, 7) <> 0 THEN
+            FRAME    = 0
+            PALINDEX = 0
+
+            'SEARCH FOR THE BONUS TYPE TO DRAW
+            IF BLOCKS(I, 7) = 1 THEN
+                'LASER BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 89 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 45 + (BLOCKS(I, 6) \ 10)
+
+                'IF THE EMPTY FRAME SHOULD BE SHOWN, CORRECT THE INDEX
+                'TO SHOW IT, BECAUSE THERE IS ONLY ONE COMMON EMPTY
+                'FRAME FOR ALL THE BONUS
+                IF FRAME = 53 THEN
+                    FRAME = 98
+                END IF
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 0
+            ELSE IF BLOCKS(I, 7) = 2 THEN
+                'SLOW DOWN BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 99 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 61 + (BLOCKS(I, 6) \ 10)
+
+                'IF THE EMPTY FRAME SHOULD BE SHOWN, CORRECT THE INDEX
+                'TO SHOW IT, BECAUSE THERE IS ONLY ONE COMMON EMPTY
+                'FRAME FOR ALL THE BONUS
+                IF FRAME = 70 THEN
+                    FRAME = 44
+                END IF
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 0
+            ELSE IF BLOCKS(I, 7) = 3 THEN
+                'MULTIBALL BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 89 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 53 + (BLOCKS(I, 6) \ 10)
+
+                'IF THE EMPTY FRAME SHOULD BE SHOWN, CORRECT THE INDEX
+                'TO SHOW IT, BECAUSE THERE IS ONLY ONE COMMON EMPTY
+                'FRAME FOR ALL THE BONUS
+                IF FRAME = 61 THEN
+                    FRAME = 98
+                END IF
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 3
+            ELSE IF BLOCKS(I, 7) = 4 THEN
+                'GLUE BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 89 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 80 + (BLOCKS(I, 6) \ 10)
+
+                'IF THE EMPTY FRAME SHOULD BE SHOWN, CORRECT THE INDEX
+                'TO SHOW IT, BECAUSE THERE IS ONLY ONE COMMON EMPTY
+                'FRAME FOR ALL THE BONUS
+                IF FRAME = 88 THEN
+                    FRAME = 44
+                END IF
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 7
+            ELSE IF BLOCKS(I, 7) = 5 THEN
+                'BAR EXTEND BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 109 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 70 + (BLOCKS(I, 6) \ 10)
+
+                'IF THE EMPTY FRAME SHOULD BE SHOWN, CORRECT THE INDEX
+                'TO SHOW IT, BECAUSE THERE IS ONLY ONE COMMON EMPTY
+                'FRAME FOR ALL THE BONUS
+                IF FRAME = 80 THEN
+                    FRAME = 44
+                END IF
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 1
+            ELSE IF BLOCKS(I, 7) = 6 THEN
+                'NEXT LEVEL DOOR BONUS, CHECK IF FRAME IS OUT OF BOUNDS
+                IF BLOCKS(I, 6) > 109 THEN
+                    BLOCKS(I, 6) = 0
+                END IF
+
+                'CALCULATE THE FRAME TO SHOW
+                FRAME = 88 + (BLOCKS(I, 6) \ 10)
+
+                'INCREMENT THE FRAME
+                INC BLOCKS(I, 6)
+
+                'CONFIGURE THE COLOR TO USE
+                PALINDEX = 4
+            END IF
+
+            'DRAW THE BONUS
+            SPRITE I + 21 PAL PALINDEX
+            SPRITE I + 21, BLOCKS(I, 4), BLOCKS(I, 5), FRAME
+        END IF
+    NEXT I
+
+    'ITERATE THROUGH LASERS
+    FOR I = 0 TO LASERCOUNT - 1
+        LI = 51 + (I * 2)
+
+        'IS LEFT LASER VISIBLE?
+        IF LASERS(I, 2) = 1 THEN
+            'DRAW THE LASER
+            SPRITE LI PAL 5
+            SPRITE LI, LASERS(I, 0), LASERS(I, 1), 113
+        ELSE
+            'HIDE THE LASER
+            SPRITE OFF LI
+        END IF
+
+        'IS RIGHT LASER VISIBLE?
+        IF LASERS(I, 3) = 1 THEN
+            'DRAW THE LASER
+            SPRITE LI + 1 PAL 5
+            SPRITE LI + 1, LASERS(I, 0) + 22, LASERS(I, 1), 114
+        ELSE
+            'HIDE THE LASER
+            SPRITE OFF LI + 1
+        END IF
+    NEXT I
+
+    'DRAW THE OPEN DOOR TO THE NEXT LEVEL
+    IF NEXTLVLDOOROPEN = 1 THEN
+        DX = BORDERRIGHT
+        DY = 13
+
+        BG FILL DX, DY TO DX, DY CHAR 99 + (DOORFRAMETOP / 5)
+        BG TINT DX, DY TO DX, DY PAL 1
+        
+        BG FILL DX, DY + 1 TO DX, DY + 1 CHAR 103 + (DOORFRAMEMDL / 5)
+        BG TINT DX, DY + 1 TO DX, DY + 1 PAL 1
+
+        BG FILL DX, DY + 2 TO DX, DY + 2 CHAR 107 + (DOORFRAMEBTM / 5)
+        BG TINT DX, DY + 2 TO DX, DY + 2 PAL 1
+
+        DOORFRAMETOP = (DOORFRAMETOP + 1) MOD 20
+        DOORFRAMEMDL = (DOORFRAMEMDL + 1) MOD 20
+        DOORFRAMEBTM = (DOORFRAMEBTM + 1) MOD 20
+    END IF
+END SUB
+
+'***************************************
+'DRAW THE REMAINING LIVES
+'***************************************
+SUB DRAWLIVES
+    LPAL = 0
+
+    'EVERY 4 LEVELS THE BACKGROUND IS RED SO USE ANOTHER PALETTE
+    IF (LEVEL MOD 4) = 0 THEN
+        LPAL = 1
+    END IF
+
+    'DISABLE ALL LIVE SPRITES
+    SPRITE OFF 11 TO 20
+
+    'NO LIVE, NOTHING TO DO
+    IF LIVES = 0 THEN
+        EXIT SUB
+    END IF
+
+    'DRAW EACH LIVE
+    FOR I = 0 TO LIVES - 1
+        SPRITE I + 11 PAL LPAL
+        SPRITE I + 11, LIMITLEFT + 8 + (I * 8), LIMITBOTTOM - 10, 11
+    NEXT I
+END SUB
+
+'***************************************
+'DRAW THE MESSAGES
+'***************************************
+SUB DRAWMESSAGES
+    PAL 0
+
+    'SHOW THE SUMMARY SCREEN
+    IF SUMMARYSCREEN = 1 THEN
+        MSGX = PLAYFIELDSTARTX + ((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2)
+        MSGY = PLAYFIELDSTARTY + ((PLAYFIELDENDY - PLAYFIELDSTARTY) / 2)
+
+        'FINAL BOSS?
+        IF FINALBOSS = 1 THEN
+            LOCATE MSGX - 4, MSGY
+            PRINT "FIGHT DOH!"
+        ELSE
+            LOCATE MSGX - 3, MSGY - 1
+            PRINT "ROUND:", LEVEL
+            LOCATE MSGX - 3, MSGY
+            PRINT "LIVES:", LIVES
+        END IF
+
+        'PLAY THE SUMMARY MUSIC ONCE AND RETURN TO GAME AFTER
+        'THE PATTERN ENDS
+        IF MUSIC(3) = 0 THEN
+            MUSIC 0
+        ELSE IF MUSIC(1) = 31 THEN
+            STOP
+            SUMMARYSCREEN = 0
+        END IF
+    END IF
+
+    'SHOW THE GAME OVER SCREEN
+    IF GAMEOVER = 1 THEN
+        MSGX = PLAYFIELDSTARTX + ((PLAYFIELDENDX - PLAYFIELDSTARTX) / 2)
+        MSGY = PLAYFIELDSTARTY + ((PLAYFIELDENDY - PLAYFIELDSTARTY) / 2)
+
+        'FINAL BOSS?
+        IF FINALBOSS = 1 THEN
+            INC MSGY
+        END IF
+
+        'SHOW THE GAME OVER OR CONTINUE MESSAGE
+        IF SHOWCONTINUE = 1 THEN
+            LOCATE MSGX - 5, MSGY - 1
+            PRINT "CONTINUE? ", CONTINUETIMER
+        ELSE
+            LOCATE MSGX - 4, MSGY - 1
+            PRINT "GAME OVER!"
+        END IF
+
+        ' PLAY THE GAME OVER MUSIC UNTIL THE PATTERN REACHES THE END
+        IF MUSIC(3) = 0 AND SHOWCONTINUE = 0 THEN
+            MUSIC 6
+        ELSE IF MUSIC(0) > 6 THEN
+            STOP
+
+            'SHOW THE CONTINUE MESSAGE IF STILL NOT VISIBLE
+            IF CONTINUETIMER AND SHOWCONTINUE = 0 THEN
+                SHOWCONTINUE  = 1
+                CONTINUESTART = TIMER
+            END IF
+
+            'CONTINUE MESSAGE?
+            IF CONTINUETIMER > 0 THEN
+                'PLAYER WANT TO CONTINUE TO PLAY?
+                IF BUTTON TAP (0, 0) THEN
+                    'SET 3 ADDITIONAL LIVES AND CONTINUE THE GAME
+                    LIVES         = 3
+                    CONTINUETIMER = 10
+                    SHOWCONTINUE  = 0
+                    GAMEOVER      = 0
+                    DOEXIT        = 1
+                ELSE IF ((TIMER - CONTINUESTART) MOD 100) = 0 THEN
+                    'DECREASE THE COUNTER EVERY SECOND
+                    DEC CONTINUETIMER
+                END IF
+            ELSE
+                'NOW THE GAME IS REALLY OVER
+                MAINMENU      = 1
+                SUMMARYSCREEN = 0
+                SHOWCONTINUE  = 0
+                CONTINUETIMER = 10
+                GAMEOVER      = 0
+
+                CALL RESETGAME
+
+                'FORCE THE GAME LOOP TO QUIT
+                DOEXIT = 1
+            END IF
+        END IF
+    END IF
+END SUB
+
+'***************************************
+'PLAY THE REBOUND ON BAR SOUND
+'***************************************
+SUB PLAYREBOUNDONBAR
+    SOUND 0, 2, 8, 25
+    ENVELOPE 0, 0, 6, 0, 8
+    LFO 0, 0, 0, 0, 0
+    PLAY 0, 78, 5
+END SUB
+
+'***************************************
+'PLAY THE REBOUND ON BLOCKS SOUND
+'***************************************
+SUB PLAYREBOUNDONBLOCK
+    SOUND 0, 2, 8, 25
+    ENVELOPE 0, 0, 6, 0, 8
+    LFO 0, 0, 0, 0, 0
+    PLAY 0, 68, 5
+END SUB
+
+'***************************************
+'PLAY THE LOOSE A LIVE SOUND
+'***************************************
+SUB PLAYLOOSELIVE
+    'CONFIGURE THE SOUND
+    SOUND 0, 2, 10, 0
+    ENVELOPE 0, 0, 10, 13, 2
+    LFO 0, 10, 15, 6, 2
+    LFO WAVE 0, 1, 0, 1, 1
+    
+    'PLAY IT 3 TIMES
+    FOR I = 0 TO 2
+        PLAY 0, 45, 22
+        WAIT 22
+    NEXT I
+END SUB
+
+'***************************************
+'PLAY THE MONSTER EXPLODE SOUND
+'***************************************
+SUB PLAYMONSTEREXPLODE
+    'CONFIGURE THE SOUND
+    SOUND 1, 3, 4, 0
+    ENVELOPE 1, 0, 6, 0, 10
+    LFO 1, 2, 15, 15, 15
+    LFO WAVE 1, 1, 0, 1, 1
+    PLAY 1, 30, 22
+END SUB
+
+'***************************************
+'PLAY THE DOH EXPLODE SOUND
+'***************************************
+SUB PLAYDOHEXPLODE
+    'CONFIGURE THE SOUND
+    SOUND 1, 3, 6, 0
+    ENVELOPE 1, 0, 15, 15, 10
+    LFO 1, 0, 10, 0, 0
+    LFO WAVE 1, 0, 0, 1, 1
+    PLAY 1, 60, 30
+END SUB
+
+'***************************************
+'PLAY THE BAR EXTEND SOUND
+'***************************************
+SUB PLAYBAREXTENDSOUND
+    'CONFIGURE THE SOUND
+    SOUND 3, 2, 6, 0
+    ENVELOPE 3, 5, 11, 15, 8
+    LFO 3, 4, 7, 10, 4
+    LFO WAVE 3, 2, 0, 1, 1
+    PLAY 3, 30, 10
+END SUB
+
+'***************************************
+'PLAY THE BAR GOING TO NEXT LEVEL SOUND
+'***************************************
+SUB PLAYBARGOTONEXTLEVEL
+    'CONFIGURE THE SOUND
+    SOUND 2, 2, 6, 0
+    ENVELOPE 2, 5, 11, 15, 8
+    LFO 2, 4, 7, 10, 4
+    LFO WAVE 2, 2, 0, 1, 1
+    PLAY 2, 30, 10
+END SUB
+
+
+'***************************************
+'PLAY THE LASER SOUND
+'***************************************
+SUB PLAYLASER
+    'CONFIGURE THE SOUND
+    SOUND 2, 2, 6, 10
+    ENVELOPE 2, 2, 15, 15, 6
+    LFO 2, 0, 0, 15, 9
+    LFO WAVE 2, 1, 0, 1, 1
+    PLAY 2, 55, 10
+END SUB
+
+'***************************************
+'PLAY THE DOH THROW A PROJECTILE SOUND
+'***************************************
+SUB PLAYDOHTHROWPROJ
+    'CONFIGURE THE SOUND
+    SOUND 3, 2, 6, 10
+    ENVELOPE 3, 4, 12, 15, 6
+    LFO 3, 2, 4, 4, 13
+    LFO WAVE 3, 0, 1, 1, 1
+    PLAY 3, 45, 5
+END SUB
+
+'***************************************
+'PLAY THE DOH HIT SOUND
+'***************************************
+SUB PLAYDOHHIT
+    'CONFIGURE THE SOUND
+    SOUND 2, 2, 6, 10
+    ENVELOPE 2, 2, 15, 15, 6
+    LFO 2, 0, 0, 15, 9
+    LFO WAVE 2, 1, 0, 1, 1
+    PLAY 2, 35, 10
+END SUB
+
+'***************************************
+'USE THE RASTER TO SCROLL THE STARS
+'***************************************
+SUB SCROLLSTARS
+    SPEED = 2.5
+    DEPTH = ((RASTER MOD 4) + 1)
+    SCROLL 1, TIMER * SPEED / DEPTH + STARS(RASTER), 0
+END SUB
+
+#1:MAIN PALETTES
+003E3930003F1B07000702010030383C
+00080722003F2A15003E3829000C0804
+
+#2:MAIN CHARACTERS
+00000000000000000000000000000000
+0F3F70C0C0703F0F00000F3FFF7F3F0F
+00FF00000000FF000000FFFFFFFFFF00
+F0FC0E03030EFCF00000F0FCFFFEFCF0
+0000183C3C18000000183C7E7E3C1800
+5D071E3E387273FEFEF9E7DFDF9DAD73
+24666666666666241C1E781E1E781E1C
+48CCCCCCCCCCCC4870F03CF0F03CF070
+007EFF0000FF7E00002424FFFFDB5A00
+000F1F3870636766000000070F1F1F1E
+00E0F0381C8CCCCC000000C0E0F0F0F0
+000042FF8142000000000000FF420000
+FFFFFFFFFFFFFF000000000000000000
+FEFEFEFEFEFEFE000000000000000000
+0000000000000000FFFFFFFFFFFFFF00
+0000000000000000FEFEFEFEFEFEFE00
+FFFFFFFFFFFFFF00FFFFFFFFFFFFFF00
+FEFEFEFEFEFEFE00FEFEFEFEFEFEFE00
+FF8080808080807F007F7F7F7F7F7FFF
+FF010101010101FF00FFFFFFFFFFFFFF
+FF819B8F8783827F017F7F77797D7FFF
+FF0161C1E17109FF00FFDFBFFFDFF7FB
+1038381020707020000000042E7E7420
+081C1C28707020000000002277772200
+040E2E747020000000002070742E0E04
+002277772200000000207070281C1C08
+10383A17070200001038381010383810
+081C1C0A07070200081C1C0820707020
+081C1C08040E0E04081C1C2870702000
+040E0E04081C1C08040E4EE4E0400000
+000207070A1C1C080042E7E742000000
+00000207173A38102070722707020000
+00000002277772201038381207070200
+00000040E4EE4E04081C1C08040E0E04
+000040E0E85C1C08040E0E04081C1C08
+0040E0E0503838100002070712383810
+20707020207070200000040E2E747020
+007EFF0000E76600002424FFFFC34200
+007EFF0000C34200002424FFE7C34200
+007EFF0000C34200002424E7C3C34200
+007EE70000C34200002424C3C3C34200
+04161C7AF63D5A38041A22448A426628
+000814363C70100000081C2A44483000
+000018382C1800000000182434080000
+000000000000000000187EFFFF7E1800
+00187EFFFF7E180000007EFFFF7E1800
+00187EFFFF7E1800000866FFFF7E1800
+00187EFFFF7E180000086EE7FF7E1800
+00187EFFFF7E180000186EEFE77E1800
+00187EFFFF7E180000187EEFEF661800
+00187EFFFF7E180000187EFFEF6E0000
+00187EFFFF7E180000187EFFFF6E0800
+00187EFFFF7E180000187EFFFF7E0800
+00187EFFFF7E180000087EFFFF7E1800
+00187EFFFF7E180000006EFFFF7E1800
+00187EFFFF7E180000006AE7FF7E1800
+00187EFFFF7E1800001866EBE77E1800
+00187EFFFF7E180000187EE7EB661800
+00187EFFFF7E180000187EFFE76A0000
+00187EFFFF7E180000187EFFFF660800
+00187EFFFF7E180000187EFFFF7E0800
+001800000000000000007EFFFF7E1800
+0008180000000000001066FFFF7E1800
+0010081800000000000876E7FF7E1800
+001810081800000000006EF7E77E1800
+0000181008180000001866EFF7661800
+000000181008180000187EE7EF760000
+000000001810080000187EFFE76E1000
+000000000018100000187EFFFF660800
+000000000000180000187EFFFF7E0000
+001800000000000000007EFFFF7E1800
+0010180000000000000866FFFF7E1800
+001810180000000000006EE7FF7E1800
+0010181018000000000866EFE77E1800
+001810181018000000006EE7EF661800
+0000181018101800001866EFE76E0000
+000000181018100000187EE7EF660800
+000000001810180000187EFFE76E0000
+000000000018100000187EFFFF660800
+000000000000180000187EFFFF7E0000
+001800000000000000007EFFFF7E1800
+0010180000000000000866FFFF7E1800
+001810180000000000006EE7FF7E1800
+0000181018000000001866EFE77E1800
+000000181018000000187EE7EF661800
+000000001810180000187EFFE76E0000
+000000000018100000187EFFFF660800
+000000000000180000187EFFFF7E0000
+00007EFFFF7E180000187EFFFF7E1800
+000866FFFF7E180000187EFFFF7E1800
+00006AE7FF7E180000187EFFFF7E1800
+000862EBE77E180000187EFFFF7E1800
+00006AE3EB66180000187EFFFF7E1800
+001866EBE36A000000187EFFFF7E1800
+00187EE7EB62080000187EFFFF7E1800
+00187EFFE76A000000187EFFFF7E1800
+00187EFFFF66080000187EFFFF7E1800
+00187EFFFF7E000000187EFFFF7E1800
+00187EFFFF7E180000187EFFFF7E1800
+48440C1424440C187000040000040000
+4824440C142444087000040000040000
+481424440C1424487000040000040000
+480C1424440C14287000040000040000
+28440C1424440C180000040000040000
+1824440C142444080000040000040000
+081424440C1424480000040000040000
+480C1424440C14280000040000040000
+28440C1424440C480000040000040070
+1824440C142444480000040000040070
+081424440C1424480000040000040070
+480C1424440C14480000040000040070
+060F1F3060F0FF000606060F1F3FFF00
+60F0F80C060FFF00606060F0F8FCFF00
+00000404040400000000000000000000
+00002020202000000000000000000000
+80008080800080800080808000808080
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+0103070F0F0F0C080000000000000000
+FF81187EFF810000007EFFFF00000018
+80C0E0F0F0F030100000000000000000
+FFFF810000FFFFC3000000000000003C
+00000814080000000000081C08000000
+5D07143E105060F8FEF9E5DED294A070
+5D071E2E20620000FEF9E7CF82818000
+5D071E3608020102FEF9E797CB050503
+00000103070F1F3F000103070F1F3F7F
+0000784C46464C5880F9FDFFEFEFFFFD
+000080808898FDFB00C0C0C8DCFDFFFF
+0000143676F7F7F7081C3E7FFFFFFFFF
+0000080808090B8B001C1C1C1D9F9FDF
+00003F73E9DEAA7F003F7FFFFBFFEAFF
+00000585C5E575B5000F8FCFEFFFFFFF
+00381C0C0818103078FCBE9E9CBCB8F8
+0B0F1F1F1F1F1F1F0000000000000000
+C3DBDBDB998100BD3C3C3C3C7E000000
+D0F0F8F8F8F8F8F80000000000000000
+FFFF81000081FFC3000000000000003C
+0008142A1408000000081C361C080000
+48001038287060F8E8F8E0D8C890AC70
+00000000000000000000000000000000
+0503161E0802011E0609071F0B050D13
+3D7971613118080042868A924A271408
+7078786C4404000089858593ABCBC581
+FBF7F7D68B8900000408082954568900
+D7961414149480002869AA2AAA6A5E80
+CBEB7978381000003414868544281000
+2ABFCAED733F0000AA7F2B1E8C403F00
+B575E5C585050000CA8A1A2A4A8A0F0A
+E0E0C0C0808000001010202040408080
+1F1F1F1F1E3F3F3F0000000000000000
+FFFF81007EFFFFC3000000000000003C
+F8F8F8F878FCFCFC0000000000000000
+00000000000000000000000000000000
+0018245A5A24180000183C66663C1800
+50001036386273FEF0E8E0D6D98CAD73
+00000026207073FE00000046839DAD73
+01050E0A285263FE0201070B8F99AD73
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+3F1F2F77793E1F0F0000101806070000
+993C81E7FF00FFFF7EFF7E1800FFFF00
+FCF8F4EE9E7CF8F00000081860E00000
+00000000000000000000000000000000
+18245ABDBD5A2418183C66C3C3663C18
+
+#15:MAIN SOUND
+2600C08F180264001800846C003A0000
+08006060000000002800303019FE0000
+38002020000000003800505000000000
+0800000F000000000800000F00000000
+0800000F000000000800000F00000000
+0800000F000000000800000F00000000
+0800000F000000000800000F00000000
+0800000F000000000800000F00000000
+0001C040020340400405404006074040
+0809C0400A0BC0400C0D0E0E0E404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+40404040404040404040404040404040
+370F00370F003A0F0000000000000000
+0000390F00370F00350F00390F00370F
+00000000000000000000000000000000
+000000000000000000000000FF000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+2B0F00FF0000270F0000000000000000
+0000290F000000000000000000000000
+00260F002B0F00260F002B0F00000000
+000000000000000000000000FF000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+340F00FF0000360F00370F00360F00FF
+0000340F00FF0000360F00FF00003B0F
+00FF0000360F00FF0000000000000000
+340F00FF0000360F00370F00360F00FF
+0000340F00FF0000340F00FF0000330F
+00FF0000340F00FF0000360F00FF0000
+1C0F00FF0000230F00FF00001C0F00FF
+0000230F00FF0F001C0F00FF0F00230F
+00FF00001C0F00FF0000230F00FF0000
+1C0F00FF0000230F00FF00001C0F00FF
+0000230F00FF00001C0F00FF0000230F
+00FF00001C0F00FF0000230F00FF0000
+340F00FF0000360F00370F00360F00FF
+0F00340F00FF0000360F00FF00003B0F
+00FF0F00360F00FF0000000000000000
+370F00FF0000390F003B0F00390F00FF
+0000370F00FF0F00390F00FF0F003E0F
+00FF0F00390F00FF0F00000000000000
+1C0F00FF0000230F00FF00001C0F00FF
+0000230F00FF00001C0F00FF0000230F
+00FF00001C0F00FF0000230F00FF0000
+1F0F00FF0000260F00FF00001F0F00FF
+0000260F00FF00001F0F00FF0000260F
+00FF00001F0F00FF0000260F00FF0000
+420F00FF0000000000000000420F00FF
+0000000000000000420F00FF00000000
+00000000420F00400F003E0F00390F00
+3B0F00FF000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+1C0F00FF0000230F00FF00001C0F00FF
+0000230F00FF00001C0F00FF0000230F
+00FF00001C0F00FF0000230F00FF0000
+1F0F00FF0F00260F00FF00001F0F00FF
+0000260F00FF00001E0F00FF0000250F
+00FF00001E0F00FF0000250F00FF0000
+420F00FF0000000000000000420F00FF
+0000000000000000420F00FF00000000
+00000000420F00400F003E0F00390F00
+3B0F00FF000000000000000000000000
+00000000000000000000000000000000
+00000000000000000000000000000000
+1C0F00FF0000230F00FF00001C0F00FF
+0000230F00FF00001C0F00FF0000230F
+00FF00001C0F00FF0000230F00FF0000
+1F0F00FF0000260F00FF0F001F0F00FF
+0000260F00FF00001E0F00FF0000250F
+00FF00001E0F00FF0000250F00FF0000
+370F00FF00000000000000003E0F00FF
+00000000000000000000003D0F003E0F
+00400F003E0F00FF0000000000000000
+370F00FF0F000000000000003E0F00FF
+0000000000000000000000400F003E0F
+003D0F003E0F00400F003E0F00FF0000
+1F0F00FF00001A0F00FF00001F0F00FF
+00001A0F00FF00001F0F00FF00001A0F
+00FF00001F0F001A0F001C0F001E0F00
+1F0F00FF0F001A0F00FF0F001F0F00FF
+0F001A0F00FF0F001F0F00FF0F001A0F
+00FF0F001F0F00FF0F001A0F00FF0F00
+320F00FF0000320F00FF0000370F00FF
+0000360F00FF0000390F00FF0000370F
+00FF00003B0F00FF0F003C0F00FF0F00
+3B0F00320F00320F00FF0000370F00FF
+0000360F00FF0F00390F00FF00003B0F
+00390F003B0F00FF0F00000000000000
+1A0F00FF0000170F00FF00001F0F00FF
+00001A0F00FF0000230F00FF00001F0F
+00FF0000230F00FF0000240F00FF0000
+230F00FF00001A0F00FF00001A0F00FF
+0000170F00FF0F001F0F00FF0000230F
+00210F00230F00000000000000000000
+
