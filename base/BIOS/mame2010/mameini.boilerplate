@@ -1,0 +1,114 @@
+﻿<UNADORNED0> 
+
+#
+# CORE CONFIGURATION OPTIONS
+#
+readconfig                1
+writeconfig               0
+
+
+#
+# CORE STATE/PLAYBACK OPTIONS
+#
+state                     
+autosave                  0
+playback                  
+record                    
+mngwrite                  
+aviwrite                  
+wavwrite                  
+snapname                  %g/%i
+snapsize                  auto
+snapview                  internal
+burnin                    0
+
+#
+# CORE PERFORMANCE OPTIONS
+#
+autoframeskip             1
+frameskip                 0
+seconds_to_run            0
+throttle                  1
+sleep                     1
+speed                     1.0
+refreshspeed              0
+
+#
+# CORE ROTATION OPTIONS
+#
+rotate                    1
+ror                       0
+rol                       0
+autoror                   0
+autorol                   0
+flipx                     0
+flipy                     0
+
+#
+# CORE ARTWORK OPTIONS
+#
+artwork_crop              0
+use_backdrops             1
+use_overlays              1
+use_bezels                1
+
+#
+# CORE VECTOR OPTIONS
+#
+antialias                 1
+beam                      1.0
+flicker                   0
+
+#
+# CORE SOUND OPTIONS
+#
+sound                     1
+samples                   1
+volume                    0
+
+#
+# CORE INPUT OPTIONS
+#
+coin_lockout              1
+ctrlr                     
+mouse                     1
+joystick                  1
+lightgun                  1
+multikeyboard             0
+multimouse                0
+steadykey                 0
+offscreen_reload          0
+joystick_map              auto
+joystick_deadzone         0.3
+joystick_saturation       0.85
+natural                   0
+uimodekey                 auto
+
+#
+# CORE INPUT AUTOMATIC ENABLE OPTIONS
+#
+paddle_device             keyboard
+adstick_device            keyboard
+pedal_device              keyboard
+dial_device               keyboard
+trackball_device          keyboard
+lightgun_device           keyboard
+positional_device         keyboard
+mouse_device              mouse
+
+#
+# CORE DEBUGGING OPTIONS
+#
+log                       0
+verbose                   0
+update_in_pause           0
+debug                     0
+debugscript               
+debug_internal            0
+
+#
+# CORE MISC OPTIONS
+#
+bios                      
+cheat                     0
+skip_gameinfo             0
