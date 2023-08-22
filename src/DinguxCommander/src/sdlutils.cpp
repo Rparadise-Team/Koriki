@@ -29,14 +29,18 @@ bool isSupportedImageExt(const std::string &ext) {
 SDLSurfaceUniquePtr loadImageToFit(
     const std::string &p_filename, int fit_w, int fit_h)
 {
+    const std::string ext = File_utils::getLowercaseFileExtension(p_filename);
+    
     // Load image
     SDL_Surface *l_img = IMG_Load(p_filename.c_str());
-//    if (IMG_GetError() != nullptr && *IMG_GetError() != '\0') {
-//        if (!strcmp(IMG_GetError(), "Unsupported image format") == 0)
-//            std::cerr << "loadImageToFit: " << IMG_GetError() << std::endl;
-//        SDL_ClearError();
-//        return nullptr;
-//    }
+    if (ext != "png") {
+    if (IMG_GetError() != nullptr && *IMG_GetError() != '\0') {
+        if (!strcmp(IMG_GetError(), "Unsupported image format") == 0)
+            std::cerr << "loadImageToFit: " << IMG_GetError() << std::endl;
+        SDL_ClearError();
+        return nullptr;
+    }
+    }
     const double aspect_ratio = static_cast<double>(l_img->w) / l_img->h;
     int target_w, target_h;
     if (fit_w * l_img->h <= fit_h * l_img->w) {
@@ -53,7 +57,6 @@ SDLSurfaceUniquePtr loadImageToFit(
         static_cast<double>(target_h) / l_img->h, SMOOTHING_ON) };
     SDL_FreeSurface(l_img);
 
-    const std::string ext = File_utils::getLowercaseFileExtension(p_filename);
     const bool supports_alpha = ext != "xcf" && ext != "jpg" && ext != "jpeg";
 #ifdef USE_SDL2
     auto l_img3 = supports_alpha
