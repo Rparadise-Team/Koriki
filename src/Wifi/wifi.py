@@ -232,7 +232,7 @@ def connect(iface): # Connect to a network
 	enableiface(iface)
 	modal("Connecting...")
 	
-	if not udhcpc_timeout(wlan, 60):
+	if not udhcpc_timeout(wlan, 30):
 		modal('Connection failed!', wait=True)
 		return False
 	
