@@ -713,6 +713,10 @@ int main (int argc, char *argv[]) {
 	// Main Loop
 	register uint32_t val;
 	register uint32_t menu_pressed = 0;
+	register uint32_t l2_pressed = 0;
+	register uint32_t r2_pressed = 0;
+	register uint32_t Select_pressed = 0;
+	register uint32_t Start_pressed = 0;
 	register uint32_t power_pressed = 0;
 	int repeat_power = 0;
 	int shutdown = 0;
@@ -806,9 +810,24 @@ int main (int argc, char *argv[]) {
 				setVolume(volume, -1);
 				}
 				break;
+			case BUTTON_L2:
+				if (val != REPEAT) l2_pressed = val;
+				break;
+			case BUTTON_R2:
+				if (val != REPEAT) r2_pressed = val;
+				break;
+			case BUTTON_SELECT:
+				if (val != REPEAT) Select_pressed = val;
+				break;
+			case BUTTON_START:
+				if (val != REPEAT) Start_pressed = val;
+				break;
 			default:
 				break;
 		}
+		
+		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed)
+			system("killall retroarch");
 		
 		if (shutdown) {
 			power_pressed = 0;

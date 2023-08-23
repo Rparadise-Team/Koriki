@@ -29,7 +29,7 @@ TODO:
 
 
 import subprocess as SU
-import sys, time, os, shutil
+import sys, time, os, shutil, signal
 import pygame
 from pygame.locals import *
 import pygame.gfxdraw
@@ -149,8 +149,36 @@ def disableiface(iface):
 	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
 
-def udhcpc(iface):
-	return SU.Popen(['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script'], close_fds=True).wait() == 0
+def udhcpc_timeout(iface, timeout_seconds):
+    udhcpc_cmd = ['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script']
+    
+    try:
+        udhcpc_process = SU.Popen(udhcpc_cmd, stdout=SU.PIPE, stderr=SU.PIPE)
+        
+        start_time = time.time()
+        while True:
+            if time.time() - start_time > timeout_seconds:
+                os.kill(udhcpc_process.pid, signal.SIGTERM)
+                return False
+
+            return_code = udhcpc_process.poll()
+            if return_code is not None:
+                break
+
+            time.sleep(1)
+        
+        stdout, stderr = udhcpc_process.communicate()
+        
+        if return_code == 0:
+            print("udhcpc exito:", stdout.decode())
+            return True
+        else:
+            print("udhcpc error:", stderr.decode())
+            return False
+            
+    except Exception as e:
+        print("Error:", e)
+        return False
 	
 def getip(iface):
 	with open(os.devnull, "w") as fnull:
@@ -204,7 +232,7 @@ def connect(iface): # Connect to a network
 	enableiface(iface)
 	modal("Connecting...")
 	
-	if not udhcpc(wlan):
+	if not udhcpc_timeout(wlan, 60):
 		modal('Connection failed!', wait=True)
 		return False
 	
