@@ -158,7 +158,9 @@ update
 
 # Show bootScreen or videosplash
 if [ -f ${SYSTEM_PATH}/videosplash.mp4 ]; then
+    echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable
 	${SYSTEM_PATH}/bin/ffplayer ${SYSTEM_PATH}/videosplash.mp4
+	echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable
 else
 	${SYSTEM_PATH}/bin/show ${SDCARD_PATH}/.simplemenu/resources/loading.png
 fi
