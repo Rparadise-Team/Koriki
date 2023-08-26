@@ -1,0 +1,3 @@
+title=Boot Video Selector
+exec="/mnt/SDCARD/App/bootVideoSelector/bootVideoSelector.sh"
+editable=false
