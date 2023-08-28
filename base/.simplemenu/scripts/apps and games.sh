@@ -1,4 +1,4 @@
-consoles="/mnt/SDCARD/.simplemenu/section_groups/arcades.ini"
+consoles="/mnt/SDCARD/.simplemenu/section_groups/apps and games.ini"
 
 cat > ${consoles} <<EOF
 [CONSOLES]
