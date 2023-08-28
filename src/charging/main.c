@@ -237,6 +237,8 @@ int main(void) {
 	        animation_loop = 0;
         } else if (ev.value == REPEAT) {
           if (repeat_power >= 5) {
+            screen_on = true;
+            SetBrightness(8);
 		        system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		        system("echo 1200000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq");
             running = false; // power on
