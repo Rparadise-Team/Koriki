@@ -9,15 +9,15 @@
 #endif
 
 #ifndef SCREEN_WIDTH
-#define SCREEN_WIDTH 320
+#define SCREEN_WIDTH 640
 #endif
 
 #ifndef SCREEN_HEIGHT
-#define SCREEN_HEIGHT 240
+#define SCREEN_HEIGHT 480
 #endif
 
 #ifndef SCREEN_BPP
-#define SCREEN_BPP 16
+#define SCREEN_BPP 32
 #endif
 
 #ifndef PPU_Y
@@ -43,7 +43,7 @@
 #endif
 
 #ifndef FILE_SYSTEM
-#define FILE_SYSTEM "/dev/sda4"
+#define FILE_SYSTEM "/dev/mmcblk0p1"
 #endif
 
 #ifndef CMDR_KEY_UP
