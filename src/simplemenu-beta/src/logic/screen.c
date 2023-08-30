@@ -128,20 +128,20 @@ void drawCurrentLetter(char *letter, int textColor[], int x, int y) {
 }
 
 void drawBigWhiteText(char *text) {
-	int white[3]={255, 255, 255};
+	int white[3]={253, 35, 39};
 	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, text, white, VAlignMiddle | HAlignCenter, (int[]){}, 0);
 }
 
 void drawLoadingText() {
 	#ifndef NOLOADING
-	int white[3]={255, 255, 255};
+	int white[3]={253, 35, 39};
 	drawTextOnScreen(settingsFooterFont, NULL, SCREEN_WIDTH-calculateProportionalSizeOrDistance1(44), SCREEN_HEIGHT-calculateProportionalSizeOrDistance1(8), "LOADING...", white, VAlignMiddle | HAlignCenter, (int[]){}, 0);
 	refreshScreen();
 	#endif
 }
 
 void drawCopyingText() {
-	int white[3]={255, 255, 255};
+	int white[3]={253, 35, 39};
 	drawTextOnScreen(settingsFooterFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, "COPYING FILES, PLEASE WAIT", white, VAlignMiddle | HAlignCenter, (int[]){}, 0);
 }
 
@@ -596,18 +596,18 @@ void showLetter(struct Rom *rom) {
 	int y = calculateProportionalSizeOrDistance1(231);
 	for (int i=0;i<27;i++) {
 		if (!letterExistsInGameList(letters[i], existingLetters)) {
-			textColor[0]=40;
-			textColor[1]=40;
-			textColor[2]=40;
+			textColor[0]=50;
+			textColor[1]=0;
+			textColor[2]=0;
 		} else {
 			textColor[0]=255;
 			textColor[1]=255;
 			textColor[2]=255;
 		}
 		if (strcmp(letters[i],currentGameFirstLetter)==0) {
-			textColor[0]=255;
-			textColor[1]=0;
-			textColor[2]=0;
+			textColor[0]=253;
+			textColor[1]=35;
+			textColor[2]=39;
 		}
 		if (strcmp(letters[i],"N")==0) {
 			x+=calculateProportionalSizeOrDistance1(14);
@@ -671,7 +671,7 @@ void showCurrentGroup() {
 	backgroundColor[0]=50;
 	backgroundColor[1]=50;
 	backgroundColor[2]=50;
-	int textColor[3]= {255, 255, 255};
+	int textColor[3]= {253, 35, 39};
 	char *tempString = malloc(strlen(sectionGroups[activeGroup].groupName)+1);
 	strcpy(tempString,sectionGroups[activeGroup].groupName);
 	strcat(tempString,"\0");
@@ -692,11 +692,11 @@ void showCurrentGroup() {
 
 void showRomPreferences() {
 	int textColor[3];
-	textColor[0]=90;
-	textColor[1]=90;
-	textColor[2]=90;
-	int valueColor[3] = {0,147,131};
-	int problematicGray[3] = {219,219,219};
+	textColor[0]=253;
+	textColor[1]=35;
+	textColor[2]=39;
+	int valueColor[3] = {255,255,255};
+	int problematicGray[3] = {124,0,2};
 	int textWidth;
 
 	char *emuName = malloc(strlen(CURRENT_SECTION.executables[CURRENT_SECTION.currentGameNode->data->preferences.emulator])+1);
@@ -710,13 +710,13 @@ void showRomPreferences() {
 	int height = calculateProportionalSizeOrDistance1(72);
 
 	//Main rectangle
-	drawRectangleToScreen(width+calculateProportionalSizeOrDistance1(4), height+calculateProportionalSizeOrDistance1(4), SCREEN_WIDTH/2-(width/2+calculateProportionalSizeOrDistance1(2)), SCREEN_HEIGHT/2-(height/2+calculateProportionalSizeOrDistance1(2)), (int[]) {37,50,56});
+	drawRectangleToScreen(width+calculateProportionalSizeOrDistance1(4), height+calculateProportionalSizeOrDistance1(4), SCREEN_WIDTH/2-(width/2+calculateProportionalSizeOrDistance1(2)), SCREEN_HEIGHT/2-(height/2+calculateProportionalSizeOrDistance1(2)), (int[]) {50,0,0});
 
 	//Overlay
-	drawRectangleToScreen(width, height, SCREEN_WIDTH/2-width/2, SCREEN_HEIGHT/2-height/2, (int[]) {250,250,250});
+	drawRectangleToScreen(width, height, SCREEN_WIDTH/2-width/2, SCREEN_HEIGHT/2-height/2, (int[]) {0,0,0});
 
 	//Title Bar
-	drawRectangleToScreen(width, height/4, SCREEN_WIDTH/2-width/2, SCREEN_HEIGHT/2-height/2, (int[]){37,50,56});
+	drawRectangleToScreen(width, height/4, SCREEN_WIDTH/2-width/2, SCREEN_HEIGHT/2-height/2, (int[]){253,35,39});
 
 	//Selection
 	if (chosenChoosingOption==0) {
@@ -783,9 +783,9 @@ void showRomPreferences() {
 
 void showConsole() {
 	int backgroundColor[3];
-	backgroundColor[0]=30;
-	backgroundColor[1]=30;
-	backgroundColor[2]=130;
+	backgroundColor[0]=0;
+	backgroundColor[1]=0;
+	backgroundColor[2]=0;
 	drawRectangleToScreen(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, backgroundColor);
 	if (CURRENT_SECTION.systemLogoSurface!=NULL) {
 		displaySurface(CURRENT_SECTION.systemLogoSurface, 0, 0);
@@ -808,7 +808,7 @@ void showConsole() {
 		}
 
 	} else {
-		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){180,180,180});
+		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){253,35,39});
 		drawTextOnScreen(font,NULL,SCREEN_WIDTH/2,SCREEN_HEIGHT/2,CURRENT_SECTION.sectionName,(int[]){0,0,0},VAlignMiddle|HAlignCenter, (int[]){}, 0);
 	}
 	logMessage("INFO","showConsole","Current console shown");
@@ -1024,9 +1024,9 @@ void drawTimedShutDownScreen() {
 	}
 	snprintf(text1,30,"IN %d SECONDS",countDown);
 	snprintf(text2,30,"X TO CANCEL");
-	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/4, text, (int[]){255,255,255}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
-	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, text1, (int[]){255,255,255}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
-	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT-SCREEN_HEIGHT/4, text2, (int[]){255,255,255}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
+	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/4, text, (int[]){253,35,39}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
+	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, text1, (int[]){253,35,29}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
+	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT-SCREEN_HEIGHT/4, text2, (int[]){253,35,29}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
 }
 
 void drawShutDownScreen() {
@@ -1199,12 +1199,12 @@ void drawBatteryMeter() {
 }
 
 void drawSpecialScreen(char *title, char **options, char** values, char** hints, int interactive) {
-	int headerAndFooterBackground[3]={37,50,56};
+	int headerAndFooterBackground[3]={253,35,39};
 	int headerAndFooterText[3]={255,255,255};
-	int bodyText[3]= {90,90,90};
-	int bodyHighlightedText[3]= {0,147,131};
-	int bodyBackground[3]={250,250,250};
-	int problematicGray[3] = {225,225,225};
+	int bodyText[3]= {253,35,39};
+	int bodyHighlightedText[3]= {255,255,255};
+	int bodyBackground[3]={0,0,0};
+	int problematicGray[3] = {124,0,2};
 
 	logMessage("INFO","drawSettingsScreen","Setting options and values");
 
@@ -1256,7 +1256,7 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
 		}
 		drawSettingsOptionOnScreen(options[i], nextLineText, bodyText);
 		drawSettingsOptionValueOnScreen(values[i], nextLineText, bodyHighlightedText);
-		int lineColor[] = { 229,229,229};
+		int lineColor[] = { 50,0,0};
 		logMessage("INFO","drawSettingsScreen","Drawing rect");
 		if (i<max)  {
 			drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(1), 0, nextLine+calculateProportionalSizeOrDistance1(15), lineColor);
