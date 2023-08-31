@@ -114,6 +114,7 @@ def ifdown(iface):
 	#SU.Popen(['ap', '--stop'], close_fds=True).wait()
 	#SU.Popen(['/config/wifi/ssw01bClose.sh'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
+	SU.Popen(['/bin/sed', '-i', "s/\"wifi\":\s*[01]/\"wifi\": 0/", '/appconfigs/system.json'], close_fds=True).wait()
 
 def ifup(iface):
 	return SU.Popen(['ifup', iface], close_fds=True).wait() == 0
@@ -128,6 +129,7 @@ def enableiface(iface):
 	drawinterfacestatus()
 	pygame.display.update()
 
+	SU.Popen(['/bin/sed', '-i', "s/\"wifi\":\s*[01]/\"wifi\": 1/", '/appconfigs/system.json'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'wpa_supplicant'], close_fds=True).wait()
@@ -148,6 +150,7 @@ def disableiface(iface):
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifioff'], close_fds=True).wait()
+	SU.Popen(['/bin/sed', '-i', "s/\"wifi\":\s*[01]/\"wifi\": 0/", '/appconfigs/system.json'], close_fds=True).wait()
 
 def udhcpc_timeout(iface, timeout_seconds):
     udhcpc_cmd = ['udhcpc', '-i', iface, '-s', '/etc/init.d/udhcpc.script']
@@ -602,6 +605,7 @@ def startap():
 	SU.Popen(['pkill', '-9', 'udhcpc'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'hostapd'], close_fds=True).wait()
 	SU.Popen(['pkill', '-9', 'dnsmasq'], close_fds=True).wait()
+	SU.Popen(['/bin/sed', '-i', "s/\"wifi\":\s*[01]/\"wifi\": 1/", '/appconfigs/system.json'], close_fds=True).wait()
 	SU.Popen(['/customer/app/axp_test', 'wifion'], close_fds=True).wait()
 	SU.Popen(['sleep', '2'], close_fds=True).wait()
 	#SU.Popen(['/config/wifi/ssw01bInit.sh'], close_fds=True).wait()

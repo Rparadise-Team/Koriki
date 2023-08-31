@@ -257,6 +257,17 @@ if [ "$runsvr" == "0" ] ; then
 	fi
 fi
 
+# check if wifi value is 1
+if [ $MODEL = "MMP" ]; then
+    runwifi=`/customer/app/jsonval wifi`
+	
+	if [ "$runwifi" == "1" ]; then
+	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" $SETTINGS_FILE
+	/customer/app/axp_test wifioff
+	sync
+	fi
+	
+fi     
 
 # autochange retroarch version and show/quit wifi app
 
