@@ -1198,28 +1198,6 @@ void drawBatteryMeter() {
 	}
 }
 
-void drawWifiMode() {
-	int wifioff[] = {50,50,50};
-	int wifion[] = {255,255,255};
-
-	int gray5[]={121, 121, 121};
-
-	int *mode[2];
-	mode[0] = wifioff;
-	mode[1] = wifion;
-
-	drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), gray5);
-	int pos = (lastWifiMode);
-	logMessage("INFO","drawSettingsScreen","Positioning wifi");
-	if (pos<2) {
-		for (int i=pos-1;i>=0;i--) {
-			drawRectangleToScreen(SCREEN_WIDTH/5, calculateProportionalSizeOrDistance1(4), (SCREEN_WIDTH/5)*i, calculateProportionalSizeOrDistance1(42), mode[i]);
-		}
-	} else {
-		drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), (int[]){80,80,255});
-	}
-}
-
 void drawSpecialScreen(char *title, char **options, char** values, char** hints, int interactive) {
 	int headerAndFooterBackground[3]={253,35,39};
 	int headerAndFooterText[3]={255,255,255};
@@ -1236,7 +1214,6 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
 	drawTextOnSettingsHeaderLeftWithColor(title,headerAndFooterText);
 
 	drawBatteryMeter();
-	drawWifiMode();
 
 	int nextLine = calculateProportionalSizeOrDistance1(50);
 	int nextLineText = calculateProportionalSizeOrDistance1(50);
