@@ -827,7 +827,7 @@ int main (int argc, char *argv[]) {
 		}
 		
 		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed)
-			system("killall retroarch");
+			system("pkill retroarch");
 		
 		if (shutdown) {
 			power_pressed = 0;
