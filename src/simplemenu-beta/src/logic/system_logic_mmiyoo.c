@@ -410,6 +410,13 @@ int getMaxBrightness() {
     return 10;
 }
 
+int getCurrentWifi() {
+	if (mmModel)
+		return 2;
+	else
+		return getCurrentSystemValue("wifi");
+}
+
 void setBrightness(int value) {
     FILE *f = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
     if (f!=NULL) {

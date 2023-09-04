@@ -14,6 +14,7 @@ int getBatteryLevel();
 void rumble();
 int getCurrentBrightness();
 int getMaxBrightness();
+int getCurrentWifi();
 void setBrightness(int value);
 int getCurrentVolume();
 int setVolumeRaw(int volume, int add, int tiny);

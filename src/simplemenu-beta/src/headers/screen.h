@@ -25,6 +25,8 @@ void clearShutdownTimer();
 void resetShutdownTimer();
 void startBatteryTimer();
 void clearBatteryTimer();
+void startWifiTimer();
+void clearWifiTimer();
 void drawLoadingText();
 void drawCopyingText();
 void resizeSectionBackground(struct MenuSection *section);

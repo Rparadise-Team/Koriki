@@ -131,6 +131,7 @@ void initialSetup2() {
 	enableKeyRepeat();
 	#if defined MIYOOMINI
 	mmModel = access("/customer/app/axp_test", F_OK);
+	lastWifiMode=getCurrentWifi();
 	#endif
 	lastChargeLevel=getBatteryLevel();
 	beforeTryingToSwitchGroup = activeGroup;
@@ -306,6 +307,7 @@ void processEvents() {
 	updateScreen(CURRENT_SECTION.currentGameNode);
 	refreshScreen();
 	startBatteryTimer();
+	startWifiTimer();
 	while(running) {
 		start_time=SDL_GetTicks();
 		processEvents();

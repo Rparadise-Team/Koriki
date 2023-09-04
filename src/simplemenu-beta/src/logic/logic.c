@@ -197,6 +197,7 @@ void quit() {
 	clearPicModeHideLogoTimer();
 	clearPicModeHideMenuTimer();
 	clearBatteryTimer();
+	clearWifiTimer();
 	freeResources();
 	if (shutDownEnabled) {
 #ifdef TARGET_PC

@@ -479,6 +479,20 @@ void loadTheme(char *theme) {
 			surfaceBatt5 = IMG_Load(batt5);
 			surfaceBattCharging = IMG_Load(battCharging);
 		}
+		
+		wifiX = -1;
+		value = ini_get(themeConfig, "GENERAL", "wifi_x");
+		if(value!=NULL) {
+			wifiX = atoifgl(value);
+			value = ini_get(themeConfig, "GENERAL", "wifi_y");
+			wifiY = atoifgl(value);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "wifioff", wifioff);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "wifion", wifion);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "nowifi", nowifi);
+			surfaceWifiOff = IMG_Load(wifioff);
+			surfaceWifiOn = IMG_Load(wifion);
+			surfaceNoWifi = IMG_Load(nowifi);
+		}
 
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "game_count_font", gameCountFont);
 
@@ -1255,6 +1269,20 @@ int loadSections(char *file) {
 		surfaceBatt4 = IMG_Load(batt4);
 		surfaceBatt5 = IMG_Load(batt5);
 		surfaceBattCharging = IMG_Load(battCharging);
+	}
+	
+	wifiX = -1;
+	value = ini_get(themeConfig, "GENERAL", "wifi_x");
+	if(value!=NULL) {
+		wifiX = atoifgl(value);
+		value = ini_get(themeConfig, "GENERAL", "wifi_y");
+		wifiY = atoifgl(value);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "wifioff", wifioff);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "wifion", wifion);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "nowifi", nowifi);
+		surfaceWifiOff = IMG_Load(wifioff);
+		surfaceWifiOn = IMG_Load(wifion);
+		surfaceNoWifi = IMG_Load(nowifi);
 	}
 
 	value = ini_get(themeConfig, "GENERAL", "display_game_count");

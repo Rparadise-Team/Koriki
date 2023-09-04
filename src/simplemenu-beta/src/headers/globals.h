@@ -66,6 +66,7 @@ extern SDL_TimerID picModeHideMenuTimer;
 extern SDL_TimerID picModeHideLogoTimer;
 extern SDL_TimerID hideHeartTimer;
 extern SDL_TimerID batteryTimer;
+extern SDL_TimerID wifiTimer;
 
 typedef struct thread_picture {
 	  SDL_Surface* display;
@@ -186,6 +187,14 @@ extern char battCharging[1000];
 extern SDL_Surface* surfaceBattCharging;
 extern int battX;
 extern int battY;
+extern char wifioff[1000];
+extern SDL_Surface* surfaceWifiOff;
+extern char wifion[1000];
+extern SDL_Surface* surfaceWifiOn;
+extern char nowifi[1000];
+extern SDL_Surface* surfaceNoWifi;
+extern int wifiX;
+extern int wifiY;
 extern int text1FontSize;
 extern int newspaperMode;
 extern int text1X;
@@ -385,6 +394,7 @@ extern struct tm * currTime;
 extern int lastSec;
 extern int lastMin;
 extern int lastChargeLevel;
+extern int lastWifiMode;
 extern pthread_t clockThread;
 extern pthread_mutex_t lock;
 
