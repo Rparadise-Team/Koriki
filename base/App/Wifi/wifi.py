@@ -231,6 +231,7 @@ def connect(iface): # Connect to a network
 	if checkinterfacestatus(iface):
 		disconnect(iface)
 	
+	disconnect(iface)
 	enableiface(iface)
 	modal("Connecting...")
 	
