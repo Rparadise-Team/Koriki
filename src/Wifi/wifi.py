@@ -237,6 +237,7 @@ def connect(iface): # Connect to a network
 	
 	if not udhcpc_timeout(wlan, 30):
 		modal('Connection failed!', wait=True)
+		disableiface(iface)
 		return False
 	
 	sync_system_time()
