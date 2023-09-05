@@ -58,7 +58,7 @@ runifnecessary() {
 
 reset_settings() {
 	if [ -f ${SDCARD_PATH}/.reset_settings ]; then
-		if [ $MODEL = "MM" ]; then
+		if [ $MODEL == "MM" ]; then
 			cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
 			cp ${SYSTEM_PATH}/assets/last_state.sav ${SDCARD_PATH}/.simplemenu/last_state.sav
 			rm ${SDCARD_PATH}/.reset_settings
@@ -110,7 +110,7 @@ update() {
 		sleep 5s
 		done
 		sync
-		if [ $MODEL = "MMP" ]; then
+		if [ $MODEL == "MMP" ]; then
 			reboot
 			sleep 10s
 		fi
@@ -159,6 +159,13 @@ update
 # Get save volumen
 /customer/app/tinymix set 6 100
 vol=`/customer/app/jsonval vol`
+
+if [ "$vol" -ge "20" ]; then
+    sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' $SETTINGS_FILE
+	sync
+	vol=`/customer/app/jsonval vol`
+fi
+
 vol=`expr 40 + 60 \* $vol \/ 20`
 /customer/app/tinymix set 6 $vol
 
@@ -217,13 +224,13 @@ fi
 
 # fix if the settings files is missing
 if [ ! -f $SETTINGS_FILE ]; then
-	if [ $MODEL = "MMP" ]; then
+	if [ $MODEL == "MMP" ]; then
 		cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
 		sync
 		reboot
 		sleep 5
 	fi
-	if [ $MODEL = "MM" ]; then
+	if [ $MODEL == "MM" ]; then
 		cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
 		sync
 		reboot
@@ -237,7 +244,7 @@ runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
 	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ $MODEL = "MMP" ]; then
+	if [ $MODEL == "MMP" ]; then
 		touch /tmp/audioserver_on
 		sync
 	fi
@@ -249,7 +256,7 @@ fi
 
 # free memory when audioserver is stoped
 if [ "$runsvr" == "0" ] ; then
-	if [ $MODEL = "MMP" ]; then
+	if [ $MODEL == "MMP" ]; then
 		if [ -f /tmp/audioserver_on ]; then
 			/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
 			rm /tmp/audioserver_on
@@ -258,7 +265,7 @@ if [ "$runsvr" == "0" ] ; then
 fi
 
 # check if wifi value is 1
-if [ $MODEL = "MMP" ]; then
+if [ $MODEL == "MMP" ]; then
     runwifi=`/customer/app/jsonval wifi`
 	
 	if [ "$runwifi" == "1" ]; then
@@ -350,7 +357,7 @@ then
 fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
-if [ $MODEL = "MM" ]; then
+if [ $MODEL == "MM" ]; then
     sed -i 's/^1;0;0;13;13\([^;]*;[^;]*\)$/1;0;0;12;12\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;12;12\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
     sed -i 's/^1;1;0;13;13\([^;]*;[^;]*\)$/1;1;0;12;12\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
