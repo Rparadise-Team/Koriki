@@ -277,7 +277,7 @@ void initSuspendTimer() {
     logMessage("INFO","initSuspendTimer","Suspend timer initialized");
 }
 
-// Increments between -60 and 0 or 40 and 100
+// Increments between -60 and 9 or 40 and 109
 int setVolumeRaw(int volume, int add, int tiny) {
 	int fix;
     int recent_volume = 0;
@@ -294,7 +294,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
             recent_volume = buf2[1];
             if (add) {
                 buf2[1] += add;
-                if (buf2[1] > 0) buf2[1] = 0;
+                if (buf2[1] > 9) buf2[1] = 9;
                 else if (buf2[1] < -60) buf2[1] = -60;
             } else buf2[1] = volume;
             if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
@@ -302,7 +302,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
         }
 	} else if (fix == 0) {
 		set = tiny+add; //tinymix work in 100-40 // 0-(-60)
-        if (set >= 100) set = 100;
+        if (set >= 109) set = 109;
         else if (set <= 40) set = 40;
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
@@ -345,7 +345,7 @@ int getCurrentVolume() {
 	return sysvolume;
 }
 
-// Increments between 0 and 20 or 40 and 100
+// Increments between 0 and 23 or 40 and 109
 int setVolume(int volume, int add) {
     int recent_volume = 0;
 	int tinyvol = 0;

@@ -926,7 +926,7 @@ void performSystemSettingsChoosingAction() {
 					setSystemValue("vol", volValue);
 				}
 			} else {
-				if (volValue<20) {
+				if (volValue<23) {
 					int volume;
 					volume = getCurrentSystemValue("vol");
 					volValue+=1;
