@@ -1707,7 +1707,7 @@ if __name__ == "__main__":
 								shutil.copy2(netconfdir + quote_plus(ssid) + ".conf", sysconfdir+"config-"+wlan+".conf")
 								shutil.copy2(netconfdir + quote_plus(ssid) + "_wpa.conf", sysconfdir+"wpa_supplicant.conf")
 								passphrase = detail['Key']
-								enableiface(wlan)
+								#enableiface(wlan)
 								connect(wlan)
 								break
 

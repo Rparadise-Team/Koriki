@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <pthread.h>
+#include <signal.h>
 #include <linux/input.h>
 
 #include <sys/types.h>
@@ -662,6 +663,22 @@ void display_setScreen(int value) {
 	}
 }
 
+void killRetroArch() {
+    FILE *fp;
+    char buffer[128];
+    
+    fp = popen("pgrep retroarch", "r");
+    
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        int retroarch_pid = atoi(buffer);
+        char command[128];
+        snprintf(command, sizeof(command), "kill -9 %d", retroarch_pid);
+        system(command);
+    }
+    
+    pclose(fp);
+}
+
 int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
 	
@@ -826,8 +843,9 @@ int main (int argc, char *argv[]) {
 				break;
 		}
 		
-		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed)
-			system("pkill retroarch");
+		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed) {
+			killRetroArch();
+		}
 		
 		if (shutdown) {
 			power_pressed = 0;
