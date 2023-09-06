@@ -202,6 +202,7 @@ def getmac(iface):
 		return None  # WiFi is disabled
 
 def getcurrentssid(iface): # What network are we connected to?
+	ssid = None
 	if not checkinterfacestatus(iface):
 		return None
 
