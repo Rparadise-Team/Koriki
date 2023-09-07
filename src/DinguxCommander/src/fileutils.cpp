@@ -402,32 +402,63 @@ void File_utils::executeFile(const std::string &p_file)
 
     char *prev_pwd = ::getcwd(NULL, 0);
     ::chdir(getPath(p_file).c_str());
-    if (getLowercaseFileExtension(p_file) == "opk")
-        ::execlp("opkrun", "opkrun", p_file.c_str(), nullptr);
-	else if (getLowercaseFileExtension(p_file) == "ay" || getLowercaseFileExtension(p_file) == "gbs" || getLowercaseFileExtension(p_file) == "gym" ||
-             getLowercaseFileExtension(p_file) == "hes" || getLowercaseFileExtension(p_file) == "kss" || getLowercaseFileExtension(p_file) == "nsf" ||
-             getLowercaseFileExtension(p_file) == "nsfe" || getLowercaseFileExtension(p_file) == "sap" || getLowercaseFileExtension(p_file) == "spc" ||
-             getLowercaseFileExtension(p_file) == "vgm" || getLowercaseFileExtension(p_file) == "vgz" || getLowercaseFileExtension(p_file) == "m3u" ||
-			 getLowercaseFileExtension(p_file) == "rsn")
-        ::execlp("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
-	else if (getLowercaseFileExtension(p_file) == "mp4" || getLowercaseFileExtension(p_file) == "mkv")
-        ::execlp("/mnt/SDCARD/Koriki/bin/ffplayer", "ffplayer", p_file.c_str(), nullptr);
-	else
-        ::execl(p_file.c_str(), p_file.c_str(), nullptr);
 
-    // If we're here, exec failed
-    const char *const child_error = std::strerror(errno);
-    perror("exec error");
-    std::string error_message = getFileName(p_file) + ": " + child_error;
+    pid_t pid = fork();
 
-    // Relaunch self and show the error
-    ::chdir(prev_pwd);
-    const std::string self_path = getSelfExecutionPath();
-    ::free(prev_pwd);
-    execl(self_path.c_str(), self_path.c_str(), "--show_exec_error",
-        error_message.c_str(), NULL);
-    perror("relaunch error");
-    std::cerr << getSelfExecutionPath() << std::endl;
+    if (pid < 0)
+    {
+        perror("fork error");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        // Esto es el proceso hijo
+        if (getLowercaseFileExtension(p_file) == "opk")
+            ::execlp("opkrun", "opkrun", p_file.c_str(), nullptr);
+        else if (getLowercaseFileExtension(p_file) == "ay" || getLowercaseFileExtension(p_file) == "gbs" || getLowercaseFileExtension(p_file) == "gym" ||
+                getLowercaseFileExtension(p_file) == "hes" || getLowercaseFileExtension(p_file) == "kss" || getLowercaseFileExtension(p_file) == "nsf" ||
+                getLowercaseFileExtension(p_file) == "nsfe" || getLowercaseFileExtension(p_file) == "sap" || getLowercaseFileExtension(p_file) == "spc" ||
+                getLowercaseFileExtension(p_file) == "vgm" || getLowercaseFileExtension(p_file) == "vgz" || getLowercaseFileExtension(p_file) == "m3u" ||
+                getLowercaseFileExtension(p_file) == "rsn")
+        {
+            ::execlp("/mnt/SDCARD/Koriki/bin/gme_player", "gme_player", p_file.c_str(), nullptr);
+        }
+        else if (getLowercaseFileExtension(p_file) == "mp4" || getLowercaseFileExtension(p_file) == "mkv")
+        {
+            ::execlp("/mnt/SDCARD/Koriki/bin/ffplayer", "ffplayer", p_file.c_str(), nullptr);
+        }
+        else
+        {
+            ::execl(p_file.c_str(), p_file.c_str(), nullptr);
+        }
+
+        // Si llegamos aquí, la ejecución ha fallado
+        const char *const child_error = std::strerror(errno);
+        perror("exec error");
+        std::string error_message = getFileName(p_file) + ": " + child_error;
+
+        ::chdir(prev_pwd);
+        const std::string self_path = getSelfExecutionPath();
+        ::free(prev_pwd);
+        execl(self_path.c_str(), self_path.c_str(), "--show_exec_error",
+            error_message.c_str(), NULL);
+        perror("relaunch error");
+        std::cerr << getSelfExecutionPath() << std::endl;
+
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        // Esto es el proceso padre
+        int status;
+        waitpid(pid, &status, 0);
+
+        ::chdir(prev_pwd); // Restaurar el directorio actual
+        const std::string self_path = getSelfExecutionPath();
+        ::free(prev_pwd);
+        execl(self_path.c_str(), self_path.c_str(), nullptr);
+        std::cerr << getSelfExecutionPath() << std::endl;
+    }
 }
 
 void File_utils::stringReplace(std::string &p_string,
