@@ -471,12 +471,22 @@ void loadTheme(char *theme) {
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_3", batt3);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_4", batt4);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_5", batt5);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_6", batt6);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_7", batt7);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_8", batt8);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_9", batt9);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_10", batt10);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_charging", battCharging);
 			surfaceBatt1 = IMG_Load(batt1);
 			surfaceBatt2 = IMG_Load(batt2);
 			surfaceBatt3 = IMG_Load(batt3);
 			surfaceBatt4 = IMG_Load(batt4);
 			surfaceBatt5 = IMG_Load(batt5);
+			surfaceBatt6 = IMG_Load(batt6);
+			surfaceBatt7 = IMG_Load(batt7);
+			surfaceBatt8 = IMG_Load(batt8);
+			surfaceBatt9 = IMG_Load(batt9);
+			surfaceBatt10 = IMG_Load(batt10);
 			surfaceBattCharging = IMG_Load(battCharging);
 		}
 		
@@ -1262,12 +1272,22 @@ int loadSections(char *file) {
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_3", batt3);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_4", batt4);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_5", batt5);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_6", batt6);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_7", batt7);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_8", batt8);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_9", batt9);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_10", batt10);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_charging", battCharging);
 		surfaceBatt1 = IMG_Load(batt1);
 		surfaceBatt2 = IMG_Load(batt2);
 		surfaceBatt3 = IMG_Load(batt3);
 		surfaceBatt4 = IMG_Load(batt4);
 		surfaceBatt5 = IMG_Load(batt5);
+		surfaceBatt6 = IMG_Load(batt6);
+		surfaceBatt7 = IMG_Load(batt7);
+		surfaceBatt8 = IMG_Load(batt8);
+		surfaceBatt9 = IMG_Load(batt9);
+		surfaceBatt10 = IMG_Load(batt10);
 		surfaceBattCharging = IMG_Load(battCharging);
 	}
 	

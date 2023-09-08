@@ -394,12 +394,18 @@ int getBatteryLevel() {
             pclose(fp);
         }
     }
-    if (charge<=20)          return 1;
-    else if (charge<=40)  return 2;
-    else if (charge<=60)  return 3;
-    else if (charge<=80)  return 4;
-    else if (charge<=100) return 5;
-    else                  return 6;
+    if (charge<=10)       return 1;
+    else if (charge<=20)  return 2;
+    else if (charge<=30)  return 3;
+    else if (charge<=40)  return 4;
+    else if (charge<=50)  return 5;
+    else if (charge<=60)  return 6;
+    else if (charge<=70)  return 7;
+    else if (charge<=80)  return 8;
+    else if (charge<=90)  return 9;
+    else if (charge<=100) return 10;
+    else                  return 11;
+
 }
 
 int getCurrentBrightness() {

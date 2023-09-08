@@ -1612,6 +1612,21 @@ void updateScreen(struct Node *node) {
 							case 5:
 								displaySurface(surfaceBatt5, battX, battY);
 								break;
+							case 6:
+								displaySurface(surfaceBatt6, battX, battY);
+								break;
+							case 7:
+								displaySurface(surfaceBatt7, battX, battY);
+								break;
+							case 8:
+								displaySurface(surfaceBatt8, battX, battY);
+								break;
+							case 9:
+								displaySurface(surfaceBatt9, battX, battY);
+								break;
+							case 10:
+								displaySurface(surfaceBatt10, battX, battY);
+								break;								
 							default:
 								displaySurface(surfaceBattCharging, battX, battY);
 								break;
@@ -1683,12 +1698,118 @@ void updateScreen(struct Node *node) {
 #endif
 			case CHOOSING_GROUP:
 				showCurrentGroup();
+				if (battX>-1 && surfaceBatt1!= NULL) {
+						switch (lastChargeLevel) {
+							case 1:
+								displaySurface(surfaceBatt1, battX, battY);
+								break;
+							case 2:
+								displaySurface(surfaceBatt2, battX, battY);
+								break;
+							case 3:
+								displaySurface(surfaceBatt3, battX, battY);
+								break;
+							case 4:
+								displaySurface(surfaceBatt4, battX, battY);
+								break;
+							case 5:
+								displaySurface(surfaceBatt5, battX, battY);
+								break;
+							case 6:
+								displaySurface(surfaceBatt6, battX, battY);
+								break;
+							case 7:
+								displaySurface(surfaceBatt7, battX, battY);
+								break;
+							case 8:
+								displaySurface(surfaceBatt8, battX, battY);
+								break;
+							case 9:
+								displaySurface(surfaceBatt9, battX, battY);
+								break;
+							case 10:
+								displaySurface(surfaceBatt10, battX, battY);
+								break;								
+							default:
+								displaySurface(surfaceBattCharging, battX, battY);
+								break;
+						}
+					}
+				if (wifiX>-1 && surfaceWifiOff!= NULL) {
+						switch (lastWifiMode) {
+							case 0:
+								displaySurface(surfaceWifiOff, wifiX, wifiY);
+								break;
+							case 1:
+								displaySurface(surfaceWifiOn, wifiX, wifiY);
+								break;
+							case 2:
+								displaySurface(surfaceNoWifi, wifiX, wifiY);
+								break;
+							default:
+								displaySurface(surfaceWifiOff, wifiX, wifiY);
+								break;
+						}
+					}
 				break;
 			case SELECTING_EMULATOR:
 				showRomPreferences();
 				break;
 			case SELECTING_SECTION:
 				showConsole();
+				if (battX>-1 && surfaceBatt1!= NULL) {
+						switch (lastChargeLevel) {
+							case 1:
+								displaySurface(surfaceBatt1, battX, battY);
+								break;
+							case 2:
+								displaySurface(surfaceBatt2, battX, battY);
+								break;
+							case 3:
+								displaySurface(surfaceBatt3, battX, battY);
+								break;
+							case 4:
+								displaySurface(surfaceBatt4, battX, battY);
+								break;
+							case 5:
+								displaySurface(surfaceBatt5, battX, battY);
+								break;
+							case 6:
+								displaySurface(surfaceBatt6, battX, battY);
+								break;
+							case 7:
+								displaySurface(surfaceBatt7, battX, battY);
+								break;
+							case 8:
+								displaySurface(surfaceBatt8, battX, battY);
+								break;
+							case 9:
+								displaySurface(surfaceBatt9, battX, battY);
+								break;
+							case 10:
+								displaySurface(surfaceBatt10, battX, battY);
+								break;								
+							default:
+								displaySurface(surfaceBattCharging, battX, battY);
+								break;
+						}
+					}
+				if (wifiX>-1 && surfaceWifiOff!= NULL) {
+						switch (lastWifiMode) {
+							case 0:
+								displaySurface(surfaceWifiOff, wifiX, wifiY);
+								break;
+							case 1:
+								displaySurface(surfaceWifiOn, wifiX, wifiY);
+								break;
+							case 2:
+								displaySurface(surfaceNoWifi, wifiX, wifiY);
+								break;
+							default:
+								displaySurface(surfaceWifiOff, wifiX, wifiY);
+								break;
+						}
+					}
 				break;
 			case SHUTTING_DOWN:
 				drawShutDownScreen();
