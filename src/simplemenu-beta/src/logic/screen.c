@@ -808,7 +808,7 @@ void showConsole() {
 		}
 
 	} else {
-		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){253,35,39});
+		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){255,255,255});
 		drawTextOnScreen(font,NULL,SCREEN_WIDTH/2,SCREEN_HEIGHT/2,CURRENT_SECTION.sectionName,(int[]){0,0,0},VAlignMiddle|HAlignCenter, (int[]){}, 0);
 	}
 	logMessage("INFO","showConsole","Current console shown");
@@ -1171,27 +1171,37 @@ void setupDecorations() {
 }
 
 void drawBatteryMeter() {
-	int batteryLevel80to100[] = {1,255,1};
-	int batteryLevel60to80[] = {153,254,0};
-	int batteryLevel40to60[] = {255,254,3};
-	int batteryLevel20to40[] = {255,152,1};
-	int batteryLevel0to20[] = {255,51,0};
+	int batteryLevel90to100[] = {1,255,1};
+	int batteryLevel80to90[] = {1,255,1};
+	int batteryLevel70to80[] = {153,254,0};
+	int batteryLevel60to70[] = {153,254,0};
+	int batteryLevel50to60[] = {255,254,3};
+	int batteryLevel40to50[] = {255,254,3};
+	int batteryLevel30to40[] = {255,152,1};
+	int batteryLevel20to30[] = {255,152,1};
+	int batteryLevel10to20[] = {255,51,0};
+	int batteryLevel0to10[] = {255,51,0};
 
 	int gray5[]={121, 121, 121};
 
-	int *levels[5];
-	levels[0] = batteryLevel0to20;
-	levels[1] = batteryLevel20to40;
-	levels[2] = batteryLevel40to60;
-	levels[3] = batteryLevel60to80;
-	levels[4] = batteryLevel80to100;
+	int *levels[10];
+	levels[0] = batteryLevel0to10;
+	levels[1] = batteryLevel10to20;
+	levels[2] = batteryLevel20to30;
+	levels[3] = batteryLevel30to40;
+	levels[4] = batteryLevel40to50;
+	levels[5] = batteryLevel50to60;
+	levels[6] = batteryLevel60to70;
+	levels[7] = batteryLevel70to80;
+	levels[8] = batteryLevel80to90;
+	levels[9] = batteryLevel90to100;
 
 	drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), gray5);
 	int pos = (lastChargeLevel);
 	logMessage("INFO","drawSettingsScreen","Positioning batt 1");
-	if (pos<6) {
+	if (pos<11) {
 		for (int i=pos-1;i>=0;i--) {
-			drawRectangleToScreen(SCREEN_WIDTH/5, calculateProportionalSizeOrDistance1(4), (SCREEN_WIDTH/5)*i, calculateProportionalSizeOrDistance1(42), levels[i]);
+			drawRectangleToScreen(SCREEN_WIDTH/10, calculateProportionalSizeOrDistance1(4), (SCREEN_WIDTH/10)*i, calculateProportionalSizeOrDistance1(42), levels[i]);
 		}
 	} else {
 		drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), (int[]){80,80,255});
