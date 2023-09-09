@@ -11,7 +11,11 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
     export SETTINGS_FILE=$SETTINGS_EXT_FILE
 else
-    export SETTINGS_FILE=$SETTINGS_INT_FILE
+    if [ -f /appconfigs/system.json.old ]; then
+    	export SETTINGS_FILE=$SETTINGS_EXT_FILE
+	else
+    	export SETTINGS_FILE=$SETTINGS_INT_FILE
+	fi
 fi
 
 # Detect model

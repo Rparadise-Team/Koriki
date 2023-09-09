@@ -671,7 +671,7 @@ void showCurrentGroup() {
 	backgroundColor[0]=50;
 	backgroundColor[1]=50;
 	backgroundColor[2]=50;
-	int textColor[3]= {253, 35, 39};
+	int textColor[3]= {255, 255, 255};
 	char *tempString = malloc(strlen(sectionGroups[activeGroup].groupName)+1);
 	strcpy(tempString,sectionGroups[activeGroup].groupName);
 	strcat(tempString,"\0");
@@ -808,7 +808,7 @@ void showConsole() {
 		}
 
 	} else {
-		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){255,255,255});
+		drawRectangleToScreen(SCREEN_WIDTH,SCREEN_HEIGHT,0,0,(int[]){253,35,39});
 		drawTextOnScreen(font,NULL,SCREEN_WIDTH/2,SCREEN_HEIGHT/2,CURRENT_SECTION.sectionName,(int[]){0,0,0},VAlignMiddle|HAlignCenter, (int[]){}, 0);
 	}
 	logMessage("INFO","showConsole","Current console shown");
@@ -1025,8 +1025,8 @@ void drawTimedShutDownScreen() {
 	snprintf(text1,30,"IN %d SECONDS",countDown);
 	snprintf(text2,30,"X TO CANCEL");
 	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/4, text, (int[]){253,35,39}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
-	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, text1, (int[]){253,35,29}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
-	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT-SCREEN_HEIGHT/4, text2, (int[]){253,35,29}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
+	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, text1, (int[]){253,35,39}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
+	drawTextOnScreen(BIGFont, NULL, SCREEN_WIDTH/2, SCREEN_HEIGHT-SCREEN_HEIGHT/4, text2, (int[]){253,35,39}, VAlignMiddle | HAlignCenter, (int[]){0,0,0}, 0);
 }
 
 void drawShutDownScreen() {
