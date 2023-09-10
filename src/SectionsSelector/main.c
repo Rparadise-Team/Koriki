@@ -32,11 +32,15 @@
 
 #define NUM_IMAGES 3
 
-#define SECTIONS "/mnt/SDCARD/.simplemenu/section_groups"
+#define SECTIONS "/mnt/SDCARD/.simplemenu/scripts"
+#define SCRIPTS "/mnt/SDCARD/.simplemenu/section_groups"
 #define DESTINATION "/mnt/SDCARD/.simplemenu"
 #define ALPHABETIC "/mnt/SDCARD/App/SectionsSelector/sections/alphabetic/section_groups"
 #define DEFAULT "/mnt/SDCARD/App/SectionsSelector/sections/default/section_groups"
 #define SYSTEMS "/mnt/SDCARD/App/SectionsSelector/sections/systems/section_groups"
+#define ALPHABETIC_SCRIPTS "/mnt/SDCARD/App/SectionsSelector/scripts/alphabetic/scripts"
+#define DEFAULT_SCRIPTS "/mnt/SDCARD/App/SectionsSelector/scripts/default/scripts"
+#define SYSTEMS_SCRIPTS "/mnt/SDCARD/App/SectionsSelector/scripts/systems/scripts"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -127,6 +131,7 @@ int main(int argc, char* argv[]) {
 							case 0:
 								 //DEFAULT
 								copy_directory(DEFAULT, SECTIONS);
+								copy_directory(DEFAULT_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
@@ -137,6 +142,7 @@ int main(int argc, char* argv[]) {
 							case 1:
 								 //ALPHABETIC
 								copy_directory(ALPHABETIC, SECTIONS);
+								copy_directory(ALPHABETIC_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
@@ -147,6 +153,7 @@ int main(int argc, char* argv[]) {
 							case 2:
 								 //SYSTEMS
 								copy_directory(SYSTEMS, SECTIONS);
+								copy_directory(SYSTEMS_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
