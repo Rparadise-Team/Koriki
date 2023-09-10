@@ -32,8 +32,8 @@
 
 #define NUM_IMAGES 3
 
-#define SECTIONS "/mnt/SDCARD/.simplemenu/scripts"
-#define SCRIPTS "/mnt/SDCARD/.simplemenu/section_groups"
+#define SECTIONS "/mnt/SDCARD/.simplemenu/section_groups"
+#define SCRIPTS "/mnt/SDCARD/.simplemenu/scripts"
 #define DESTINATION "/mnt/SDCARD/.simplemenu"
 #define ALPHABETIC "/mnt/SDCARD/App/SectionsSelector/sections/alphabetic/section_groups"
 #define DEFAULT "/mnt/SDCARD/App/SectionsSelector/sections/default/section_groups"
