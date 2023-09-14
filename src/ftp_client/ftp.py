@@ -51,7 +51,7 @@ def display_data(screen, font):
         screen.blit(warning_text, warning_text_rect)
     else:
         ip_text = font.render("Set IP: " + ip_address, True, (255, 255, 255))
-        port_text = font.render("and port 21 in FileZilla", True, (255, 255, 255))
+        port_text = font.render("user ftp and port 21 in FileZilla", True, (255, 255, 255))
         ip_text_rect = ip_text.get_rect(center=(center_x, SCREEN_HEIGHT // 2))
         port_text_rect = port_text.get_rect(center=(center_x, SCREEN_HEIGHT // 2 + 50))
         screen.blit(ip_text, ip_text_rect)
