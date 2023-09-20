@@ -27,7 +27,11 @@ fi
 
 reset_settings() {
         if [ $MODEL = "MM" ]; then
-            cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+		    if [ -f /appconfigs/system.json.old ]; then
+			cp ${SYSTEM_PATH}/assets/system-v4.json $SETTINGS_FILE
+			else
+			cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
+			fi
             sync
 			reboot
             sleep 10s
