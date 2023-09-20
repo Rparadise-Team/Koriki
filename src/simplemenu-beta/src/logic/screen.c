@@ -1490,8 +1490,17 @@ void setupSystemSettings() {
 	}
     hints[3] = "ENABLE OR DISABLE AUDIOSERVER";
 
-    options[4]="Screen ";
+    options[4]="Screen settings";
 	hints[4] = "SCREEN OPTIONS";
+	
+	options[5]="Screen timeout ";
+	values[5]=malloc(100);
+	if (timeoutValue>0) {
+		sprintf(values[5],"%d",timeoutValue);
+	} else {
+		sprintf(values[5],"%s","always on");
+	}
+	hints[5] = "SECONDS UNTIL THE SCREEN TURNS OFF";
 #endif
 }
 

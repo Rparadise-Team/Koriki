@@ -833,9 +833,10 @@ void performSystemSettingsChoosingAction() {
 	VOLUME_OPTION=0;
 	BRIGHTNESS_OPTION=1;
 	OC_OPTION=2;
-    AUDIOFIX_OPTION = 3;
-    SCREEN_OPTION = 4;
-    NUM_SYSTEM_OPTIONS = 5;
+    AUDIOFIX_OPTION=3;
+    SCREEN_OPTION=4;
+	SCREEN_TIMEOUT_OPTION=5;
+    NUM_SYSTEM_OPTIONS = 6;
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
 			chosenSetting--;
@@ -860,6 +861,16 @@ void performSystemSettingsChoosingAction() {
 				}
 			}
 			setBrightness(brightnessValue);
+		} else if (chosenSetting==SCREEN_TIMEOUT_OPTION) {
+				if (keys[BTN_LEFT]) {
+					if (timeoutValue>0) {
+						timeoutValue-=5;
+					}
+				} else {
+					if (timeoutValue<60) {
+						timeoutValue+=5;
+					}
+				}
 		} else if (chosenSetting==OC_OPTION) {
 			FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
 			int CPUMIYOO;

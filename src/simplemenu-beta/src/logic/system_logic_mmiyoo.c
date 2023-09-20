@@ -234,14 +234,24 @@ void setSystemValue(char const *key, int value) {
 }
 
 void turnScreenOnOrOff(int state) {
-    const char *path = "/sys/class/graphics/fb0/blank";
-    const char *blank = state ? "0" : "1";
+    const char *path = "/proc/mi_modules/fb/mi_fb0";
+	const char *path2 = "/sys/class/pwm/pwmchip0/pwm0/enable";
+    const char *blank = state ? "GUI_SHOW 0 off" : "GUI_SHOW 0 on";
+	const char *power = state ? "0" : "1";
     int fd = open(path, O_RDWR);
     int ret = write(fd, blank, strlen(blank));
+	int fd2 = open(path2, O_RDWR);
+    int ret2 = write(fd2, power, strlen(power));
+	
     if (ret==-1) {
         generateError("FATAL ERROR", 1);
     }
     close(fd);
+	
+    if (ret2==-1) {
+        generateError("FATAL ERROR", 1);
+    }
+    close(fd2);
 }
 
 void clearTimer() {
@@ -254,8 +264,8 @@ void clearTimer() {
 uint32_t suspend() {
     if (timeoutValue!=0) {
         clearTimer();
-        oldCPU=currentCPU;
-        turnScreenOnOrOff(0);
+        //oldCPU=currentCPU;
+        turnScreenOnOrOff(1);
         isSuspended=1;
     }
     return 0;
@@ -263,8 +273,8 @@ uint32_t suspend() {
 
 void resetScreenOffTimer() {
     if (isSuspended) {
-        turnScreenOnOrOff(1);
-        currentCPU=oldCPU;
+        turnScreenOnOrOff(0);
+        //currentCPU=oldCPU;
         isSuspended=0;
     }
     clearTimer();

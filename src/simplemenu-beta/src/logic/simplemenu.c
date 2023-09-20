@@ -124,7 +124,7 @@ void initialSetup2() {
 	} else {
 		ITEMS_PER_PAGE=FULLSCREEN_ITEMS_PER_PAGE;
 	}
-	#if defined(TARGET_BITTBOY) || defined(TARGET_RFW) || defined(TARGET_OD) || defined(TARGET_OD_BETA) || defined(TARGET_NPG)
+	#if defined(TARGET_BITTBOY) || defined(TARGET_RFW) || defined(TARGET_OD) || defined(TARGET_OD_BETA) || defined(TARGET_NPG) || defined(MIYOOMINI)
 	initSuspendTimer();
 	#endif
 	determineStartingScreen(sectionCount);
