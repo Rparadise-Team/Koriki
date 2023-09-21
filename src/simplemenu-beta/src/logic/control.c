@@ -904,6 +904,7 @@ void performSystemSettingsChoosingAction() {
             setSystemValue("audiofix", audioFix);
 		 	Fix = getCurrentSystemValue("audiofix");
 		 	if (Fix == 1) {
+				stopmusic();
 				if (mmModel) {
 					system("/mnt/SDCARD/Koriki/bin/audioserver &");
 					system("export LD_PRELOAD=/customer/lib/libpadsp.so");
@@ -913,7 +914,9 @@ void performSystemSettingsChoosingAction() {
 					system("touch /tmp/audioserver_on");
 					system("sync");
 				}
+				startmusic();
 			} else if (Fix == 0) {
+				stopmusic();
 				if (mmModel) {
 					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
 					system("killall audioserver && killall audioserver.min");
@@ -925,6 +928,8 @@ void performSystemSettingsChoosingAction() {
 					system("rm /tmp/audioserver_on");
 					system("sync");
 				}
+				startmusic();
+				
 			}
 			getCurrentVolume();
 		} else if (chosenSetting==VOLUME_OPTION) {
@@ -1186,6 +1191,7 @@ void performSettingsChoosingAction() {
 			clearTimer();
 			clearPicModeHideLogoTimer();
 			clearPicModeHideMenuTimer();
+			stopmusic();
 			freeResources();
 			execlp("./simplemenu","invoker",NULL);
 		}

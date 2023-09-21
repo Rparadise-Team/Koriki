@@ -198,6 +198,7 @@ void quit() {
 	clearPicModeHideMenuTimer();
 	clearBatteryTimer();
 	clearWifiTimer();
+	stopmusic();
 	freeResources();
 	if (shutDownEnabled) {
 #ifdef TARGET_PC
@@ -401,6 +402,7 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	logMessage("INFO", "executeCommand", exec);
 	logMessage("INFO", "executeCommand", fileToBeExecutedWithFullPath);
 	SDL_ShowCursor(1);
+	stopmusic();
 	freeResources();
 #ifndef TARGET_OD_BETA
 	resetFrameBuffer1();

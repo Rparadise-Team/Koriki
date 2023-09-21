@@ -54,6 +54,7 @@ void critical_error_handler()
 	char command[100];
 	snprintf(command, sizeof(command), "rm %s/.simplemenu/last_state.sav && sync", getenv("HOME"));
 	system(command);
+	stopmusic();
 	freeResources();
 	exit(0);
 }

@@ -6,7 +6,9 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <mi_ao.h>
+#include <SDL/SDL.h>
 #include <SDL/SDL_sound.h>
+#include <SDL/SDL_mixer.h>
 #include "../headers/logic.h"
 #include "../headers/system_logic.h"
 #include "../headers/globals.h"
@@ -317,6 +319,20 @@ int setVolumeRaw(int volume, int add, int tiny) {
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);
+		int fd = open("/dev/mi_ao", O_RDWR);
+        if (fd >= 0) {
+            int buf2[] = {0, 0};
+            uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+            ioctl(fd, MI_AO_GETVOLUME, buf1);
+            recent_volume = buf2[1];
+            if (add) {
+                buf2[1] += add;
+                if (buf2[1] > 9) buf2[1] = 9;
+                else if (buf2[1] < -60) buf2[1] = -60;
+            } else buf2[1] = volume;
+            if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+            close(fd);
+        }
 	}
   
   return recent_volume;
@@ -350,6 +366,16 @@ int getCurrentVolume() {
 	char command[100];
 	sprintf(command, "tinymix set 6 %d", tiny);
 	system(command);
+	int fv = open("/dev/mi_ao", O_RDWR);
+	if (fv >= 0) {
+		int buf2[] = {0, 0};
+		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+						
+		ioctl(fv, MI_AO_GETVOLUME, buf1);
+		buf2[1] = volume;
+		ioctl(fv, MI_AO_SETVOLUME, buf1);
+        close(fv); 
+	    }
     }
 	
 	return sysvolume;
@@ -370,10 +396,36 @@ int setVolume(int volume, int add) {
     return recent_volume;
 }
 
+void startmusic() {
+    if(SDL_Init(SDL_INIT_AUDIO) != 0) {
+        fprintf(stderr, "error init SDL: %s\n", SDL_GetError());
+        return;
+    }
+
+    if(Mix_OpenAudio(48000, AUDIO_S16SYS, 2, 4096) == -1) {
+        fprintf(stderr, "error init SDL_mixer: %s\n", Mix_GetError());
+        return;
+    }
+
+    Mix_Music *music = Mix_LoadMUS("/mnt/SDCARD/Media/music.wav");
+    if(music == NULL) {
+        fprintf(stderr, "error to load audio file: %s\n", Mix_GetError());
+        return;
+    }
+
+    Mix_PlayMusic(music, -1);
+}
+
+void stopmusic() {
+	Mix_Music *music = Mix_LoadMUS("/mnt/SDCARD/Media/music.wav");
+	Mix_FreeMusic(music);
+    Mix_CloseAudio();
+}
+
 void HW_Init() {
     initADC();
     getCurrentVolume();
-
+	startmusic();
     logMessage("INFO","HW_Init","HW Initialized");
 }
 
