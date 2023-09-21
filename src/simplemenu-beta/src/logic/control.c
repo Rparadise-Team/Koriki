@@ -1073,10 +1073,18 @@ void performSettingsChoosingAction() {
 		if(chosenSetting>0) {
 			chosenSetting--;
 		} else {
+			#if defined MIYOOMINI
+			chosenSetting=4;
+			#else
 			chosenSetting=5;
+			#endif
 		}
 	} else if (keys[BTN_DOWN]) {
+		#if defined MIYOOMINI
+		if(chosenSetting<4) {
+		#else
 		if(chosenSetting<5) {
+		#endif
 			chosenSetting++;
 		} else {
 			chosenSetting=0;
