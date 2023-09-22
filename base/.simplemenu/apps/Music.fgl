@@ -1,0 +1,3 @@
+title=Music selector
+exec="/mnt/SDCARD/App/Musicselector/launch.sh"
+editable=false
