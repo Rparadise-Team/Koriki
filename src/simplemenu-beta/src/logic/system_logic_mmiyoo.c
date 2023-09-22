@@ -396,6 +396,8 @@ int setVolume(int volume, int add) {
     return recent_volume;
 }
 
+Mix_Music *music = NULL;
+
 void startmusic() {
     if(SDL_Init(SDL_INIT_AUDIO) != 0) {
         fprintf(stderr, "error init SDL: %s\n", SDL_GetError());
@@ -417,9 +419,9 @@ void startmusic() {
 }
 
 void stopmusic() {
-	Mix_Music *music = Mix_LoadMUS("/mnt/SDCARD/Media/music.wav");
 	Mix_FreeMusic(music);
     Mix_CloseAudio();
+	music = NULL;
 }
 
 void HW_Init() {
