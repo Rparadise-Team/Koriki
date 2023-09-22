@@ -20,16 +20,17 @@ songs = os.listdir(MUSIC_PATH)
 songs.insert(0, "NO MUSIC")
 
 selected_song = None
+selected_index = 0
 
 def list_songs():
-    global selected_song
+    global selected_song, selected_index
     clock = pygame.time.Clock()
-    selected_index = 0
+    scroll = 0
 
     while True:
         screen.fill(BLACK)
         
-        for i, song in enumerate(songs):
+        for i, song in enumerate(songs[scroll:scroll+10]):
             text = font.render(song, True, RED)
             rect = text.get_rect(topleft=(60, 100 + i * 50))
             screen.blit(text, rect)
@@ -47,8 +48,12 @@ def list_songs():
             if event.type == KEYDOWN:
                 if event.key == K_UP:
                     selected_index = max(0, selected_index - 1)
+                    if selected_index < scroll:
+                        scroll = selected_index
                 elif event.key == K_DOWN:
                     selected_index = min(len(songs) - 1, selected_index + 1)
+                    if selected_index >= scroll + 10:
+                        scroll = selected_index - 9
                 elif event.key == K_SPACE:
                     selected_song = songs[selected_index]
                     return
@@ -78,8 +83,8 @@ if __name__ == "__main__":
 
     if selected_song == "NO MUSIC":
         delete_music()
-        print "file music.wav erased."
+        print "File music.wav erased."
     elif selected_song:
         wait_for_conversion()
         convert_to_wav(selected_song)
-        print "file convert and copy to music.wav."
+        print "File convert and copy to music.wav."
