@@ -236,19 +236,19 @@ void setSystemValue(char const *key, int value) {
 }
 
 void turnScreenOnOrOff(int state) {
-    const char *path = "/proc/mi_modules/fb/mi_fb0";
+    const char *path1 = "/proc/mi_modules/fb/mi_fb0";
 	const char *path2 = "/sys/class/pwm/pwmchip0/pwm0/enable";
     const char *blank = state ? "GUI_SHOW 0 off" : "GUI_SHOW 0 on";
 	const char *power = state ? "0" : "1";
-    int fd = open(path, O_RDWR);
-    int ret = write(fd, blank, strlen(blank));
+    int fd1 = open(path1, O_RDWR);
+    int ret1 = write(fd1, blank, strlen(blank));
 	int fd2 = open(path2, O_RDWR);
     int ret2 = write(fd2, power, strlen(power));
 	
-    if (ret==-1) {
+    if (ret1==-1) {
         generateError("FATAL ERROR", 1);
     }
-    close(fd);
+    close(fd1);
 	
     if (ret2==-1) {
         generateError("FATAL ERROR", 1);
@@ -425,9 +425,12 @@ void stopmusic() {
 }
 
 void HW_Init() {
+	int brightness = 0;
+	brightness = getCurrentBrightness();
     initADC();
     getCurrentVolume();
 	startmusic();
+	setBrightness(brightness);
     logMessage("INFO","HW_Init","HW Initialized");
 }
 
@@ -493,6 +496,4 @@ void setBrightness(int value) {
         fprintf(f, "%d", value * 10);
         fclose(f);
     }
-
-    setSystemValue("brightness", value);
 }

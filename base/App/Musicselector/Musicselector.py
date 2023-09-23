@@ -30,12 +30,12 @@ def list_songs():
     while True:
         screen.fill(BLACK)
         
-        for i, song in enumerate(songs[scroll:scroll+10]):
+        for i, song in enumerate(songs[scroll:scroll+8]):
             text = font.render(song, True, RED)
             rect = text.get_rect(topleft=(60, 100 + i * 50))
             screen.blit(text, rect)
 
-            if i == selected_index:
+            if i == selected_index - scroll:
                 pygame.draw.circle(screen, WHITE, (50, 100 + i * 50), 10)
 
         pygame.display.flip()
@@ -52,8 +52,8 @@ def list_songs():
                         scroll = selected_index
                 elif event.key == K_DOWN:
                     selected_index = min(len(songs) - 1, selected_index + 1)
-                    if selected_index >= scroll + 10:
-                        scroll = selected_index - 9
+                    if selected_index >= scroll + 8:
+                        scroll = selected_index - 7
                 elif event.key == K_SPACE:
                     selected_song = songs[selected_index]
                     return
@@ -65,7 +65,7 @@ def delete_music():
     os.remove(MUSIC_WAV_PATH)
 
 def convert_to_wav(song_name):
-    command = '/mnt/SDCARD/Koriki/bin/ffmpeg -y -i "{}{}" "{}"'.format(MUSIC_PATH, song_name, MUSIC_WAV_PATH)
+    command = '/mnt/SDCARD/Koriki/bin/ffmpeg -y -i "{}{}" -ar 48000 "{}"'.format(MUSIC_PATH, song_name, MUSIC_WAV_PATH)
     os.system(command)
 
 def display_message(message):

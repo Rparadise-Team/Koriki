@@ -860,6 +860,7 @@ void performSystemSettingsChoosingAction() {
 					brightnessValue+=1;
 				}
 			}
+			setSystemValue("brightness", brightnessValue);
 			setBrightness(brightnessValue);
 		} else if (chosenSetting==SCREEN_TIMEOUT_OPTION) {
 				if (keys[BTN_LEFT]) {
@@ -916,6 +917,8 @@ void performSystemSettingsChoosingAction() {
 				}
 				startmusic();
 			} else if (Fix == 0) {
+				int brightness = 0;
+	            brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
 					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
@@ -929,7 +932,7 @@ void performSystemSettingsChoosingAction() {
 					system("sync");
 				}
 				startmusic();
-				
+				setBrightness(brightness);
 			}
 			getCurrentVolume();
 		} else if (chosenSetting==VOLUME_OPTION) {
