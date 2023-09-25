@@ -1,11 +1,16 @@
 #include <fcntl.h>
 #include <linux/soundcard.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <unistd.h>
 #include <stdint.h>
 #include <mi_ao.h>
+#include <mi_sys.h>
+#include <mi_common.h>
+#include <mi_disp.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_sound.h>
 #include <SDL/SDL_mixer.h>
@@ -24,7 +29,6 @@
 volatile uint32_t *memregs;
 int32_t memdev = 0;
 int oldCPU;
-
 
 typedef struct {
     int channel_value;
@@ -496,4 +500,76 @@ void setBrightness(int value) {
         fprintf(f, "%d", value * 10);
         fclose(f);
     }
+}
+
+void Luma(int dev, int value) {
+    MI_DISP_PubAttr_t attrs;
+    memset(&attrs, 0, sizeof(MI_DISP_PubAttr_t));
+    MI_DISP_GetPubAttr(dev, &attrs);
+
+    attrs.eIntfType = E_MI_DISP_INTF_LCD;
+    attrs.eIntfSync = E_MI_DISP_OUTPUT_USER;
+    MI_DISP_SetPubAttr(dev, &attrs);
+
+    MI_DISP_Enable(dev);
+
+    MI_DISP_LcdParam_t params;
+    memset(&params, 0, sizeof(MI_DISP_LcdParam_t));
+    MI_DISP_GetLcdParam(dev, &params);
+    params.stCsc.u32Luma = value;
+    MI_DISP_SetLcdParam(dev, &params);
+}
+
+void Hue(int dev, int value) {
+    MI_DISP_PubAttr_t attrs;
+    memset(&attrs, 0, sizeof(MI_DISP_PubAttr_t));
+    MI_DISP_GetPubAttr(dev, &attrs);
+
+    attrs.eIntfType = E_MI_DISP_INTF_LCD;
+    attrs.eIntfSync = E_MI_DISP_OUTPUT_USER;
+    MI_DISP_SetPubAttr(dev, &attrs);
+
+    MI_DISP_Enable(dev);
+
+    MI_DISP_LcdParam_t params;
+    memset(&params, 0, sizeof(MI_DISP_LcdParam_t));
+    MI_DISP_GetLcdParam(dev, &params);
+    params.stCsc.u32Hue = value;
+    MI_DISP_SetLcdParam(dev, &params);
+}
+
+void Saturation(int dev, int value) {
+    MI_DISP_PubAttr_t attrs;
+    memset(&attrs, 0, sizeof(MI_DISP_PubAttr_t));
+    MI_DISP_GetPubAttr(dev, &attrs);
+
+    attrs.eIntfType = E_MI_DISP_INTF_LCD;
+    attrs.eIntfSync = E_MI_DISP_OUTPUT_USER;
+    MI_DISP_SetPubAttr(dev, &attrs);
+
+    MI_DISP_Enable(dev);
+
+    MI_DISP_LcdParam_t params;
+    memset(&params, 0, sizeof(MI_DISP_LcdParam_t));
+    MI_DISP_GetLcdParam(dev, &params);
+    params.stCsc.u32Saturation = value;
+    MI_DISP_SetLcdParam(dev, &params);
+}
+
+void Contrast(int dev, int value) {
+    MI_DISP_PubAttr_t attrs;
+    memset(&attrs, 0, sizeof(MI_DISP_PubAttr_t));
+    MI_DISP_GetPubAttr(dev, &attrs);
+
+    attrs.eIntfType = E_MI_DISP_INTF_LCD;
+    attrs.eIntfSync = E_MI_DISP_OUTPUT_USER;
+    MI_DISP_SetPubAttr(dev, &attrs);
+
+    MI_DISP_Enable(dev);
+
+    MI_DISP_LcdParam_t params;
+    memset(&params, 0, sizeof(MI_DISP_LcdParam_t));
+    MI_DISP_GetLcdParam(dev, &params);
+    params.stCsc.u32Contrast = value;
+    MI_DISP_SetLcdParam(dev, &params);
 }

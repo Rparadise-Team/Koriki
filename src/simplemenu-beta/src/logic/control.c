@@ -779,44 +779,84 @@ void performScreenSettingsChoosingAction() {
 		if (chosenSetting==LUMINATION_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (luminationValue>0) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("lumination");
 					luminationValue-=1;
+					value = (get+35)-1;
+					Luma(0, value);
 				}
 			} else {
 				if (luminationValue<COLOR_MAX_VALUE) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("lumination");
 					luminationValue+=1;
+					value = (get+35)+1;
+					Luma(0, value);
 				}
 			}
 			setSystemValue("lumination", luminationValue);
 		} else if (chosenSetting==HUE_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (hueValue>0) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("hue");
 					hueValue-=1;
+					value = (get*5)-5;
+					Hue(0, value);
 				}
 			} else {
 				if (hueValue<COLOR_MAX_VALUE) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("hue");
 					hueValue+=1;
+					value = (get*5)+5;
+					Hue(0, value);
 				}
 			}
 			setSystemValue("hue", hueValue);
 		} else if (chosenSetting==SATURATION_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (saturationValue>0) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("saturation");
 					saturationValue-=1;
+					value = (get*5)-5;
+					Saturation(0, value);
 				}
 			} else {
 				if (saturationValue<COLOR_MAX_VALUE) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("saturation");
 					saturationValue+=1;
+					value = (get*5)+5;
+					Saturation(0, value);
 				}
 			}
 			setSystemValue("saturation", saturationValue);
 		} else if (chosenSetting==CONTRAST_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (contrastValue>0) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("contrast");
 					contrastValue-=1;
+					value = ((get*2)+30)-2;
+					Contrast(0, value);
 				}
 			} else {
 				if (contrastValue<COLOR_MAX_VALUE) {
+					int value = 0;
+					int get = 0;
+					get = getCurrentSystemValue("contrast");
 					contrastValue+=1;
+					value = ((get*2)+30)+2;
+					Contrast(0, value); 
 				}
 			}
 			setSystemValue("contrast", contrastValue);

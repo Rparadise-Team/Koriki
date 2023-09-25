@@ -23,4 +23,8 @@ int getCurrentSystemValue(char const *key);
 void setSystemValue(char const *key, int value);
 void startmusic();
 void stopmusic();
+void Luma(int dev, int value);
+void Hue(int dev, int value);
+void Saturation(int dev, int value);
+void Contrast(int dev, int value);
 #endif
