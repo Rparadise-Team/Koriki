@@ -1223,6 +1223,34 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
 	drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(42), 0, 0, headerAndFooterBackground);
 	drawTextOnSettingsHeaderLeftWithColor(title,headerAndFooterText);
 
+	#if defined MIYOOMINI
+    if (strcmp(title, "SCREEN SETTINGS") == 0) {
+    int squareWidth = 64;
+    int squareHeight = 40;
+    int squareSpacing = 10;
+
+    int startX = 20;
+    int startY = 390;
+
+    int colors[8][3] = {
+        {255, 0, 0},
+        {0, 255, 0},
+        {0, 0, 255},
+        {255, 255, 0},
+        {0, 255, 255},
+        {255, 0, 255},
+        {255, 255, 255},
+        {0, 0, 0}
+    };
+
+    for (int i = 0; i < 8; i++) {
+        int color[3] = { colors[i][0], colors[i][1], colors[i][2] };
+        drawRectangleToScreen(squareWidth, squareHeight, startX, startY, color);
+        startX += squareWidth + squareSpacing;
+	}
+	}
+    #endif
+	
 	drawBatteryMeter();
 
 	int nextLine = calculateProportionalSizeOrDistance1(50);
@@ -1362,22 +1390,22 @@ void setupScreenSettings() {
     options[0]="Lumination ";
 	values[0]=malloc(100);
 	sprintf(values[0], "%d", luminationValue);
-	hints[0] = "REBOOT TO APPLY AFTER CHANGING";
+	hints[0] = "CHANGE THE LUMINATION";
 
     options[1]="Hue ";
 	values[1]=malloc(100);
 	sprintf(values[1], "%d", hueValue);
-	hints[1] = "REBOOT TO APPLY AFTER CHANGING";
+	hints[1] = "CHANGE THE COLOR";
 
     options[2]="Saturation ";
 	values[2]=malloc(100);
 	sprintf(values[2], "%d", saturationValue);
-	hints[2] = "REBOOT TO APPLY AFTER CHANGING";
+	hints[2] = "CHANGE THE SATURATION";
 
     options[3]="Contrast ";
 	values[3]=malloc(100);
 	sprintf(values[3], "%d", contrastValue);
-	hints[3] = "REBOOT TO APPLY AFTER CHANGING";
+	hints[3] = "CHANGE THE CONTRAST";
 }
 #endif
 
@@ -1712,7 +1740,7 @@ void updateScreen(struct Node *node) {
             case SCREEN_SETTINGS:
 				clearOptionsValuesAndHints();
 				setupScreenSettings();
-				drawSpecialScreen("SCREEN", options, values, hints, 1);
+				drawSpecialScreen("SCREEN SETTINGS", options, values, hints, 1);
 				break;
 #endif
 			case CHOOSING_GROUP:
