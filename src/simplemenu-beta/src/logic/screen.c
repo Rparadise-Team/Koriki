@@ -1225,12 +1225,12 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
 
 	#if defined MIYOOMINI
     if (strcmp(title, "SCREEN SETTINGS") == 0) {
-    int squareWidth = 64;
-    int squareHeight = 40;
+    int squareWidth = (((640-26)+10)/8)-10;
+    int squareHeight = 32;
     int squareSpacing = 10;
 
-    int startX = 20;
-    int startY = 390;
+    int startX = 13;
+    int startY = 402;
 
     int colors[8][3] = {
         {255, 0, 0},
@@ -1240,7 +1240,7 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
         {0, 255, 255},
         {255, 0, 255},
         {255, 255, 255},
-        {0, 0, 0}
+        {125, 125, 125}
     };
 
     for (int i = 0; i < 8; i++) {
