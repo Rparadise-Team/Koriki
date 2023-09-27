@@ -382,6 +382,9 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	SDL_ShowCursor(1);
 	stopmusic();
 	freeResources();
+	#ifndef TARGET_OD_BETA
+	resetFrameBuffer1();
+	#endif
 
 	if(consoleApp) {
 		execlp("./invoker.dge", "invoker.dge", emulatorFolder, exec,
