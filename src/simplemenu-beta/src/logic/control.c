@@ -978,6 +978,8 @@ void performSystemSettingsChoosingAction() {
             setSystemValue("audiofix", audioFix);
 		 	Fix = getCurrentSystemValue("audiofix");
 		 	if (Fix == 1) {
+				int brightness = 0;
+	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
 					system("/mnt/SDCARD/Koriki/bin/audioserver &");
@@ -989,9 +991,10 @@ void performSystemSettingsChoosingAction() {
 					system("sync");
 				}
 				startmusic();
+				setBrightness(brightness);
 			} else if (Fix == 0) {
 				int brightness = 0;
-	            brightness = getCurrentBrightness();
+	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
 					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
