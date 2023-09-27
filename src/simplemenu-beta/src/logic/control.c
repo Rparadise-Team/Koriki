@@ -191,6 +191,15 @@ void launchAutoStartGame(struct Rom *rom, char *emuDir, char *emuExec) {
 	}
 	logMessage("INFO","launchAutoStartGame","Saving last state");
 	saveLastState();
+	#if defined MIYOOMINI
+	if (CURRENT_SECTION.onlyFileNamesNoExtension) {
+		logMessage("INFO","launchAutoStartGame","Executing");
+		executeCommand(emuDir, emuExec, getGameName(rom->name), rom->isConsoleApp);
+	} else {
+		logMessage("INFO","launchAutoStartGame","Executing 2");
+		executeCommand(emuDir, emuExec, rom->name, rom->isConsoleApp);
+	}
+	#else
 	int freq = rom->preferences.frequency;
 	//if it's not the base clock freq
 	if (freq!=OC_NO) {
@@ -210,6 +219,7 @@ void launchAutoStartGame(struct Rom *rom, char *emuDir, char *emuExec) {
 		logMessage("INFO","launchAutoStartGame","Executing 2");
 		executeCommand(emuDir, emuExec, rom->name, rom->isConsoleApp, rom->preferences.frequency);
 	}
+	#endif
 }
 
 void launchGame(struct Rom *rom) {
@@ -230,6 +240,9 @@ void launchGame(struct Rom *rom) {
 			generateError(error,0);
 			return;
 		}
+		#if defined MIYOOMINI
+		executeCommand(favorite.emulatorFolder,favorite.executable,favorite.name, favorite.isConsoleApp);
+    	#else
 		int freq = favorite.frequency;
 		//if it's not the base clock freq
 		if (freq!=OC_NO) {
@@ -241,8 +254,11 @@ void launchGame(struct Rom *rom) {
 			}
 		}
 		executeCommand(favorite.emulatorFolder,favorite.executable,favorite.name, favorite.isConsoleApp, favorite.frequency);
+		#endif
 	} else if (rom->name!=NULL) {
 		loadRomPreferences(rom);
+		#if defined MIYOOMINI
+		#else
 		int freq = rom->preferences.frequency;
 		//if it's not the base clock freq
 		if (freq!=OC_NO) {
@@ -255,6 +271,7 @@ void launchGame(struct Rom *rom) {
 				saveRomPreferences(rom);
 			}
 		}
+		#endif
 		if (isLaunchAtBoot(rom->name)) {
 			setRunningFlag();
 		}
@@ -271,17 +288,28 @@ void launchGame(struct Rom *rom) {
 			generateError(error,0);
 			return;
 		}
+		#if defined MIYOOMINI
+		if (CURRENT_SECTION.onlyFileNamesNoExtension) {
+			executeCommand(CURRENT_SECTION.emulatorDirectories[rom->preferences.emulatorDir], CURRENT_SECTION.executables[rom->preferences.emulator],getGameName(rom->name), rom->isConsoleApp);
+		} else {
+			executeCommand(CURRENT_SECTION.emulatorDirectories[rom->preferences.emulatorDir], CURRENT_SECTION.executables[rom->preferences.emulator],rom->name, rom->isConsoleApp);
+		}
+		#else
 		if (CURRENT_SECTION.onlyFileNamesNoExtension) {
 			executeCommand(CURRENT_SECTION.emulatorDirectories[rom->preferences.emulatorDir], CURRENT_SECTION.executables[rom->preferences.emulator],getGameName(rom->name), rom->isConsoleApp, rom->preferences.frequency);
 		} else {
 			executeCommand(CURRENT_SECTION.emulatorDirectories[rom->preferences.emulatorDir], CURRENT_SECTION.executables[rom->preferences.emulator],rom->name, rom->isConsoleApp, rom->preferences.frequency);
 		}
+		#endif
 	}
 }
 
 void launchEmulator(struct Rom *rom) {
 	if (isFavoritesSectionSelected() && favoritesSize > 0) {
 		struct Favorite favorite = favorites[CURRENT_GAME_NUMBER];
+		#if defined MIYOOMINI
+		executeCommand(favorite.emulatorFolder,favorite.executable,"*", favorite.isConsoleApp);
+		#else
 		int freq = favorite.frequency;
 		//if it's not the base clock freq
 		if (freq!=OC_NO) {
@@ -293,8 +321,12 @@ void launchEmulator(struct Rom *rom) {
 			}
 		}
 		executeCommand(favorite.emulatorFolder,favorite.executable,"*", favorite.isConsoleApp, favorite.frequency);
+		#endif
 	} else if (rom->name!=NULL) {
 		loadRomPreferences(rom);
+		#if defined MIYOOMINI
+		executeCommand(CURRENT_SECTION.emulatorDirectories[CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir], CURRENT_SECTION.executables[CURRENT_SECTION.currentGameNode->data->preferences.emulator],"*", 0);
+		#else
 		int freq = rom->preferences.frequency;
 		//if it's not the base clock freq
 		if (freq!=OC_NO) {
@@ -308,6 +340,7 @@ void launchEmulator(struct Rom *rom) {
 			}
 		}
 		executeCommand(CURRENT_SECTION.emulatorDirectories[CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir], CURRENT_SECTION.executables[CURRENT_SECTION.currentGameNode->data->preferences.emulator],"*", 0, rom->preferences.frequency);
+		#endif
 	}
 }
 
@@ -1242,7 +1275,6 @@ void performSettingsChoosingAction() {
 			clearTimer();
 			clearPicModeHideLogoTimer();
 			clearPicModeHideMenuTimer();
-			stopmusic();
 			freeResources();
 			execlp("./simplemenu","invoker",NULL);
 		}

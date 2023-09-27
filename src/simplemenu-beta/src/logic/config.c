@@ -1471,8 +1471,11 @@ void saveLastState() {
 	fprintf(fp, "%d;\n", activeGroup);
 	fprintf(fp, "%d;\n", currentSectionNumber);
 	fprintf(fp, "%d;\n", currentMode);
+	#if defined MIYOOMINI
+    #else
 	fprintf(fp, "%d;\n", OCValue);
 	fprintf(fp, "%d;\n", sharpnessValue);
+	#endif
 	for(int groupCount=0;groupCount<sectionGroupCounter;groupCount++) {
 		int sectionsNum=countSections(sectionGroups[groupCount].groupPath);
 		for (int sectionCount=0;sectionCount<=sectionsNum;sectionCount++) {
@@ -1516,8 +1519,11 @@ void loadLastState() {
 	int groupCounter=-1;
 	int savedVersion=-1;
 	int itemsRead=-1;
+	#if defined MIYOOMINI
+    #else
 	int OCValueRead=-1;
 	int sharpnessValueRead=-1;
+    #endif
 	while ((read = getline(&line, &len, fp)) != -1) {
 		ptr = strtok(line, ";");
 		int i=0;
@@ -1554,10 +1560,13 @@ void loadLastState() {
 			startInSection=atoifgl(configurations[0]);
 		} else if (itemsRead==-1) {
 			itemsRead=atoifgl(configurations[0]);
+		#if defined MIYOOMINI
+        #else
 		} else if (OCValueRead==-1) {
 			OCValueRead=atoifgl(configurations[0]);
 		} else if (sharpnessValueRead==-1) {
 			sharpnessValueRead=atoifgl(configurations[0]);
+		#endif
 		} else {
 			if(atoifgl(configurations[1])==0) {
 				groupCounter++;
@@ -1591,8 +1600,11 @@ void loadLastState() {
 	currentSectionNumber=startInSection;
 	activeGroup = startInGroup;
 	currentMode=itemsRead;
+	#if defined MIYOOMINI
+    #else
 	OCValue=OCValueRead;
 	sharpnessValue=sharpnessValueRead;
+	#endif
 	fclose(fp);
 	if (line) {
 		free(line);

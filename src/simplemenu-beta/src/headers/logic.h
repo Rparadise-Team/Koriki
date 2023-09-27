@@ -3,7 +3,11 @@
 #define LOGIC
 void generateError(char *pErrorMessage, int pThereIsACriticalError);
 void quit();
+#if defined MIYOOMINI
+void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecutedWithFullPath, int consoleApp);
+#else
 void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecutedWithFullPath, int consoleApp, int frequency);
+#endif
 void loadGameList(int refresh);
 void loadFavoritesSectionGameList();
 int countFiles (char* directoryName, char *fileExtensions);

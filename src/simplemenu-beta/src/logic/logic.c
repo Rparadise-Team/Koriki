@@ -337,6 +337,62 @@ void resetFrameBuffer1() {
 	}
 }
 
+#if defined MIYOOMINI
+void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecutedWithFullPath, int consoleApp) {
+	FILE *fp;
+	char *exec = malloc(strlen(executable) + 5000);
+	strcpy(exec, executable);
+	char *fileToBeExecutedWithFullPath1 = malloc(strlen(fileToBeExecutedWithFullPath) + 10);
+	if(consoleApp) {
+		if(strstr(fileToBeExecutedWithFullPath,"opk")==NULL) {
+			strcpy(fileToBeExecutedWithFullPath1, "sh -c ");
+		} else {
+			strcpy(fileToBeExecutedWithFullPath1, "");
+		}
+		strcat(fileToBeExecutedWithFullPath1, fileToBeExecutedWithFullPath);
+	}
+	#ifndef TARGET_OD_BETA
+	unsetenv("SDL_FBCON_DONT_CLEAR");
+	#endif
+	char pReturnTo[3];
+	snprintf(pReturnTo, sizeof(pReturnTo), "%d;", returnTo);
+	char pSectionNumber[3] = "";
+	char pPictureMode[2] = "";
+	snprintf(pSectionNumber, sizeof(pSectionNumber), "%d",
+			currentSectionNumber);
+	snprintf(pPictureMode, sizeof(pPictureMode), "%d", fullscreenMode);
+	saveLastState();
+
+	saveFavorites();
+	clearTimer();
+	clearPicModeHideLogoTimer();
+	clearBatteryTimer();
+
+	logMessage("INFO", "executeCommand", "Launching Game");
+
+	fp = fopen("/sys/class/graphics/fb0/device/allow_downscaling", "w");
+	if (fp != NULL) {
+		fprintf(fp, "%d", 1);
+		fclose(fp);
+	}
+
+	logMessage("INFO", "executeCommand", emulatorFolder);
+	logMessage("INFO", "executeCommand", exec);
+	logMessage("INFO", "executeCommand", fileToBeExecutedWithFullPath);
+	SDL_ShowCursor(1);
+	stopmusic();
+	freeResources();
+
+	if(consoleApp) {
+		execlp("./invoker.dge", "invoker.dge", emulatorFolder, exec,
+				fileToBeExecutedWithFullPath1, NULL);
+	} else {
+		execlp("./invoker.dge", "invoker.dge", emulatorFolder, exec,
+				fileToBeExecutedWithFullPath, NULL);
+	}
+
+}
+#else
 void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecutedWithFullPath, int consoleApp, int frequency) {
 	FILE *fp;
 	char *exec = malloc(strlen(executable) + 5000);
@@ -402,7 +458,6 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	logMessage("INFO", "executeCommand", exec);
 	logMessage("INFO", "executeCommand", fileToBeExecutedWithFullPath);
 	SDL_ShowCursor(1);
-	stopmusic();
 	freeResources();
 #ifndef TARGET_OD_BETA
 	resetFrameBuffer1();
@@ -439,6 +494,7 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	}
 
 }
+#endif
 
 int isExtensionValid(char *extension, char *fileExtensions) {
 	char fileExtensionsCopy[200];

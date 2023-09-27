@@ -82,8 +82,11 @@ void initialSetup(int w, int h) {
 	#endif
 	createConfigFilesInHomeIfTheyDontExist();
 	loadConfig();
+	#if defined MIYOOMINI
+	#else
 	OCValue = OC_OC_LOW;
 	sharpnessValue=8;
+    #endif
 	initializeDisplay(w,h);
 	freeFonts();
 	initializeFonts();
@@ -91,12 +94,18 @@ void initialSetup(int w, int h) {
 	createThemesInHomeIfTheyDontExist();
 	checkThemes();
 	loadLastState();
+    #if defined MIYOOMINI
+    #else
 	char temp[100];
 	sprintf(temp,"SDL_VIDEO_KMSDRM_SCALING_SHARPNESS=%i",sharpnessValue);
 	SDL_putenv(temp);
+    #endif
 //	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_NOFRAME|SDL_SWSURFACE);
 	HW_Init();
+	#if defined MIYOOMINI
+    #else
 	currentCPU = OC_NO;
+	#endif
 #ifndef TARGET_OD_BETA
 	logMessage("INFO","initialSetup","Setting CPU to base");
 	setCPU(currentCPU);

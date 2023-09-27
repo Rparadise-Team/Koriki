@@ -702,9 +702,12 @@ void showRomPreferences() {
 	char *emuName = malloc(strlen(CURRENT_SECTION.executables[CURRENT_SECTION.currentGameNode->data->preferences.emulator])+1);
 	strcpy(emuName,CURRENT_SECTION.executables[CURRENT_SECTION.currentGameNode->data->preferences.emulator]);
 	strcat(emuName,"\0");
-
+    
+    #if defined MIYOOMINI
+    #else
 	char *frequency = malloc(10);
 	snprintf(frequency, 10, "%d", CURRENT_SECTION.currentGameNode->data->preferences.frequency);
+    #endif
 
 	int width=calculateProportionalSizeOrDistance1(315);
 	int height = calculateProportionalSizeOrDistance1(72);
@@ -735,6 +738,8 @@ void showRomPreferences() {
 #if defined MIYOOMINI
 	TTF_SizeUTF8(font, (const char *) "Autostart: " , &textWidth, NULL);
 	textWidth+=calculateProportionalSizeOrDistance1(2);
+
+    drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2)-width/2+calculateProportionalSizeOrDistance1(4), (SCREEN_HEIGHT/2)-calculateProportionalSizeOrDistance1(9), "Set options for the game", textColor, VAlignMiddle | HAlignLeft, (int[]){}, 0);
 #else
 	TTF_SizeUTF8(font, (const char *) "Overclock: " , &textWidth, NULL);
 	textWidth+=calculateProportionalSizeOrDistance1(2);
