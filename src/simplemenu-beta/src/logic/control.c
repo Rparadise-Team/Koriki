@@ -982,13 +982,18 @@ void performSystemSettingsChoosingAction() {
 	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
-					system("/mnt/SDCARD/Koriki/bin/audioserver &");
-					system("export LD_PRELOAD=/customer/lib/libpadsp.so");
+					char command [300];
+					snprintf(command, sizeof(command), "/mnt/SDCARD/Koriki/bin/audioserver &");
+					system(command);
+					setenv("LD_PRELOAD", "/customer/lib/libpadsp.so", 1);
 				} else {
-					system("/mnt/SDCARD/Koriki/bin/audioserver &");
-					system("export LD_PRELOAD=/customer/lib/libpadsp.so");
-					system("touch /tmp/audioserver_on");
-					system("sync");
+					char command [300];
+					char command2 [300];
+					snprintf(command, sizeof(command), "/mnt/SDCARD/Koriki/bin/audioserver &");
+					snprintf(command2, sizeof(command2), "touch /tmp/audioserver_on && sync");
+					system(command);
+					system(command2);
+					setenv("LD_PRELOAD", "/customer/lib/libpadsp.so", 1);
 				}
 				startmusic();
 				setBrightness(brightness);
@@ -997,15 +1002,15 @@ void performSystemSettingsChoosingAction() {
 	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
-					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
-					system("killall audioserver && killall audioserver.min");
-					system("unset LD_PRELOAD");
+					char command [300];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min");
+					system(command);
+					unsetenv("LD_PRELOAD");
 				} else {
-					system("unset LD_PRELOAD=/customer/lib/libpadsp.so");
-					system("killall audioserver && killall audioserver.plu");
-					system("unset LD_PRELOAD");
-					system("rm /tmp/audioserver_on");
-					system("sync");
+					char command [300];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync");
+					system(command);
+					unsetenv("LD_PRELOAD");
 				}
 				startmusic();
 				setBrightness(brightness);
