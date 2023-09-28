@@ -669,11 +669,9 @@ void killRetroArch() {
     
     fp = popen("pgrep retroarch", "r");
     
-    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
         int retroarch_pid = atoi(buffer);
-        char command[128];
-        snprintf(command, sizeof(command), "kill -9 %d", retroarch_pid);
-        system(command);
+        kill(retroarch_pid, SIGTERM);
     }
     
     pclose(fp);
