@@ -42,6 +42,7 @@ Para compilar se ha utilizado el toolchain de @shauninman que puede encontrarse 
 * Fuentes: https://github.com/libretro/RetroArch/releases/tag/v1.10.3
 * Diff patch: https://www.dropbox.com/sh/hqcsr1h1d7f8nr3/AAALUUX82Tk4USboNHAUBxDNa/RetroArch_Dingux_forMiyooMini_220525.zip?dl=0
 * Ubicación del binario final: `RetroArch/retroarch`
+* puedes descargar los cores actualizados en: https://rparadise-team.github.io/Koriki/
 
 #### audioserver (para Miyoo Mini, no para Miyoo Mini+)
 
