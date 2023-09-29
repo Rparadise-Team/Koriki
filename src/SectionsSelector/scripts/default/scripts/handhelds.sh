@@ -23,7 +23,7 @@ romExts = .gba,.zip,.7z
 scaling = 1
 
 [GAME & WATCH]
-execs = /mnt/SDCARD/.simplemenu/launchers/gw_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gw_libretro,/mnt/SDCARD/.simplemenu/launchers/gw_miyoo_libretro
 romDirs = /mnt/SDCARD/Roms/GW/
 romExts = .mgw,.zip,.7z
 scaling = 1

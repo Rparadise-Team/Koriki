@@ -81,7 +81,7 @@ romDirs = /mnt/SDCARD/Roms/SCUMMVM/
 romExts = .scummvm
 
 [X68000]
-execs = /mnt/SDCARD/.simplemenu/launchers/px68k_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/px68k_libretro,/mnt/SDCARD/.simplemenu/launchers/px68k_miyoo_libretro
 romDirs = /mnt/SDCARD/Roms/X68000/
 romExts = .dim,.zip,.img,.d88,.88d,.hdm,.dup,.2hd,.xdf,.hdf,.cmd,.m3u,.7z
 EOF
