@@ -37,6 +37,7 @@
 
 #define CPUSAVE "/mnt/SDCARD/.simplemenu/cpu.sav"
 #define GOVSAVE "/mnt/SDCARD/.simplemenu/governor.sav"
+#define SPEEDSAVE "/mnt/SDCARD/.simplemenu/speed.sav"
 
 #define BRIMAX		10
 #define BRIMIN		1
@@ -249,6 +250,15 @@ int getVolume() {
 			close(fd);
 			}
 		} else if (audiofix == 0) {
+			if (fd >= 0) {
+			   int buf2[] = {0, 0};
+			   uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+			   ioctl(fd, MI_AO_GETVOLUME, buf1);
+			   recent_volume = ((vol * 3) - 60);
+			   buf2[1] = recent_volume;
+			   ioctl(fd, MI_AO_SETVOLUME, buf1);
+			   close(fd);
+			}
 			char command[100];
 			int tiny;
 			tiny = (vol * 3) + 40;
@@ -336,12 +346,35 @@ void modifyBrightness(int inc) {
 	}
 }
 
+int isDrasticRunning()
+{
+	FILE *fp;
+	char buffer[128];
+	const char *cmd = "pgrep drastic";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep drastic'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 void setcpu(int cpu) {
 	if (cpu == 0) {
 		FILE *file0;
 		FILE *file1;
+		FILE *file2;
 		char cpuValue[10];
 		char govValue[20];
+		char speedValue[30];
 		
 		file0 = fopen(CPUSAVE, "r");
 		 if (file0 == NULL) {
@@ -359,11 +392,22 @@ void setcpu(int cpu) {
 			 file1 = fopen(GOVSAVE, "r");
         }
 		
+		file2 = fopen(SPEEDSAVE, "r");
+		 if (file2 == NULL) {
+			 file2 = fopen(SPEEDSAVE, "w");
+			 fprintf(file2, "<unsupported>");
+			 fclose(file2);
+			 file2 = fopen(SPEEDSAVE, "r");
+        }
+		
 		fgets(cpuValue, sizeof(cpuValue), file0);
 		fclose(file0);
 		
 		fgets(govValue, sizeof(govValue), file1);
 		fclose(file1);
+		
+		fgets(speedValue, sizeof(speedValue), file2);
+		fclose(file2);
 		
 		FILE *cpuFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
 		fprintf(cpuFile, "%s", cpuValue);
@@ -372,6 +416,14 @@ void setcpu(int cpu) {
 		FILE *govFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "w");
 		fprintf(govFile, "%s", govValue);
 		fclose(govFile);
+		
+		if (isDrasticRunning() == 1) {
+			char command[100];
+			int speed;
+			speed = 1600;
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
+			system(command);
+		}
 
         system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
 		
@@ -389,6 +441,11 @@ void setcpu(int cpu) {
 		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
 		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 		system("echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+		system("sync");
+	} else if (cpu == 4) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed /mnt/SDCARD/.simplemenu/speed.sav");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
 		system("sync");
 	}
 }
@@ -758,6 +815,10 @@ int main (int argc, char *argv[]) {
 								setcpu(3);
 							} else if (isRetroarchRunning() == 1) {
 								setcpu(2);
+							} else if (isDrasticRunning() == 1) {
+								setcpu(4);
+								keyinput_send(1, 2);
+			                    keyinput_send(1, 1);
 							} else {
 							setcpu(1);
 							}
@@ -843,6 +904,10 @@ int main (int argc, char *argv[]) {
 		
 		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed) {
 			killRetroArch();
+		}
+		
+		if (isDrasticRunning() == 1) {
+		getVolume();
 		}
 		
 		if (shutdown) {
