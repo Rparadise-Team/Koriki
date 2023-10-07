@@ -87,7 +87,7 @@ int setVolumeRaw(int volume, int add) {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -201,7 +201,7 @@ int getVolume() {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -300,7 +300,7 @@ void modifyBrightness(int inc) {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -349,7 +349,7 @@ void modifyBrightness(int inc) {
 int isDrasticRunning()
 {
 	FILE *fp;
-	char buffer[128];
+	char buffer[64];
 	const char *cmd = "pgrep drastic";
     
 	fp = popen(cmd, "r");
@@ -373,8 +373,8 @@ void setcpu(int cpu) {
 		FILE *file1;
 		FILE *file2;
 		char cpuValue[10];
-		char govValue[20];
-		char speedValue[30];
+		char govValue[15];
+		char speedValue[15];
 		
 		file0 = fopen(CPUSAVE, "r");
 		 if (file0 == NULL) {
@@ -418,7 +418,7 @@ void setcpu(int cpu) {
 		fclose(govFile);
 		
 		if (isDrasticRunning() == 1) {
-			char command[100];
+			char command[64];
 			int speed;
 			speed = 1600;
 			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
@@ -460,7 +460,7 @@ void setmute(int mute) {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -530,7 +530,7 @@ void sethibernate(int hibernate) {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -636,7 +636,7 @@ void keymulti_send(int code1, int mode1, int code2, int mode2)
 int isRetroarchRunning()
 {
 	FILE *fp;
-	char buffer[128];
+	char buffer[64];
 	const char *cmd = "pgrep retroarch";
     
 	fp = popen(cmd, "r");
@@ -657,7 +657,7 @@ int isRetroarchRunning()
 int isGMERunning()
 {
 	FILE *fp;
-	char buffer[128];
+	char buffer[64];
 	const char *cmd = "pgrep gme_player";
     
 	fp = popen(cmd, "r");
@@ -678,7 +678,7 @@ int isGMERunning()
 int isGMURunning()
 {
 	FILE *fp;
-	char buffer[128];
+	char buffer[64];
 	const char *cmd = "pgrep gmu.bin";
     
 	fp = popen(cmd, "r");
@@ -722,7 +722,7 @@ void display_setScreen(int value) {
 
 void killRetroArch() {
     FILE *fp;
-    char buffer[128];
+    char buffer[64];
     
     fp = popen("pgrep retroarch", "r");
     
@@ -756,7 +756,7 @@ int main (int argc, char *argv[]) {
 		if (!pipe) {
 			settings_file = "/appconfigs/system.json";
 		} else {
-			char buffer[128];
+			char buffer[64];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
