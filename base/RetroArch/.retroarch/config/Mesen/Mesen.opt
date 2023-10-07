@@ -1,5 +1,5 @@
 mesen_aspect_ratio = "Auto"
-mesen_audio_sample_rate = "96000"
+mesen_audio_sample_rate = "48000"
 mesen_controllerturbospeed = "Fast"
 mesen_disable_noise_mode_flag = "disabled"
 mesen_fake_stereo = "disabled"
