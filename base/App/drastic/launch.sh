@@ -1,5 +1,5 @@
 #!/bin/sh
-mydir=`dirname "$0"`
+mydir=$(dirname "$0")
 
 export HOME=$mydir
 export PATH=$mydir:$PATH
@@ -18,7 +18,7 @@ if [ "$CUST_LOGO" == "1" ]; then
     ./png2raw
 fi
 
-sv=`cat /proc/sys/vm/swappiness`
+sv=$(cat /proc/sys/vm/swappiness)
 
 # 60 by default
 echo 10 > /proc/sys/vm/swappiness
@@ -26,14 +26,22 @@ echo 10 > /proc/sys/vm/swappiness
 cd $mydir
 
 if [ "$CUST_CPUCLOCK" == "1" ]; then
+    original_hash="31ce3cabafb9bc629a7c694a6ae976554819c9a4789f2cb428abde3bc081abd0"
+    current_hash=$(sha256sum "/mnt/SDCARD/Koriki/bin/cpuclock" | awk '{print $1}')
+
+    if [ "$original_hash" != "$current_hash" ]; then
+        echo "Error: cpuclock has been modified"
+        exit 1
+    fi
+
     echo "set customized cpuspeed"
-    /mnt/SDCARD/Koriki/bin/cpuclock 1600
+    /mnt/SDCARD/Koriki/bin/cpuclock 1500
 fi
 
 ./drastic "$1"
 
 if [ "$CUST_CPUCLOCK" == "1" ]; then
-    echo "set customized cpuspeed"
+    echo "reset customized cpuspeed"
     /mnt/SDCARD/Koriki/bin/cpuclock 1200
 fi
 
