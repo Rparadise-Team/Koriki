@@ -1,0 +1,1426 @@
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:    30384128 Bytes (    28 MB )
+ Used Ram:     4321792 Bytes (     4 MB )
+
+debug:nativeWidth, nativeHeight, bpp, Hz  0, 0, 0, 0
+OpenBoR v4.0 Build 0 (commit hash: b00efbc), Compile Date: Apr 22 2022
+
+Game Selected: /mnt/SDCARD/Emu/openbor/../../Roms/OpenBOR/TMNT 1.1.2.pak
+
+FileCaching System Init......	Enabled
+Initializing video............
+Reading video settings from 'data/video.txt'.
+
+Colordepth is depreciated. All modules are displayed with a 32bit color screen.
+
+Initialized video.............	320x240 (Mode: 0)
+
+Loading menu.txt.............	Done!
+Loading fonts................	1 2 3 4 5 6 7 8 Done!
+Timer init...................	Done!
+Initialize Sound..............	
+Loading sprites..............	Done!
+Loading level order..........	
+Command 'noslow' not understood in level order!
+Command 'noslow' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '----------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '----------------------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Command '-------------------' not understood in level order!
+Done!
+Loading model constants......	Done!
+Loading script settings......	Done!
+Loading scripts..............	Done!
+Loading models...............
+
+Warning: Unknown command in lifebar.txt: 'colormagic25'.
+Warning: Unknown command in lifebar.txt: 'colormagic50'.
+Warning: Unknown command in lifebar.txt: 'colormagic100'.
+Warning: Unknown command in lifebar.txt: 'colormagic200'.
+Warning: Unknown command in lifebar.txt: 'colormagic300'.
+Warning: Unknown command in lifebar.txt: 'colormagic400'.
+Warning: Unknown command in lifebar.txt: 'colormagic500'.
+Warning: Unknown command in lifebar.txt: 'colormagic25'.
+Warning: Unknown command in lifebar.txt: 'colormagic50'.
+Warning: Unknown command in lifebar.txt: 'colormagic100'.
+Warning: Unknown command in lifebar.txt: 'colormagic200'.
+Warning: Unknown command in lifebar.txt: 'colormagic300'.
+Warning: Unknown command in lifebar.txt: 'colormagic400'.
+Warning: Unknown command in lifebar.txt: 'colormagic500'.
+Cacheing 'Flash' from data/chars/misc/flash.txt
+Cacheing 'Flashnone' from data/chars/misc/flashnone.txt
+Cacheing 'spark' from data/chars/misc/spark/spark.txt
+Cacheing 'flash_blob' from data/chars/misc/flash_blob.txt
+Cacheing 'LEO' from data/chars/leo/leo.txt
+Cacheing 'MIKE' from data/chars/Mike/Mike.txt
+Cacheing 'DON' from data/chars/don/don.txt
+Cacheing 'RAPH' from data/chars/raph/raph.txt
+Cacheing 'SPLIN' from data/chars/splinter/splinter.txt
+Cacheing 'APRIL' from data/chars/april/april.txt
+Cacheing 'IRMA' from data/chars/irma/irma.txt
+Cacheing 'burne' from data/chars/burne/burne.txt
+Cacheing 'vernon' from data/chars/vernon/vernon.txt
+Cacheing 'CASEY' from data/chars/casey/casey.txt
+Cacheing 'USAGI' from data/chars/usagi/usagi.txt
+Cacheing 'M_HEAD' from data/chars/metalhead/metalhead.txt
+Cacheing 'ace' from data/chars/ace/ace.txt
+Cacheing 'GENG' from data/chars/punk_frogs/GENGHIS/GENGHIS.txt
+Cacheing 'rasp' from data/chars/punk_frogs/rasputin/rasputin.txt
+Cacheing 'napol' from data/chars/punk_frogs/napoleon/napoleon.txt
+Cacheing 'atill' from data/chars/punk_frogs/atilla/atilla.txt
+Cacheing 'zak' from data/chars/neutrinos/zak/zak.txt
+Cacheing 'kala' from data/chars/neutrinos/kala/kala.txt
+Cacheing 'dask' from data/chars/neutrinos/dask/dask.txt
+Cacheing 'mondo' from data/chars/mondo/mondo.txt
+Cacheing 'lotus' from data/chars/lotus/lotus.txt
+Cacheing 'zach' from data/chars/zach/zach.txt
+Cacheing 'MUCK' from data/chars/muckman/muckman.txt
+Cacheing 'ray' from data/chars/ray/ray.txt
+Cacheing 'FUGI' from data/chars/fugitoid/fugitoid.txt
+Cacheing 'wing' from data/chars/wingnut/wingnut.txt
+Cacheing 'ASKA' from data/chars/ASKA/ASKA.txt
+Cacheing 'H_HEAD' from data/chars/hothead/hothead.txt
+Cacheing 'MONA' from data/chars/mona/mona.txt
+Cacheing 'ROCK' from data/chars/rocksteady/rocksteady.txt
+Cacheing 'bebop' from data/chars/bebop/bebop.txt
+Cacheing 'baxter' from data/chars/baxter_stockman/baxter.txt
+Cacheing 'r_king' from data/chars/rat_king/rat_king.txt
+Cacheing 'traag' from data/chars/traag/traag.txt
+Cacheing 'gran' from data/chars/granitor/granitor.txt
+Cacheing 'GRND' from data/chars/groundchuck/groundchuck.txt
+Cacheing 'DBAG' from data/chars/dirtbag/dirtbag.txt
+Cacheing 'TORA' from data/chars/tora/tora.txt
+Cacheing 'shogun' from data/chars/shogun/shogun.txt
+Cacheing 'SLASH' from data/chars/slash/slash.txt
+Cacheing 'p_face' from data/chars/pizzaface/p_face.txt
+Cacheing 'MECA' from data/chars/mecaturtle/mecaturtle.txt
+Cacheing 'lhead' from data/chars/leatherhead/leatherhead.txt
+Cacheing 'c_dome' from data/chars/chrome_dome/chrome_dome.txt
+Cacheing 'tokka' from data/chars/tokka/tokka.txt
+Cacheing 'rahzar' from data/chars/rahzar/rahzar.TXT
+Cacheing 'tatsu' from data/chars/tatsu/tatsu.TXT
+Cacheing 'antrax' from data/chars/antrax/antrax.txt
+Cacheing 'armag' from data/chars/armaggon/armaggon.txt
+Cacheing 'karai' from data/chars/karai/karai.txt
+Cacheing 'tric' from data/chars/triceraton/triceraton.txt
+Cacheing 'temp' from data/chars/tempestra/tempestra.txt
+Cacheing 's_tail' from data/chars/scale_tail/scale_tail.txt
+Cacheing 'scrat' from data/chars/scratch/scratch.txt
+Cacheing 'war' from data/chars/war/war.txt
+Cacheing 'c_shrd' from data/chars/c_shredder/cshredder.txt
+Cacheing 's_shrd' from data/chars/super_shredder/super_shredder.txt
+Cacheing 'krang' from data/chars/krang/normal/krang.txt
+Cacheing 'shred' from data/chars/shredder/shredder.txt
+Cacheing 'joinin_leo' from data/chars/misc/ending/join_in/joinin_leo.txt
+Cacheing 'joinin_mike' from data/chars/misc/ending/join_in/joinin_mike.txt
+Cacheing 'joinin_don' from data/chars/misc/ending/join_in/joinin_don.txt
+Cacheing 'joinin_raph' from data/chars/misc/ending/join_in/joinin_raph.txt
+Cacheing 'joinin_nomove' from data/chars/misc/ending/join_in/joinin_nomove.txt
+Cacheing 'leo_chopper' from data/chars/leo/leo_chopper.txt
+Cacheing 'mike_chopper' from data/chars/Mike/mike_chopper.txt
+Cacheing 'don_chopper' from data/chars/don/don_chopper.txt
+Cacheing 'raph_chopper' from data/chars/raph/raph_chopper.txt
+Cacheing 'splinter_chopper' from data/chars/splinter/splinter_chopper.txt
+Cacheing 'april_chopper' from data/chars/april/april_chopper.txt
+Cacheing 'irma_chopper' from data/chars/irma/irma_chopper.txt
+Cacheing 'usagi_chopper' from data/chars/usagi/usagi_chopper.txt
+Cacheing 'fugitoid_chopper' from data/chars/fugitoid/fugitoid_chopper.txt
+Cacheing 'genghis_chopper' from data/chars/punk_frogs/genghis/genghis_chopper.txt
+Cacheing 'rasputin_chopper' from data/chars/punk_frogs/rasputin/rasputin_chopper.txt
+Cacheing 'napoleon_chopper' from data/chars/punk_frogs/napoleon/napoleon_chopper.txt
+Cacheing 'atilla_chopper' from data/chars/punk_frogs/atilla/atilla_chopper.txt
+Cacheing 'muckman_chopper' from data/chars/muckman/muckman_chopper.txt
+Cacheing 'aska_chopper' from data/chars/aska/aska_chopper.txt
+Cacheing 'mona_chopper' from data/chars/mona/mona_chopper.txt
+Cacheing 'casey_chopper' from data/chars/casey/casey_chopper.txt
+Cacheing 'tatsu_chopper' from data/chars/tatsu/tatsu_chopper.txt
+Cacheing 'armaggon_chopper' from data/chars/armaggon/armaggon_chopper.txt
+Cacheing 'chrome_chopper' from data/chars/chrome_dome/chrome_chopper.txt
+Cacheing 'dbag_chopper' from data/chars/dirtbag/dbag_chopper.txt
+Cacheing 'granitor_chopper' from data/chars/granitor/granitor_chopper.txt
+Cacheing 'groundchuck_chopper' from data/chars/groundchuck/groundchuck_chopper.txt
+Cacheing 'hothead_chopper' from data/chars/hothead/hothead_chopper.txt
+Cacheing 'leatherhead_chopper' from data/chars/leatherhead/leatherhead_chopper.txt
+Cacheing 'meca_chopper' from data/chars/mecaturtle/meca_chopper.txt
+Cacheing 'rahzar_chopper' from data/chars/rahzar/rahzar_chopper.txt
+Cacheing 'rocksteady_chopper' from data/chars/rocksteady/rocksteady_chopper.txt
+Cacheing 'shogun_chopper' from data/chars/shogun/shogun_chopper.txt
+Cacheing 'slash_chopper' from data/chars/slash/slash_chopper.txt
+Cacheing 'tokka_chopper' from data/chars/tokka/tokka_chopper.txt
+Cacheing 'tora_chopper' from data/chars/tora/tora_chopper.txt
+Cacheing 'traag_chopper' from data/chars/traag/traag_chopper.txt
+Cacheing 'mhead_chopper' from data/chars/metalhead/mhead_chopper.txt
+Cacheing 'ace_chopper' from data/chars/ace/ace_chopper.txt
+Cacheing 'burne_chopper' from data/chars/burne/burne_chopper.txt
+Cacheing 'lotus_chopper' from data/chars/lotus/lotus_chopper.txt
+Cacheing 'mondo_chopper' from data/chars/mondo/mondo_chopper.txt
+Cacheing 'dask_chopper' from data/chars/neutrinos/dask/dask_chopper.txt
+Cacheing 'kala_chopper' from data/chars/neutrinos/kala/kala_chopper.txt
+Cacheing 'zak_chopper' from data/chars/neutrinos/zak/zak_chopper.txt
+Cacheing 'ray_chopper' from data/chars/ray/ray_chopper.txt
+Cacheing 'vernon_chopper' from data/chars/vernon/vernon_chopper.txt
+Cacheing 'wingnut_chopper' from data/chars/wingnut/wingnut_chopper.txt
+Cacheing 'zach_chopper' from data/chars/zach/zach_chopper.txt
+Cacheing 'antrax_chopper' from data/chars/antrax/antrax_chopper.txt
+Cacheing 'pizzaface_chopper' from data/chars/pizzaface/pizzaface_chopper.txt
+Cacheing 'rat_king_chopper' from data/chars/rat_king/rat_king_chopper.txt
+Cacheing 'baxter_chopper' from data/chars/baxter_stockman/baxter_chopper.txt
+Cacheing 'bebop_chopper' from data/chars/bebop/bebop_chopper.txt
+Cacheing 'c_shredder_chopper' from data/chars/c_shredder/c_shredder_chopper.txt
+Cacheing 'shredder_chopper' from data/chars/shredder/shredder_chopper.txt
+Cacheing 'karai_chopper' from data/chars/karai/karai_chopper.txt
+Cacheing 'krang_chopper' from data/chars/krang/normal/krang_chopper.txt
+Cacheing 'scratch_chopper' from data/chars/scratch/scratch_chopper.txt
+Cacheing 'super_shredder_chopper' from data/chars/super_shredder/super_shredder_chopper.txt
+Cacheing 'tempestra_chopper' from data/chars/tempestra/tempestra_chopper.txt
+Cacheing 'triceraton_chopper' from data/chars/triceraton/triceraton_chopper.txt
+Cacheing 'war_chopper' from data/chars/war/war_chopper.txt
+Cacheing 'scale_chopper' from data/chars/scale_tail/scale_chopper.txt
+Cacheing 'leo_mouser' from data/chars/leo/leo_mouser.txt
+Cacheing 'mike_mouser' from data/chars/Mike/mike_mouser.txt
+Cacheing 'raph_mouser' from data/chars/raph/raph_mouser.txt
+Cacheing 'don_mouser' from data/chars/don/don_mouser.txt
+Cacheing 'splinter_mouser' from data/chars/splinter/splinter_mouser.txt
+Cacheing 'april_mouser' from data/chars/april/april_mouser.txt
+Cacheing 'irma_mouser' from data/chars/irma/irma_mouser.txt
+Cacheing 'usagi_mouser' from data/chars/usagi/usagi_mouser.txt
+Cacheing 'fugitoid_mouser' from data/chars/fugitoid/fugitoid_mouser.txt
+Cacheing 'genghis_mouser' from data/chars/punk_frogs/genghis/genghis_mouser.txt
+Cacheing 'rasputin_mouser' from data/chars/punk_frogs/rasputin/rasputin_mouser.txt
+Cacheing 'napoleon_mouser' from data/chars/punk_frogs/napoleon/napoleon_mouser.txt
+Cacheing 'atilla_mouser' from data/chars/punk_frogs/atilla/atilla_mouser.txt
+Cacheing 'muckman_mouser' from data/chars/muckman/muckman_mouser.txt
+Cacheing 'aska_mouser' from data/chars/aska/aska_mouser.txt
+Cacheing 'mona_mouser' from data/chars/mona/mona_mouser.txt
+Cacheing 'casey_mouser' from data/chars/casey/casey_mouser.txt
+Cacheing 'tatsu_mouser' from data/chars/tatsu/tatsu_mouser.txt
+Cacheing 'armaggon_mouser' from data/chars/armaggon/armaggon_mouser.txt
+Cacheing 'chrome_mouser' from data/chars/chrome_dome/chrome_mouser.txt
+Cacheing 'dbag_mouser' from data/chars/dirtbag/dbag_mouser.txt
+Cacheing 'granitor_mouser' from data/chars/granitor/granitor_mouser.txt
+Cacheing 'groundchuck_mouser' from data/chars/groundchuck/groundchuck_mouser.txt
+Cacheing 'hothead_mouser' from data/chars/hothead/hothead_mouser.txt
+Cacheing 'leatherhead_mouser' from data/chars/leatherhead/leatherhead_mouser.txt
+Cacheing 'meca_mouser' from data/chars/mecaturtle/meca_mouser.txt
+Cacheing 'rahzar_mouser' from data/chars/rahzar/rahzar_mouser.txt
+Cacheing 'rocksteady_mouser' from data/chars/rocksteady/rocksteady_mouser.txt
+Cacheing 'shogun_mouser' from data/chars/shogun/shogun_mouser.txt
+Cacheing 'slash_mouser' from data/chars/slash/slash_mouser.txt
+Cacheing 'tokka_mouser' from data/chars/tokka/tokka_mouser.txt
+Cacheing 'tora_mouser' from data/chars/tora/tora_mouser.txt
+Cacheing 'traag_mouser' from data/chars/traag/traag_mouser.txt
+Cacheing 'mhead_mouser' from data/chars/metalhead/mhead_mouser.txt
+Cacheing 'ace_mouser' from data/chars/ace/ace_mouser.txt
+Cacheing 'burne_mouser' from data/chars/burne/burne_mouser.txt
+Cacheing 'lotus_mouser' from data/chars/lotus/lotus_mouser.txt
+Cacheing 'mondo_mouser' from data/chars/mondo/mondo_mouser.txt
+Cacheing 'dask_mouser' from data/chars/neutrinos/dask/dask_mouser.txt
+Cacheing 'kala_mouser' from data/chars/neutrinos/kala/kala_mouser.txt
+Cacheing 'zak_mouser' from data/chars/neutrinos/zak/zak_mouser.txt
+Cacheing 'ray_mouser' from data/chars/ray/ray_mouser.txt
+Cacheing 'vernon_mouser' from data/chars/vernon/vernon_mouser.txt
+Cacheing 'wingnut_mouser' from data/chars/wingnut/wingnut_mouser.txt
+Cacheing 'zach_mouser' from data/chars/zach/zach_mouser.txt
+Cacheing 'antrax_mouser' from data/chars/antrax/antrax_mouser.txt
+Cacheing 'pizzaface_mouser' from data/chars/pizzaface/pizzaface_mouser.txt
+Cacheing 'rat_king_mouser' from data/chars/rat_king/rat_king_mouser.txt
+Cacheing 'baxter_mouser' from data/chars/baxter_stockman/baxter_mouser.txt
+Cacheing 'bebop_mouser' from data/chars/bebop/bebop_mouser.txt
+Cacheing 'c_shredder_mouser' from data/chars/c_shredder/c_shredder_mouser.txt
+Cacheing 'shredder_mouser' from data/chars/shredder/shredder_mouser.txt
+Cacheing 'karai_mouser' from data/chars/karai/karai_mouser.txt
+Cacheing 'krang_mouser' from data/chars/krang/normal/krang_mouser.txt
+Cacheing 'scratch_mouser' from data/chars/scratch/scratch_mouser.txt
+Cacheing 'super_shredder_mouser' from data/chars/super_shredder/super_shredder_mouser.txt
+Cacheing 'tempestra_mouser' from data/chars/tempestra/tempestra_mouser.txt
+Cacheing 'triceraton_mouser' from data/chars/triceraton/triceraton_mouser.txt
+Cacheing 'war_mouser' from data/chars/war/war_mouser.txt
+Cacheing 'scale_mouser' from data/chars/scale_tail/scale_mouser.txt
+Cacheing 'leo_overhead' from data/chars/turtle_overhead/leo_overhead.txt
+Cacheing 'mike_overhead' from data/chars/turtle_overhead/mike_overhead.txt
+Cacheing 'don_overhead' from data/chars/turtle_overhead/don_overhead.txt
+Cacheing 'raph_overhead' from data/chars/turtle_overhead/raph_overhead.txt
+Cacheing 'leo_tube' from data/chars/misc/tube/leo_tube.txt
+Cacheing 'mike_tube' from data/chars/misc/tube/mike_tube.txt
+Cacheing 'don_tube' from data/chars/misc/tube/don_tube.txt
+Cacheing 'raph_tube' from data/chars/misc/tube/raph_tube.txt
+Cacheing 'leo_skate' from data/chars/misc/cheapskate/leo_skate.txt
+Cacheing 'mike_skate' from data/chars/misc/cheapskate/mike_skate.txt
+Cacheing 'don_skate' from data/chars/misc/cheapskate/don_skate.txt
+Cacheing 'raph_skate' from data/chars/misc/cheapskate/raph_skate.txt
+Cacheing 'leo_trooper' from data/chars/misc/turtle_trooper/leo_trooper.txt
+Cacheing 'mike_trooper' from data/chars/misc/turtle_trooper/mike_trooper.txt
+Cacheing 'don_trooper' from data/chars/misc/turtle_trooper/don_trooper.txt
+Cacheing 'raph_trooper' from data/chars/misc/turtle_trooper/raph_trooper.txt
+Cacheing 'leo_catapult' from data/chars/misc/retrocatapult/leo_catapult.txt
+Cacheing 'mike_catapult' from data/chars/misc/retrocatapult/mike_catapult.txt
+Cacheing 'don_catapult' from data/chars/misc/retrocatapult/don_catapult.txt
+Cacheing 'raph_catapult' from data/chars/misc/retrocatapult/raph_catapult.txt
+Cacheing 'players_ending' from data/chars/misc/ending/players_ending.txt
+Cacheing 'cheapskate' from data/chars/misc/cheapskate/cheapskate.txt
+Cacheing 'intro_wall_hole' from data/chars/misc/ending/intro_skates/intro_wall_hole.txt
+Cacheing 'intro_wall' from data/chars/misc/ending/intro_skates/intro_wall.txt
+Cacheing 'intro_flash' from data/chars/misc/ending/intro_skates/intro_flash.txt
+Cacheing 'intro_skate_don' from data/chars/misc/ending/intro_skates/intro_skate_don.txt
+Cacheing 'intro_skate_leo' from data/chars/misc/ending/intro_skates/intro_skate_leo.txt
+Cacheing 'intro_skate_mike' from data/chars/misc/ending/intro_skates/intro_skate_mike.txt
+Cacheing 'intro_skate_raph' from data/chars/misc/ending/intro_skates/intro_skate_raph.txt
+Cacheing 'brick_right' from data/chars/misc/ending/intro_skates/brick_right.txt
+Cacheing 'brick_left' from data/chars/misc/ending/intro_skates/brick_left.txt
+Cacheing 'ending_april' from data/chars/misc/ending/april/ending_april.txt
+Cacheing 'ending_krang_annoyed' from data/chars/misc/ending/april/ending_krang_annoyed.txt
+Cacheing 'april_text' from data/chars/misc/ending/april/april_text.txt
+Cacheing 'ending_krang_text' from data/chars/misc/ending/april/ending_krang_text.txt
+Cacheing 'graduation_mike_splinter' from data/chars/misc/ending/graduation/graduation_mike_splinter.txt
+Cacheing 'graduation_text' from data/chars/misc/ending/graduation/graduation_text.txt
+Cacheing 'graduation_background' from data/chars/misc/ending/graduation/graduation_background.txt
+Cacheing 'graduation_background_drome' from data/chars/misc/ending/graduation/graduation_background_drome.txt
+Cacheing 'splinter_grad' from data/chars/misc/ending/graduation/splinter_grad.txt
+Cacheing 'graduation_leo' from data/chars/misc/ending/graduation/graduation_leo.txt
+Cacheing 'graduation_mike' from data/chars/misc/ending/graduation/graduation_mike.txt
+Cacheing 'graduation_don' from data/chars/misc/ending/graduation/graduation_don.txt
+Cacheing 'graduation_raph' from data/chars/misc/ending/graduation/graduation_raph.txt
+Cacheing 'epilogue_text' from data/chars/misc/ending/drome/epilogue_text.txt
+Cacheing 'epilogue_bg' from data/chars/misc/ending/drome/epilogue_bg.txt
+Cacheing 'concert_screen' from data/chars/misc/ending/concert/concert_screen.txt
+Cacheing 'concert_stage' from data/chars/misc/ending/concert/concert_stage.txt
+Cacheing 'concert_flash_raph' from data/chars/misc/ending/concert/concert_flash_raph.txt
+Cacheing 'concert_flash_leo' from data/chars/misc/ending/concert/concert_flash_leo.txt
+Cacheing 'concert_flash_mike' from data/chars/misc/ending/concert/concert_flash_mike.txt
+Cacheing 'concert_flash_don' from data/chars/misc/ending/concert/concert_flash_don.txt
+Cacheing 'concert_raph' from data/chars/misc/ending/concert/concert_raph.txt
+Cacheing 'concert_leo' from data/chars/misc/ending/concert/concert_leo.txt
+Cacheing 'concert_mike' from data/chars/misc/ending/concert/concert_mike.txt
+Cacheing 'concert_don' from data/chars/misc/ending/concert/concert_don.txt
+Cacheing 'concert_raph_sprite' from data/chars/misc/ending/concert/concert_raph_sprite.txt
+Cacheing 'concert_leo_sprite' from data/chars/misc/ending/concert/concert_leo_sprite.txt
+Cacheing 'concert_mike_sprite' from data/chars/misc/ending/concert/concert_mike_sprite.txt
+Cacheing 'concert_don_sprite' from data/chars/misc/ending/concert/concert_don_sprite.txt
+Cacheing 'concert_hole' from data/chars/misc/ending/concert/concert_hole.txt
+Cacheing 'concert_darken' from data/chars/misc/ending/concert/concert_darken.txt
+Cacheing 'concert_darken_darker' from data/chars/misc/ending/concert/concert_darken_darker.txt
+Cacheing 'concert_credits' from data/chars/misc/ending/concert/credits/concert_credits.txt
+Cacheing 'ending_the_end' from data/chars/misc/ending/concert/ending_the_end.txt
+Cacheing 'pizza_slice' from data/chars/misc/pizza/pizza_slice.txt
+Cacheing 'pizza_slice_bonus' from data/chars/misc/pizza/pizza_slice_bonus.txt
+Cacheing 'pizza' from data/chars/misc/pizza/pizza.txt
+Cacheing 'pizza_drop_p1' from data/chars/misc/pizza/pizza_drop_p1.txt
+Cacheing 'pizza_drop_p2' from data/chars/misc/pizza/pizza_drop_p2.txt
+Cacheing 'pizza_drop_p3' from data/chars/misc/pizza/pizza_drop_p3.txt
+Cacheing 'pizza_drop_p4' from data/chars/misc/pizza/pizza_drop_p4.txt
+Cacheing 'pizza_drop_bonus' from data/chars/misc/pizza/pizza_drop_bonus.txt
+Cacheing 'mutagen' from data/chars/misc/mutagen/mutagen.txt
+Cacheing 'mutagen_drop_p1' from data/chars/misc/mutagen/mutagen_drop_p1.txt
+Cacheing 'mutagen_drop_p2' from data/chars/misc/mutagen/mutagen_drop_p2.txt
+Cacheing 'mutagen_drop_p3' from data/chars/misc/mutagen/mutagen_drop_p3.txt
+Cacheing 'mutagen_drop_p4' from data/chars/misc/mutagen/mutagen_drop_p4.txt
+Cacheing 'mutagen_effect' from data/chars/misc/mutagen/mutagen_effect.txt
+Cacheing 'drone' from data/chars/misc/mutagen/drone.txt
+Cacheing 'drone_guide' from data/chars/misc/mutagen/drone_guide.txt
+Cacheing 'Apple' from data/chars/misc/apple.txt
+Cacheing 'Meat' from data/chars/misc/meat.txt
+Cacheing '1up' from data/chars/misc/1up.txt
+Cacheing 'Money' from data/chars/misc/money.txt
+Cacheing 'Gold' from data/chars/misc/gold.txt
+Cacheing 'Time' from data/chars/misc/time.txt
+Cacheing 'dust' from data/chars/misc/dust/dust.txt
+Cacheing 'freeze_spray' from data/chars/misc/freeze_spray/freeze_spray.txt
+Cacheing 'muckmanbullet' from data/chars/muckman/muckmanbullet.txt
+Cacheing 'muckspecial' from data/chars/muckman/muckspecial.txt
+Cacheing 'joespecial' from data/chars/muckman/joespecial.txt
+Cacheing 'golden_puck' from data/chars/casey/golden_puck.txt
+Cacheing 'tube_bullet' from data/chars/misc/tube/tube_bullet.txt
+Cacheing 'screwloose' from data/chars/wingnut/screwloose.txt
+Cacheing 'rasputin_arrow' from data/chars/punk_frogs/rasputin/rasputin_arrow.txt
+Cacheing 'ace_grenade01' from data/chars/ace/ace_grenade01.txt
+Cacheing 'ace_grenade02' from data/chars/ace/ace_grenade02.txt
+Cacheing 'ace_grenade03' from data/chars/ace/ace_grenade03.txt
+Cacheing 'ace_grenade04' from data/chars/ace/ace_grenade04.txt
+Cacheing 'fugitoid_bullet' from data/chars/fugitoid/fugitoid_bullet.txt
+Cacheing 'tied_april' from data/chars/april/tied_april.txt
+Cacheing 'splinter_tied' from data/chars/splinter/splinter_tied.txt
+Cacheing 'chopper' from data/chars/misc/TMNT_weapons/chopper.txt
+Cacheing 'chopper_no_ride' from data/chars/misc/TMNT_weapons/chopper_no_ride.txt
+Cacheing 'chopper_laser_good' from data/chars/misc/TMNT_weapons/chopper_laser_good.txt
+Cacheing 'chopper_spark_good' from data/chars/misc/TMNT_weapons/chopper_spark_good.txt
+Cacheing 'empty_shot' from data/chars/misc/TMNT_weapons/empty_shot.txt
+Cacheing 'mother_mouser' from data/chars/misc/TMNT_weapons/mother_mouser.txt
+Cacheing 'mother_mouser_no_ride' from data/chars/misc/TMNT_weapons/mother_mouser_no_ride.txt
+Cacheing 'no_ride' from data/chars/misc/TMNT_weapons/no_ride.txt
+Cacheing 'camera_up_train' from data/chars/misc/camera_up_train.txt
+Cacheing 'invisible_endlevel' from data/chars/misc/invisible_endlevel.txt
+Cacheing 'Box' from data/chars/misc/box.txt
+Cacheing 'Crate' from data/chars/misc/crate.txt
+Cacheing 'Trash' from data/chars/misc/trash.txt
+Cacheing 'Chair' from data/chars/misc/chair.txt
+Cacheing 'Fence' from data/chars/misc/fence.txt
+Cacheing 'Drum' from data/chars/misc/drum.txt
+Cacheing 'Trolly' from data/chars/misc/trolly.txt
+Cacheing 'splinter_training' from data/chars/splinter/splinter_training.txt
+Cacheing 'boxing_robot' from data/chars/boxing_robot/boxing_robot.txt
+Cacheing 'boxing_robot_runattack' from data/chars/boxing_robot/boxing_robot_runattack.txt
+Cacheing 'boxing_robot_jumpattack' from data/chars/boxing_robot/boxing_robot_jumpattack.txt
+Cacheing 'boxing_robot_instakill' from data/chars/boxing_robot/boxing_robot_instakill.txt
+Cacheing 'boxing_robot_throw' from data/chars/boxing_robot/boxing_robot_throw.txt
+Cacheing 'boxing_robot_tmnt3special' from data/chars/boxing_robot/boxing_robot_tmnt3special.txt
+Cacheing 'spikey_ball' from data/chars/misc/spikey_ball/spikey_ball.txt
+Cacheing 'foot_good' from data/chars/foot/foot_good.txt
+Cacheing 'foot_good_left' from data/chars/foot/foot_good_left.txt
+Cacheing 'foot_main' from data/chars/foot/foot_main.txt
+Cacheing 'foot_main_left' from data/chars/foot/foot_main_left.txt
+Cacheing 'foot_ice' from data/chars/foot/foot_ice.txt
+Cacheing 'foot_knife' from data/chars/foot/foot_knife.txt
+Cacheing 'knife' from data/chars/foot/knife.txt
+Cacheing 'foot_retrocatapult' from data/chars/foot/foot_retrocatapult.txt
+Cacheing 'knife_lhead' from data/chars/leatherhead/knife_lhead.txt
+Cacheing 'knife_lhead_good' from data/chars/leatherhead/knife_lhead_good.txt
+Cacheing 'foot_boomerang' from data/chars/foot/foot_boomerang.txt
+Cacheing 'boomerang' from data/chars/foot/boomerang.txt
+Cacheing 'dynamite' from data/chars/foot/dynamite.txt
+Cacheing 'dynamite_hor' from data/chars/foot/dynamite_hor.txt
+Cacheing 'dynamite_bubblecopter' from data/chars/foot/dynamite_bubblecopter.txt
+Cacheing 'foot_sword' from data/chars/foot/foot_sword.txt
+Cacheing 'foot_sword_tunnel' from data/chars/foot/foot_sword_tunnel.txt
+Cacheing 'foot_gun' from data/chars/foot/foot_gun.txt
+Cacheing 'foot_gun_bullet' from data/chars/foot/foot_gun_bullet.txt
+Cacheing 'foot_gun_bullet_safe' from data/chars/foot/foot_gun_bullet_safe.txt
+Cacheing 'foot_hole' from data/chars/foot/foot_hole.txt
+Cacheing 'hole_floor' from data/chars/foot/hole_floor.txt
+Cacheing 'foot_door' from data/chars/foot/foot_door.txt
+Cacheing 'foot_sword_elevator' from data/chars/foot/foot_sword_elevator.txt
+Cacheing 'foot_sewer' from data/chars/foot/foot_sewer.txt
+Cacheing 'sewer_hole' from data/chars/foot/sewer_hole.txt
+Cacheing 'sewer_lid' from data/chars/foot/sewer_lid.txt
+Cacheing 'foot_hide_dynamite' from data/chars/foot/foot_hide_dynamite.txt
+Cacheing 'foot_hide_dynamite_flip' from data/chars/foot/foot_hide_dynamite_flip.txt
+Cacheing 'foot_dynamite' from data/chars/foot/foot_dynamite.txt
+Cacheing 'foot_jump_tunnel' from data/chars/foot/foot_jump_tunnel.txt
+Cacheing 'foot_jump_tunnel_left' from data/chars/foot/foot_jump_tunnel_left.txt
+Cacheing 'foot_jump_door_farleft' from data/chars/foot/foot_jump_door_farleft.txt
+Cacheing 'foot_jump_door_left' from data/chars/foot/foot_jump_door_left.txt
+Cacheing 'foot_jump_door_right' from data/chars/foot/foot_jump_door_right.txt
+Cacheing 'foot_jump_door_farright' from data/chars/foot/foot_jump_door_farright.txt
+Cacheing 'foot_jump_door_middle' from data/chars/foot/foot_jump_door_middle.txt
+Cacheing 'foot_window' from data/chars/foot/foot_window.txt
+Cacheing 'window_tmnt2' from data/chars/foot/spawn_places/window_tmnt2.txt
+Cacheing 'window_tmnt3' from data/chars/foot/spawn_places/window_tmnt3.txt
+Cacheing 'window_tmnt3_tempestra' from data/chars/foot/spawn_places/window_tmnt3_tempestra.txt
+Cacheing 'foot_van_door' from data/chars/foot/spawn_places/foot_van_door.txt
+Cacheing 'city_screen_shred' from data/chars/misc/city_stuff/city_screen_shred.txt
+Cacheing 'parking_meter' from data/chars/misc/city_stuff/parking_meter.txt
+Cacheing 'parking_meter_nub' from data/chars/misc/city_stuff/parking_meter_nub.txt
+Cacheing 'fire_hydrant_lid' from data/chars/misc/city_stuff/fire_hydrant_lid.txt
+Cacheing 'fire_hydrant' from data/chars/misc/city_stuff/fire_hydrant.txt
+Cacheing 'car_city' from data/chars/misc/city_stuff/car_city.txt
+Cacheing 'foot_jump_cruiser' from data/chars/foot/foot_jump_cruiser.txt
+Cacheing 'foot_jump_footski_shore' from data/chars/foot/foot_jump_footski_shore.txt
+Cacheing 'a_t_squad' from data/chars/a_t_squad/a_t_squad.txt
+Cacheing 'blade' from data/chars/blade/blade.txt
+Cacheing 'blade_daggerdown' from data/chars/blade/blade_daggerdown.txt
+Cacheing 'blade_daggerforward' from data/chars/blade/blade_daggerforward.txt
+Cacheing 'blade_daggerhor' from data/chars/blade/blade_daggerhor.txt
+Cacheing 'blade_daggerdown_good' from data/chars/blade/blade_daggerdown_good.txt
+Cacheing 'blade_daggerhor_good' from data/chars/blade/blade_daggerhor_good.txt
+Cacheing 'vemon' from data/chars/venom_scorpion/venom.txt
+Cacheing 'van_door' from data/chars/van_growl/van_door.txt
+Cacheing 'van_fire' from data/chars/van_growl/van_fire.txt
+Cacheing 'van_growl' from data/chars/van_growl/van_growl.txt
+Cacheing 'knucklehead' from data/chars/knucklehead/knucklehead.txt
+Cacheing 'footcruiser' from data/chars/footcruiser/footcruiser.txt
+Cacheing 'footcruiser_far' from data/chars/footcruiser/footcruiser_far.txt
+Cacheing 'footcruiser_missile' from data/chars/footcruiser/footcruiser_missile.txt
+Cacheing 'footcruiser_bonus' from data/chars/footcruiser/footcruiser_bonus.txt
+Cacheing 'footcruiser_bonus_rock' from data/chars/footcruiser/footcruiser_bonus_rock.txt
+Cacheing 'crooked_ninja' from data/chars/crooked_ninja/crooked_ninja.txt
+Cacheing 'rock_soldier' from data/chars/rock_soldier/rock_soldier.txt
+Cacheing 'pizza_monster_boss' from data/chars/pizza_monster/pizza_monster_boss.txt
+Cacheing 'brick_fall' from data/chars/pizza_monster/brick_fall.txt
+Cacheing 'brick_small_right' from data/chars/pizza_monster/brick_small_right.txt
+Cacheing 'brick_small_left' from data/chars/pizza_monster/brick_small_left.txt
+Cacheing 'hole_wall' from data/chars/pizza_monster/hole_wall.txt
+Cacheing 'flame_man' from data/chars/flame_man/flame_man.txt
+Cacheing 'flame' from data/chars/flame_man/flame.txt
+Cacheing 'frog' from data/chars/frog/frog.txt
+Cacheing 'rockman' from data/chars/rockman/rockman.txt
+Cacheing 'rockman_shoot' from data/chars/rockman/rockman_shoot.txt
+Cacheing 'mouser_jump' from data/chars/Mouser/mouser_jump.txt
+Cacheing 'mouser_drop_barney' from data/chars/Mouser/mouser_drop_barney.txt
+Cacheing 'mouser_jump_forward' from data/chars/Mouser/mouser_jump_forward.txt
+Cacheing 'mouser_hole_floor' from data/chars/Mouser/mouser_hole_floor.txt
+Cacheing 'mouser_giant_mouser' from data/chars/Mouser/mouser_giant_mouser.txt
+Cacheing 'foot_jump_bubblecopter_left' from data/chars/foot/foot_jump_bubblecopter_left.txt
+Cacheing 'foot_jump_bubblecopter_right' from data/chars/foot/foot_jump_bubblecopter_right.txt
+Cacheing 'foot_jump_bubblecopter_middle' from data/chars/foot/foot_jump_bubblecopter_middle.txt
+Cacheing 'foot_chopper' from data/chars/foot/foot_chopper.txt
+Cacheing 'chopper_laser' from data/chars/foot/chopper_laser/chopper_laser.txt
+Cacheing 'chopper_spark' from data/chars/foot/chopper_laser/chopper_spark.txt
+Cacheing 'foot_mouser' from data/chars/foot/mother_mouser/foot_mouser.txt
+Cacheing 'mouser_bullet' from data/chars/foot/mother_mouser/mouser_bullet.txt
+Cacheing 'mouser_bullet_good' from data/chars/foot/mother_mouser/mouser_bullet_good.txt
+Cacheing 'footski' from data/chars/foot/footski/footski.txt
+Cacheing 'footski_fast' from data/chars/foot/footski/footski_fast.txt
+Cacheing 'footski_up_down' from data/chars/foot/footski/footski_up_down.txt
+Cacheing 'footski_unload_foot' from data/chars/foot/footski/footski_unload_foot.txt
+Cacheing 'footski_shore' from data/chars/foot/footski/footski_shore.txt
+Cacheing 'roadkill_rodney' from data/chars/roadkill_rodney/roadkill_rodney.txt
+Cacheing 'roadkill_laser' from data/chars/roadkill_rodney/roadkill_laser.txt
+Cacheing 'giant_rat' from data/chars/giant_rat/giant_rat.txt
+Cacheing 'giant_rat_2' from data/chars/giant_rat/giant_rat_2.txt
+Cacheing 'giant_rat_good' from data/chars/giant_rat/giant_rat_good.txt
+Cacheing 'giant_rat_good_left' from data/chars/giant_rat/giant_rat_good_left.txt
+Cacheing 'tubular_bee' from data/chars/tubular_bee/tubular_bee.txt
+Cacheing 'bee_spark' from data/chars/tubular_bee/bee_spark.txt
+Cacheing 'bee_laser' from data/chars/tubular_bee/bee_laser.txt
+Cacheing 'war_boss' from data/chars/war/war_boss.txt
+Cacheing 'foot_statue' from data/chars/foot/foot_statue.txt
+Cacheing 'barney_stockman' from data/chars/barney_stockman/barney.txt
+Cacheing 'barney_blast_right' from data/chars/misc/flying_platform/platform_cannon_blast/barney_blast_right.txt
+Cacheing 'barney_blast_left' from data/chars/misc/flying_platform/platform_cannon_blast/barney_blast_left.txt
+Cacheing 'barney_blast_right_bubble' from data/chars/misc/flying_platform/platform_cannon_blast/barney_blast_right_bubble.txt
+Cacheing 'barney_blast_left_bubble' from data/chars/misc/flying_platform/platform_cannon_blast/barney_blast_left_bubble.txt
+Cacheing 'baxter_boss' from data/chars/baxter_stockman/baxter_boss.txt
+Cacheing 'baxter_blast' from data/chars/baxter_stockman/baxter_blast.txt
+Cacheing 'baxter_boss_handgun' from data/chars/baxter_stockman/baxter_boss_handgun.txt
+Cacheing 'baxter_gun' from data/chars/baxter_stockman/baxter_gun.txt
+Cacheing 'baxter_news' from data/chars/baxter_stockman/baxter_news.txt
+Cacheing 'tempestra_boss' from data/chars/tempestra/tempestra_boss.txt
+Cacheing 'tempestra_arcade' from data/chars/tempestra/tempestra_arcade.txt
+Cacheing 'atari_asteroid' from data/chars/tempestra/atari_asteroid.txt
+Cacheing 'atari_explosion' from data/chars/tempestra/atari_explosion.txt
+Cacheing 'atari_bg' from data/chars/tempestra/atari_bg.txt
+Cacheing 'atari_asteroid_good_sound' from data/chars/tempestra/atari_asteroid_good_sound.txt
+Cacheing 'atari_asteroid_good' from data/chars/tempestra/atari_asteroid_good.txt
+Cacheing 'bubblecopter' from data/chars/bubblecopter/bubblecopter.txt
+Cacheing 'bubblecopter_first' from data/chars/bubblecopter/bubblecopter_first.txt
+Cacheing 'electroball' from data/chars/bubblecopter/electroball.txt
+Cacheing 'electroball_technodrome' from data/chars/bubblecopter/electroball_technodrome.txt
+Cacheing 'chrome_boss' from data/chars/chrome_dome/chrome_boss.txt
+Cacheing 'antrax_boss' from data/chars/antrax/antrax_boss.txt
+Cacheing 'granitor_boss' from data/chars/granitor/granitor_boss.txt
+Cacheing 'traag_boss' from data/chars/traag/traag_boss.txt
+Cacheing 'traag_missile' from data/chars/snowman/traag_missile.txt
+Cacheing 'traag_missile_good' from data/chars/snowman/traag_missile_good.txt
+Cacheing 'tatsu_boss' from data/chars/tatsu/tatsu_boss.txt
+Cacheing 'snowman' from data/chars/snowman/snowman.txt
+Cacheing 'snowman_robot' from data/chars/snowman/snowman_robot.txt
+Cacheing 'snow_missile' from data/chars/snowman/snow_missile.txt
+Cacheing 'krangazoid' from data/chars/krangazoid/krangazoid.txt
+Cacheing 'krangazoid_mini' from data/chars/krangazoid/krangazoid_mini.txt
+Cacheing 'cyclops' from data/chars/cyclops/cyclops.txt
+Cacheing 'cyclops_head' from data/chars/cyclops/cyclops_head.txt
+Cacheing 'foot_balloon' from data/chars/foot_balloon/foot_balloon.txt
+Cacheing 'balloon_bomb' from data/chars/foot_balloon/balloon_bomb.txt
+Cacheing 'rat_king_boss' from data/chars/rat_king/rat_king_boss.TXT
+Cacheing 'shredder_blob' from data/chars/shredder/shredder_blob.TXT
+Cacheing 'shredder_april' from data/chars/shredder/shredder_april.TXT
+Cacheing 'shredder_boss' from data/chars/shredder/shredder_boss.TXT
+Cacheing 'shredder_dead' from data/chars/shredder/shredder_dead.TXT
+Cacheing 'shredder_boss_tmnt3' from data/chars/shredder/shredder_boss_tmnt3.TXT
+Cacheing 'shredder_pogocopter' from data/chars/shredder/shredder_pogocopter.TXT
+Cacheing 'scale_tail_boss' from data/chars/scale_tail/scale_tail_boss.TXT
+Cacheing 'scale_fire_upperleft' from data/chars/scale_tail/scale_fire_upperleft.txt
+Cacheing 'scale_fire_upperright' from data/chars/scale_tail/scale_fire_upperright.txt
+Cacheing 'scale_fire_lowerleft' from data/chars/scale_tail/scale_fire_lowerleft.txt
+Cacheing 'scale_fire_lowerright' from data/chars/scale_tail/scale_fire_lowerright.txt
+Cacheing 'scale_ball' from data/chars/scale_tail/scale_ball.txt
+Cacheing 'scale_fire_upperleft' from data/chars/scale_tail/scale_fire_upperleft_good.txt
+Cacheing 'scale_fire_upperright' from data/chars/scale_tail/scale_fire_upperright_good.txt
+Cacheing 'scale_fire_lowerleft' from data/chars/scale_tail/scale_fire_lowerleft_good.txt
+Cacheing 'scale_fire_lowerright' from data/chars/scale_tail/scale_fire_lowerright_good.txt
+Cacheing 'scale_ball' from data/chars/scale_tail/scale_ball_good.txt
+Cacheing 'super_shredder_boss' from data/chars/super_shredder/super_shredder_boss.TXT
+Cacheing 'super_shredder_hadoken_good' from data/chars/super_shredder/super_shredder_hadoken_good.TXT
+Cacheing 'super_shredder_hadoken' from data/chars/super_shredder/super_shredder_hadoken.TXT
+Cacheing 'sshreder_laser' from data/chars/super_shredder/sshreder_laser.TXT
+Cacheing 'sshreder_laser_throw' from data/chars/super_shredder/sshreder_laser_throw.TXT
+Cacheing 'flushomatic' from data/chars/super_shredder/flushomatic/flushomatic.TXT
+Cacheing 'c_shredder_spawn' from data/chars/c_shredder/spawn/c_shredder_spawn.TXT
+Cacheing 'c_shredder_boss' from data/chars/c_shredder/cshredder_boss.TXT
+Cacheing 'c_shredder_minion' from data/chars/c_shredder/cshredder_minion.TXT
+Cacheing 'aura_mirror_beam' from data/chars/c_shredder/aura_mirror_beam.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_upperleft.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_upperright.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_up.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_down.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_left.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_right.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_lowerleft.TXT
+Cacheing 'cshredderball_upperleft' from data/chars/c_shredder/cshredderball_lowerleft.TXT
+Cacheing 'antrax_axe' from data/chars/antrax/antrax_axe.TXT
+Cacheing 'antrax_axe_good' from data/chars/antrax/antrax_axe_good.TXT
+Cacheing 'blob_monster' from data/chars/blob_monster/blob_monster.TXT
+Cacheing 'blob_fist' from data/chars/blob_monster/blob_fist.TXT
+Cacheing 'rocksteady_boss' from data/chars/rocksteady/rocksteady_boss.TXT
+Cacheing 'rocksteady_laser' from data/chars/rocksteady/rocksteady_laser.TXT
+Cacheing 'rocksteady_laser2' from data/chars/rocksteady/rocksteady_laser2.TXT
+Cacheing 'rocksteady_laser_good' from data/chars/rocksteady/rocksteady_laser_good.TXT
+Cacheing 'bebop_boss' from data/chars/bebop/bebop_boss.TXT
+Cacheing 'skater_girl' from data/chars/skater_girl/skater_girl.TXT
+Cacheing 'skater_girl_skate' from data/chars/skater_girl/skater_girl_skate.TXT
+Cacheing 'triceraton_brown' from data/chars/triceraton/triceraton_brown.TXT
+Cacheing 'triceraton_boss' from data/chars/triceraton/triceraton_boss.TXT
+Cacheing 'triceraton_boss_green' from data/chars/triceraton/triceraton_boss_green.TXT
+Cacheing 'triceraton_boss_red' from data/chars/triceraton/triceraton_boss_red.TXT
+Cacheing 'triceraton_bullet' from data/chars/triceraton/triceraton_bullet.TXT
+Cacheing 'triceraton_bullet2' from data/chars/triceraton/triceraton_bullet2.TXT
+Cacheing 'tric_bomb01' from data/chars/triceraton/tric_bomb01.TXT
+Cacheing 'tric_bomb02' from data/chars/triceraton/tric_bomb02.TXT
+Cacheing 'tric_bomb03' from data/chars/triceraton/tric_bomb03.TXT
+Cacheing 'tric_bomb04' from data/chars/triceraton/tric_bomb04.TXT
+Cacheing 'triceraton_ship' from data/chars/triceraton/triceraton_ship.TXT
+Cacheing 'triceraton_ship_red' from data/chars/triceraton/triceraton_ship_red.TXT
+Cacheing 'triceraton_ship_green' from data/chars/triceraton/triceraton_ship_green.TXT
+Cacheing 'triceraton_bullet_good' from data/chars/triceraton/triceraton_bullet_good.TXT
+Cacheing 'mecaturtle_boss' from data/chars/mecaturtle/mecaturtle_boss.TXT
+Cacheing 'meca_bullet' from data/chars/mecaturtle/meca_bullet.TXT
+Cacheing 'meca_bullet_good' from data/chars/mecaturtle/meca_bullet_good.TXT
+Cacheing 'meca_bomb' from data/chars/mecaturtle/meca_bomb.TXT
+Cacheing 'mecaturtle-leo' from data/chars/mecaturtle/mecaturtle-leo.txt
+Cacheing 'armaggon_boss' from data/chars/armaggon/armaggon_boss.TXT
+Cacheing 'armaggon_spawn' from data/chars/armaggon/armaggon_spawn.TXT
+Cacheing 'armaggon_blast' from data/chars/armaggon/armaggon_blast.TXT
+Cacheing 'armaggon_blast_good' from data/chars/armaggon/armaggon_blast_good.TXT
+Cacheing 'karai_boss' from data/chars/karai/karai_boss.TXT
+Cacheing 'karai_news' from data/chars/karai/karai_news.TXT
+Cacheing 'pogocopter' from data/chars/pogocopter/pogocopter.TXT
+Cacheing 'pogocopter02' from data/chars/pogocopter/pogocopter02.TXT
+Cacheing 'krang_walker' from data/chars/krang_walker/krang_walker.TXT
+Cacheing 'krang_eject' from data/chars/krang_walker/krang_eject.TXT
+Cacheing 'krang_spark' from data/chars/krang_walker/krang_spark.TXT
+Cacheing 'krang_chip' from data/chars/misc/krang_chip/krang_chip.TXT
+Cacheing 'krang_colors' from data/chars/misc/fade/krang_colors.TXT
+Cacheing 'bonus_colors' from data/chars/misc/fade/bonus_colors.TXT
+Cacheing 'krang_inside_laser_left' from data/chars/krang/giant/krang_inside_laser_left.txt
+Cacheing 'krang_inside_laser_right' from data/chars/krang/giant/krang_inside_laser_right.txt
+Cacheing 'laser_gen_inside' from data/chars/krang/giant/laser_gen_inside.txt
+Cacheing 'mhead_laser' from data/chars/metalhead/mhead_laser.TXT
+Cacheing 'aska_hurricane' from data/chars/aska/aska_hurricane.TXT
+Cacheing 'aska_hurricane_flip' from data/chars/aska/aska_hurricane_flip.TXT
+Cacheing 'tora_boss' from data/chars/tora/tora_boss.TXT
+Cacheing 'leatherhead_boss' from data/chars/leatherhead/leatherhead_boss.TXT
+Cacheing 'groundchuck_boss' from data/chars/groundchuck/groundchuck_boss.TXT
+Cacheing 'groundchuck_boss_pipe' from data/chars/groundchuck/groundchuck_boss_pipe.txt
+Cacheing 'dirtbag_boss' from data/chars/dirtbag/dirtbag_boss.TXT
+Cacheing 'dbag_laser' from data/chars/dirtbag/dbag_laser.TXT
+Cacheing 'dbag_laser_good' from data/chars/dirtbag/dbag_laser_good.TXT
+Cacheing 'dbag_laser_good_pain' from data/chars/dirtbag/dbag_laser_good_pain.TXT
+Cacheing 'slash_boss' from data/chars/slash/slash_boss.TXT
+Cacheing 'spaceship' from data/chars/misc/spaceship/spaceship.TXT
+Cacheing 'spaceship_screen_shred' from data/chars/misc/spaceship_screen/spaceship_screen_shred.TXT
+Cacheing 'beam' from data/chars/misc/spaceship/beam.txt
+Cacheing 'beam_long' from data/chars/misc/spaceship/beam_long.txt
+Cacheing 'tokka_boss' from data/chars/tokka/tokka_boss.TXT
+Cacheing 'rahzar_boss' from data/chars/rahzar/rahzar_boss.TXT
+Cacheing 'rahzar_ice' from data/chars/rahzar/rahzar_ice.TXT
+Cacheing 'rahzar_ice_up' from data/chars/rahzar/rahzar_ice_up.TXT
+Cacheing 'rahzar_ice_down' from data/chars/rahzar/rahzar_ice_down.TXT
+Cacheing 'rahzar_ice_good' from data/chars/rahzar/rahzar_ice_good.TXT
+Cacheing 'rahzar_ice_up_good' from data/chars/rahzar/rahzar_ice_up_good.TXT
+Cacheing 'rahzar_ice_down_good' from data/chars/rahzar/rahzar_ice_down_good.TXT
+Cacheing 'killer_bee' from data/chars/killer_bee/killer_bee.TXT
+Cacheing 'shogun_boss' from data/chars/shogun/shogun_boss.TXT
+Cacheing 'shogun_boss_head' from data/chars/shogun/shogun_boss_head.TXT
+Cacheing 'shogun_boss_body' from data/chars/shogun/shogun_boss_body.TXT
+Cacheing 'shogun_head' from data/chars/shogun/shogun_head.TXT
+Cacheing 'insect_purple' from data/chars/insects/insect_purple.TXT
+Cacheing 'insect_purple_2D' from data/chars/insects/insect_purple_2D.TXT
+Cacheing 'insect_red' from data/chars/insects/insect_red.TXT
+Cacheing 'robot-tech' from data/chars/robot-tech/robot-tech.TXT
+Cacheing 'robot-tech_bullet' from data/chars/robot-tech/robot-tech_bullet.TXT
+Cacheing 'grenade_good01' from data/chars/rocksteady/grenade_good01.txt
+Cacheing 'grenade_good02' from data/chars/rocksteady/grenade_good02.txt
+Cacheing 'grenade_good03' from data/chars/rocksteady/grenade_good03.txt
+Cacheing 'grenade_good04' from data/chars/rocksteady/grenade_good04.txt
+Cacheing 'krang_giant' from data/chars/krang/giant/krang_giant.txt
+Cacheing 'krang_move' from data/chars/krang/giant/krang_move.txt
+Cacheing 'krang_giant_laser' from data/chars/krang/giant/krang_giant_laser.txt
+Cacheing 'krang_arrow' from data/chars/krang/giant/krang_arrow.txt
+Cacheing 'krang_pillar' from data/chars/krang/giant/krang_pillar.txt
+Cacheing 'krang_pillar_shake' from data/chars/krang/giant/krang_pillar_shake.txt
+Cacheing 'blimp_krang' from data/chars/blimp/blimp_krang.txt
+Cacheing 'blimp_missile' from data/chars/blimp/blimp_missile.txt
+Cacheing 'blimp_train' from data/chars/blimp/blimp_train.txt
+Cacheing 'krang_map' from data/chars/krang/normal/krang_map.txt
+Cacheing 'krang_soap_opera' from data/chars/krang/normal/krang_soap_opera.txt
+Cacheing 'zak_bullet' from data/chars/neutrinos/zak/zak_bullet.txt
+Cacheing 'dask_bullet' from data/chars/neutrinos/dask/dask_bullet.txt
+Cacheing 'dask_cruiser' from data/chars/neutrinos/dask/dask_cruiser.txt
+Cacheing 'zak_cruiser' from data/chars/neutrinos/zak/zak_cruiser.txt
+Cacheing 'krang_boss' from data/chars/krang/normal/krang_boss.txt
+Cacheing 'krang_boss_drome' from data/chars/krang/normal/krang_boss_drome.txt
+Cacheing 'krang_laser' from data/chars/krang/normal/krang_laser.txt
+Cacheing 'krang_missile' from data/chars/krang/normal/krang_missile.txt
+Cacheing 'krang_missile_good' from data/chars/krang/normal/krang_missile_good.txt
+Cacheing 'krang_escape' from data/chars/krang/normal/krang_escape.txt
+Cacheing 'krang_underground' from data/chars/krang/normal/krang_underground.txt
+Cacheing 'giant_mouser' from data/chars/giant_mouser/giant_mouser.txt
+Cacheing 'giant_mouser_blast' from data/chars/giant_mouser/giant_mouser_blast.txt
+Cacheing 'giant_mouser_blast_left' from data/chars/giant_mouser/giant_mouser_blast_left.txt
+Cacheing 'scratch_boss' from data/chars/scratch/scratch_boss.txt
+Cacheing 'scout' from data/chars/mini_technodrome/scout.txt
+Cacheing 'eye' from data/chars/mini_technodrome/eye.txt
+Cacheing 'foot_tunnel' from data/chars/mini_technodrome/foot_tunnel.txt
+Cacheing 'fork_front' from data/chars/mini_technodrome/fork_front.txt
+Cacheing 'fork_back' from data/chars/mini_technodrome/fork_back.txt
+Cacheing 'scout_platform' from data/chars/mini_technodrome/scout_platform.txt
+Cacheing 'mini_tech_cannon' from data/chars/mini_technodrome/mini_tech_cannon.txt
+Cacheing 'mini_tech_cannon_ground' from data/chars/mini_technodrome/mini_tech_cannon_ground.txt
+Cacheing 'mini_tech_cannon_high' from data/chars/mini_technodrome/mini_tech_cannon_high.txt
+Cacheing 'truck' from data/chars/misc/truck/truck.txt
+Cacheing 'truck_krang' from data/chars/misc/truck_krang/truck_krang.txt
+Cacheing 'truck_krang_left' from data/chars/misc/truck_krang/truck_krang_left.txt
+Cacheing 'krang_bomb01' from data/chars/misc/truck_krang/krang_bomb01.txt
+Cacheing 'krang_bomb02' from data/chars/misc/truck_krang/krang_bomb02.txt
+Cacheing 'krang_bomb03' from data/chars/misc/truck_krang/krang_bomb03.txt
+Cacheing 'krang_bomb04' from data/chars/misc/truck_krang/krang_bomb04.txt
+Cacheing 'biker-K'' from data/chars/biker-k/biker-k.txt
+Cacheing 'explosion_safe' from data/chars/misc/explosion/explosion_safe.txt
+Cacheing 'explosion_safe_mute' from data/chars/misc/explosion/explosion_safe_mute.txt
+Cacheing 'explosion_safe_bigger' from data/chars/misc/explosion/explosion_safe_bigger.txt
+Cacheing 'explosion_safe_huge' from data/chars/misc/explosion/explosion_safe_huge.txt
+Cacheing 'explosion_safe_superhuge' from data/chars/misc/explosion/explosion_safe_superhuge.txt
+Cacheing 'explosion_blob' from data/chars/misc/explosion_blob/explosion_blob.txt
+Cacheing 'explosion_hurt_right' from data/chars/misc/explosion/explosion_hurt_right.txt
+Cacheing 'explosion_hurt_up' from data/chars/misc/explosion/explosion_hurt_up.txt
+Cacheing 'explosion_hurt_left' from data/chars/misc/explosion/explosion_hurt_left.txt
+Cacheing 'technodrome_red_door' from data/bgs/technodrome/tmnt2_technodrome/technodrome_red_door.txt
+Cacheing 'technodrome_red_door_fly' from data/bgs/technodrome/tmnt2_technodrome/technodrome_red_door_fly.txt
+Cacheing 'tech_elevator' from data/bgs/technodrome/tmnt2_technodrome/tech_elevator.txt
+Cacheing 'portal_background' from data/bgs/technodrome/tmnt2_technodrome/portal_background.txt
+Cacheing 'technodrome_after_nowhere' from data/bgs/technodrome/tmnt2_technodrome/technodrome_after_nowhere.txt
+Cacheing 'laser_technodrome' from data/chars/misc/laser_technodrome/laser_technodrome.txt
+Cacheing 'gun_column' from data/chars/misc/gun_column/gun_column.txt
+Cacheing 'technodrome2_door_background' from data/bgs/technodrome/tmnt2_technodrome/technodrome2_door.txt
+Cacheing 'gun_column_laser' from data/chars/misc/gun_column/gun_column_laser.txt
+Cacheing 'nowhere_circle_generator' from data/bgs/nowhere/nowhere_circle_generator.txt
+Cacheing 'nowhere_circle' from data/bgs/nowhere/nowhere_circle.txt
+Cacheing 'mini_turret' from data/bgs/TMNT3_battleship/mini_turret/mini_turret.txt
+Cacheing 'mini_turret_blast' from data/bgs/TMNT3_battleship/mini_turret/mini_turret_blast.txt
+Cacheing 'triple_turret' from data/bgs/TMNT3_battleship/triple_turret/triple_turret.txt
+Cacheing 'triple_turret_blast' from data/bgs/TMNT3_battleship/triple_turret/triple_turret_blast/triple_turret_blast.txt
+Cacheing 'triple_turret_blast_left' from data/bgs/TMNT3_battleship/triple_turret/triple_turret_blast/triple_turret_blast_left.txt
+Cacheing 'triple_turret_blast_right' from data/bgs/TMNT3_battleship/triple_turret/triple_turret_blast/triple_turret_blast_right.txt
+Cacheing 'tunnel' from data/bgs/TMNT3_battleship/tunnel/tunnel.txt
+Cacheing 'tunnel_left' from data/bgs/TMNT3_battleship/tunnel/tunnel_left.txt
+Cacheing 'battleship_door' from data/bgs/TMNT3_battleship/battleship_door/battleship_door.txt
+Cacheing 'broken_pipe' from data/bgs/TMNT3_battleship/broken_pipe/broken_pipe.txt
+Cacheing 'tech_hole_floor' from data/bgs/technodrome/TMNT3_technodrome/tech_hole_floor.txt
+Cacheing 'moving_panel' from data/bgs/technodrome/TMNT3_technodrome/moving_panel.txt
+Cacheing 'flash_red' from data/bgs/technodrome/TMNT3_technodrome/flash_red.txt
+Cacheing 'smoke' from data/chars/misc/smoke/smoke.txt
+Cacheing 'smoke_nojump' from data/chars/misc/smoke/smoke_nojump.txt
+Cacheing 'smoke_jump' from data/chars/misc/smoke/smoke_jump.txt
+Cacheing 'clear' from data/chars/misc/clear.txt
+Cacheing 'cudley' from data/chars/cudley/cudley.txt
+Cacheing 'cudley_bonus' from data/chars/cudley/cudley_bonus.txt
+Cacheing 'bonus_balloons_big' from data/bgs/bonus_room/bonus_balloons_big.txt
+Cacheing 'bonus_balloons_med' from data/bgs/bonus_room/bonus_balloons_med.txt
+Cacheing 'bonus_balloons_small' from data/bgs/bonus_room/bonus_balloons_small.txt
+Cacheing 'bonus_drone' from data/chars/misc/bonus_drone/bonus_drone.txt
+Cacheing 'bonus_drone_slow' from data/chars/misc/bonus_drone/bonus_drone_slow.txt
+Cacheing 'bonus_trooper_buildings' from data/bgs/bonus_trooper/bonus_trooper_buildings.txt
+Cacheing 'bonus_trooper_clouds' from data/bgs/bonus_trooper/bonus_trooper_clouds.txt
+Cacheing 'sign_park' from data/chars/misc/map_signs/sign_park.txt
+Cacheing 'sign_park_branch' from data/chars/misc/map_signs/sign_park_branch.txt
+Cacheing 'sign_aprils' from data/chars/misc/map_signs/sign_aprils.txt
+Cacheing 'sign_aprils_branch' from data/chars/misc/map_signs/sign_aprils_branch.txt
+Cacheing 'sign_dim_x' from data/chars/misc/map_signs/sign_dim_x.txt
+Cacheing 'sign_dim_x_branch' from data/chars/misc/map_signs/sign_dim_x_branch.txt
+Cacheing 'sign_swamp' from data/chars/misc/map_signs/sign_swamp.txt
+Cacheing 'sign_swamp_branch' from data/chars/misc/map_signs/sign_swamp_branch.txt
+Cacheing 'sign_dojo' from data/chars/misc/map_signs/sign_dojo.txt
+Cacheing 'sign_dojo_branch' from data/chars/misc/map_signs/sign_dojo_branch.txt
+Cacheing 'sign_rooftop' from data/chars/misc/map_signs/sign_rooftop.txt
+Cacheing 'sign_rooftop_branch' from data/chars/misc/map_signs/sign_rooftop_branch.txt
+Cacheing 'sign_ship' from data/chars/misc/map_signs/sign_ship.txt
+Cacheing 'sign_ship_branch' from data/chars/misc/map_signs/sign_ship_branch.txt
+Cacheing 'sign_van' from data/chars/misc/map_signs/sign_van.txt
+Cacheing 'sign_van_branch' from data/chars/misc/map_signs/sign_van_branch.txt
+Cacheing 'sign_beach' from data/chars/misc/map_signs/sign_beach.txt
+Cacheing 'sign_beach_branch' from data/chars/misc/map_signs/sign_beach_branch.txt
+Cacheing 'sign_const' from data/chars/misc/map_signs/sign_const.txt
+Cacheing 'sign_const_branch' from data/chars/misc/map_signs/sign_const_branch.txt
+Cacheing 'sign_channel6' from data/chars/misc/map_signs/sign_channel6.txt
+Cacheing 'sign_channel6_branch' from data/chars/misc/map_signs/sign_channel6_branch.txt
+Cacheing 'sign_sewer' from data/chars/misc/map_signs/sign_sewer.txt
+Cacheing 'sign_sewer_branch' from data/chars/misc/map_signs/sign_sewer_branch.txt
+Cacheing 'sign_street' from data/chars/misc/map_signs/sign_street.txt
+Cacheing 'sign_street_branch' from data/chars/misc/map_signs/sign_street_branch.txt
+Cacheing 'flying_platform_small' from data/chars/misc/flying_platform/flying_platform_small.txt
+Cacheing 'flying_platform_smaller' from data/chars/misc/flying_platform/flying_platform_smaller.txt
+Cacheing 'flying_platform_rotate' from data/chars/misc/flying_platform/flying_platform_rotate.txt
+Cacheing 'flying_platform_long' from data/chars/misc/flying_platform/flying_platform_long.txt
+Cacheing 'flying_platform_cannon' from data/chars/misc/flying_platform/flying_platform_cannon.txt
+Cacheing 'flying_platform_small_mouser01' from data/chars/misc/flying_platform/flying_platform_small_mouser01.txt
+Cacheing 'flying_platform_drome' from data/chars/misc/flying_platform/flying_platform_drome.txt
+Cacheing 'flying_platform_drome02' from data/chars/misc/flying_platform/flying_platform_drome02.txt
+Cacheing 'platform_sewer' from data/chars/misc/flying_platform/platform_sewer.txt
+Cacheing 'platform_sewer_small' from data/chars/misc/flying_platform/platform_sewer_small.txt
+Cacheing 'rayray' from data/chars/ray/rayray.txt
+Cacheing 'platform_cannon_blast' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast.txt
+Cacheing 'platform_cannon_blast_left' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_left.txt
+Cacheing 'platform_cannon_blast_right' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_right.txt
+Cacheing 'platform_cannon_blast_left_hor' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_left_hor.txt
+Cacheing 'platform_cannon_blast_right_hor' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_right_hor.txt
+Cacheing 'platform_cannon_blast_right_down' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_right_down.txt
+Cacheing 'platform_cannon_blast_left_down' from data/chars/misc/flying_platform/platform_cannon_blast/platform_cannon_blast_left_down.txt
+Cacheing 'globe' from data/chars/misc/globe/globe.txt
+Cacheing 'channel_6_plant' from data/chars/misc/globe/channel_6_plant.txt
+Cacheing 'channel_6_window' from data/chars/misc/globe/channel_6_window.txt
+Cacheing 'broken_glass' from data/chars/misc/globe/broken_glass.txt
+Cacheing 'spikes_drome' from data/chars/misc/spikes_drome.txt
+Cacheing 'spikes_drome_small' from data/chars/misc/spikes_drome_small.txt
+Cacheing 'door_gameboy' from data/chars/misc/door_gameboy/door_gameboy.txt
+Cacheing 'door_gameboy02' from data/chars/misc/door_gameboy/door_gameboy02.txt
+Cacheing 'build_foot' from data/bgs/technodrome/TMNT3_technodrome/build_foot.txt
+Cacheing 'screen_bee' from data/bgs/technodrome/TMNT3_technodrome/screen_bee.txt
+Cacheing 'screen_soap' from data/bgs/technodrome/TMNT3_technodrome/screen_soap.txt
+Cacheing 'foot_eat' from data/bgs/technodrome/TMNT3_technodrome/foot_eat.txt
+Cacheing 'foot_chef' from data/bgs/technodrome/TMNT3_technodrome/foot_chef.txt
+Cacheing 'stove' from data/bgs/technodrome/TMNT3_technodrome/stove.txt
+Cacheing 'module' from data/chars/misc/module/module.txt
+Cacheing 'module_swamp' from data/chars/misc/module/module_swamp.txt
+Cacheing 'door' from data/bgs/TMNT2_building/door.txt
+Cacheing 'elevator' from data/bgs/TMNT2_building/elevator.txt
+Cacheing 'door_late' from data/bgs/TMNT2_building/door_late.txt
+Cacheing 'elevator_late' from data/bgs/TMNT2_building/elevator_late.txt
+Cacheing 'shore_water' from data/chars/misc/water_shore/shore_water.txt
+Cacheing 'victim_mouser' from data/chars/misc/victims/victim_mouser.txt
+Cacheing 'tiffany' from data/chars/misc/victims/tiffany/tiffany.txt
+Cacheing 'pizzaface_pizza' from data/chars/pizzaface/pizzaface_pizza.txt
+Cacheing 'pizzaface_boss' from data/chars/pizzaface/pizzaface_boss.txt
+Cacheing 'pizzaface_leg' from data/chars/pizzaface/pizzaface_leg.txt
+Cacheing 'pizzaface_leg_good' from data/chars/pizzaface/pizzaface_leg_good.txt
+Cacheing 'mutant_banana' from data/chars/mutant_food/mutant_banana.txt
+Cacheing 'mutant_pizza' from data/chars/mutant_food/mutant_pizza.txt
+Cacheing 'pie' from data/chars/mutant_food/pie.txt
+Cacheing 'lights_channel_6' from data/chars/misc/lights_channel_6.txt
+Cacheing 'Knife' from data/chars/misc/knife.txt
+Cacheing 'Shot' from data/chars/misc/shot.txt
+Cacheing 'Star' from data/chars/misc/star.txt
+Cacheing 'Steam' from data/chars/misc/steam.txt
+Cacheing 'Steamer' from data/chars/misc/steamer.txt
+Cacheing 'Furnace' from data/chars/misc/furnace.txt
+Cacheing 'ice_rock_throw' from data/chars/misc/ice_rock/ice_rock_throw.txt
+Cacheing 'ice_rock_throw_good' from data/chars/misc/ice_rock/ice_rock_throw_good.txt
+Cacheing 'ice_rock_summon' from data/chars/misc/ice_rock/ice_rock_summon.txt
+Cacheing 'ice_rock_fall' from data/chars/misc/ice_rock/ice_rock_fall.txt
+Cacheing 'snow' from data/chars/misc/snow/snow.txt
+Cacheing 'snowold' from data/chars/misc/snow/snowold.txt
+Cacheing 'snowhole' from data/chars/misc/snowhole/snowhole.txt
+Cacheing 'snow_ball' from data/chars/foot/snow_ball/snow_ball.txt
+Cacheing 'weather_ball' from data/chars/misc/weather_ball/weather_ball.txt
+Cacheing 'rolling_barrel' from data/chars/misc/rolling_barrels/rolling_barrel.txt
+Cacheing 'barrel' from data/chars/misc/barrel/barrel.txt
+Cacheing 'invisible_wall' from data/chars/misc/invisible_wall.txt
+Cacheing 'invisible_wall_float' from data/chars/misc/invisible_wall_float.txt
+Cacheing 'wrecking_ball' from data/chars/misc/wrecking_ball/wrecking_ball.txt
+Cacheing 'falling_ball' from data/chars/misc/wrecking_ball/falling_ball.txt
+Cacheing 'usagi_dagger' from data/chars/usagi/usagi_dagger.txt
+Cacheing 'irma_blast' from data/chars/irma/irma_blast.txt
+Cacheing 'tied_irma' from data/chars/irma/tied_irma.txt
+Cacheing 'tied_burne' from data/chars/burne/tied_burne.txt
+Cacheing 'tied_vernon' from data/chars/vernon/tied_vernon.txt
+Cacheing 'tied_irma_train' from data/chars/irma/tied_irma_train.txt
+Cacheing 'tied_burne_train' from data/chars/burne/tied_burne_train.txt
+Cacheing 'tied_vernon_train' from data/chars/vernon/tied_vernon_train.txt
+Cacheing 'basketball' from data/chars/misc/bonus/basketball.txt
+Cacheing 'Empty' from data/chars/misc/empty.txt
+Cacheing 'Empty2' from data/chars/misc/empty2.txt
+Cacheing 'net' from data/chars/misc/net/net.txt
+Cacheing 'Delay' from data/chars/misc/delay.txt
+Cacheing 'Delay­_med' from data/chars/misc/delay_med.txt
+Cacheing 'Delay­_long' from data/chars/misc/delay_long.txt
+Cacheing 'Victory1' from data/chars/misc/victory1.txt
+Cacheing 'Victory2' from data/chars/misc/victory2.txt
+Cacheing 'idle1' from data/chars/misc/idle1.txt
+Cacheing 'idle2' from data/chars/misc/idle2.txt
+Cacheing 'zoomin' from data/chars/misc/zoomin.txt
+Cacheing 'zoomout_technodrome' from data/chars/misc/zoomout_technodrome.txt
+Cacheing 'stage_clear' from data/chars/misc/stage_clear/stage_clear.txt
+Cacheing 'stage_clear_train' from data/chars/misc/stage_clear/stage_clear_train.txt
+Cacheing 'aimove_hero_building' from data/chars/misc/programmed_moves/aimove_hero_building.txt
+Cacheing 'aimove_hero_apartment01' from data/chars/misc/programmed_moves/aimove_hero_apartment01.txt
+Cacheing 'aimove_hero_city_triceratons' from data/chars/misc/programmed_moves/aimove_hero_city_triceratons.txt
+Cacheing 'aimove_hero_construction' from data/chars/misc/programmed_moves/aimove_hero_construction.txt
+Cacheing 'aimove_hero_battleship' from data/chars/misc/programmed_moves/aimove_hero_battleship.txt
+Cacheing 'aimove_hero_channel6_02' from data/chars/misc/programmed_moves/aimove_hero_channel6_02.txt
+Cacheing 'aimove_hero_channel6_01' from data/chars/misc/programmed_moves/aimove_hero_channel6_01.txt
+Cacheing 'aimove_hero_dim_x01' from data/chars/misc/programmed_moves/aimove_hero_dim_x01.txt
+Cacheing 'aimove_hero_dim_x02' from data/chars/misc/programmed_moves/aimove_hero_dim_x02.txt
+Cacheing 'aimove_hero_train_blimp' from data/chars/misc/programmed_moves/aimove_hero_train_blimp.txt
+Cacheing 'aimove_hero_nowhere' from data/chars/misc/programmed_moves/aimove_hero_nowhere.txt
+Cacheing 'cowabunga' from data/chars/misc/stage_clear/cowabunga.txt
+Cacheing 'cowabunga_train' from data/chars/misc/stage_clear/cowabunga_train.txt
+Cacheing 'fade' from data/chars/misc/fade/fade.txt
+Cacheing 'fadeshort' from data/chars/misc/fade/fadeshort.txt
+Cacheing 'fadeshort_none' from data/chars/misc/fade/fadeshort_none.txt
+Cacheing 'fadewhite' from data/chars/misc/fade/fadewhite.txt
+Cacheing 'fadenone' from data/chars/misc/fade/fadenone.txt
+Cacheing 'fadewhite2' from data/chars/misc/fade/fadewhite2.txt
+Cacheing 'fadeinwhite' from data/chars/misc/fade/fadeinwhite.txt
+Cacheing 'fadeoutwhite' from data/chars/misc/fade/fadeoutwhite.txt
+Cacheing 'fadeoutblack' from data/chars/misc/fade/fadeoutblack.txt
+Cacheing 'quake' from data/chars/misc/fade/quake.txt
+Cacheing 'quake_sound' from data/chars/misc/fade/quake_sound.txt
+Cacheing 'fade_in_tmnt' from data/chars/misc/fade/tmnt_fade/fade_in_tmnt.txt
+Cacheing 'fade_out_tmnt' from data/chars/misc/fade/tmnt_fade/fade_out_tmnt.txt
+Cacheing 'fade_circle' from data/chars/misc/fade/fade_circle.txt
+Cacheing 'darken' from data/chars/misc/fade/darken.txt
+Cacheing 'darken_dojo' from data/chars/misc/fade/darken_dojo.txt
+Cacheing 'fadeincameraflash' from data/chars/misc/fade/fadeincameraflash.txt
+Cacheing 'karai_smoke' from data/chars/misc/fade/karai_smoke.txt
+Cacheing 'map_blimp' from data/chars/misc/fade/map_blimp.txt
+Cacheing 'map_snow' from data/chars/misc/fade/map_snow.txt
+Cacheing 'smartbomb_onlyboss' from data/chars/misc/fade/smartbomb_onlyboss.txt
+Cacheing 'chrome_quake' from data/chars/misc/fade/chrome_quake.txt
+Cacheing 'stageclear' from data/chars/misc/stageclear/stageclear.txt
+
+Loaded 'Flash' from data/chars/misc/flash.txt 
+Loaded 'Flashnone' from data/chars/misc/flashnone.txt 
+Loaded 'spark' from data/chars/misc/spark/spark.txt 
+Loaded 'flash_blob' from data/chars/misc/flash_blob.txt 
+Loaded 'LEO' from data/chars/leo/leo.txt 
+Loaded 'MIKE' from data/chars/Mike/Mike.txt 
+Loaded 'don' from data/chars/don/don.txt 
+Loaded 'raph' from data/chars/raph/raph.txt 
+Loaded 'SPLIN' from data/chars/splinter/splinter.txt 
+Loaded 'APRIL' from data/chars/april/april.txt 
+Loaded 'fadeincameraflash' from data/chars/misc/fade/fadeincameraflash.txt 
+Loaded 'IRMA' from data/chars/irma/irma.txt 
+Loaded 'irma_blast' from data/chars/irma/irma_blast.txt 
+Loaded 'burne' from data/chars/burne/burne.txt 
+Loaded 'chrome_quake' from data/chars/misc/fade/chrome_quake.txt 
+Loaded 'vernon' from data/chars/vernon/vernon.txt 
+Loaded 'CASEY' from data/chars/casey/casey.txt 
+Loaded 'golden_puck' from data/chars/casey/golden_puck.txt 
+Loaded 'USAGI' from data/chars/usagi/usagi.txt 
+Loaded 'usagi_dagger' from data/chars/usagi/usagi_dagger.txt 
+Loaded 'M_HEAD' from data/chars/metalhead/metalhead.txt 
+Loaded 'mhead_laser' from data/chars/metalhead/mhead_laser.TXT 
+Loaded 'ace' from data/chars/ace/ace.txt 
+Loaded 'dask_bullet' from data/chars/neutrinos/dask/dask_bullet.txt 
+Loaded 'ace_grenade01' from data/chars/ace/ace_grenade01.txt 
+Loaded 'explosion_safe' from data/chars/misc/explosion/explosion_safe.txt 
+Loaded 'smoke_nojump' from data/chars/misc/smoke/smoke_nojump.txt 
+Command 'humpheight' not understood in file 'data/chars/misc/smoke/smoke_nojump.txt'!
+Loaded 'ace_grenade02' from data/chars/ace/ace_grenade02.txt 
+Loaded 'ace_grenade03' from data/chars/ace/ace_grenade03.txt 
+Loaded 'ace_grenade04' from data/chars/ace/ace_grenade04.txt 
+Command '**********************************************************' not understood in file 'data/chars/ace/ace.txt'!
+Command '**********************************************************' not understood in file 'data/chars/ace/ace.txt'!
+Command '*******' not understood in file 'data/chars/ace/ace.txt'!
+Command '**********************************************************' not understood in file 'data/chars/ace/ace.txt'!
+Loaded 'geng' from data/chars/punk_frogs/GENGHIS/GENGHIS.txt 
+Loaded 'rasp' from data/chars/punk_frogs/rasputin/rasputin.txt 
+Loaded 'rasputin_arrow' from data/chars/punk_frogs/rasputin/rasputin_arrow.txt 
+Loaded 'napol' from data/chars/punk_frogs/napoleon/napoleon.txt 
+Loaded 'atill' from data/chars/punk_frogs/atilla/atilla.txt 
+Loaded 'zak' from data/chars/neutrinos/zak/zak.txt 
+Loaded 'zak_bullet' from data/chars/neutrinos/zak/zak_bullet.txt 
+Loaded 'zak_cruiser' from data/chars/neutrinos/zak/zak_cruiser.txt 
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/zak/zak.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/zak/zak.txt'!
+Command '*******' not understood in file 'data/chars/neutrinos/zak/zak.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/zak/zak.txt'!
+Loaded 'kala' from data/chars/neutrinos/kala/kala.txt 
+Loaded 'dask_cruiser' from data/chars/neutrinos/dask/dask_cruiser.txt 
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/kala/kala.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/kala/kala.txt'!
+Command '*******' not understood in file 'data/chars/neutrinos/kala/kala.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/kala/kala.txt'!
+Loaded 'dask' from data/chars/neutrinos/dask/dask.txt 
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/dask/dask.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/dask/dask.txt'!
+Command '*******' not understood in file 'data/chars/neutrinos/dask/dask.txt'!
+Command '**********************************************************' not understood in file 'data/chars/neutrinos/dask/dask.txt'!
+Loaded 'mondo' from data/chars/mondo/mondo.txt 
+Command '****************************************************' not understood in file 'data/chars/mondo/mondo.txt'!
+Command '*******************************************************' not understood in file 'data/chars/mondo/mondo.txt'!
+Loaded 'lotus' from data/chars/lotus/lotus.txt 
+Loaded 'zach' from data/chars/zach/zach.txt 
+Loaded 'MUCK' from data/chars/muckman/muckman.txt 
+Loaded 'muckspecial' from data/chars/muckman/muckspecial.txt 
+Loaded 'joespecial' from data/chars/muckman/joespecial.txt 
+Loaded 'ray' from data/chars/ray/ray.txt 
+Loaded 'rayray' from data/chars/ray/rayray.txt 
+Loaded 'FUGI' from data/chars/fugitoid/fugitoid.txt 
+Loaded 'fugitoid_bullet' from data/chars/fugitoid/fugitoid_bullet.txt 
+Warning: The image data/chars/fugitoid/idle_nick.png is interlaced. For faster load times, use non-interlaced images.
+Loaded 'wing' from data/chars/wingnut/wingnut.txt 
+Loaded 'screwloose' from data/chars/wingnut/screwloose.txt 
+Loaded 'ASKA' from data/chars/ASKA/ASKA.txt 
+Loaded 'aska_hurricane' from data/chars/aska/aska_hurricane.TXT 
+Loaded 'aska_hurricane_flip' from data/chars/aska/aska_hurricane_flip.TXT 
+Loaded 'H_HEAD' from data/chars/hothead/hothead.txt 
+Command '**********************************************************' not understood in file 'data/chars/hothead/hothead.txt'!
+Command '**********************************************************' not understood in file 'data/chars/hothead/hothead.txt'!
+Command '*******' not understood in file 'data/chars/hothead/hothead.txt'!
+Command '**********************************************************' not understood in file 'data/chars/hothead/hothead.txt'!
+Loaded 'MONA' from data/chars/mona/mona.txt 
+Loaded 'ROCK' from data/chars/rocksteady/rocksteady.txt 
+Loaded 'rocksteady_laser_good' from data/chars/rocksteady/rocksteady_laser_good.TXT 
+Loaded 'grenade_good01' from data/chars/rocksteady/grenade_good01.txt 
+Loaded 'grenade_good02' from data/chars/rocksteady/grenade_good02.txt 
+Loaded 'grenade_good03' from data/chars/rocksteady/grenade_good03.txt 
+Loaded 'grenade_good04' from data/chars/rocksteady/grenade_good04.txt 
+Command '**********************************************************' not understood in file 'data/chars/rocksteady/rocksteady.txt'!
+Command '**********************************************************' not understood in file 'data/chars/rocksteady/rocksteady.txt'!
+Command '*******' not understood in file 'data/chars/rocksteady/rocksteady.txt'!
+Command '**********************************************************' not understood in file 'data/chars/rocksteady/rocksteady.txt'!
+Loaded 'bebop' from data/chars/bebop/bebop.txt 
+Command '**********************************************************' not understood in file 'data/chars/bebop/bebop.txt'!
+Command '**********************************************************' not understood in file 'data/chars/bebop/bebop.txt'!
+Command '*******' not understood in file 'data/chars/bebop/bebop.txt'!
+Command '**********************************************************' not understood in file 'data/chars/bebop/bebop.txt'!
+Loaded 'baxter' from data/chars/baxter_stockman/baxter.txt 
+Command '**************************' not understood in file 'data/chars/baxter_stockman/baxter.txt'!
+Command '*****************************' not understood in file 'data/chars/baxter_stockman/baxter.txt'!
+Loaded 'r_king' from data/chars/rat_king/rat_king.txt 
+Loaded 'giant_rat_good' from data/chars/giant_rat/giant_rat_good.txt 
+Loaded 'giant_rat_good_left' from data/chars/giant_rat/giant_rat_good_left.txt 
+Command '**********************************************************' not understood in file 'data/chars/rat_king/rat_king.txt'!
+Command '**********************************************************' not understood in file 'data/chars/rat_king/rat_king.txt'!
+Command '*******' not understood in file 'data/chars/rat_king/rat_king.txt'!
+Command '**********************************************************' not understood in file 'data/chars/rat_king/rat_king.txt'!
+Loaded 'traag' from data/chars/traag/traag.txt 
+Loaded 'traag_missile_good' from data/chars/snowman/traag_missile_good.txt 
+Command '**********************************************************' not understood in file 'data/chars/traag/traag.txt'!
+Command '**********************************************************' not understood in file 'data/chars/traag/traag.txt'!
+Command '*******' not understood in file 'data/chars/traag/traag.txt'!
+Command '**********************************************************' not understood in file 'data/chars/traag/traag.txt'!
+Loaded 'gran' from data/chars/granitor/granitor.txt 
+Command '**********************************************************' not understood in file 'data/chars/granitor/granitor.txt'!
+Command '**********************************************************' not understood in file 'data/chars/granitor/granitor.txt'!
+Command '*******' not understood in file 'data/chars/granitor/granitor.txt'!
+Command '**********************************************************' not understood in file 'data/chars/granitor/granitor.txt'!
+Loaded 'GRND' from data/chars/groundchuck/groundchuck.txt 
+Command '**********************************************************' not understood in file 'data/chars/groundchuck/groundchuck.txt'!
+Command '**********************************************************' not understood in file 'data/chars/groundchuck/groundchuck.txt'!
+Command '*******' not understood in file 'data/chars/groundchuck/groundchuck.txt'!
+Command '**********************************************************' not understood in file 'data/chars/groundchuck/groundchuck.txt'!
+Loaded 'dbag' from data/chars/dirtbag/dirtbag.txt 
+Loaded 'dbag_laser_good' from data/chars/dirtbag/dbag_laser_good.TXT 
+Loaded 'dbag_laser_good_pain' from data/chars/dirtbag/dbag_laser_good_pain.TXT 
+Command '**********************************************************' not understood in file 'data/chars/dirtbag/dirtbag.txt'!
+Command '**********************************************************' not understood in file 'data/chars/dirtbag/dirtbag.txt'!
+Command '*******' not understood in file 'data/chars/dirtbag/dirtbag.txt'!
+Command '**********************************************************' not understood in file 'data/chars/dirtbag/dirtbag.txt'!
+Loaded 'TORA' from data/chars/tora/tora.txt 
+Loaded 'ice_rock_throw_good' from data/chars/misc/ice_rock/ice_rock_throw_good.txt 
+Command '**********************************************************' not understood in file 'data/chars/tora/tora.txt'!
+Command '**********************************************************' not understood in file 'data/chars/tora/tora.txt'!
+Command '*******' not understood in file 'data/chars/tora/tora.txt'!
+Command '**********************************************************' not understood in file 'data/chars/tora/tora.txt'!
+Loaded 'shogun' from data/chars/shogun/shogun.txt 
+Loaded 'shogun_head' from data/chars/shogun/shogun_head.TXT 
+Loaded 'slash' from data/chars/slash/slash.txt 
+Loaded 'p_face' from data/chars/pizzaface/p_face.txt 
+Loaded 'pizzaface_leg_good' from data/chars/pizzaface/pizzaface_leg_good.txt 
+Command '*********************************************************' not understood in file 'data/chars/pizzaface/p_face.txt'!
+Command '*-******************************************************' not understood in file 'data/chars/pizzaface/p_face.txt'!
+Loaded 'meca' from data/chars/mecaturtle/mecaturtle.txt 
+Loaded 'explosion_safe_huge' from data/chars/misc/explosion/explosion_safe_huge.txt 
+Loaded 'meca_bullet_good' from data/chars/mecaturtle/meca_bullet_good.TXT 
+Command '**********************************************************' not understood in file 'data/chars/mecaturtle/mecaturtle.txt'!
+Command '**********************************************************' not understood in file 'data/chars/mecaturtle/mecaturtle.txt'!
+Command '*******' not understood in file 'data/chars/mecaturtle/mecaturtle.txt'!
+Command '**********************************************************' not understood in file 'data/chars/mecaturtle/mecaturtle.txt'!
+Loaded 'lhead' from data/chars/leatherhead/leatherhead.txt 
+Loaded 'knife_lhead_good' from data/chars/leatherhead/knife_lhead_good.txt 
+Command '**********************************************************' not understood in file 'data/chars/leatherhead/leatherhead.txt'!
+Command '**********************************************************' not understood in file 'data/chars/leatherhead/leatherhead.txt'!
+Command '*******' not understood in file 'data/chars/leatherhead/leatherhead.txt'!
+Command '**********************************************************' not understood in file 'data/chars/leatherhead/leatherhead.txt'!
+Loaded 'c_dome' from data/chars/chrome_dome/chrome_dome.txt 
+Loaded 'tokka' from data/chars/tokka/tokka.txt 
+Command '**********************************************************' not understood in file 'data/chars/tokka/tokka.txt'!
+Command '**********************************************************' not understood in file 'data/chars/tokka/tokka.txt'!
+Command '*******' not understood in file 'data/chars/tokka/tokka.txt'!
+Command '**********************************************************' not understood in file 'data/chars/tokka/tokka.txt'!
+Loaded 'rahzar' from data/chars/rahzar/rahzar.TXT 
+Loaded 'rahzar_ice_good' from data/chars/rahzar/rahzar_ice_good.TXT 
+Loaded 'rahzar_ice_up_good' from data/chars/rahzar/rahzar_ice_up_good.TXT 
+Loaded 'rahzar_ice_down_good' from data/chars/rahzar/rahzar_ice_down_good.TXT 
+Command '**********************************************************' not understood in file 'data/chars/rahzar/rahzar.TXT'!
+Command '**********************************************************' not understood in file 'data/chars/rahzar/rahzar.TXT'!
+Command '*******' not understood in file 'data/chars/rahzar/rahzar.TXT'!
+Command '**********************************************************' not understood in file 'data/chars/rahzar/rahzar.TXT'!
+Loaded 'tatsu' from data/chars/tatsu/tatsu.TXT 
+Loaded 'blade_daggerdown_good' from data/chars/blade/blade_daggerdown_good.txt 
+Loaded 'blade_daggerhor_good' from data/chars/blade/blade_daggerhor_good.txt 
+Loaded 'foot_good' from data/chars/foot/foot_good.txt 
+Loaded 'foot_good_left' from data/chars/foot/foot_good_left.txt 
+Command '**********************************************************' not understood in file 'data/chars/tatsu/tatsu.TXT'!
+Command '**********************************************************' not understood in file 'data/chars/tatsu/tatsu.TXT'!
+Command '*******' not understood in file 'data/chars/tatsu/tatsu.TXT'!
+Command '**********************************************************' not understood in file 'data/chars/tatsu/tatsu.TXT'!
+Loaded 'antrax' from data/chars/antrax/antrax.txt 
+Loaded 'antrax_axe_good' from data/chars/antrax/antrax_axe_good.TXT 
+Command '*********************************************************' not understood in file 'data/chars/antrax/antrax.txt'!
+Command '*-******************************************************' not understood in file 'data/chars/antrax/antrax.txt'!
+Loaded 'armag' from data/chars/armaggon/armaggon.txt 
+Loaded 'armaggon_blast_good' from data/chars/armaggon/armaggon_blast_good.TXT 
+Command '**********************************************************' not understood in file 'data/chars/armaggon/armaggon.txt'!
+Command '**********************************************************' not understood in file 'data/chars/armaggon/armaggon.txt'!
+Command '*******' not understood in file 'data/chars/armaggon/armaggon.txt'!
+Command '**********************************************************' not understood in file 'data/chars/armaggon/armaggon.txt'!
+Loaded 'karai' from data/chars/karai/karai.txt 
+Loaded 'tric' from data/chars/triceraton/triceraton.txt 
+Loaded 'triceraton_bullet_good' from data/chars/triceraton/triceraton_bullet_good.TXT 
+Command '**********************************************************' not understood in file 'data/chars/triceraton/triceraton.txt'!
+Command '**********************************************************' not understood in file 'data/chars/triceraton/triceraton.txt'!
+Command '*******' not understood in file 'data/chars/triceraton/triceraton.txt'!
+Command '**********************************************************' not understood in file 'data/chars/triceraton/triceraton.txt'!
+Loaded 'temp' from data/chars/tempestra/tempestra.txt 
+Loaded 'atari_explosion' from data/chars/tempestra/atari_explosion.txt 
+Loaded 'atari_asteroid_good' from data/chars/tempestra/atari_asteroid_good.txt 
+Loaded 'atari_asteroid_good_sound' from data/chars/tempestra/atari_asteroid_good_sound.txt 
+Command '*********************' not understood in file 'data/chars/tempestra/tempestra.txt'!
+Command '*****************' not understood in file 'data/chars/tempestra/tempestra.txt'!
+Command '************' not understood in file 'data/chars/tempestra/tempestra.txt'!
+Loaded 's_tail' from data/chars/scale_tail/scale_tail.txt 
+Loaded 'scale_ball_good' from data/chars/scale_tail/scale_ball_good.txt 
+Loaded 'scale_fire_upperleft_good' from data/chars/scale_tail/scale_fire_upperleft_good.txt 
+Loaded 'smoke' from data/chars/misc/smoke/smoke.txt 
+Command 'humpheight' not understood in file 'data/chars/misc/smoke/smoke.txt'!
+Loaded 'scale_fire_upperright_good' from data/chars/scale_tail/scale_fire_upperright_good.txt 
+Loaded 'scale_fire_lowerleft_good' from data/chars/scale_tail/scale_fire_lowerleft_good.txt 
+Loaded 'scale_fire_lowerright_good' from data/chars/scale_tail/scale_fire_lowerright_good.txt 
+Loaded 'scrat' from data/chars/scratch/scratch.txt 
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '*****' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '0' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '*********************************************************' not understood in file 'data/chars/scratch/scratch.txt'!
+Command '*-******************************************************' not understood in file 'data/chars/scratch/scratch.txt'!
+Loaded 'war' from data/chars/war/war.txt 
+Loaded 'c_shrd' from data/chars/c_shredder/cshredder.txt 
+Loaded 's_shrd' from data/chars/super_shredder/super_shredder.txt 
+Loaded 'super_shredder_hadoken_good' from data/chars/super_shredder/super_shredder_hadoken_good.TXT 
+Loaded 'krang' from data/chars/krang/normal/krang.txt 
+Loaded 'krang_missile_good' from data/chars/krang/normal/krang_missile_good.txt 
+Command '**********************************************************' not understood in file 'data/chars/krang/normal/krang.txt'!
+Command '**********************************************************' not understood in file 'data/chars/krang/normal/krang.txt'!
+Command '*******' not understood in file 'data/chars/krang/normal/krang.txt'!
+Command '**********************************************************' not understood in file 'data/chars/krang/normal/krang.txt'!
+Loaded 'shred' from data/chars/shredder/shredder.txt 
+Loaded 'joinin_leo' from data/chars/misc/ending/join_in/joinin_leo.txt 
+Loaded 'joinin_mike' from data/chars/misc/ending/join_in/joinin_mike.txt 
+Loaded 'joinin_don' from data/chars/misc/ending/join_in/joinin_don.txt 
+Loaded 'joinin_raph' from data/chars/misc/ending/join_in/joinin_raph.txt 
+Loaded 'leo_chopper' from data/chars/leo/leo_chopper.txt 
+Loaded 'empty_shot' from data/chars/misc/TMNT_weapons/empty_shot.txt 
+Loaded 'chopper_laser_good' from data/chars/misc/TMNT_weapons/chopper_laser_good.txt 
+Loaded 'chopper_spark_good' from data/chars/misc/TMNT_weapons/chopper_spark_good.txt 
+Loaded 'mike_chopper' from data/chars/Mike/mike_chopper.txt 
+Loaded 'don_chopper' from data/chars/don/don_chopper.txt 
+Loaded 'raph_chopper' from data/chars/raph/raph_chopper.txt 
+Warning: Failed to create colourmap. Failed to load file 2
+Warning: Failed to create colourmap. Failed to load file 2
+Loaded 'splinter_chopper' from data/chars/splinter/splinter_chopper.txt 
+Loaded 'april_chopper' from data/chars/april/april_chopper.txt 
+Loaded 'irma_chopper' from data/chars/irma/irma_chopper.txt 
+Loaded 'usagi_chopper' from data/chars/usagi/usagi_chopper.txt 
+Loaded 'fugitoid_chopper' from data/chars/fugitoid/fugitoid_chopper.txt 
+Loaded 'genghis_chopper' from data/chars/punk_frogs/genghis/genghis_chopper.txt 
+Loaded 'rasputin_chopper' from data/chars/punk_frogs/rasputin/rasputin_chopper.txt 
+Loaded 'napoleon_chopper' from data/chars/punk_frogs/napoleon/napoleon_chopper.txt 
+Loaded 'atilla_chopper' from data/chars/punk_frogs/atilla/atilla_chopper.txt 
+Loaded 'muckman_chopper' from data/chars/muckman/muckman_chopper.txt 
+Warning: Failed to create colourmap. Failed to load file 1
+Loaded 'aska_chopper' from data/chars/aska/aska_chopper.txt 
+Loaded 'mona_chopper' from data/chars/mona/mona_chopper.txt 
+Loaded 'casey_chopper' from data/chars/casey/casey_chopper.txt 
+Loaded 'tatsu_chopper' from data/chars/tatsu/tatsu_chopper.txt 
+Loaded 'armaggon_chopper' from data/chars/armaggon/armaggon_chopper.txt 
+Loaded 'chrome_chopper' from data/chars/chrome_dome/chrome_chopper.txt 
+Loaded 'dbag_chopper' from data/chars/dirtbag/dbag_chopper.txt 
+Loaded 'granitor_chopper' from data/chars/granitor/granitor_chopper.txt 
+Loaded 'groundchuck_chopper' from data/chars/groundchuck/groundchuck_chopper.txt 
+Loaded 'hothead_chopper' from data/chars/hothead/hothead_chopper.txt 
+Loaded 'leatherhead_chopper' from data/chars/leatherhead/leatherhead_chopper.txt 
+Loaded 'meca_chopper' from data/chars/mecaturtle/meca_chopper.txt 
+Warning: Failed to create colourmap. Failed to load file 2
+Loaded 'rahzar_chopper' from data/chars/rahzar/rahzar_chopper.txt 
+Loaded 'rocksteady_chopper' from data/chars/rocksteady/rocksteady_chopper.txt 
+Loaded 'shogun_chopper' from data/chars/shogun/shogun_chopper.txt 
+Loaded 'slash_chopper' from data/chars/slash/slash_chopper.txt 
+Loaded 'tokka_chopper' from data/chars/tokka/tokka_chopper.txt 
+Loaded 'tora_chopper' from data/chars/tora/tora_chopper.txt 
+Loaded 'traag_chopper' from data/chars/traag/traag_chopper.txt 
+Loaded 'mhead_chopper' from data/chars/metalhead/mhead_chopper.txt 
+Warning: Failed to create colourmap. Failed to load file 2
+Loaded 'ace_chopper' from data/chars/ace/ace_chopper.txt 
+Loaded 'burne_chopper' from data/chars/burne/burne_chopper.txt 
+Loaded 'lotus_chopper' from data/chars/lotus/lotus_chopper.txt 
+Loaded 'mondo_chopper' from data/chars/mondo/mondo_chopper.txt 
+Loaded 'dask_chopper' from data/chars/neutrinos/dask/dask_chopper.txt 
+Loaded 'kala_chopper' from data/chars/neutrinos/kala/kala_chopper.txt 
+Loaded 'zak_chopper' from data/chars/neutrinos/zak/zak_chopper.txt 
+Loaded 'ray_chopper' from data/chars/ray/ray_chopper.txt 
+Loaded 'vernon_chopper' from data/chars/vernon/vernon_chopper.txt 
+Loaded 'wingnut_chopper' from data/chars/wingnut/wingnut_chopper.txt 
+Loaded 'zach_chopper' from data/chars/zach/zach_chopper.txt 
+Loaded 'antrax_chopper' from data/chars/antrax/antrax_chopper.txt 
+Loaded 'pizzaface_chopper' from data/chars/pizzaface/pizzaface_chopper.txt 
+Loaded 'rat_king_chopper' from data/chars/rat_king/rat_king_chopper.txt 
+Loaded 'baxter_chopper' from data/chars/baxter_stockman/baxter_chopper.txt 
+Loaded 'bebop_chopper' from data/chars/bebop/bebop_chopper.txt 
+Loaded 'c_shredder_chopper' from data/chars/c_shredder/c_shredder_chopper.txt 
+Loaded 'shredder_chopper' from data/chars/shredder/shredder_chopper.txt 
+Loaded 'karai_chopper' from data/chars/karai/karai_chopper.txt 
+Loaded 'krang_chopper' from data/chars/krang/normal/krang_chopper.txt 
+Loaded 'scratch_chopper' from data/chars/scratch/scratch_chopper.txt 
+Loaded 'super_shredder_chopper' from data/chars/super_shredder/super_shredder_chopper.txt 
+Loaded 'tempestra_chopper' from data/chars/tempestra/tempestra_chopper.txt 
+Loaded 'triceraton_chopper' from data/chars/triceraton/triceraton_chopper.txt 
+Loaded 'war_chopper' from data/chars/war/war_chopper.txt 
+Loaded 'scale_chopper' from data/chars/scale_tail/scale_chopper.txt 
+Loaded 'leo_mouser' from data/chars/leo/leo_mouser.txt 
+Loaded 'mouser_bullet_good' from data/chars/foot/mother_mouser/mouser_bullet_good.txt 
+Loaded 'mike_mouser' from data/chars/Mike/mike_mouser.txt 
+Loaded 'raph_mouser' from data/chars/raph/raph_mouser.txt 
+Loaded 'don_mouser' from data/chars/don/don_mouser.txt 
+Loaded 'splinter_mouser' from data/chars/splinter/splinter_mouser.txt 
+Loaded 'april_mouser' from data/chars/april/april_mouser.txt 
+Loaded 'irma_mouser' from data/chars/irma/irma_mouser.txt 
+Loaded 'usagi_mouser' from data/chars/usagi/usagi_mouser.txt 
+Loaded 'fugitoid_mouser' from data/chars/fugitoid/fugitoid_mouser.txt 
+Loaded 'genghis_mouser' from data/chars/punk_frogs/genghis/genghis_mouser.txt 
+Loaded 'rasputin_mouser' from data/chars/punk_frogs/rasputin/rasputin_mouser.txt 
+Loaded 'napoleon_mouser' from data/chars/punk_frogs/napoleon/napoleon_mouser.txt 
+Loaded 'atilla_mouser' from data/chars/punk_frogs/atilla/atilla_mouser.txt 
+Loaded 'muckman_mouser' from data/chars/muckman/muckman_mouser.txt 
+Loaded 'aska_mouser' from data/chars/aska/aska_mouser.txt 
+Loaded 'mona_mouser' from data/chars/mona/mona_mouser.txt 
+Loaded 'casey_mouser' from data/chars/casey/casey_mouser.txt 
+Loaded 'tatsu_mouser' from data/chars/tatsu/tatsu_mouser.txt 
+Loaded 'armaggon_mouser' from data/chars/armaggon/armaggon_mouser.txt 
+Loaded 'chrome_mouser' from data/chars/chrome_dome/chrome_mouser.txt 
+Loaded 'dbag_mouser' from data/chars/dirtbag/dbag_mouser.txt 
+Loaded 'granitor_mouser' from data/chars/granitor/granitor_mouser.txt 
+Loaded 'groundchuck_mouser' from data/chars/groundchuck/groundchuck_mouser.txt 
+Loaded 'hothead_mouser' from data/chars/hothead/hothead_mouser.txt 
+Loaded 'leatherhead_mouser' from data/chars/leatherhead/leatherhead_mouser.txt 
+Loaded 'meca_mouser' from data/chars/mecaturtle/meca_mouser.txt 
+Warning: Failed to create colourmap. Failed to load file 2
+Loaded 'rahzar_mouser' from data/chars/rahzar/rahzar_mouser.txt 
+Loaded 'rocksteady_mouser' from data/chars/rocksteady/rocksteady_mouser.txt 
+Loaded 'shogun_mouser' from data/chars/shogun/shogun_mouser.txt 
+Loaded 'slash_mouser' from data/chars/slash/slash_mouser.txt 
+Loaded 'tokka_mouser' from data/chars/tokka/tokka_mouser.txt 
+Loaded 'tora_mouser' from data/chars/tora/tora_mouser.txt 
+Loaded 'traag_mouser' from data/chars/traag/traag_mouser.txt 
+Loaded 'mhead_mouser' from data/chars/metalhead/mhead_mouser.txt 
+Warning: Failed to create colourmap. Failed to load file 2
+Loaded 'ace_mouser' from data/chars/ace/ace_mouser.txt 
+Loaded 'burne_mouser' from data/chars/burne/burne_mouser.txt 
+Loaded 'lotus_mouser' from data/chars/lotus/lotus_mouser.txt 
+Loaded 'mondo_mouser' from data/chars/mondo/mondo_mouser.txt 
+Loaded 'dask_mouser' from data/chars/neutrinos/dask/dask_mouser.txt 
+Loaded 'kala_mouser' from data/chars/neutrinos/kala/kala_mouser.txt 
+Loaded 'zak_mouser' from data/chars/neutrinos/zak/zak_mouser.txt 
+Loaded 'ray_mouser' from data/chars/ray/ray_mouser.txt 
+Loaded 'vernon_mouser' from data/chars/vernon/vernon_mouser.txt 
+Loaded 'wingnut_mouser' from data/chars/wingnut/wingnut_mouser.txt 
+Loaded 'zach_mouser' from data/chars/zach/zach_mouser.txt 
+Loaded 'antrax_mouser' from data/chars/antrax/antrax_mouser.txt 
+Loaded 'pizzaface_mouser' from data/chars/pizzaface/pizzaface_mouser.txt 
+Loaded 'rat_king_mouser' from data/chars/rat_king/rat_king_mouser.txt 
+Loaded 'baxter_mouser' from data/chars/baxter_stockman/baxter_mouser.txt 
+Loaded 'bebop_mouser' from data/chars/bebop/bebop_mouser.txt 
+Loaded 'c_shredder_mouser' from data/chars/c_shredder/c_shredder_mouser.txt 
+Loaded 'shredder_mouser' from data/chars/shredder/shredder_mouser.txt 
+Loaded 'karai_mouser' from data/chars/karai/karai_mouser.txt 
+Loaded 'krang_mouser' from data/chars/krang/normal/krang_mouser.txt 
+Loaded 'scratch_mouser' from data/chars/scratch/scratch_mouser.txt 
+Loaded 'super_shredder_mouser' from data/chars/super_shredder/super_shredder_mouser.txt 
+Loaded 'tempestra_mouser' from data/chars/tempestra/tempestra_mouser.txt 
+Loaded 'triceraton_mouser' from data/chars/triceraton/triceraton_mouser.txt 
+Loaded 'war_mouser' from data/chars/war/war_mouser.txt 
+Loaded 'scale_mouser' from data/chars/scale_tail/scale_mouser.txt 
+Loaded 'leo_overhead' from data/chars/turtle_overhead/leo_overhead.txt 
+Loaded 'mike_overhead' from data/chars/turtle_overhead/mike_overhead.txt 
+Loaded 'don_overhead' from data/chars/turtle_overhead/don_overhead.txt 
+Loaded 'raph_overhead' from data/chars/turtle_overhead/raph_overhead.txt 
+Loaded 'leo_tube' from data/chars/misc/tube/leo_tube.txt 
+Loaded 'tube_bullet' from data/chars/misc/tube/tube_bullet.txt 
+Loaded 'mike_tube' from data/chars/misc/tube/mike_tube.txt 
+Loaded 'don_tube' from data/chars/misc/tube/don_tube.txt 
+Loaded 'raph_tube' from data/chars/misc/tube/raph_tube.txt 
+Loaded 'leo_skate' from data/chars/misc/cheapskate/leo_skate.txt 
+Loaded 'cheapskate' from data/chars/misc/cheapskate/cheapskate.txt 
+Loaded 'mike_skate' from data/chars/misc/cheapskate/mike_skate.txt 
+Loaded 'don_skate' from data/chars/misc/cheapskate/don_skate.txt 
+Loaded 'raph_skate' from data/chars/misc/cheapskate/raph_skate.txt 
+Loaded 'leo_trooper' from data/chars/misc/turtle_trooper/leo_trooper.txt 
+Loaded 'mike_trooper' from data/chars/misc/turtle_trooper/mike_trooper.txt 
+Loaded 'don_trooper' from data/chars/misc/turtle_trooper/don_trooper.txt 
+Loaded 'raph_trooper' from data/chars/misc/turtle_trooper/raph_trooper.txt 
+Loaded 'leo_catapult' from data/chars/misc/retrocatapult/leo_catapult.txt 
+Loaded 'smoke_jump' from data/chars/misc/smoke/smoke_jump.txt 
+Command 'humpheight' not understood in file 'data/chars/misc/smoke/smoke_jump.txt'!
+Loaded 'foot_retrocatapult' from data/chars/foot/foot_retrocatapult.txt 
+Loaded 'mike_catapult' from data/chars/misc/retrocatapult/mike_catapult.txt 
+Loaded 'don_catapult' from data/chars/misc/retrocatapult/don_catapult.txt 
+Loaded 'raph_catapult' from data/chars/misc/retrocatapult/raph_catapult.txt 
+Loaded 'players_ending' from data/chars/misc/ending/players_ending.txt 
+Loaded 'mutagen_effect' from data/chars/misc/mutagen/mutagen_effect.txt 
+Loaded 'Dust' from data/chars/misc/dust/dust.txt 
+Loaded 'muckmanbullet' from data/chars/muckman/muckmanbullet.txt 
+Loaded 'fugitoid_bullet'Loaded 'traag_missile' from data/chars/snowman/traag_missile.txt 
+Loaded 'traag_missile_good'Loaded 'snow_missile' from data/chars/snowman/snow_missile.txt 
+Loaded 'explosion_safe'Loaded 'explosion_safe_bigger' from data/chars/misc/explosion/explosion_safe_bigger.txt 
+Loaded 'clear' from data/chars/misc/clear.txt 
+Loaded 'ice_rock_throw' from data/chars/misc/ice_rock/ice_rock_throw.txt 
+Loaded 'ice_rock_summon' from data/chars/misc/ice_rock/ice_rock_summon.txt 
+Loaded 'zoomin' from data/chars/misc/zoomin.txt 
+
+Loading models...............	Done!
+Object engine init...........	Done!
+Input init...................	Done!
+Create blending tables.......	Done!
+Save settings so far........	Done!
+
+
+Warning: Unknown command in lifebar.txt: 'colormagic25'.
+Warning: Unknown command in lifebar.txt: 'colormagic50'.
+Warning: Unknown command in lifebar.txt: 'colormagic100'.
+Warning: Unknown command in lifebar.txt: 'colormagic200'.
+Warning: Unknown command in lifebar.txt: 'colormagic300'.
+Warning: Unknown command in lifebar.txt: 'colormagic400'.
+Warning: Unknown command in lifebar.txt: 'colormagic500'.
+
+Can't play music file 'data/music/remix'
+Warning: Unknown command in lifebar.txt: 'colormagic25'.
+Warning: Unknown command in lifebar.txt: 'colormagic50'.
+Warning: Unknown command in lifebar.txt: 'colormagic100'.
+Warning: Unknown command in lifebar.txt: 'colormagic200'.
+Warning: Unknown command in lifebar.txt: 'colormagic300'.
+Warning: Unknown command in lifebar.txt: 'colormagic400'.
+Warning: Unknown command in lifebar.txt: 'colormagic500'.
+Warning: Unknown command in lifebar.txt: 'colormagic25'.
+Warning: Unknown command in lifebar.txt: 'colormagic50'.
+Warning: Unknown command in lifebar.txt: 'colormagic100'.
+Warning: Unknown command in lifebar.txt: 'colormagic200'.
+Warning: Unknown command in lifebar.txt: 'colormagic300'.
+Warning: Unknown command in lifebar.txt: 'colormagic400'.
+Warning: Unknown command in lifebar.txt: 'colormagic500'.
+Level Loading:   'data/levels/join_in.txt'
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:     2732032 Bytes (     2 MB )
+ Used Ram:    18301440 Bytes (    17 MB )
+
+Command '*************************************' not understood in file 'data/levels/join_in.txt'!
+Loaded 'joinin_nomove' from data/chars/misc/ending/join_in/joinin_nomove.txt 
+Loaded 'delay_long' from data/chars/misc/delay_long.txt 
+Command '******' not understood in file 'data/levels/join_in.txt'!
+
+Level Loaded:    'data/levels/join_in.txt'
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:     2166784 Bytes (     2 MB )
+ Used Ram:    18321920 Bytes (    17 MB )
+Total sprites mapped: 2528
+
+
+************ Shutting Down ************
+
+OpenBOR v4.0 Build 0 (commit hash: b00efbc), Compile Date: Apr 22 2022
+Presented by the OpenBOR Team.
+www.chronocrash.com
+OpenBOR is the open source continuation of Beats of Rage by Senile Team.
+
+Special thanks to SEGA and SNK.
+
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:     2387968 Bytes (     2 MB )
+ Used Ram:    18321920 Bytes (    17 MB )
+
+Level Unloading: 'data/levels/join_in.txt'
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:     2359296 Bytes (     2 MB )
+ Used Ram:    18321920 Bytes (    17 MB )
+
+RAM Status:
+Total Ram:   105840640 Bytes (   100 MB )
+ Free Ram:     2359296 Bytes (     2 MB )
+ Used Ram:    18321920 Bytes (    17 MB )
+

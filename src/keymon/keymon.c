@@ -696,6 +696,27 @@ int isGMURunning()
 	return 0;
 }
 
+int isProcessRunning(const char* processName) {
+    FILE *fp;
+    char buffer[64];
+    char cmd[64];
+    snprintf(cmd, sizeof(cmd), "pgrep %s", processName);
+
+    fp = popen(cmd, "r");
+    if (fp == NULL) {
+        printf("Error al ejecutar el comando 'pgrep %s'\n", processName);
+        return 0;
+    }
+
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        pclose(fp);
+        return 1;
+    }
+
+    pclose(fp);
+    return 0;
+}
+
 void display_setScreen(int value) {
 	if (value == 0) {  // enter in savepower mode
 		if (isRetroarchRunning() == 1) {
@@ -876,6 +897,9 @@ int main (int argc, char *argv[]) {
 				// Increase volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
+				if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				getVolume();
+				}
 				setVolume(volume, 1);
 				}
 				break;
@@ -883,6 +907,9 @@ int main (int argc, char *argv[]) {
 				// Decrease volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
+				if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				getVolume();
+				}
 				setVolume(volume, -1);
 				}
 				break;
@@ -904,10 +931,6 @@ int main (int argc, char *argv[]) {
 		
 		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed) {
 			killRetroArch();
-		}
-		
-		if (isDrasticRunning() == 1) {
-		getVolume();
 		}
 		
 		if (shutdown) {
