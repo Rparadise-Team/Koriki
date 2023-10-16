@@ -55,6 +55,7 @@
 // Global Variables
 static struct input_event	ev;
 static int input_fd = 0;
+static int mmModel = 0;
 
 char* load_file(char const* path) {
 	char* buffer = 0;
@@ -757,6 +758,7 @@ void killRetroArch() {
 
 int main (int argc, char *argv[]) {
 	input_fd = open("/dev/input/event0", O_RDONLY);
+	mmModel = access("/customer/app/axp_test", F_OK);
 	
 	getVolume();
 	modifyBrightness(0);
@@ -850,6 +852,7 @@ int main (int argc, char *argv[]) {
 							setmute(0);
 							sethibernate(0);
 							setcpu(0);
+							getVolume();
 							display_setScreen(1); // Turn screen back on
 							power_pressed = 0;
             				repeat_power = 0;
@@ -891,6 +894,48 @@ int main (int argc, char *argv[]) {
 				if (val == PRESSED && menu_pressed) {
 					// Decrease brightness
 					modifyBrightness(-1);
+				}
+				break;
+			case BUTTON_RIGHT:
+				if (mmModel) {
+					if (val == REPEAT) {
+						// Adjust repeat speed to 1/2
+						val = repeat;
+						repeat ^= PRESSED;
+					} else {
+						repeat = 0;
+					}
+					if (val == PRESSED && Select_pressed) {
+						// Increase volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						getVolume();
+						}
+						setVolume(volume, 1);
+						}
+					}
+				}
+				break;
+			case BUTTON_LEFT:
+				if (mmModel) {
+					if (val == REPEAT) {
+						// Adjust repeat speed to 1/2
+						val = repeat;
+						repeat ^= PRESSED;
+					} else {
+						repeat = 0;
+					}
+					if (val == PRESSED && Select_pressed) {
+						// Decrease volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						getVolume();
+						}
+						setVolume(volume, -1);
+						}
+					}
 				}
 				break;
 			case BUTTON_VOLUMEUP:
@@ -935,10 +980,10 @@ int main (int argc, char *argv[]) {
 		
 		if (shutdown) {
 			power_pressed = 0;
-			if (access("/customer/app/axp_test", F_OK) == 0)
-				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
-			else
+			if (mmModel)
 				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
+			else
+				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
 			while (1) pause();
 		}
 	}

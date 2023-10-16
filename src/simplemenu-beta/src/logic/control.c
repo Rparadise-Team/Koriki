@@ -953,7 +953,7 @@ void performSystemSettingsChoosingAction() {
 			if (keys[BTN_LEFT]) {
 				if (CPUMIYOO>400000) {
 					CPUMIYOO-=200000;
-					char cpuclock0[200];
+					char cpuclock0[100];
 					snprintf(cpuclock0, sizeof(cpuclock0), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
 					system(cpuclock0);
 					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
@@ -963,7 +963,7 @@ void performSystemSettingsChoosingAction() {
 			} else {
 				if (CPUMIYOO<1200000) {
 					CPUMIYOO+=200000;
-					char cpuclock0[200];
+					char cpuclock0[100];
 					snprintf(cpuclock0, sizeof(cpuclock0), "echo %d > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", CPUMIYOO);
 					system(cpuclock0);
 					system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
@@ -982,18 +982,18 @@ void performSystemSettingsChoosingAction() {
 	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
-					char command [300];
+					char command [100];
 					snprintf(command, sizeof(command), "/mnt/SDCARD/Koriki/bin/audioserver &");
-					system(command);
 					setenv("LD_PRELOAD", "/customer/lib/libpadsp.so", 1);
+					system(command);
 				} else {
-					char command [300];
-					char command2 [300];
+					char command [100];
+					char command2 [100];
 					snprintf(command, sizeof(command), "/mnt/SDCARD/Koriki/bin/audioserver &");
 					snprintf(command2, sizeof(command2), "touch /tmp/audioserver_on && sync");
+					setenv("LD_PRELOAD", "/customer/lib/libpadsp.so", 1);
 					system(command);
 					system(command2);
-					setenv("LD_PRELOAD", "/customer/lib/libpadsp.so", 1);
 				}
 				startmusic();
 				setBrightness(brightness);
@@ -1002,13 +1002,13 @@ void performSystemSettingsChoosingAction() {
 	        	brightness = getCurrentBrightness();
 				stopmusic();
 				if (mmModel) {
-					char command [300];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min");
+					char command [100];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && /mnt/SDCARD/Koriki/bin/freemma");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				} else {
-					char command [300];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync");
+					char command [128];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync && /mnt/SDCARD/Koriki/bin/freemma");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				}
