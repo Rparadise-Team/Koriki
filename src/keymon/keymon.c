@@ -852,7 +852,8 @@ int main (int argc, char *argv[]) {
 							setmute(0);
 							sethibernate(0);
 							setcpu(0);
-							getVolume();
+							if (isGMERunning() == 1 || isGMURunning() == 1) {
+							} else { getVolume(); }
 							display_setScreen(1); // Turn screen back on
 							power_pressed = 0;
             				repeat_power = 0;
