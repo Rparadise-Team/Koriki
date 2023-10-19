@@ -385,7 +385,7 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	#ifndef TARGET_OD_BETA
 	resetFrameBuffer1();
 	#endif
-	system("/mnt/SDCARD/Koriki/bin/freemma > NUL");
+	system("/mnt/SDCARD/Koriki/bin/freemma");
 
 	if(consoleApp) {
 		execlp("./invoker.dge", "invoker.dge", emulatorFolder, exec,
