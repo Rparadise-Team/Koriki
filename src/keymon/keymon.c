@@ -981,10 +981,13 @@ int main (int argc, char *argv[]) {
 		
 		if (shutdown) {
 			power_pressed = 0;
+			unlink("/mnt/SDCARD/.simplemenu/NUL");
+			unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+			unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 			if (mmModel)
-				system("rm /mnt/SDCARD/.simplemenu/NUL; rm /mnt/SDCARD/.simplemenu/apps/NUL ; rm /mnt/SDCARD/.simplemenu/launchers/NUL; killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
+				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
 			else
-				system("rm /mnt/SDCARD/.simplemenu/NUL; rm /mnt/SDCARD/.simplemenu/apps/NUL ; rm /mnt/SDCARD/.simplemenu/launchers/NUL; killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
+				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
 			while (1) pause();
 		}
 	}

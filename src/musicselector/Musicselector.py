@@ -7,14 +7,14 @@ MUSIC_WAV_PATH = "/mnt/SDCARD/Media/music.wav"
 
 pygame.init()
 
-screen = pygame.display.set_mode((640, 480))
+screen = pygame.display.set_mode((640, 480), pygame.SRCALPHA)
 pygame.display.set_caption("Music Selector")
 
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+BLACK = (0, 0, 0, 128)
 RED = (255, 0, 0)
 
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font(None, 34)
 
 songs = os.listdir(MUSIC_PATH)
 songs.insert(0, "NO MUSIC")
@@ -29,14 +29,17 @@ def list_songs():
 
     while True:
         screen.fill(BLACK)
-        
-        for i, song in enumerate(songs[scroll:scroll+10]):
+
+        background = pygame.image.load("/mnt/SDCARD/App/Musicselector/background.png").convert_alpha()
+        screen.blit(background, (0, 0))
+
+        for i, song in enumerate(songs[scroll:scroll+8]):
             text = font.render(song, True, RED)
-            rect = text.get_rect(topleft=(60, 100 + i * 50))
+            rect = text.get_rect(topleft=(30, 60 + i * 50))
             screen.blit(text, rect)
 
-            if i == selected_index:
-                pygame.draw.circle(screen, WHITE, (50, 100 + i * 50), 10)
+            if i == selected_index - scroll:
+                pygame.draw.circle(screen, WHITE, (20, 72 + i * 50), 6)
 
         pygame.display.flip()
         clock.tick(30)
@@ -52,8 +55,8 @@ def list_songs():
                         scroll = selected_index
                 elif event.key == K_DOWN:
                     selected_index = min(len(songs) - 1, selected_index + 1)
-                    if selected_index >= scroll + 10:
-                        scroll = selected_index - 9
+                    if selected_index >= scroll + 8:
+                        scroll = selected_index - 7
                 elif event.key == K_SPACE:
                     selected_song = songs[selected_index]
                     return
@@ -65,26 +68,26 @@ def delete_music():
     os.remove(MUSIC_WAV_PATH)
 
 def convert_to_wav(song_name):
-    command = '/mnt/SDCARD/Koriki/bin/ffmpeg -y -i "{}{}" "{}"'.format(MUSIC_PATH, song_name, MUSIC_WAV_PATH)
+    command = '/mnt/SDCARD/Koriki/bin/ffmpeg -y -i "{}{}" -ar 48000 "{}"'.format(MUSIC_PATH, song_name, MUSIC_WAV_PATH)
     os.system(command)
 
 def display_message(message):
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font(None, 32)
     text = font.render(message, True, RED)
-    rect = text.get_rect(center=(320, 240))
+    rect = text.get_rect(center=(476, 462))
     screen.blit(text, rect)
     pygame.display.flip()
 
 def wait_for_conversion():
     display_message("Please wait, converting file...")
-	
+
 if __name__ == "__main__":
     list_songs()
 
     if selected_song == "NO MUSIC":
         delete_music()
-        print "File music.wav erased."
+        print("File music.wav erased.")
     elif selected_song:
         wait_for_conversion()
         convert_to_wav(selected_song)
-        print "File convert and copy to music.wav."
+        print("File convert and copy to music.wav.")

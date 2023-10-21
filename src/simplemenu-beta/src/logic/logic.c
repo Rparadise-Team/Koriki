@@ -209,15 +209,21 @@ void quit() {
 			audioFix = getCurrentSystemValue("audiofix");
 			
 			if (audioFix == 1){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 			} else if (audioFix == 0){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
@@ -227,15 +233,21 @@ void quit() {
 			audioFix = getCurrentSystemValue("audiofix");
 			
 			if (audioFix == 1){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
 			} else if (audioFix == 0){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && poweroff", NULL);
@@ -247,15 +259,21 @@ void quit() {
 			audioFix = getCurrentSystemValue("audiofix");
 			
 			if (audioFix == 1){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 			} else if (audioFix == 0){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
@@ -265,15 +283,21 @@ void quit() {
 			audioFix = getCurrentSystemValue("audiofix");
 			
 			if (audioFix == 1){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.min  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater && killall audioserver && killall audioserver.plu  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
 			} else if (audioFix == 0){
+				unlink("/mnt/SDCARD/.simplemenu/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && rm /mnt/SDCARD/.simplemenu/NUL && rm /mnt/SDCARD/.simplemenu/apps/NUL && rm /mnt/SDCARD/.simplemenu/launchers/NUL && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
 			}
 			#else
 			execlp("sh", "sh", "-c", "sync && poweroff", NULL);
