@@ -16,7 +16,7 @@ if [ "$runsvr" != "0" ] ; then
 		FILE2=/tmp/audioserver_on
 		if [ -f "$FILE2" ]; then
 			rm /tmp/audioserver_on
-			/customer/app/sysmon freemma
+			/mnt/SDCARD/Koriki/bin/freemma > NUL
 		fi
     else
         killall audioserver

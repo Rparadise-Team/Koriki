@@ -284,7 +284,7 @@ fi
 if [ "$runsvr" == "0" ] ; then
 	if [ $MODEL == "MMP" ]; then
 		if [ -f /tmp/audioserver_on ]; then
-			/mnt/SDCARD/Koriki/bin/freemma #freemma from Onion OS
+			/mnt/SDCARD/Koriki/bin/freemma > NUL #freemma from Onion OS
 			rm /tmp/audioserver_on
 		fi
 	fi

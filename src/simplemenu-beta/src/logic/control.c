@@ -1003,12 +1003,12 @@ void performSystemSettingsChoosingAction() {
 				stopmusic();
 				if (mmModel) {
 					char command [100];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && /mnt/SDCARD/Koriki/bin/freemma");
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				} else {
 					char command [128];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync && /mnt/SDCARD/Koriki/bin/freemma");
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				}

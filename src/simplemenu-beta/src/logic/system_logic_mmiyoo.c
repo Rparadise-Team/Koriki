@@ -400,7 +400,7 @@ int setVolume(int volume, int add) {
     return recent_volume;
 }
 
-Mix_Music *music = NULL;
+static Mix_Music *music = NULL;
 
 void startmusic() {
     if(SDL_Init(SDL_INIT_AUDIO) != 0) {
