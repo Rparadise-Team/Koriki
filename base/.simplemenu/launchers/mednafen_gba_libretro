@@ -1,4 +1,4 @@
 #!/bin/sh
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
-LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/mednafen_gba_libretro.so "$1"
+LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/mednafen_gba_libretro.so "$1"

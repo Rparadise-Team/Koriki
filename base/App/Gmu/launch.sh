@@ -6,7 +6,7 @@ runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
 	FILE=/customer/app/axp_test
 	
-	if [ -f /customer/lib/libpadsp.so ]; then
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
 		unset LD_PRELOAD
 	fi
 
@@ -21,6 +21,11 @@ if [ "$runsvr" != "0" ] ; then
     else
         killall audioserver
 		killall audioserver.min
+		FILE2=/tmp/audioserver_on
+		if [ -f "$FILE2" ]; then
+			rm /tmp/audioserver_on
+			/mnt/SDCARD/Koriki/bin/freemma > NUL
+		fi
     fi
 fi
 
@@ -29,12 +34,9 @@ cd $my_dir
 
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
-	FILE=/customer/app/axp_test
-	if [ -f "$FILE" ]; then
 	touch /tmp/audioserver_on
-	fi
 	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ -f /customer/lib/libpadsp.so ]; then
-		export LD_PRELOAD=/customer/lib/libpadsp.so
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 	fi
 fi

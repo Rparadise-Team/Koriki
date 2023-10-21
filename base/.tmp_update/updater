@@ -270,25 +270,11 @@ runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
 	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ $MODEL == "MMP" ]; then
-		touch /tmp/audioserver_on
-		sync
-	fi
+	touch /tmp/audioserver_on
+	sync
 fi
 
-if [ -f /customer/lib/libpadsp.so ]; then
-    export LD_PRELOAD=/customer/lib/libpadsp.so
-fi
-
-# free memory when audioserver is stoped
-if [ "$runsvr" == "0" ] ; then
-	if [ $MODEL == "MMP" ]; then
-		if [ -f /tmp/audioserver_on ]; then
-			/mnt/SDCARD/Koriki/bin/freemma > NUL #freemma from Onion OS
-			rm /tmp/audioserver_on
-		fi
-	fi
-fi
+export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 
 # check if wifi value is 1
 if [ $MODEL == "MMP" ]; then

@@ -39,7 +39,7 @@ sync
 
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
-LD_PRELOAD=/customer/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
+LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
 
 if [ -d "$source_dir" ]; then
     rm -f "$source_dir"/client-*
