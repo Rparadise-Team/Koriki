@@ -30,9 +30,9 @@ fi
 
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
-LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha_libretro.so "$1"
 
-runsvr=`/customer/app/jsonval audiofix`
+/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha_libretro.so "$1"
+
 if [ "$runsvr" != "0" ] ; then
 	touch /tmp/audioserver_on
 	/mnt/SDCARD/Koriki/bin/audioserver &

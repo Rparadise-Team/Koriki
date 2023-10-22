@@ -30,13 +30,12 @@ fi
 
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
-LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/km_mame2003_xtreme_libretro.so "$1"
+
+/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/km_mame2003_xtreme_libretro.so "$1"
 
 runsvr=`/customer/app/jsonval audiofix`
+
 if [ "$runsvr" != "0" ] ; then
 	touch /tmp/audioserver_on
-	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
-		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
-	fi
+	LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &
 fi

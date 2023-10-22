@@ -8,7 +8,6 @@ SETTINGS_INT_FILE="/appconfigs/system.json"
 SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 
 export SYSTEM_PATH=${SDCARD_PATH}/Koriki
-export CUSTOMER_DIR=/customer
 
 export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
 export PATH="${SYSTEM_PATH}/bin:${PATH}"
@@ -272,9 +271,8 @@ if [ "$runsvr" != "0" ] ; then
 	/mnt/SDCARD/Koriki/bin/audioserver &
 	touch /tmp/audioserver_on
 	sync
+	export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 fi
-
-export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 
 # check if wifi value is 1
 if [ $MODEL == "MMP" ]; then

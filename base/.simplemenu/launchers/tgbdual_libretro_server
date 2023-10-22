@@ -30,7 +30,13 @@ client_file="/mnt/SDCARD/Roms/GB/client-$file_name"
 cp "$1" "$client_file"
 sync
 
+runsvr=`/customer/app/jsonval audiofix`
+
+if [ "$runsvr" != "0" ] ; then
 LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
+else
+/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
+fi
 
 rm -f "$destination_dir"/client-*
 sync
