@@ -697,10 +697,31 @@ int isGMURunning()
 	return 0;
 }
 
+int isOpenborRunning()
+{
+	FILE *fp;
+	char buffer[64];
+	const char *cmd = "pgrep OpenBOR";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep OpenBOR'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 int isProcessRunning(const char* processName) {
     FILE *fp;
-    char buffer[64];
     char cmd[64];
+    char buffer[64];
     snprintf(cmd, sizeof(cmd), "pgrep %s", processName);
 
     fp = popen(cmd, "r");
@@ -723,6 +744,12 @@ void display_setScreen(int value) {
 		if (isRetroarchRunning() == 1) {
 			system("pkill -STOP retroarch");
 		}
+		if (isOpenborRunning() == 1) {
+			system("pkill -STOP OpenBOR");
+		}
+		if (isDrasticRunning() == 1) {
+			system("pkill -STOP drastic");
+		}
 		system("echo 4 > /sys/class/gpio/export");
 		system("echo out > /sys/class/gpio/gpio4/direction");
 		system("echo 0 > /sys/class/gpio/gpio4/value");
@@ -738,6 +765,12 @@ void display_setScreen(int value) {
 		usleep(20000);
 		if (isRetroarchRunning() == 1) {
 			system("pkill -CONT retroarch");
+		}
+		if (isOpenborRunning() == 1) {
+			system("pkill -CONT OpenBOR");
+		}
+		if (isDrasticRunning() == 1) {
+			system("pkill -CONT drastic");
 		}
 	}
 }
@@ -840,8 +873,6 @@ int main (int argc, char *argv[]) {
 								setcpu(2);
 							} else if (isDrasticRunning() == 1) {
 								setcpu(4);
-								keyinput_send(1, 2);
-			                    keyinput_send(1, 1);
 							} else {
 							setcpu(1);
 							}
@@ -910,7 +941,7 @@ int main (int argc, char *argv[]) {
 						// Increase volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
 						} else {
-						if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
 						getVolume();
 						}
 						setVolume(volume, 1);
@@ -931,7 +962,7 @@ int main (int argc, char *argv[]) {
 						// Decrease volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
 						} else {
-						if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
 						getVolume();
 						}
 						setVolume(volume, -1);
@@ -943,7 +974,7 @@ int main (int argc, char *argv[]) {
 				// Increase volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
-				if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
 				getVolume();
 				}
 				setVolume(volume, 1);
@@ -953,7 +984,7 @@ int main (int argc, char *argv[]) {
 				// Decrease volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
-				if (isDrasticRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
 				getVolume();
 				}
 				setVolume(volume, -1);
