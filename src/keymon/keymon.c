@@ -721,7 +721,7 @@ int isOpenborRunning()
 int isProcessRunning(const char* processName) {
     FILE *fp;
     char cmd[64];
-    char buffer[64];
+	char buffer[64];
     snprintf(cmd, sizeof(cmd), "pgrep %s", processName);
 
     fp = popen(cmd, "r");

@@ -1,5 +1,11 @@
 #!/bin/sh
-mydir=$(dirname "$0")
+mydir=`dirname "$0"`
+
+cd $mydir
+if [ ! -f "/tmp/.show_hotkeys" ]; then
+    touch /tmp/.show_hotkeys
+    LD_LIBRARY_PATH=./libs:/customer/lib:/config/lib ./show_hotkeys
+fi
 
 export HOME=$mydir
 export PATH=$mydir:$PATH
@@ -18,7 +24,7 @@ if [ "$CUST_LOGO" == "1" ]; then
     ./png2raw
 fi
 
-sv=$(cat /proc/sys/vm/swappiness)
+sv=`cat /proc/sys/vm/swappiness`
 
 # 60 by default
 echo 10 > /proc/sys/vm/swappiness
@@ -26,22 +32,21 @@ echo 10 > /proc/sys/vm/swappiness
 cd $mydir
 
 if [ "$CUST_CPUCLOCK" == "1" ]; then
-    original_hash="31ce3cabafb9bc629a7c694a6ae976554819c9a4789f2cb428abde3bc081abd0"
-    current_hash=$(sha256sum "/mnt/SDCARD/Koriki/bin/cpuclock" | awk '{print $1}')
-
-    if [ "$original_hash" != "$current_hash" ]; then
-        echo "Error: cpuclock has been modified"
-        exit 1
-    fi
-
     echo "set customized cpuspeed"
     /mnt/SDCARD/Koriki/bin/cpuclock 1500
 fi
 
+vol=`/customer/app/jsonval vol`
+vol=`expr 41 + 63 \* $vol \/ 20`
+/customer/app/tinymix set 6 $vol
+
 ./drastic "$1"
+sync
+sync
+sync
 
 if [ "$CUST_CPUCLOCK" == "1" ]; then
-    echo "reset customized cpuspeed"
+    echo "set customized cpuspeed"
     /mnt/SDCARD/Koriki/bin/cpuclock 1200
 fi
 

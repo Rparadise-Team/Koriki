@@ -35,7 +35,11 @@ HOME=/mnt/SDCARD/RetroArch/
 
 runsvr=`/customer/app/jsonval audiofix`
 
+runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
 	touch /tmp/audioserver_on
-	LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/Koriki/bin/audioserver &
+	/mnt/SDCARD/Koriki/bin/audioserver &
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+	fi
 fi
