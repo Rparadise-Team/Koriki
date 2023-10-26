@@ -19,6 +19,7 @@ void setBrightness(int value);
 int getCurrentVolume();
 int setVolumeRaw(int volume, int add, int tiny);
 int setVolume(int volume, int add);
+void setMute(int mute);
 int getCurrentSystemValue(char const *key);
 void setSystemValue(char const *key, int value);
 void startmusic();

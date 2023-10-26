@@ -77,6 +77,76 @@ char* load_file(char const* path) {
 	return buffer;
 }
 
+void setmute(int mute) {
+	cJSON* request_json = NULL;
+	cJSON* itemMute;
+	
+	const char *settings_file = getenv("SETTINGS_FILE");
+	if (settings_file == NULL) {
+		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+		if (!pipe) {
+			settings_file = "/appconfigs/system.json";
+		} else {
+			char buffer[64];
+			int flash_detected = 0;
+			
+			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+					flash_detected = 1;
+					break;
+				}
+			}
+			
+			pclose(pipe);
+			
+			if (flash_detected) {
+				settings_file = "/mnt/SDCARD/system.json";
+			} else {
+				settings_file = "/appconfigs/system.json";
+			}
+		}
+	}
+	
+	// Store in system.json
+	char *request_body = load_file(settings_file);
+	request_json = cJSON_Parse(request_body);
+	itemMute = cJSON_GetObjectItem(request_json, "mute");
+	
+	if (mute == 1 ){
+		cJSON_SetNumberValue(itemMute, mute);
+		FILE *file = fopen(settings_file, "w");
+		char *test = cJSON_Print(request_json);
+		fputs(test, file);
+		fclose(file);
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+    }
+	}
+	if (mute == 0) {
+		cJSON_SetNumberValue(itemMute, mute);
+		FILE *file = fopen(settings_file, "w");
+		char *test = cJSON_Print(request_json);
+		fputs(test, file);
+		fclose(file);
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+    }
+	}
+	
+	cJSON_Delete(request_json);
+	free(request_body);
+}
+
 // Increments between -60 and 9
 int setVolumeRaw(int volume, int add) {
 	int recent_volume = 0;
@@ -111,14 +181,12 @@ int setVolumeRaw(int volume, int add) {
 	// Increase/Decrease Volume
 	cJSON* request_json = NULL;
 	cJSON* itemVol;
-	cJSON* itemMute;
 	
 	// Store in system.json
 	char *request_body = load_file(settings_file);
 	request_json = cJSON_Parse(request_body);
 	
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	itemMute = cJSON_GetObjectItem(request_json, "mute");
 	int vol = cJSON_GetNumberValue(itemVol);
 	
 	if (fd >= 0) {
@@ -135,34 +203,6 @@ int setVolumeRaw(int volume, int add) {
 		close(fd);
 		}
 	
-	if (vol == 0) {
-		cJSON_SetNumberValue(itemMute, 1);
-		FILE *file = fopen(settings_file, "w");
-		char *test = cJSON_Print(request_json);
-		fputs(test, file);
-		fclose(file);
-    	if (fd >= 0) {
-        	int buf2[] = {0, 1};
-        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        	ioctl(fd, MI_AO_SETMUTE, buf1);
-        	close(fd);
-		}
-	} else if (vol > 0) {
-		cJSON_SetNumberValue(itemMute, 0);
-		FILE *file = fopen(settings_file, "w");
-		char *test = cJSON_Print(request_json);
-		fputs(test, file);
-		fclose(file);
-    if (fd >= 0) {
-        int buf2[] = {0, 0};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-	}
-	}	
-	
 	if (add == 3 && vol < 23) vol++;
 	if (add == -3 && vol > 0) vol--;
 	if (add != 0) {
@@ -171,6 +211,12 @@ int setVolumeRaw(int volume, int add) {
 		char *test = cJSON_Print(request_json);
 		fputs(test, file);
 		fclose(file);
+		
+		if (vol == 0) {
+		setmute(1);
+		} else if (vol > 0) {
+		setmute(0);
+		}
 	}
 	
 	cJSON_Delete(request_json);
@@ -449,76 +495,6 @@ void setcpu(int cpu) {
 		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
 		system("sync");
 	}
-}
-
-void setmute(int mute) {
-	cJSON* request_json = NULL;
-	cJSON* itemMute;
-	
-	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL) {
-		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
-		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
-		} else {
-			char buffer[64];
-			int flash_detected = 0;
-			
-			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
-				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
-					flash_detected = 1;
-					break;
-				}
-			}
-			
-			pclose(pipe);
-			
-			if (flash_detected) {
-				settings_file = "/mnt/SDCARD/system.json";
-			} else {
-				settings_file = "/appconfigs/system.json";
-			}
-		}
-	}
-	
-	// Store in system.json
-	char *request_body = load_file(settings_file);
-	request_json = cJSON_Parse(request_body);
-	itemMute = cJSON_GetObjectItem(request_json, "mute");
-	
-	if (mute == 1 ){
-		cJSON_SetNumberValue(itemMute, mute);
-		FILE *file = fopen(settings_file, "w");
-		char *test = cJSON_Print(request_json);
-		fputs(test, file);
-		fclose(file);
-		int fd = open("/dev/mi_ao", O_RDWR);
-    if (fd >= 0) {
-        int buf2[] = {0, mute};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-    }
-	}
-	if (mute == 0) {
-		cJSON_SetNumberValue(itemMute, mute);
-		FILE *file = fopen(settings_file, "w");
-		char *test = cJSON_Print(request_json);
-		fputs(test, file);
-		fclose(file);
-		int fd = open("/dev/mi_ao", O_RDWR);
-    if (fd >= 0) {
-        int buf2[] = {0, mute};
-        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-
-        ioctl(fd, MI_AO_SETMUTE, buf1);
-        close(fd);
-    }
-	}
-	
-	cJSON_Delete(request_json);
-	free(request_body);
 }
 
 void sethibernate(int hibernate) {
@@ -941,7 +917,7 @@ int main (int argc, char *argv[]) {
 						// Increase volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
 						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
 						getVolume();
 						}
 						setVolume(volume, 1);
@@ -962,7 +938,7 @@ int main (int argc, char *argv[]) {
 						// Decrease volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
 						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
 						getVolume();
 						}
 						setVolume(volume, -1);
@@ -974,7 +950,7 @@ int main (int argc, char *argv[]) {
 				// Increase volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
-				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
 				getVolume();
 				}
 				setVolume(volume, 1);
@@ -984,7 +960,7 @@ int main (int argc, char *argv[]) {
 				// Decrease volume
 				if (isGMERunning() == 1 || isGMURunning() == 1){
 				} else {
-				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin"))) {
+				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
 				getVolume();
 				}
 				setVolume(volume, -1);

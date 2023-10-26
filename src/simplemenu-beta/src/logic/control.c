@@ -1027,6 +1027,13 @@ void performSystemSettingsChoosingAction() {
 					volValue-=1;
 					setVolume(volume, -1);
 					setSystemValue("vol", volValue);
+					if (volValue == 0) {
+						setSystemValue("mute", 1);
+						setMute(1);
+					} else if (volValue > 0) {
+						setSystemValue("mute", 0);
+						setMute(0);
+					}
 				}
 			} else {
 				if (volValue<23) {
@@ -1035,6 +1042,13 @@ void performSystemSettingsChoosingAction() {
 					volValue+=1;
 					setVolume(volume, 1);
 					setSystemValue("vol", volValue);
+					if (volValue == 0) {
+						setSystemValue("mute", 1);
+						setMute(1);
+					} else if (volValue > 0) {
+						setSystemValue("mute", 0);
+						setMute(0);
+					}
 				}
 			}
 		}

@@ -298,11 +298,12 @@ int setVolumeRaw(int volume, int add, int tiny) {
 	int fix;
     int recent_volume = 0;
 	int set = 0;
+    
+    int fd = open("/dev/mi_ao", O_RDWR);
 	
 	fix = getCurrentSystemValue("audiofix");
 	
 	if (fix == 1) {
-        int fd = open("/dev/mi_ao", O_RDWR);
         if (fd >= 0) {
             int buf2[] = {0, 0};
             uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -315,7 +316,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
             } else buf2[1] = volume;
             if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
             close(fd);
-        }
+            }
 	} else if (fix == 0) {
 		set = tiny+add; //tinymix work in 100-40 // 0-(-60)
         if (set >= 109) set = 109;
@@ -323,7 +324,6 @@ int setVolumeRaw(int volume, int add, int tiny) {
 		char command[100];
 		sprintf(command, "tinymix set 6 %d", set);
 		system(command);
-		int fd = open("/dev/mi_ao", O_RDWR);
         if (fd >= 0) {
             int buf2[] = {0, 0};
             uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
@@ -336,7 +336,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
             } else buf2[1] = volume;
             if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
             close(fd);
-        }
+            }
 	}
   
   return recent_volume;
@@ -348,38 +348,60 @@ int getCurrentVolume() {
 	int volume;
 	int tiny;
     int fix;
+    int mute;
 	sysvolume = getCurrentSystemValue("vol");
     fix = getCurrentSystemValue("audiofix");
+    mute = getCurrentSystemValue("mute");
 	volume = (sysvolume * 3) - 60;
 	tiny = (sysvolume * 3) + 40;
-
-    if (fix == 1) {
-	int fv = open("/dev/mi_ao", O_RDWR);
-	if (fv >= 0) {
-		int buf2[] = {0, 0};
-		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
-						
-		ioctl(fv, MI_AO_GETVOLUME, buf1);
-		buf2[1] = volume;
-		ioctl(fv, MI_AO_SETVOLUME, buf1);
-        close(fv); 
-	    }
-    }
+    
+    int fv = open("/dev/mi_ao", O_RDWR);
+    
+    if (mute == 0) {
+		if (fix == 1) {
+	        if (fv >= 0) {
+			    int buf2[] = {0, 0};
+				uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+                
+				ioctl(fv, MI_AO_GETVOLUME, buf1);
+				buf2[1] = volume;
+				ioctl(fv, MI_AO_SETVOLUME, buf1);
+        		close(fv);
+	        }
+        }
 	
-    if (fix == 0) {
-	char command[100];
-	sprintf(command, "tinymix set 6 %d", tiny);
-	system(command);
-	int fv = open("/dev/mi_ao", O_RDWR);
-	if (fv >= 0) {
-		int buf2[] = {0, 0};
-		uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+        if (fix == 0) {
+	        char command[100];
+	        sprintf(command, "tinymix set 6 %d", tiny);
+	        system(command);
+	        if (fv >= 0) {
+		        int buf2[] = {0, 0};
+		        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+                
+		        ioctl(fv, MI_AO_GETVOLUME, buf1);
+		        buf2[1] = volume;
+		        ioctl(fv, MI_AO_SETVOLUME, buf1);
+                close(fv); 
+            }
+        }
+            
+        if (sysvolume >= 1) {
+            if (fv >= 0) {
+	        	int buf2[] = {0, 0};
+	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 						
-		ioctl(fv, MI_AO_GETVOLUME, buf1);
-		buf2[1] = volume;
-		ioctl(fv, MI_AO_SETVOLUME, buf1);
-        close(fv); 
-	    }
+   		     	ioctl(fv, MI_AO_SETMUTE, buf1);
+	        	close(fv);
+			}
+        }
+	} else if (mute == 1) {
+            if (fv >= 0) {
+                int buf2[] = {0, 1};
+		        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+                
+		        ioctl(fv, MI_AO_SETMUTE, buf1);
+                close(fv);
+            }
     }
 	
 	return sysvolume;
@@ -398,6 +420,29 @@ int setVolume(int volume, int add) {
     
     recent_volume = setVolumeRaw(rawVolumeValue, rawAdd, tinyvol);
     return recent_volume;
+}
+
+void setMute(int mute) {
+	if (mute == 1 ){
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+        }
+	}
+	if (mute == 0) {
+		int fd = open("/dev/mi_ao", O_RDWR);
+    if (fd >= 0) {
+        int buf2[] = {0, mute};
+        uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
+
+        ioctl(fd, MI_AO_SETMUTE, buf1);
+        close(fd);
+        }
+	}
 }
 
 static Mix_Music *music = NULL;
