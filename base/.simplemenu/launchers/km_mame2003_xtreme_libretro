@@ -34,8 +34,6 @@ HOME=/mnt/SDCARD/RetroArch/
 /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/km_mame2003_xtreme_libretro.so "$1"
 
 runsvr=`/customer/app/jsonval audiofix`
-
-runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then
 	touch /tmp/audioserver_on
 	/mnt/SDCARD/Koriki/bin/audioserver &
