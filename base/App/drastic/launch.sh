@@ -1,6 +1,11 @@
 #!/bin/sh
 mydir=`dirname "$0"`
-curvol=$(cat /proc/mi_modules/mi_ao/mi_ao0 | awk '/LineOut/ {if (!printed) {print $8; printed=1}}' | sed 's/,//')
+
+setvolume () {
+  vol=$(/customer/app/jsonval vol)
+  volume=$((($vol*3)+40))
+  /customer/app/tinymix set 6 $volume
+}
 
 cd $mydir
 if [ ! -f "/tmp/.show_hotkeys" ]; then
@@ -37,19 +42,7 @@ if [ "$CUST_CPUCLOCK" == "1" ]; then
     /mnt/SDCARD/Koriki/bin/cpuclock 1500
 fi
 
-set_snd_level() {
-    for i in $(seq 1 300); do
-        if [ -e /proc/mi_modules/mi_ao/mi_ao0 ]; then
-            echo "set_ao_volume 0 ${curvol}dB" > /proc/mi_modules/mi_ao/mi_ao0
-            echo "set_ao_volume 1 ${curvol}dB" > /proc/mi_modules/mi_ao/mi_ao0
-            echo "Volume set to ${curvol}dB"
-            break
-        fi
-        sleep 0.1
-    done
-}
-
-set_snd_level &
+setvolume &
 
 ./drastic "$1"
 sync
