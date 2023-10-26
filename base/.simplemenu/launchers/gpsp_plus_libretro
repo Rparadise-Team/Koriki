@@ -2,6 +2,16 @@
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
 
+# sav to srm
+
+for file in /mnt/SDCARD/Saves/RA_saves/gpSP/*.sav; do
+    if [ -e "$file" ]; then
+        cp "$file" "${file%.sav}.srm"
+    fi
+done
+
+rm /mnt/SDCARD/Saves/RA_saves/gpSP/*.sav
+
 runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
