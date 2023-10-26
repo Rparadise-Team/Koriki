@@ -947,23 +947,47 @@ int main (int argc, char *argv[]) {
 				}
 				break;
 			case BUTTON_VOLUMEUP:
-				// Increase volume
-				if (isGMERunning() == 1 || isGMURunning() == 1){
+				if (val == REPEAT) {
+					// Adjust repeat speed to 1/2
+					val = repeat;
+					repeat ^= PRESSED;
 				} else {
-				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-				getVolume();
+					repeat = 0;
 				}
-				setVolume(volume, 1);
+				if (val == PRESSED && menu_pressed) {
+					// Increase brightness
+					modifyBrightness(1);
+				} else if (val == PRESSED) {
+					// Increase volume
+					if (isGMERunning() == 1 || isGMURunning() == 1){
+					} else {
+					if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+					getVolume();
+					}
+					setVolume(volume, 1);
+					}
 				}
 				break;
 			case BUTTON_VOLUMEDOWN:
-				// Decrease volume
-				if (isGMERunning() == 1 || isGMURunning() == 1){
+				if (val == REPEAT) {
+					// Adjust repeat speed to 1/2
+					val = repeat;
+					repeat ^= PRESSED;
 				} else {
-				if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-				getVolume();
+					repeat = 0;
 				}
-				setVolume(volume, -1);
+				if (val == PRESSED && menu_pressed) {
+					// Decrease brightness
+					modifyBrightness(-1);
+				} else if (val == PRESSED) {
+					// Decrease volume
+					if (isGMERunning() == 1 || isGMURunning() == 1){
+					} else {
+					if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+					getVolume();
+					}
+					setVolume(volume, -1);
+					}
 				}
 				break;
 			case BUTTON_L2:
