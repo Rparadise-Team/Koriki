@@ -1287,6 +1287,7 @@ void performSettingsChoosingAction() {
 		chosenSetting=0;
 		currentState=SYSTEM_SETTINGS;
 		brightnessValue = getCurrentBrightness();
+		volValue = getCurrentSystemValue("vol");
 	} else if (keys[BTN_B]) {
 		#if defined TARGET_OD
 		if (hdmiChanged!=hdmiEnabled) {
