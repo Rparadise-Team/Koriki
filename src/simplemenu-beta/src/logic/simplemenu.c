@@ -148,7 +148,7 @@ void initialSetup2() {
 	#if defined MIYOOMINI
 	audioFix = getCurrentSystemValue("audiofix");
 	luminationValue = getCurrentSystemValue("lumination");
-	volValue = getCurrentSystemValue("vol");
+	volValue = getCurrentVolume();
 	hueValue = getCurrentSystemValue("hue");
 	saturationValue = getCurrentSystemValue("saturation");
 	contrastValue = getCurrentSystemValue("contrast");

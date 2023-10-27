@@ -173,7 +173,7 @@ if [ "$vol" -ge "20" ]; then
 	vol=`/customer/app/jsonval vol`
 fi
 
-vol=`expr 40 + 60 \* $vol \/ 20`
+vol=$((($vol*3)+40))
 /customer/app/tinymix set 6 $vol
 
 # Show bootScreen or videosplash
