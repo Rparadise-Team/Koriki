@@ -29,7 +29,7 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"SUPERVISION"
+#define CONSOLA	"SUPERVISION" //Roms dir conf
 #define CORE	"Potator"
 #define BORDER	"OFF"
 
@@ -45,6 +45,7 @@
 #define TEXTO7	"custom_viewport_width"
 
 #define VALOR0	""
+#define VALOR00 " "
 #define VALOR1	"false"
 #define VALOR2	"true"
 #define VALOR3	"512"
