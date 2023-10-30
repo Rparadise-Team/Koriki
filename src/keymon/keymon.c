@@ -759,7 +759,10 @@ void killRetroArch() {
     
 	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
         int retroarch_pid = atoi(buffer);
+		setuid(0);
+		kill(retroarch_pid, SIGQUIT);
         kill(retroarch_pid, SIGTERM);
+		setuid(getuid());
     }
     
     pclose(fp);
@@ -886,9 +889,16 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (val == PRESSED && menu_pressed) {
-					// Increase brightness
-					modifyBrightness(1);
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (val == PRESSED && menu_pressed) {
+						// Increase brightness
+						modifyBrightness(1);
+					}
+				} else {
+					if (val == PRESSED && Select_pressed) {
+						// Increase brightness
+						modifyBrightness(1);
+					}
 				}
 				break;
 			case BUTTON_DOWN:
@@ -899,9 +909,16 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (val == PRESSED && menu_pressed) {
-					// Decrease brightness
-					modifyBrightness(-1);
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (val == PRESSED && menu_pressed) {
+						// Decrease brightness
+						modifyBrightness(-1);
+					}
+				} else {
+					if (val == PRESSED && Select_pressed) {
+						// Decrease brightness
+						modifyBrightness(-1);
+					}
 				}
 				break;
 			case BUTTON_RIGHT:
@@ -913,6 +930,18 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+						if (val == PRESSED && menu_pressed) {
+						// Increase volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, 1);
+							}
+						}
+					} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
@@ -921,6 +950,7 @@ int main (int argc, char *argv[]) {
 						getVolume();
 						}
 						setVolume(volume, 1);
+							}
 						}
 					}
 				}
@@ -934,7 +964,8 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
-					if (val == PRESSED && Select_pressed) {
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
 						if (isGMERunning() == 1 || isGMURunning() == 1){
 						} else {
@@ -942,6 +973,18 @@ int main (int argc, char *argv[]) {
 						getVolume();
 						}
 						setVolume(volume, -1);
+							}
+						}
+					} else {
+						if (val == PRESSED && Select_pressed) {
+						// Decrease volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, -1);
+							}
 						}
 					}
 				}
@@ -954,17 +997,33 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (val == PRESSED && menu_pressed) {
-					// Increase brightness
-					modifyBrightness(1);
-				} else if (val == PRESSED) {
-					// Increase volume
-					if (isGMERunning() == 1 || isGMURunning() == 1){
-					} else {
-					if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-					getVolume();
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (val == PRESSED && menu_pressed) {
+						// Increase brightness
+						modifyBrightness(1);
+					} else if (val == PRESSED) {
+						// Increase volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, 1);
+						}
 					}
-					setVolume(volume, 1);
+				} else {
+					if (val == PRESSED && Select_pressed) {
+						// Increase brightness
+						modifyBrightness(1);
+					} else if (val == PRESSED) {
+						// Increase volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, 1);
+						}
 					}
 				}
 				break;
@@ -976,17 +1035,33 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (val == PRESSED && menu_pressed) {
-					// Decrease brightness
-					modifyBrightness(-1);
-				} else if (val == PRESSED) {
-					// Decrease volume
-					if (isGMERunning() == 1 || isGMURunning() == 1){
-					} else {
-					if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-					getVolume();
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (val == PRESSED && menu_pressed) {
+						// Decrease brightness
+						modifyBrightness(-1);
+					} else if (val == PRESSED) {
+						// Decrease volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, -1);
+						}
 					}
-					setVolume(volume, -1);
+				} else {
+					if (val == PRESSED && Select_pressed) {
+						// Decrease brightness
+						modifyBrightness(-1);
+					} else if (val == PRESSED) {
+						// Decrease volume
+						if (isGMERunning() == 1 || isGMURunning() == 1){
+						} else {
+						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
+						getVolume();
+						}
+						setVolume(volume, -1);
+						}
 					}
 				}
 				break;
