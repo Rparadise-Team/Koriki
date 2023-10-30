@@ -29,8 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"SUPERVISION"
-#define CORE	"Potator"
+#define CONSOLA	"GB" //config dir over
+#define CORE	"Gambatte"
 #define BORDER	"OFF"
 
 #define NUM_IMAGES 3
@@ -45,6 +45,7 @@
 #define TEXTO7	"custom_viewport_width"
 
 #define VALOR0	""
+#define VALOR00	" "
 #define VALOR1	"false"
 #define VALOR2	"true"
 #define VALOR3	"512"
@@ -81,7 +82,7 @@
 #define VALOR34	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
 #define VALOR35	":/.retroarch/filters/video/Grid3x.filt"
 #define VALOR36	":/.retroarch/filters/video/Scanline2x.filt"
-#define VALOR37	":/.retroarch/overlay/CTR/horizontal-crt.cfg"
+#define VALOR37	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -219,21 +220,21 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR0, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR00, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR19, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR11, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 2:
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR0, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR00, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);

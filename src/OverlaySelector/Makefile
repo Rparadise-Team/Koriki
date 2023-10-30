@@ -1,5 +1,5 @@
-CONSOLE = SUPERVISION
-CORE = Potator
+CONSOLE = GBP
+CORE = Gambatte
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

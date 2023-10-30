@@ -14,6 +14,7 @@
 #include <sys/ioctl.h>
 
 #include "cJSON.h"
+#include <json-c/json.h>
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
@@ -56,6 +57,8 @@
 static struct input_event	ev;
 static int input_fd = 0;
 static int mmModel = 0;
+struct json_object *jval = NULL;
+struct json_object *jfile = NULL;
 
 char* load_file(char const* path) {
 	char* buffer = 0;
@@ -467,7 +470,14 @@ void setcpu(int cpu) {
 		if (isDrasticRunning() == 1) {
 			char command[64];
 			int speed;
-			speed = 1600;
+			const char* settings;
+			const char* maxcpu;
+			
+			settings = "/mnt/SDCARD/App/drastic/resources/settings.json";
+			maxcpu = "maxcpu";
+			jfile = json_object_from_file(settings);
+			json_object_object_get_ex(jfile, maxcpu, &jval);
+			speed = json_object_get_int(jval);
 			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
 			system(command);
 		}

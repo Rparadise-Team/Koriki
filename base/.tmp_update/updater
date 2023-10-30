@@ -377,6 +377,25 @@ if [ $MODEL == "MM" ]; then
 	sync
 fi
 
+# Change speed in Drastic
+if [ -f ${SDCARD_PATH}/App/drastic/launch.sh ]; then
+	if [ $MODEL == "MM" ]; then
+		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' ${SDCARD_PATH}/App/drastic/resources/settings.json | awk -F':' '{print $2}')
+		if [ "$CURRENT_MAXCPU" != "1500" ]; then
+		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1500/' ${SDCARD_PATH}/App/drastic/resources/settings.json
+		sed -i 's|/mnt/SDCARD/Koriki/bin/cpuclock '"$CURRENT_MAXCPU"'|/mnt/SDCARD/Koriki/bin/cpuclock 1500|' ${SDCARD_PATH}/App/drastic/launch.sh
+		sync
+		fi
+	else
+		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' ${SDCARD_PATH}/App/drastic/resources/settings.json | awk -F':' '{print $2}')
+		if [ "$CURRENT_MAXCPU" != "1600" ]; then
+		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1600/' ${SDCARD_PATH}/App/drastic/resources/settings.json
+		sed -i 's|/mnt/SDCARD/Koriki/bin/cpuclock '"$CURRENT_MAXCPU"'|/mnt/SDCARD/Koriki/bin/cpuclock 1600|' ${SDCARD_PATH}/App/drastic/launch.sh
+		sync
+		fi
+	fi
+fi
+
 # Set timezone
 if [ -f ${SDCARD_PATH}/App/Clock/timezone.txt ]; then
     timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
