@@ -83,6 +83,7 @@
 #define VALOR35	":/.retroarch/filters/video/Grid3x.filt"
 #define VALOR36	":/.retroarch/filters/video/Scanline2x.filt"
 #define VALOR37	":/.retroarch/overlay/CTR/horizontal-crt.cfg"
+#define VALOR38	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
