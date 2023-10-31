@@ -29,13 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-<<<<<<< HEAD
 #define CONSOLA	"GB" //config dir over
 #define CORE	"Gambatte"
-=======
-#define CONSOLA	"SUPERVISION" //Roms dir conf
-#define CORE	"Potator"
->>>>>>> c86f4302849b717781f5e94d6690636a6fca4918
 #define BORDER	"OFF"
 
 #define NUM_IMAGES 3
@@ -50,11 +45,7 @@
 #define TEXTO7	"custom_viewport_width"
 
 #define VALOR0	""
-<<<<<<< HEAD
 #define VALOR00	" "
-=======
-#define VALOR00 " "
->>>>>>> c86f4302849b717781f5e94d6690636a6fca4918
 #define VALOR1	"false"
 #define VALOR2	"true"
 #define VALOR3	"512"
@@ -91,12 +82,7 @@
 #define VALOR34	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
 #define VALOR35	":/.retroarch/filters/video/Grid3x.filt"
 #define VALOR36	":/.retroarch/filters/video/Scanline2x.filt"
-<<<<<<< HEAD
 #define VALOR37	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
-=======
-#define VALOR37	":/.retroarch/overlay/CTR/horizontal-crt.cfg"
-#define VALOR38	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
->>>>>>> c86f4302849b717781f5e94d6690636a6fca4918
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
