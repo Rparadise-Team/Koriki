@@ -1,5 +1,5 @@
-CONSOLE = GBP
-CORE = Gambatte
+CONSOLE = WS
+CORE = Beetle_WonderSwan
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

@@ -29,8 +29,8 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"GB" //config dir over
-#define CORE	"Gambatte"
+#define CONSOLA	"WS" //config dir over
+#define CORE	"Beetle WonderSwan"
 #define BORDER	"OFF"
 
 #define NUM_IMAGES 3
@@ -227,7 +227,7 @@ int main(int argc, char* argv[]) {
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR11, TEXTO5, VALOR35, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR16, TEXTO5, VALOR35, TEXTO3, VALOR4, TEXTO7, VALOR6); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
