@@ -448,6 +448,10 @@ void setMute(int mute) {
 static Mix_Music *music = NULL;
 
 void startmusic() {
+	if (music != NULL) {
+        stopmusic();
+    }
+	
     if(SDL_Init(SDL_INIT_AUDIO) != 0) {
         fprintf(stderr, "error init SDL: %s\n", SDL_GetError());
         return;
@@ -458,7 +462,7 @@ void startmusic() {
         return;
     }
 
-    Mix_Music *music = Mix_LoadMUS("/mnt/SDCARD/Media/music.wav");
+    music = Mix_LoadMUS("/mnt/SDCARD/Media/music.wav");
     if(music == NULL) {
         fprintf(stderr, "error to load audio file: %s\n", Mix_GetError());
         return;
@@ -468,6 +472,7 @@ void startmusic() {
 }
 
 void stopmusic() {
+	Mix_HaltMusic();
 	Mix_FreeMusic(music);
     Mix_CloseAudio();
 	music = NULL;

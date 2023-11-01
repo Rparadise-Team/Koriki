@@ -693,7 +693,10 @@ void saveRomPreferences(struct Rom *rom) {
 	fp = fopen(pathToPreferencesFilePlusFileName, "w");
 	fprintf(fp,"%d;", rom->preferences.emulatorDir);
 	fprintf(fp,"%d;", rom->preferences.emulator);
+	#if defined MIYOOMINI
+	#else
 	fprintf(fp,"%d", rom->preferences.frequency);
+	#endif
 	fclose(fp);
 }
 
@@ -715,7 +718,10 @@ void loadRomPreferences(struct Rom *rom) {
 
 	rom->preferences.emulatorDir=0;
 	rom->preferences.emulator=0;
+	#if defined MIYOOMINI
+	#else
 	rom->preferences.frequency=OC_NO;
+	#endif
 
 	fp = fopen(pathToPreferencesFilePlusFileName, "r");
 
@@ -737,7 +743,10 @@ void loadRomPreferences(struct Rom *rom) {
 	}
 	rom->preferences.emulatorDir=atoifgl(configurations[0]);
 	rom->preferences.emulator=atoifgl(configurations[1]);
+	#if defined MIYOOMINI
+	#else
 	rom->preferences.frequency = atoifgl(configurations[2]);
+	#endif
     fclose(fp);
 }
 
@@ -772,7 +781,10 @@ void saveFavorites() {
 			fprintf(fp,"%s;",favorite.executable);
 			fprintf(fp,"%d;",favorite.isConsoleApp);
 			fprintf(fp,"%s;",favorite.filesDirectory);
+			#if defined MIYOOMINI
+			#else
 			fprintf(fp,"%d",favorite.frequency);
+			#endif
 			linesWritten++;
 		}
 		fclose(fp);
@@ -811,7 +823,10 @@ void loadFavorites() {
 		strcpy(favorites[favoritesSize].executable,configurations[5]);
 		favorites[favoritesSize].isConsoleApp = atoi(configurations[6]);
 		strcpy(favorites[favoritesSize].filesDirectory,configurations[7]);
+		#if defined MIYOOMINI
+		#else
 		favorites[favoritesSize].frequency = atoi(configurations[8]);
+		#endif
 		int len = strlen(favorites[favoritesSize].filesDirectory);
 		if (favorites[favoritesSize].filesDirectory[len-1]=='\n') {
 			favorites[favoritesSize].filesDirectory[len-1]='\0';

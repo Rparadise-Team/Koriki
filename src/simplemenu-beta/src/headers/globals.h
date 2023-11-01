@@ -277,13 +277,19 @@ struct Favorite {
 	char executable[200];
 	char filesDirectory[400];
 	int isConsoleApp;
+#if defined MIYOOMINI
+#else
 	int frequency;
+#endif
 };
 
 struct RomPreferences {
 	int emulator;
 	int emulatorDir;
+#if defined MIYOOMINI
+#else
 	int frequency;
+#endif
 };
 
 struct Rom {

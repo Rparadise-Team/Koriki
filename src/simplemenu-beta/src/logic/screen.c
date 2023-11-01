@@ -73,19 +73,27 @@ void drawPictureTextOnScreen(char *buf) {
 	TTF_SizeUTF8(font, buf, NULL, &h);
 	char *temp = malloc(strlen(buf)+2);
 	if(currentSectionNumber!=favoritesSectionNumber) {
+		#if defined MIYOOMINI
+		strcpy(temp,buf);
+		#else
 		if (CURRENT_SECTION.currentGameNode->data->preferences.frequency == OC_OC_LOW||CURRENT_SECTION.currentGameNode->data->preferences.frequency == OC_OC_HIGH) {
 			strcpy(temp,"+");
 			strcat(temp,buf);
 		} else {
 			strcpy(temp,buf);
 		}
+		#endif
 	} else {
+		#if defined MIYOOMINI
+		strcpy(temp,buf);
+		#else
 		if (favorites[CURRENT_GAME_NUMBER].frequency == OC_OC_LOW||favorites[CURRENT_GAME_NUMBER].frequency == OC_OC_HIGH) {
 			strcpy(temp,"+");
 			strcat(temp,buf);
 		} else {
 			strcpy(temp,buf);
 		}
+		#endif
 	}
 	if(!isFavoritesSectionSelected()) {
 		if (colorfulFullscreenMenu) {
@@ -106,12 +114,16 @@ void drawPictureTextOnScreen(char *buf) {
 void drawImgFallbackTextOnScreen(char *fallBackText) {
 	if(!footerVisibleInFullscreenMode) {
 		char *temp = malloc(strlen(fallBackText)+2);
+		#if defined MIYOOMINI
+		strcpy(temp,fallBackText);
+		#else
 		if (CURRENT_SECTION.currentGameNode->data->preferences.frequency == OC_OC_HIGH || CURRENT_SECTION.currentGameNode->data->preferences.frequency == OC_OC_LOW) {
 			strcpy(temp,"+");
 			strcat(temp,fallBackText);
 		} else {
 			strcpy(temp,fallBackText);
 		}
+		#endif
 		drawTextOnScreen(font, NULL, (SCREEN_WIDTH/2), 120, temp, CURRENT_SECTION.menuItemsFontColor, VAlignMiddle | HAlignCenter, (int[]){}, 0);
 		free(temp);
 	} else {
@@ -1103,20 +1115,28 @@ void drawGameList() {
 
 		char *temp = malloc(strlen(buf)+2);
 		if(currentSectionNumber!=favoritesSectionNumber) {
+			#if defined MIYOOMINI
+			strcpy(temp,buf);
+			#else
 			if (rom->preferences.frequency == OC_OC_HIGH||rom->preferences.frequency == OC_OC_LOW) {
 				strcpy(temp,"+");
 				strcat(temp,buf);
 			} else {
 				strcpy(temp,buf);
 			}
+			#endif
 		} else {
 			if (CURRENT_SECTION.gameCount>0) {
+				#if defined MIYOOMINI
+				strcpy(temp,buf);
+				#else
 				if (favorites[i].frequency == OC_OC_HIGH||favorites[i].frequency == OC_OC_LOW) {
 					strcpy(temp,"+");
 					strcat(temp,buf);
 				} else {
 					strcpy(temp,buf);
 				}
+				#endif
 			} else {
 				free(nameWithoutExtension);
 				free(buf);

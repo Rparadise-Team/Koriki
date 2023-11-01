@@ -253,7 +253,10 @@ struct Favorite {
 	char executable[200];
 	char filesDirectory[400];
 	int isConsoleApp;
+#if defined MIYOOMINI
+#else
 	int frequency;
+#endif
 };
 
 struct AutostartRom {
@@ -265,7 +268,10 @@ struct AutostartRom {
 struct RomPreferences {
 	int emulator;
 	int emulatorDir;
+#if defined MIYOOMINI
+#else
 	int frequency;
+#endif
 };
 
 struct Rom {

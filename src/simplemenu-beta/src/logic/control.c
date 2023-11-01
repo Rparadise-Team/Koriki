@@ -521,7 +521,10 @@ void removeFavorite() {
 			strcpy(favorites[i].alias,favorites[i+1].alias);
 			strcpy(favorites[i].sectionAlias,favorites[i+1].sectionAlias);
 			favorites[i].isConsoleApp = favorites[i+1].isConsoleApp;
+			#if defined MIYOOMINI
+			#else
 			favorites[i].frequency = favorites[i+1].frequency;
+			#endif
 		}
 		strcpy(favorites[favoritesSize-1].section,"\0");
 		strcpy(favorites[favoritesSize-1].emulatorFolder,"\0");
@@ -530,7 +533,10 @@ void removeFavorite() {
 		strcpy(favorites[favoritesSize-1].name,"\0");
 		strcpy(favorites[favoritesSize-1].alias,"\0");
 		strcpy(favorites[favoritesSize-1].sectionAlias,"\0");
+		#if defined MIYOOMINI
+		#else
 		favorites[favoritesSize-1].frequency = OC_NO;
+		#endif
 		favorites[favoritesSize-1].isConsoleApp = 0;
 		favoritesSize--;
 		if (CURRENT_GAME_NUMBER==favoritesSize) {
@@ -593,7 +599,10 @@ void markAsFavorite(struct Rom *rom) {
 			loadRomPreferences(rom);
 			strcpy(favorites[favoritesSize].emulatorFolder,CURRENT_SECTION.emulatorDirectories[rom->preferences.emulatorDir]);
 			strcpy(favorites[favoritesSize].executable,CURRENT_SECTION.executables[rom->preferences.emulator]);
+			#if defined MIYOOMINI
+			#else
 			favorites[favoritesSize].frequency = rom->preferences.frequency;
+			#endif
 			strcpy(favorites[favoritesSize].filesDirectory,rom->directory);
 			favorites[favoritesSize].isConsoleApp = rom->isConsoleApp;
 			favoritesSize++;
@@ -1415,6 +1424,23 @@ void performChoosingAction() {
 			}
 		}
 	} else	if (keys[BTN_B]) {
+		#if defined MIYOOMINI
+		if (currentState!=BROWSING_GAME_LIST) {
+			int emu = CURRENT_SECTION.currentGameNode->data->preferences.emulator;
+			int emuDir = CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir;
+			loadRomPreferences(CURRENT_SECTION.currentGameNode->data);
+			if (CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir!=emuDir  || CURRENT_SECTION.currentGameNode->data->preferences.emulator!=emu) {
+				CURRENT_SECTION.currentGameNode->data->preferences.emulator=emu;
+				CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir=emu;
+				saveRomPreferences(CURRENT_SECTION.currentGameNode->data);
+			}
+			if (getLaunchAtBoot()!=NULL) {
+				launchGame(CURRENT_SECTION.currentGameNode->data);
+			}
+			previousState=SELECTING_EMULATOR;
+			currentState=BROWSING_GAME_LIST;
+		}
+		#else
 		if (currentState!=BROWSING_GAME_LIST) {
 			int emu = CURRENT_SECTION.currentGameNode->data->preferences.emulator;
 			int emuDir = CURRENT_SECTION.currentGameNode->data->preferences.emulatorDir;
@@ -1432,6 +1458,7 @@ void performChoosingAction() {
 			previousState=SELECTING_EMULATOR;
 			currentState=BROWSING_GAME_LIST;
 		}
+		#endif
 	}
 }
 
