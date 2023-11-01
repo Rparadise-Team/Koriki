@@ -943,24 +943,12 @@ int main (int argc, char *argv[]) {
 					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
 						if (val == PRESSED && menu_pressed) {
 						// Increase volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, 1);
-							}
 						}
 					} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, 1);
-							}
 						}
 					}
 				}
@@ -977,24 +965,12 @@ int main (int argc, char *argv[]) {
 					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
 						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, -1);
-							}
 						}
 					} else {
 						if (val == PRESSED && Select_pressed) {
 						// Decrease volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, -1);
-							}
 						}
 					}
 				}
@@ -1013,13 +989,7 @@ int main (int argc, char *argv[]) {
 						modifyBrightness(1);
 					} else if (val == PRESSED) {
 						// Increase volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, 1);
-						}
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
@@ -1027,13 +997,7 @@ int main (int argc, char *argv[]) {
 						modifyBrightness(1);
 					} else if (val == PRESSED) {
 						// Increase volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, 1);
-						}
 					}
 				}
 				break;
@@ -1051,13 +1015,7 @@ int main (int argc, char *argv[]) {
 						modifyBrightness(-1);
 					} else if (val == PRESSED) {
 						// Decrease volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, -1);
-						}
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
@@ -1065,13 +1023,7 @@ int main (int argc, char *argv[]) {
 						modifyBrightness(-1);
 					} else if (val == PRESSED) {
 						// Decrease volume
-						if (isGMERunning() == 1 || isGMURunning() == 1){
-						} else {
-						if (isDrasticRunning() == 1 || isOpenborRunning() == 1 || (!isProcessRunning("retroarch") && !isProcessRunning("gme_player") && !isProcessRunning("gmu.bin") && !isProcessRunning("simplemenu"))) {
-						getVolume();
-						}
 						setVolume(volume, -1);
-						}
 					}
 				}
 				break;
