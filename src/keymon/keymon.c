@@ -726,39 +726,79 @@ int isProcessRunning(const char* processName) {
 }
 
 void display_setScreen(int value) {
-	if (value == 0) {  // enter in savepower mode
-		if (isRetroarchRunning() == 1) {
-			system("pkill -STOP retroarch");
-		}
-		if (isOpenborRunning() == 1) {
-			system("pkill -STOP OpenBOR");
-		}
-		if (isDrasticRunning() == 1) {
-			system("pkill -STOP drastic");
-		}
-		system("echo 4 > /sys/class/gpio/export");
-		system("echo out > /sys/class/gpio/gpio4/direction");
-		system("echo 0 > /sys/class/gpio/gpio4/value");
-		system("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable");
-		system("echo 0 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		system("echo GUI_SHOW 0 off > /proc/mi_modules/fb/mi_fb0");
-	} else if (value == 1) {  // exit for savepower mode
-		system("echo GUI_SHOW 0 on > /proc/mi_modules/fb/mi_fb0");
-		system("echo 1 > /sys/module/gpio_keys_polled/parameters/button_enable");
-		system("echo 1 > /sys/class/gpio/gpio4/value");
-		system("echo 4 > /sys/class/gpio/unexport");
-		system("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable");
-		usleep(20000);
-		if (isRetroarchRunning() == 1) {
-			system("pkill -CONT retroarch");
-		}
-		if (isOpenborRunning() == 1) {
-			system("pkill -CONT OpenBOR");
-		}
-		if (isDrasticRunning() == 1) {
-			system("pkill -CONT drastic");
-		}
-	}
+    if (value == 0) {  // enter in savepower mode
+        if (isRetroarchRunning() == 1) {
+            system("pkill -STOP retroarch");
+        }
+        if (isOpenborRunning() == 1) {
+            system("pkill -STOP OpenBOR");
+        }
+        if (isDrasticRunning() == 1) {
+            system("pkill -STOP drastic");
+        }
+
+        FILE *file;
+
+        if ((file = fopen("/sys/class/gpio/export", "w"))) {
+            fprintf(file, "4\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/gpio/gpio4/direction", "w"))) {
+            fprintf(file, "out\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/gpio/gpio4/value", "w"))) {
+            fprintf(file, "0\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/pwm/pwmchip0/pwm0/enable", "w"))) {
+            fprintf(file, "0\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/module/gpio_keys_polled/parameters/button_enable", "w"))) {
+            fprintf(file, "0\n");
+            fclose(file);
+        }
+        if ((file = fopen("/proc/mi_modules/fb/mi_fb0", "w"))) {
+            fprintf(file, "GUI_SHOW 0 off\n");
+            fclose(file);
+        }
+    } else if (value == 1) {  // exit for savepower mode
+        FILE *file;
+
+        if ((file = fopen("/proc/mi_modules/fb/mi_fb0", "w"))) {
+            fprintf(file, "GUI_SHOW 0 on\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/module/gpio_keys_polled/parameters/button_enable", "w"))) {
+            fprintf(file, "1\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/gpio/gpio4/value", "w"))) {
+            fprintf(file, "1\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/gpio/unexport", "w"))) {
+            fprintf(file, "4\n");
+            fclose(file);
+        }
+        if ((file = fopen("/sys/class/pwm/pwmchip0/pwm0/enable", "w"))) {
+            fprintf(file, "1\n");
+            fclose(file);
+        }
+		
+        usleep(20000);
+		
+        if (isRetroarchRunning() == 1) {
+            system("pkill -CONT retroarch");
+        }
+        if (isOpenborRunning() == 1) {
+            system("pkill -CONT OpenBOR");
+        }
+        if (isDrasticRunning() == 1) {
+            system("pkill -CONT drastic");
+        }
+    }
 }
 
 void killRetroArch() {

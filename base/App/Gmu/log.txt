@@ -1,0 +1,109 @@
+do_connect: could not connect to socket
+connect: No such file or directory
+[src/libmpg123/id3.c:482] error: No comment text / valid description?
+ _MI_AO_OpenVqeLib: success
+ _MI_AO_OpenSrcLib: success
+ _MI_AO_OpenG711Lib: success
+ _MI_AO_OpenG726Lib: success
+1970-01-01 02:01:53 gmu: Detected device: Miyoo Mini
+1970-01-01 02:01:53 gmu: Base directory: /mnt/SDCARD/App/Gmu
+1970-01-01 02:01:53 gmu: System config directory: /mnt/SDCARD/App/Gmu
+1970-01-01 02:01:53 gmu: Loading configuration gmu.miyoo.conf...
+1970-01-01 02:01:53 reader: Cache size: 512 kB
+1970-01-01 02:01:53 reader: Cache prebuffer size: 256 kB
+1970-01-01 02:01:53 decloader: 9 decoders found.
+1970-01-01 02:01:53 decloader: Loading flac.so was successful.
+1970-01-01 02:01:53 decloader: FLAC_decoder: Name: FLAC decoder v0.6
+1970-01-01 02:01:53 decloader: FLAC_decoder: File extensions: .flac
+1970-01-01 02:01:53 decloader: /mnt/SDCARD/App/Gmu/decoders//gme.so: undefined symbol: gmu_register_decoder
+1970-01-01 02:01:53 decloader: Loading gme.so was unsuccessful.
+1970-01-01 02:01:53 decloader: Loading modplug.so was successful.
+1970-01-01 02:01:53 decloader: modplug_module_decoder: Name: ModPlug module decoder v0.8
+1970-01-01 02:01:53 decloader: modplug_module_decoder: File extensions: .mod;.xm;.it;.669;.s3m;.amf;.ams;.dbm;.dmf;.dsm;.far;.mdl;.med;.mtm;.okt;.ptm;.stm;.ult;.umx;.mt2;.psm;.mid;.midi
+1970-01-01 02:01:53 decloader: Loading mpg123.so was successful.
+1970-01-01 02:01:53 decloader: mpg123_decoder: Name: mpg123 MPEG decoder v1.0
+1970-01-01 02:01:53 decloader: mpg123_decoder: File extensions: .mp3;.mp2;.mp1
+1970-01-01 02:01:53 decloader: Loading openmpt.so was successful.
+1970-01-01 02:01:53 decloader: openmpt_module_decoder: Name: OpenMPT module decoder v0.1
+1970-01-01 02:01:53 decloader: openmpt_module_decoder: File extensions: .mod;.s3m;.xm;.it;.mptm;.stm;.nst;.m15;.stk;.wow;.ult;.669;.mtm;.med;.far;.mdl;.ams;.dsm;.amf;.okt;.dmf;.ptm;.psm;.mt2;.dbm;.digi;.imf;.j2b;.gdm;.umx;.plm;.mo3;.xpk;.ppm;.mmcmp
+1970-01-01 02:01:53 decloader: Loading opus.so was successful.
+1970-01-01 02:01:53 decloader: opus_decoder: Name: Ogg Opus decoder v0.1
+1970-01-01 02:01:53 decloader: opus_decoder: File extensions: .opus
+1970-01-01 02:01:53 decloader: Loading speex.so was successful.
+1970-01-01 02:01:53 decloader: speex_decoder: Name: Speex decoder v0.1
+1970-01-01 02:01:53 decloader: speex_decoder: File extensions: .spx
+1970-01-01 02:01:53 decloader: Loading vorbis.so was successful.
+1970-01-01 02:01:53 decloader: vorbis_decoder: Name: Tremor Vorbis decoder v1.1
+1970-01-01 02:01:53 decloader: vorbis_decoder: File extensions: .ogg;.oga
+1970-01-01 02:01:53 decloader: Loading wavpack.so was successful.
+1970-01-01 02:01:53 decloader: wavpack_decoder: Name: WavPack decoder v0.3
+1970-01-01 02:01:53 decloader: wavpack_decoder: File extensions: .wv;.wvc
+1970-01-01 02:01:53 gmu: Loading playlist from '/mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u'.
+1970-01-01 02:01:53 m3u: Extended playlist found.
+1970-01-01 02:01:53 gmu: Playlist length: 7 items
+create miao audio device...
+created miao audio device!
+1970-01-01 02:01:53 feloader: 4 frontends found.
+1970-01-01 02:01:53 feloader: Loading gmuhttp.so was successful.
+1970-01-01 02:01:53 feloader: web_frontend: Name: Gmu HTTP server frontend v0.1
+1970-01-01 02:01:53 feloader: Loading lirc.so was successful.
+1970-01-01 02:01:53 feloader: lirc_frontend: Name: Gmu LIRC Remote Control Frontend v0.1
+1970-01-01 02:01:53 logbot: Logging has been disabled.
+1970-01-01 02:01:53 feloader: Loading log.so was unsuccessful.
+1970-01-01 02:01:53 inputconfig: Initializing. Loading /mnt/SDCARD/App/Gmu/gmuinput.miyoo.conf
+1970-01-01 02:01:53 inputconfig: Init done.
+1970-01-01 02:01:53 httpd: Starting server on port 4680.
+1970-01-01 02:01:53 httpd: Listening on ALL available interfaces.
+1970-01-01 02:01:53 httpd: Webserver root directory: /mnt/SDCARD/App/Gmu
+1970-01-01 02:01:53 sdl_frontend: Available screen real estate: 640 x 480 pixels @ 32 bpp
+1970-01-01 02:01:53 sdl_frontend: SDL-Video init done.
+1970-01-01 02:01:53 sdl_frontend: Display surface initialized.
+1970-01-01 02:01:53 feloader: Loading sdl.so was successful.
+1970-01-01 02:01:53 feloader: SDL_frontend: Name: Gmu SDL frontend v0.9
+1970-01-01 02:01:53 keymap: Key map "/mnt/SDCARD/App/Gmu/miyoo.keymap" loaded successfully.
+1970-01-01 02:01:53 skin: Modern theme file format found.
+1970-01-01 02:01:53 fileplayer: File player thread initialized.
+1970-01-01 02:01:53 skin: skin: Skin data loaded successfully.
+1970-01-01 02:01:58 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3... (skip current: 1)
+1970-01-01 02:01:58 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
+1970-01-01 02:01:58 decloader: Matching decoder for mp3: mpg123_decoder
+1970-01-01 02:01:58 fileplayer: Selected decoder: mpg123_decoder
+1970-01-01 02:01:58 reader: Opening file /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3.
+1970-01-01 02:01:58 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
+1970-01-01 02:01:58 id3: ID3v2.3.0 detected!
+1970-01-01 02:01:58 id3: COMM charset: ISO-8859-1
+1970-01-01 02:01:58 id3: PRIV charset: unknown
+1970-01-01 02:01:58 id3: TALB charset: ISO-8859-1
+1970-01-01 02:01:58 id3: TYER charset: ISO-8859-1
+1970-01-01 02:01:58 id3: TCON charset: ISO-8859-1
+1970-01-01 02:01:58 id3: PRIV charset: unknown
+1970-01-01 02:01:58 id3: PRIV charset: unknown
+1970-01-01 02:01:58 id3: APIC charset: ISO-8859-1
+1970-01-01 02:01:58 mpg123: Opening stream...
+1970-01-01 02:01:58 mpg123: Found stream with 2 channels and 44100 Hz.
+1970-01-01 02:01:58 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 320000 bps, 139 seconds
+1970-01-01 02:01:58 audio: Opening audio device...
+open miao audio
+buffer size: 8192
+1970-01-01 02:01:58 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+1970-01-01 02:01:58 gmu: Track info:
+	Artist: 
+	Title : Devil in Wonderland.mp3
+	Album : Cytus OST
+1970-01-01 02:01:58 coverimg: Loading cover image of type image/jpeg from song meta data (tag)...
+1970-01-01 02:01:58 coverimg: Loading image from memory...
+1970-01-01 02:01:58 coverimg: Loaded and resized cover image successfully.
+1970-01-01 02:02:20 gmu: Shutting down...
+1970-01-01 02:02:20 sdl_frontend: Saving settings...
+1970-01-01 02:02:21 gmu: Unloading frontends...
+1970-01-01 02:02:21 lirc_frontend: All done.
+1970-01-01 02:02:21 sdl_frontend: All done.
+1970-01-01 02:02:21 gmu: Unloading frontends done.
+1970-01-01 02:02:21 fileplayer: Playback stopped: 0
+close miao audio
+1970-01-01 02:02:21 audio: Device closed.
+1970-01-01 02:02:21 gmu: Saving playlist...
+1970-01-01 02:02:21 gmu: Playlist file: /mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u
+1970-01-01 02:02:21 gmu: Saving settings...
+1970-01-01 02:02:21 gmu: Unloading decoders...
+1970-01-01 02:02:21 gmu: Shutdown complete.
