@@ -7,6 +7,7 @@
 #include <dirent.h>
 #include <pthread.h>
 #include <signal.h>
+#include <termios.h>
 #include <linux/input.h>
 
 #include <sys/types.h>
@@ -88,7 +89,15 @@ void setmute(int mute) {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;
@@ -159,7 +168,15 @@ int setVolumeRaw(int volume, int add) {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;
@@ -249,7 +266,15 @@ int getVolume() {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;
@@ -348,7 +373,15 @@ void modifyBrightness(int inc) {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;
@@ -515,7 +548,15 @@ void sethibernate(int hibernate) {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;
@@ -736,6 +777,9 @@ void display_setScreen(int value) {
         if (isDrasticRunning() == 1) {
             system("pkill -STOP drastic");
         }
+		if (isProcessRunning("simplemenu") == 1) {
+            system("pkill -STOP simplemenu");
+        }
 
         FILE *file;
 
@@ -798,6 +842,9 @@ void display_setScreen(int value) {
         if (isDrasticRunning() == 1) {
             system("pkill -CONT drastic");
         }
+		if (isProcessRunning("simplemenu") == 1) {
+            system("pkill -CONT simplemenu");
+        }
     }
 }
 
@@ -807,15 +854,24 @@ void killRetroArch() {
     
     fp = popen("pgrep retroarch", "r");
     
-	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
-        int retroarch_pid = atoi(buffer);
-		setuid(0);
-		kill(retroarch_pid, SIGQUIT);
-        kill(retroarch_pid, SIGTERM);
-		setuid(getuid());
+    if (fp != NULL) {
+        if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+            int retroarch_pid = atoi(buffer);
+            if (retroarch_pid > 0) {
+                kill(retroarch_pid, SIGTERM);
+                usleep(2000000);
+                
+                if (kill(retroarch_pid, 0) == 0) {
+                    kill(retroarch_pid, SIGKILL);
+                    usleep(2000000);
+					if (isProcessRunning("simplemenu")){
+						system("pkill -TERM simplemenu");
+					}
+                }
+            }
+            pclose(fp);
+        }
     }
-    
-    pclose(fp);
 }
 
 int main (int argc, char *argv[]) {
@@ -839,7 +895,15 @@ int main (int argc, char *argv[]) {
 	if (settings_file == NULL) {
 		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
 		if (!pipe) {
-			settings_file = "/appconfigs/system.json";
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
 		} else {
 			char buffer[64];
 			int flash_detected = 0;

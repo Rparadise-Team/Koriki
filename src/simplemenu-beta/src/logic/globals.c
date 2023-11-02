@@ -10,6 +10,17 @@
 #if defined TARGET_OD || defined TARGET_OD_BETA
 #include <shake.h>
 #endif
+#if defined MIYOOMINI
+#include <SDL/SDL_mixer.h>
+#include <stdlib.h>
+#include <string.h>
+#include <mi_ao.h>
+#include <mi_sys.h>
+#include <mi_common.h>
+#include <mi_disp.h>
+#include "../headers/cJSON.h"
+#endif
+
 SDL_Surface *screen;
 /* STATUS */
 int nullUpdate;
