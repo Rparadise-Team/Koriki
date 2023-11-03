@@ -8,8 +8,8 @@
 #include <pthread.h>
 #include <signal.h>
 #include <termios.h>
+#include <ctype.h>
 #include <linux/input.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -766,6 +766,48 @@ int isProcessRunning(const char* processName) {
     return 0;
 }
 
+void stopOrContinueProcesses(int value) {
+    const char *exceptions[] = {"batmon", "keymon", "init", "telnetd", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop"};
+    const char *cmdType = (value == 0) ? "STOP" : "CONT";
+
+    DIR *dir;
+    struct dirent *ent;
+
+    dir = opendir("/proc");
+    if (dir != NULL) {
+
+        while ((ent = readdir(dir)) != NULL) {
+            if (isdigit(ent->d_name[0])) {
+                int pid = atoi(ent->d_name);
+                char cmdline_path[256];
+                snprintf(cmdline_path, sizeof(cmdline_path), "/proc/%d/cmdline", pid);
+
+                FILE *cmdline_file = fopen(cmdline_path, "r");
+                if (cmdline_file != NULL) {
+                    char cmdline[1024];
+                    fgets(cmdline, sizeof(cmdline), cmdline_file);
+                    int shouldSkip = 0;
+                    for (int i = 0; i < (int)(sizeof(exceptions) / sizeof(exceptions[0])); i++) {
+                        if (strstr(cmdline, exceptions[i]) != NULL) {
+                            shouldSkip = 1;
+                            break;
+                        }
+                    }
+
+                    if (!shouldSkip) {
+                        char stopCmd[128];
+                        snprintf(stopCmd, sizeof(stopCmd), "kill -%s %d", cmdType, pid);
+                        system(stopCmd);
+                    }
+                    fclose(cmdline_file);
+                }
+            }
+        }
+        closedir(dir);
+    }
+}
+
+
 void display_setScreen(int value) {
     if (value == 0) {  // enter in savepower mode
         if (isRetroarchRunning() == 1) {
@@ -780,6 +822,8 @@ void display_setScreen(int value) {
 		if (isProcessRunning("simplemenu") == 1) {
             system("pkill -STOP simplemenu");
         }
+		
+		stopOrContinueProcesses(0);
 
         FILE *file;
 
@@ -832,6 +876,8 @@ void display_setScreen(int value) {
         }
 		
         usleep(20000);
+		
+		stopOrContinueProcesses(1);
 		
         if (isRetroarchRunning() == 1) {
             system("pkill -CONT retroarch");

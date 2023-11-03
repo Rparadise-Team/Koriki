@@ -22,26 +22,24 @@ export RETROARCH_PATH="/mnt/SDCARD/RetroArch"
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
 	export SETTINGS_FILE="$SETTINGS_EXT_FILE"
 # Create v3 config file is this is not found in the root of SDCARD
-	if [! -f "$SETTINGS_FILE" ]; then
-		if [! -f "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}/assets/system.json" "$SETTINGS_FILE"
-		fi
-		if [! -s "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}/assets/system.json" "$SETTINGS_FILE"
-		fi
+	if [ ! -f "$SETTINGS_FILE" ]; then
+		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+	fi
+	if [ ! -s "$SETTINGS_FILE" ]; then
+		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 	fi
 else
 	if [ -f /appconfigs/system.json.old ]; then
     export SETTINGS_FILE="$SETTINGS_EXT_FILE"
 # Create v4 config file is this is not found in the root of SDCARD
-		if [! -f "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}/assets/system-v4.json" "$SETTINGS_FILE"
+		if [ ! -f "$SETTINGS_FILE" ]; then
+			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
-		if [! -s $SETTINGS_FILE ]; then
-			cp "${SYSTEM_PATH}/assets/system-v4.json" "$SETTINGS_FILE"
+		if [ ! -s "$SETTINGS_FILE" ]; then
+			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
 	else
-    	export SETTINGS_FILE=$SETTINGS_INT_FILE
+    	export SETTINGS_FILE="$SETTINGS_INT_FILE"
 	fi
 fi
 
@@ -79,19 +77,19 @@ reset_settings() {
 	if [ -f "${SDCARD_PATH}/.reset_settings" ]; then
 		if [ $MODEL == "MM" ]; then
 		    if [ -f "/appconfigs/system.json.old" ]; then
-			cp "${SYSTEM_PATH}/assets/system-v4.json" "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 			else
-			cp "${SYSTEM_PATH}/assets/system.json" "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 			fi
-			cp "${SYSTEM_PATH}/assets/last_state.sav" "${SDCARD_PATH}/.simplemenu/last_state.sav"
-			rm "${SDCARD_PATH}/.reset_settings"
+			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
+			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			reboot
 			sleep 5
 		else
-			cp "${SYSTEM_PATH}/assets/system.mmp.json" "$SETTINGS_FILE"
-			cp "${SYSTEM_PATH}/assets/last_state.sav" "${SDCARD_PATH}/.simplemenu/last_state.sav"
-			rm "${SDCARD_PATH}/.reset_settings"
+			cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
+			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			poweroff
 			sleep 5
@@ -100,47 +98,47 @@ reset_settings() {
 }
 
 update() {
-	if [ -f "${SDCARD_PATH}/.deletes" ]; then
+	if [ -f "${SDCARD_PATH}"/.deletes ]; then
 		while read file_to_delete; do
 		rm -rf "${file_to_delete}"
-		done < "${SDCARD_PATH}/.deletes"
-		rm "${SDCARD_PATH}/.deletes"
+		done < "${SDCARD_PATH}"/.deletes
+		rm "${SDCARD_PATH}"/.deletes
 	fi
 
 	if [ -f "${SDCARD_PATH}/update_koriki_*.zip" ]; then
 		for file in `ls "${SDCARD_PATH}/update_koriki_*.zip"`; do
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
-		show "${SDCARD_PATH}/.update_splash.png"
+		show "${SDCARD_PATH}"/.update_splash.png
 
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
-		if [ -f "${SDCARD_PATH}/.deletes" ]; then
+		if [ -f "${SDCARD_PATH}"/.deletes ]; then
 			while read file_to_delete; do
 			if [ -f "${file_to_delete}" ]; then
 				rm "${file_to_delete}"
 			elif [ -d "${file_to_delete}" ]; then
 				rm -rf "${file_to_delete}"
 			fi
-			done < "${SDCARD_PATH}/.deletes"
+			done < "${SDCARD_PATH}"/.deletes
 		fi
 
 		unzip -q -o "${file}" -d "${SDCARD_PATH}"
 
 		rm "${file}"
-		if [ -f "${SDCARD_PATH}/.deletes" ]; then
-			rm "${SDCARD_PATH}/.deletes"
+		if [ -f "${SDCARD_PATH}"/.deletes ]; then
+			rm "${SDCARD_PATH}"/.deletes
 		fi
 		sleep 5s
 		done
 		sync
-		if [ $MODEL == "MMP" ]; then
+		if [ "$MODEL" == "MMP" ]; then
 			reboot
 			sleep 10s
 		fi
 	fi
 
-	if [ -f "${SDCARD_PATH}/.update_splash.png" ]; then
-		rm "${SDCARD_PATH}/.update_splash.png"
+	if [ -f "${SDCARD_PATH}"/.update_splash.png ]; then
+		rm "${SDCARD_PATH}"/.update_splash.png
 	fi
 }
 
@@ -174,7 +172,7 @@ echo 70 > "/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
 echo 1 > "/sys/class/pwm/pwmchip0/pwm0/enable"
 
 # Charging screen
-"${SYSTEM_PATH}/bin/charging"
+"${SYSTEM_PATH}"/bin/charging
 
 # Update opportunity
 update
@@ -192,7 +190,7 @@ fi
 
 # Enable swap
 if [ ! -f "${SWAPFILE}" ]; then
-	show "${SYSTEM_PATH}/images/swap.png"
+	show "${SYSTEM_PATH}"/images/swap.png
 	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=256
 	mkswap "${SWAPFILE}"
 	sync
@@ -204,7 +202,7 @@ swapon -p 50 "${SWAPFILE}"
 vol=`/customer/app/jsonval vol`
 
 if [ "$vol" -ge "20" ]; then
-    sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' $SETTINGS_FILE
+    sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' "$SETTINGS_FILE"
 	sync
 	vol=`/customer/app/jsonval vol`
 fi
@@ -213,12 +211,12 @@ vol=$((($vol*3)+40))
 /customer/app/tinymix set 6 "$vol"
 
 # Show bootScreen or videosplash
-if [ -f "${SYSTEM_PATH}/videosplash.mp4" ]; then
+if [ -f "${SYSTEM_PATH}"/videosplash.mp4 ]; then
     echo 0 > "/sys/module/gpio_keys_polled/parameters/button_enable"
-	"${SYSTEM_PATH}/bin/ffplayer" "${SYSTEM_PATH}/videosplash.mp4"
+	"${SYSTEM_PATH}"/bin/ffplayer "${SYSTEM_PATH}"/videosplash.mp4
 	echo 1 > "/sys/module/gpio_keys_polled/parameters/button_enable"
 else
-	"${SYSTEM_PATH}/bin/show" "${SDCARD_PATH}/.simplemenu/resources/loading.png"
+	"${SYSTEM_PATH}"/bin/show "${SDCARD_PATH}"/.simplemenu/resources/loading.png
 fi
 
 # Reset settings on first boot
@@ -230,13 +228,13 @@ dir_scaffolding
 # fix if the settings files is missing
 if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
-		cp "${SYSTEM_PATH}/assets/system.mmp.json" "$SETTINGS_FILE"
+		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 		sync
 		reboot
 		sleep 5
 	fi
 	if [ "$MODEL" == "MM" ]; then
-		cp "${SYSTEM_PATH}/assets/system.json" "$SETTINGS_FILE"
+		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 		sync
 		reboot
 		sleep 5
@@ -259,7 +257,7 @@ if [ "$MODEL" == "MMP" ]; then
     runwifi=`/customer/app/jsonval wifi`
 	
 	if [ "$runwifi" == "1" ]; then
-	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" $SETTINGS_FILE
+	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
 	/customer/app/axp_test wifioff
 	sync
 	fi
@@ -269,27 +267,27 @@ fi
 # autochange retroarch version and show/quit wifi app
 
 if [ ! -f /customer/app/axp_test ]; then
-	rm "${RETROARCH_PATH}/retroarch"
-	cp "${RETROARCH_PATH}/retroarch.mini" "${RETROARCH_PATH}/retroarch"
+	rm "${RETROARCH_PATH}"/retroarch
+	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
 	sync
-	if [ -f "${SDCARD_PATH}/.simplemenu/apps/Wifi.sh" ]; then
-		mv "${SDCARD_PATH}/.simplemenu/apps/Wifi.sh" "${SDCARD_PATH}/.simplemenu/apps/Wifi"
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh "${SDCARD_PATH}"/.simplemenu/apps/Wifi
 		sync
 	fi
-	if [ -f "${SDCARD_PATH}/.simplemenu/apps/Ftp.sh" ]; then
-		mv "${SDCARD_PATH}/.simplemenu/apps/Ftp.sh" "${SDCARD_PATH}/.simplemenu/apps/Ftp"
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh "${SDCARD_PATH}"/.simplemenu/apps/Ftp
 		sync
 	fi
 else
-	rm "${RETROARCH_PATH}/retroarch"
-	cp "${RETROARCH_PATH}/retroarch.plus" "${RETROARCH_PATH}/retroarch"
+	rm "${RETROARCH_PATH}"/retroarch
+	cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
 	sync
-	if [ -f "${SDCARD_PATH}/.simplemenu/apps/Wifi" ]; then
-		mv "${SDCARD_PATH}/.simplemenu/apps/Wifi" "${SDCARD_PATH}/.simplemenu/apps/Wifi.sh"
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh
 		sync
 	fi
-	if [ -f "${SDCARD_PATH}/.simplemenu/apps/Ftp" ]; then
-		mv "${SDCARD_PATH}/.simplemenu/apps/Ftp" "${SDCARD_PATH}/.simplemenu/apps/Ftp.sh"
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh
 		sync
 	fi
 fi
@@ -315,10 +313,10 @@ if [ ! -f "${GOVSAVE}" ]; then
 fi
 
 # Koriki keymon
-runifnecessary "keymon" "${SYSTEM_PATH}/bin/keymon"
+runifnecessary "keymon" "${SYSTEM_PATH}"/bin/keymon
 
 # Koriki batmon (compiled and adapter from onion)
-"${SYSTEM_PATH}/bin/batmon" &
+"${SYSTEM_PATH}"/bin/batmon &
 
 # create dhcp.leases
 if [ ! -f /appconfigs/dhcp.leases ]; then
@@ -327,69 +325,69 @@ if [ ! -f /appconfigs/dhcp.leases ]; then
 fi
 
 # fix simplemenu bootloop
-if [ ! -f "${SDCARD_PATH}/.simplemenu/favorites.sav" ]; then
-	touch "${SDCARD_PATH}/.simplemenu/favorites.sav"
+if [ ! -f "${SDCARD_PATH}"/.simplemenu/favorites.sav ]; then
+	touch "${SDCARD_PATH}"/.simplemenu/favorites.sav
 	sync
 fi
 
 # clear ftp log file
-if [ -f "${SYSTEM_PATH}/bftpdutmp" ]; then
-	rm "${SYSTEM_PATH}/bftpdutmp"
-	touch "${SYSTEM_PATH}/bftpdutmp"
+if [ -f "${SYSTEM_PATH}"/bftpdutmp ]; then
+	rm "${SYSTEM_PATH}"/bftpdutmp
+	touch "${SYSTEM_PATH}"/bftpdutmp
 	sync
 fi
 
 # Detect 'B' press to fix SM boot loops
 if cat /sys/kernel/debug/gpio|grep "gpio-6 "|grep lo > /dev/null 2>&1
 then
-	rm  "${SDCARD_PATH}/.simplemenu/last_state.sav"
+	rm  "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sync
 fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-    sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-    sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' ${SDCARD_PATH}/.simplemenu/last_state.sav
+    sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sync
 fi
 
 # Change speed in Drastic
-if [ -f "${SDCARD_PATH}/App/drastic/launch.sh" ]; then
+if [ -f "${SDCARD_PATH}"/App/drastic/launch.sh ]; then
 	if [ "$MODEL" == "MM" ]; then
-		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}/App/drastic/resources/settings.json" | awk -F':' '{print $2}')
+		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}"/App/drastic/resources/settings.json | awk -F':' '{print $2}')
 		if [ "$CURRENT_MAXCPU" != "1500" ]; then
-		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1500/' "${SDCARD_PATH}/App/drastic/resources/settings.json"
-		sed -i 's|"${SYSTEM_PATH}/bin/cpuclock" '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}/bin/cpuclock" 1500|' "${SDCARD_PATH}/App/drastic/launch.sh"
+		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1500/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
+		sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1500|' "${SDCARD_PATH}"/App/drastic/launch.sh
 		sync
 		fi
 	else
-		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}/App/drastic/resources/settings.json" | awk -F':' '{print $2}')
+		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}"/App/drastic/resources/settings.json | awk -F':' '{print $2}')
 		if [ "$CURRENT_MAXCPU" != "1600" ]; then
-		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1600/' "${SDCARD_PATH}/App/drastic/resources/settings.json"
-		sed -i 's|"${SYSTEM_PATH}/bin/cpuclock" '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}/bin/cpuclock" 1600|' "${SDCARD_PATH}/App/drastic/launch.sh"
+		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1600/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
+		sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1600|' "${SDCARD_PATH}"/App/drastic/launch.sh
 		sync
 		fi
 	fi
 fi
 
 # Set timezone
-if [ -f "${SDCARD_PATH}/App/Clock/timezone.txt" ]; then
-    timezone=`cat "${SDCARD_PATH}/App/Clock/timezone.txt"`
+if [ -f "${SDCARD_PATH}"/App/Clock/timezone.txt ]; then
+    timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
 	export TZ=UTC$((-1*timezone))
 else
-    touch "${SDCARD_PATH}/App/Clock/timezone.txt"
-	echo +0 > "${SDCARD_PATH}/App/Clock/timezone.txt"
+    touch "${SDCARD_PATH}"/App/Clock/timezone.txt
+	echo +0 > "${SDCARD_PATH}"/App/Clock/timezone.txt
 	export TZ=UTC+0
 fi
 
 # Launch SimpleMenu
 while [ 1 ]; do
 	HOME="${SDCARD_PATH}"
-	cd "${SDCARD_PATH}/.simplemenu"
+	cd "${SDCARD_PATH}"/.simplemenu
 	./simplemenu
 	sleep 4s
 done
