@@ -197,6 +197,9 @@ if [ ! -f "${SWAPFILE}" ]; then
 fi
 swapon -p 50 "${SWAPFILE}"
 
+# Reset settings on first boot
+reset_settings
+
 # Get save volumen
 /customer/app/tinymix set 6 100
 vol=`/customer/app/jsonval vol`
@@ -218,9 +221,6 @@ if [ -f "${SYSTEM_PATH}"/videosplash.mp4 ]; then
 else
 	"${SYSTEM_PATH}"/bin/show "${SDCARD_PATH}"/.simplemenu/resources/loading.png
 fi
-
-# Reset settings on first boot
-reset_settings
 
 # Create ROMs scaffolding
 dir_scaffolding
