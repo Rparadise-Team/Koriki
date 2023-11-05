@@ -1,7 +1,14 @@
 #!/bin/sh
-
+if dmesg|fgrep -q "FB_WIDTH=640"; then
 export SCREEN_WIDTH=640
 export SCREEN_HEIGHT=480
+export SUBMODEL="MM"
+fi
+if dmesg|fgrep -q "FB_WIDTH=752"; then
+export SCREEN_WIDTH=752
+export SCREEN_HEIGHT=560
+export SUBMODEL="MMv4"
+fi
 export SDCARD_PATH="/mnt/SDCARD"
 export HOME="${SDCARD_PATH}"
 SETTINGS_INT_FILE="/appconfigs/system.json"
@@ -32,12 +39,22 @@ else
 	if [ -f /appconfigs/system.json.old ]; then
     export SETTINGS_FILE="$SETTINGS_EXT_FILE"
 # Create v4 config file is this is not found in the root of SDCARD
+	if [ "$SUBMODEL" == "MMv4" ]; then
 		if [ ! -f "$SETTINGS_FILE" ]; then
 			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
 		if [ ! -s "$SETTINGS_FILE" ]; then
 			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
+	fi
+	if [ "$SUBMODEL" == "MM" ]; then
+		if [ ! -f "$SETTINGS_FILE" ]; then
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		fi
+		if [ ! -s "$SETTINGS_FILE" ]; then
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		fi
+	fi
 	else
     	export SETTINGS_FILE="$SETTINGS_INT_FILE"
 	fi
@@ -75,9 +92,14 @@ runifnecessary() {
 
 reset_settings() {
 	if [ -f "${SDCARD_PATH}/.reset_settings" ]; then
-		if [ $MODEL == "MM" ]; then
+		if [ "$MODEL" == "MM" ]; then
 		    if [ -f "/appconfigs/system.json.old" ]; then
+			if [ "$SUBMODEL" == "MMv4" ]; then
 			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+			fi
+			if [ "$SUBMODEL" == "MM" ]; then
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+			fi
 			else
 			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 			fi
@@ -234,7 +256,12 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 		sleep 5
 	fi
 	if [ "$MODEL" == "MM" ]; then
+		if [ "$SUBMODEL" == "MM" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		fi
+		if [ "$SUBMODEL" == "MMv4" ]; then
+		cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+		fi
 		sync
 		reboot
 		sleep 5
@@ -269,6 +296,26 @@ fi
 if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
+	if [ "$SUBMODEL" == "MM" ]; then
+	sed -i 's/custom_viewport_height = "560"/custom_viewport_height = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/custom_viewport_width = "752"/custom_viewport_width = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_fullscreen_y = "560"/video_fullscreen_y = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_fullscreen_x = "752"/video_fullscreen_x = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_window_auto_height_max = "560"/video_window_auto_height_max = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_window_auto_width_max = "752"/video_window_auto_width_max = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_windowed_position_height = "560"/video_windowed_position_height = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_windowed_position_width = "752"/video_windowed_position_width = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	fi
+	if [ "$SUBMODEL" == "MMv4" ]; then
+	sed -i 's/custom_viewport_height = "480"/custom_viewport_height = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/custom_viewport_width = "640"/custom_viewport_width = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_fullscreen_y = "480"/video_fullscreen_y = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_fullscreen_x = "640"/video_fullscreen_x = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_window_auto_height_max = "480"/video_window_auto_height_max = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_window_auto_width_max = "640"/video_window_auto_width_max = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_windowed_position_height = "480"/video_windowed_position_height = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	sed -i 's/video_windowed_position_width = "640"/video_windowed_position_width = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
+	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh "${SDCARD_PATH}"/.simplemenu/apps/Wifi
