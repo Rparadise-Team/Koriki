@@ -745,6 +745,32 @@ int isOpenborRunning()
 	return 0;
 }
 
+int isDukemRunning()
+{
+	FILE *fp;
+	char buffer[64];
+	const char *dukems[] = {"rednukem", "eduke32", "nblood", "voidsw"};
+    
+	for (unsigned int i = 0; i < sizeof(dukems) / sizeof(dukems[0]); i++) {
+		char cmd[64];
+		snprintf(cmd, sizeof(cmd), "pgrep %s", dukems[i]);
+    
+		fp = popen(cmd, "r");
+		if (fp == NULL) {
+			printf("Error al ejecutar el comando 'pgrep %s'\n", dukems[i]);
+			return 0;
+		}
+    
+		if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+			pclose(fp);
+			return 1;
+		}
+	
+		pclose(fp);
+	}
+	return 0;
+}
+
 int isProcessRunning(const char* processName) {
     FILE *fp;
     char cmd[64];
@@ -1049,7 +1075,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
@@ -1069,7 +1095,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
@@ -1090,7 +1116,7 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 						if (val == PRESSED && menu_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
@@ -1112,7 +1138,7 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
@@ -1133,7 +1159,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
@@ -1159,7 +1185,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch")) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
