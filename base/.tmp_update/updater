@@ -296,26 +296,6 @@ fi
 if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
-	if [ "$SUBMODEL" == "MM" ]; then
-	sed -i 's/custom_viewport_height = "560"/custom_viewport_height = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/custom_viewport_width = "752"/custom_viewport_width = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_fullscreen_y = "560"/video_fullscreen_y = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_fullscreen_x = "752"/video_fullscreen_x = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_window_auto_height_max = "560"/video_window_auto_height_max = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_window_auto_width_max = "752"/video_window_auto_width_max = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_windowed_position_height = "560"/video_windowed_position_height = "480"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_windowed_position_width = "752"/video_windowed_position_width = "640"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	fi
-	if [ "$SUBMODEL" == "MMv4" ]; then
-	sed -i 's/custom_viewport_height = "480"/custom_viewport_height = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/custom_viewport_width = "640"/custom_viewport_width = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_fullscreen_y = "480"/video_fullscreen_y = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_fullscreen_x = "640"/video_fullscreen_x = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_window_auto_height_max = "480"/video_window_auto_height_max = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_window_auto_width_max = "640"/video_window_auto_width_max = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_windowed_position_height = "480"/video_windowed_position_height = "560"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	sed -i 's/video_windowed_position_width = "640"/video_windowed_position_width = "752"/g' "${RETROARCH_PATH}"/.retroarch/retroarch.cfg
-	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh "${SDCARD_PATH}"/.simplemenu/apps/Wifi

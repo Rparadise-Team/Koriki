@@ -472,6 +472,8 @@ void startmusic() {
         fprintf(stderr, "error init SDL: %s\n", SDL_GetError());
         return;
     }
+	
+	Sound_Init();
 
     if(Mix_OpenAudio(48000, AUDIO_S16SYS, 2, 4096) == -1) {
         fprintf(stderr, "error init SDL_mixer: %s\n", Mix_GetError());
@@ -491,6 +493,7 @@ void stopmusic() {
 	Mix_HaltMusic();
 	Mix_FreeMusic(music);
     Mix_CloseAudio();
+	Sound_Quit();
 	music = NULL;
 }
 
