@@ -1,0 +1,102 @@
+[000000] codo_init
+[000000]   platform: Linux
+[000000]   Found config.txt
+[000000]   
+[000000]     01 window_size 640 480 // window width, height
+[000000]     02 screen_size 640 480 // screen width, height (stretched to window) 
+[000000]     03 show_fps 0 // Draw frames per second in the corner
+[000000]     04 windowed 0 // 1 to start up in windowed mode
+[000000]     05 window_position -1 -1 // x and y position of window (-1, -1 to let the window manager decide)
+[000000]     new window position: -1, -1
+[000000]     06 frameless 1 // 1 to use a window with no frame
+[000000]     07 fullscreen_method 2 // 0 maximized window (linux)  1 borderless desktop-sized window  2 hardware fullscreen (warning: erratic behaviour under some drivers)
+[000000]     08 blit_method 0  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
+[000000]     09 foreground_sleep_ms 1 // number of milliseconds to sleep each frame. Try 10 to conserve battery power
+[000000]     10 background_sleep_ms 5 // number of milliseconds to sleep each frame when running in the background
+[000000]     11 sessions 822 // number of times program has been run
+[000000]     12 rmb_key 0 // 0 for none  226 for LALT
+[000000]     13 desktop_path 
+[000000]     14 read_controllers_in_background 0
+[000000]     15 sound_volume 256 // 0..256
+[000000]     16 music_volume 256 // 0..256
+[000000]     17 mix_buffer_size 1024
+[000000]     18 map_scancodes 
+[000000]     19 version 0.2.5g
+[000000]     20 volume 256
+[000000]     21 root_path /mnt/SDCARD/App/pico/.lexaloffle/
+[000000]     22 cdata_path /mnt/SDCARD/App/pico/.lexaloffle/pico-8/cdata/
+[000000]     23 joystick_index 0
+[000000]     24 button_keys 0 0 0 0 0 0 0 0 0 0 0 0 0 
+[000000]     25 live_notes 0
+[000000]     26 cursor_snap 0
+[000000]     27 gui_theme 0
+[000000]     28 screenshot_scale 3
+[000001]     29 gif_scale 2
+[000001]     30 gif_len 8
+[000001]     31 gif_reset_mode 0
+[000001]     32 host_framerate_control 1
+[000001]     33 splore_filter 0
+[000001]     34 tab_width 1
+[000001]     35 draw_tabs 0
+[000001]     36 record_activity_log 1
+[000001]     37 allow_function_keys 1
+[000001]     38 check_for_cart_updates 1
+[000001]     39 enable_gpio 1
+[000001]     40 auto_hide_mouse_cursor 5
+[000001]     41 aggressive_backups 0
+[000001]     42 periodic_backups 20
+[000001]     43 transform_screen 0
+[000001]     44 gfx_grid_lines 0
+[000001]   
+[000001]   codo_system_init
+[000234]   Compiled against SDL version: 2.0.14
+[000234]   Linked against SDL version:   2.0.20
+[000234]   Current video driver: mmiyoo
+[000234]   codo_reset_timer
+[000234]   codo_gui_init
+[000234]   codo_keys_init
+[000234]   codo_text_init
+[000236]   codo_video_init
+[000236]   codo_mouse_init
+[000236]   codo_joystick_init
+[000243]   Reading controller mappings: /mnt/SDCARD/App/pico/.lexaloffle/pico-8/sdl_controllers.txt
+[000245]   searching for joysticks
+[000245]     found 1 joysticks
+[000245]     connecting joystick 0
+[000246]     Unmapped Joystick 0: MMiyoo Joystick
+[000246]      Number of Axes: 2
+[000246]      Number of Buttons: 28
+[000246]      Number of Balls: 0
+[000246]   ok
+[000246] ok
+[000310] codo_load_pod: /mnt/SDCARD/App/pico/bin/pico8.dat ok 
+[000345] codo_set_screen 128 128 8 100
+[000345]  window size: 640 480
+[000346] setting fullscreen window size to 0 0
+[000346]   setting filter to linear (screen_mode 1  back page width: 128)
+  renderer MMIYOO:
+   flags: 0x0000000A ( | )
+   texture formats (2): RGB565, Unknwon
+   max texture size: 800x600
+[000363]  desktop size: 0 0
+[000363] ok
+[000371] codo_sound_init mix_buffer_size: 1024
+[000371] codo_sound_init
+[000371] SDL_INIT_AUDIO ok
+[000403] SDL_OpenAudio ok
+[000403]  freq:22050
+ channels:1
+[000403] Built-in audio drivers: 0 MMIYOO
+[000403] Current audio driver: MMIYOO
+[000403] splore_init
+[000404] could not load favourites file: /mnt/SDCARD/App/pico/.lexaloffle/pico-8/favourites.txt
+[008093] codo_exit
+[008094]   cmusic_stop
+[008094]   codo_main_exit
+[008097]   codo_config_save
+[008101]   codo_sound_exit
+[008101]   codo_video_exit
+[008101]   codo_joystick_exit
+[008101]   codo_system_exit
+[008151]   codo_items_created: 1248
+[008151] ok

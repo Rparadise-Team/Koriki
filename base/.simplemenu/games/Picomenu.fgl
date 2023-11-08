@@ -1,0 +1,3 @@
+title=Pico8 menu
+exec="/mnt/SDCARD/Ports/Pico/pico.sh"
+editable=false

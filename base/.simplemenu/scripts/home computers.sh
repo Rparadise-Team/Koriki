@@ -65,9 +65,9 @@ romDirs = /mnt/SDCARD/Roms/OPENBOR/
 romExts = .pak
 
 [PICO-8]
-execs = /mnt/SDCARD/.simplemenu/launchers/fake08_libretro,/mnt/SDCARD/.simplemenu/launchers/retro8_libretro,/mnt/SDCARD/.simplemenu/launchers/fake8_standalone
+execs = /mnt/SDCARD/.simplemenu/launchers/pico_standalone,/mnt/SDCARD/.simplemenu/launchers/fake08_libretro,/mnt/SDCARD/.simplemenu/launchers/retro8_libretro
 romDirs = /mnt/SDCARD/Roms/PICO/
-romExts = .png,.p8
+romExts = .png,.p8,.p8.png
 aliasFile = /mnt/SDCARD/.simplemenu/alias_PICO-8.txt
 
 [TIC-80]

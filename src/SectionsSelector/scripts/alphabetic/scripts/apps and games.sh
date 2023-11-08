@@ -224,9 +224,9 @@ romDirs = /mnt/SDCARD/Roms/PCECD/
 romExts = .pce,.tg16,.cue,.chd,.zip,.7z
 
 [PICO-8]
-execs = /mnt/SDCARD/.simplemenu/launchers/fake08_libretro,/mnt/SDCARD/.simplemenu/launchers/retro8_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/pico_standalone,/mnt/SDCARD/.simplemenu/launchers/fake08_libretro,/mnt/SDCARD/.simplemenu/launchers/retro8_libretro
 romDirs = /mnt/SDCARD/Roms/PICO/
-romExts = .png,.p8
+romExts = .png,.p8,.p8.png
 aliasFile = /mnt/SDCARD/.simplemenu/alias_PICO-8.txt
 
 [PLAYSTATION]
