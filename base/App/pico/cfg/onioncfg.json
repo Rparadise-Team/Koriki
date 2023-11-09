@@ -30,7 +30,7 @@
     "mincpu":600
   },
   "overlay":{
-    "current_overlay":0,
+    "current_overlay":4,
     "overlay_path":"\/mnt\/SDCARD\/App\/pico\/res\/border",
     "digit_path":"\/mnt\/SDCARD\/App\/pico\/res\/digit"
   }

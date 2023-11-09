@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <SDL/SDL.h>
 
 #include "cJSON.h"
 #include <json-c/json.h>
@@ -793,7 +794,7 @@ int isProcessRunning(const char* processName) {
 }
 
 void stopOrContinueProcesses(int value) {
-    const char *exceptions[] = {"batmon", "keymon", "init", "telnetd", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop"};
+    const char *exceptions[] = {"batmon", "keymon", "init", "telnetd", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop", "wget"};
     const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
     DIR *dir;
@@ -1075,7 +1076,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
@@ -1095,7 +1096,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
@@ -1116,7 +1117,7 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 						if (val == PRESSED && menu_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
@@ -1138,7 +1139,7 @@ int main (int argc, char *argv[]) {
 					} else {
 						repeat = 0;
 					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
@@ -1159,7 +1160,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
@@ -1185,7 +1186,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1) {
+				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);

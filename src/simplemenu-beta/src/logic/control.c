@@ -1015,12 +1015,12 @@ void performSystemSettingsChoosingAction() {
 				stopmusic();
 				if (mmModel) {
 					char command [128];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && rm /tmp/audioserver_on && sync");
+					snprintf(command, sizeof(command), "killall audioserver && killall -g audioserver.min && rm /tmp/audioserver_on && sync");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				} else {
 					char command [128];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync");
+					snprintf(command, sizeof(command), "killall audioserver && killall - g audioserver.plu && rm /tmp/audioserver_on && sync");
 					system(command);
 					unsetenv("LD_PRELOAD");
 				}
