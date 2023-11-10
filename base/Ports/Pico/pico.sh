@@ -54,6 +54,10 @@ set_snd_level() {
     done
 }
 
+MMP=/customer/app/axp_test
+
+if [ -f "$MMP" ]; then
+
 if [ "$runsvr" != "0" ] ; then
 	FILE=/customer/app/axp_test
 	
@@ -137,3 +141,11 @@ fi
 
 sync
 exit
+
+else
+
+show "/mnt/SDCARD/Koriki/images/warning.png"
+sleep 10
+
+fi
+
