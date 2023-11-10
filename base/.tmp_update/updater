@@ -295,7 +295,12 @@ fi
 
 if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
+	if [ "$SUBMODEL" == "MM" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
+	fi
+	if [ "$SUBMODEL" == "MMv4" ]; then
+	cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
+	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh "${SDCARD_PATH}"/.simplemenu/apps/Wifi
