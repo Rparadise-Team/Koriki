@@ -2,8 +2,8 @@
   "customkeys":{
     "A":"Z",
     "B":"X",
-    "X":"ESCAPE",
-    "Y":"D",
+    "X":"RETURN",
+    "Y":"ESCAPE",
     "L1":"D",
     "L2":"D",
     "R1":"D",
