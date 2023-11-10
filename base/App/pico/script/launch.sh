@@ -107,4 +107,30 @@ if [ "$runsvr" != "0" ] ; then
 	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
 		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 	fi
+else #fixed slow music menu
+	/mnt/SDCARD/Koriki/bin/audioserver &
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+	fi
+	
+	sleep 1
+	
+	FILE=/customer/app/axp_test
+	
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		unset LD_PRELOAD
+	fi
+
+    if [ -f "$FILE" ]; then
+        killall audioserver
+		killall -g audioserver.plu
+    else
+        killall audioserver
+		killall -g audioserver.min
+    fi
+	
+	sleep 1
 fi
+
+sync
+exit

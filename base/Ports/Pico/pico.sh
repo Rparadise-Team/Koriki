@@ -98,7 +98,7 @@ mount --bind /mnt/SDCARD/Roms/PICO /mnt/SDCARD/App/pico/.lexaloffle/pico-8/carts
 pico8_dyn -splore
 
 umount /mnt/SDCARD/App/pico/.lexaloffle/pico-8/carts
-cp -f /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
+mv /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
 sync
 
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
