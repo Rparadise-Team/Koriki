@@ -54,6 +54,15 @@ set_snd_level() {
     done
 }
 
+BINARY=/mnt/SDCARD/App/pico/bin/pico8_dyn
+
+if [ ! -f $BINARY ]; then
+	
+	show "/mnt/SDCARD/Koriki/images/license.png"
+	sleep 20
+	
+else
+
 if [ "$runsvr" != "0" ] ; then
 	FILE=/customer/app/axp_test
 	
@@ -134,3 +143,5 @@ fi
 
 sync
 exit
+
+fi

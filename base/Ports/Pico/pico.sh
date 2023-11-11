@@ -55,6 +55,14 @@ set_snd_level() {
 }
 
 MMP=/customer/app/axp_test
+BINARY=/mnt/SDCARD/App/pico/bin/pico8_dyn
+
+if [ ! -f $BINARY ]; then
+	
+	show "/mnt/SDCARD/Koriki/images/license.png"
+	sleep 20
+	
+else
 
 if [ -f "$MMP" ]; then
 
@@ -148,4 +156,4 @@ show "/mnt/SDCARD/Koriki/images/warning.png"
 sleep 10
 
 fi
-
+fi
