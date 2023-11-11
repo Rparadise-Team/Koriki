@@ -430,117 +430,6 @@ void modifyBrightness(int inc) {
 	}
 }
 
-int isDrasticRunning()
-{
-	FILE *fp;
-	char buffer[64];
-	const char *cmd = "pgrep drastic";
-    
-	fp = popen(cmd, "r");
-	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep drastic'\n");
-		return 0;
-	}
-    
-	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
-		pclose(fp);
-		return 1;
-	}
-	
-	pclose(fp);
-	return 0;
-}
-
-void setcpu(int cpu) {
-	if (cpu == 0) {
-		FILE *file0;
-		FILE *file1;
-		FILE *file2;
-		char cpuValue[10];
-		char govValue[15];
-		char speedValue[15];
-		
-		file0 = fopen(CPUSAVE, "r");
-		 if (file0 == NULL) {
-			 file0 = fopen(CPUSAVE, "w");
-			 fprintf(file0, "%d", 1200000);
-			 fclose(file0);
-			 file0 = fopen(CPUSAVE, "r");
-		 }
-		
-		file1 = fopen(GOVSAVE, "r");
-		 if (file1 == NULL) {
-			 file1 = fopen(GOVSAVE, "w");
-			 fprintf(file1, "ondemand");
-			 fclose(file1);
-			 file1 = fopen(GOVSAVE, "r");
-        }
-		
-		file2 = fopen(SPEEDSAVE, "r");
-		 if (file2 == NULL) {
-			 file2 = fopen(SPEEDSAVE, "w");
-			 fprintf(file2, "<unsupported>");
-			 fclose(file2);
-			 file2 = fopen(SPEEDSAVE, "r");
-        }
-		
-		fgets(cpuValue, sizeof(cpuValue), file0);
-		fclose(file0);
-		
-		fgets(govValue, sizeof(govValue), file1);
-		fclose(file1);
-		
-		fgets(speedValue, sizeof(speedValue), file2);
-		fclose(file2);
-		
-		FILE *cpuFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
-		fprintf(cpuFile, "%s", cpuValue);
-		fclose(cpuFile);
-			 
-		FILE *govFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "w");
-		fprintf(govFile, "%s", govValue);
-		fclose(govFile);
-		
-		if (isDrasticRunning() == 1) {
-			char command[64];
-			int speed;
-			const char* settings;
-			const char* maxcpu;
-			
-			settings = "/mnt/SDCARD/App/drastic/resources/settings.json";
-			maxcpu = "maxcpu";
-			jfile = json_object_from_file(settings);
-			json_object_object_get_ex(jfile, maxcpu, &jval);
-			speed = json_object_get_int(jval);
-			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
-			system(command);
-		}
-
-        system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-		
-    } else if (cpu == 1) {
-		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-		system("sync");
-	} else if (cpu == 2) {
-		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-		system("sync");
-	} else if (cpu == 3) {
-		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-		system("echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
-		system("sync");
-	} else if (cpu == 4) {
-		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed /mnt/SDCARD/.simplemenu/speed.sav");
-		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-		system("sync");
-	}
-}
-
 void sethibernate(int hibernate) {
 	cJSON* request_json = NULL;
 	cJSON* itemHibernate;
@@ -602,64 +491,6 @@ void sethibernate(int hibernate) {
 	
 	cJSON_Delete(request_json);
 	free(request_body);
-}
-
-void keyinput_send(int code, int mode)
-{
-    struct input_event events[1];
-
-    events[0].type = EV_KEY;
-    events[0].code = code;
-    events[0].value = mode;
-
-    int input_fd = open("/dev/input/event0", O_WRONLY);
-    if (input_fd == -1) {
-        perror("Failed to open input device");
-        return;
-    }
-
-    ssize_t bytes_written = write(input_fd, events, sizeof(events));
-    if (bytes_written == -1) {
-        perror("Failed to write to input device");
-    }
-
-    fsync(input_fd);
-    close(input_fd);
-}
-
-void keymulti_send(int code1, int mode1, int code2, int mode2) 
-{
-    int num_events = 2;
-    struct input_event *events = (struct input_event*)malloc(num_events * sizeof(struct input_event));
-
-    events[0].type = EV_KEY;
-    events[0].code = code1;
-    events[0].value = mode1;
-
-    events[1].type = EV_KEY;
-    events[1].code = code2;
-    events[1].value = mode2;
-
-    int input_fd = open("/dev/input/event0", O_WRONLY);
-    if (input_fd == -1) {
-        perror("Failed to open input device");
-        free(events);
-        return;
-    }
-
-    for (int i = 0; i < num_events; i++) {
-        ssize_t bytes_written = write(input_fd, &events[i], sizeof(events[i]));
-        if (bytes_written == -1) {
-            perror("Failed to write to input device");
-            free(events);
-            close(input_fd);
-            return;
-        }
-    }
-
-    fsync(input_fd);
-    close(input_fd);
-    free(events);
 }
 
 int isRetroarchRunning()
@@ -772,6 +603,48 @@ int isDukemRunning()
 	return 0;
 }
 
+int isDrasticRunning()
+{
+	FILE *fp;
+	char buffer[64];
+	const char *cmd = "pgrep drastic";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep drastic'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
+int isPico8Running()
+{
+	FILE *fp;
+	char buffer[64];
+	const char *cmd = "pgrep pico8_dyn";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep pico8_dyn'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 int isProcessRunning(const char* processName) {
     FILE *fp;
     char cmd[64];
@@ -833,7 +706,6 @@ void stopOrContinueProcesses(int value) {
         closedir(dir);
     }
 }
-
 
 void display_setScreen(int value) {
     if (value == 0) {  // enter in savepower mode
@@ -921,6 +793,64 @@ void display_setScreen(int value) {
     }
 }
 
+void keyinput_send(int code, int mode)
+{
+    struct input_event events[1];
+
+    events[0].type = EV_KEY;
+    events[0].code = code;
+    events[0].value = mode;
+
+    int input_fd = open("/dev/input/event0", O_WRONLY);
+    if (input_fd == -1) {
+        perror("Failed to open input device");
+        return;
+    }
+
+    ssize_t bytes_written = write(input_fd, events, sizeof(events));
+    if (bytes_written == -1) {
+        perror("Failed to write to input device");
+    }
+
+    fsync(input_fd);
+    close(input_fd);
+}
+
+void keymulti_send(int code1, int mode1, int code2, int mode2) 
+{
+    int num_events = 2;
+    struct input_event *events = (struct input_event*)malloc(num_events * sizeof(struct input_event));
+
+    events[0].type = EV_KEY;
+    events[0].code = code1;
+    events[0].value = mode1;
+
+    events[1].type = EV_KEY;
+    events[1].code = code2;
+    events[1].value = mode2;
+
+    int input_fd = open("/dev/input/event0", O_WRONLY);
+    if (input_fd == -1) {
+        perror("Failed to open input device");
+        free(events);
+        return;
+    }
+
+    for (int i = 0; i < num_events; i++) {
+        ssize_t bytes_written = write(input_fd, &events[i], sizeof(events[i]));
+        if (bytes_written == -1) {
+            perror("Failed to write to input device");
+            free(events);
+            close(input_fd);
+            return;
+        }
+    }
+
+    fsync(input_fd);
+    close(input_fd);
+    free(events);
+}
+
 void killRetroArch() {
     FILE *fp;
     char buffer[64];
@@ -945,6 +875,119 @@ void killRetroArch() {
             pclose(fp);
         }
     }
+}
+
+void setcpu(int cpu) {
+	if (cpu == 0) {
+		FILE *file0;
+		FILE *file1;
+		FILE *file2;
+		char cpuValue[10];
+		char govValue[15];
+		char speedValue[15];
+		
+		file0 = fopen(CPUSAVE, "r");
+		 if (file0 == NULL) {
+			 file0 = fopen(CPUSAVE, "w");
+			 fprintf(file0, "%d", 1200000);
+			 fclose(file0);
+			 file0 = fopen(CPUSAVE, "r");
+		 }
+		
+		file1 = fopen(GOVSAVE, "r");
+		 if (file1 == NULL) {
+			 file1 = fopen(GOVSAVE, "w");
+			 fprintf(file1, "ondemand");
+			 fclose(file1);
+			 file1 = fopen(GOVSAVE, "r");
+        }
+		
+		file2 = fopen(SPEEDSAVE, "r");
+		 if (file2 == NULL) {
+			 file2 = fopen(SPEEDSAVE, "w");
+			 fprintf(file2, "<unsupported>");
+			 fclose(file2);
+			 file2 = fopen(SPEEDSAVE, "r");
+        }
+		
+		fgets(cpuValue, sizeof(cpuValue), file0);
+		fclose(file0);
+		
+		fgets(govValue, sizeof(govValue), file1);
+		fclose(file1);
+		
+		fgets(speedValue, sizeof(speedValue), file2);
+		fclose(file2);
+		
+		FILE *cpuFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
+		fprintf(cpuFile, "%s", cpuValue);
+		fclose(cpuFile);
+			 
+		FILE *govFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "w");
+		fprintf(govFile, "%s", govValue);
+		fclose(govFile);
+		
+		FILE *speedFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed", "w");
+		fprintf(speedFile, "%s", speedValue);
+		fclose(speedFile);
+		
+		if (isDrasticRunning() == 1) {
+			char command[64];
+			int speed;
+			const char* settings;
+			const char* maxcpu;
+			
+			settings = "/mnt/SDCARD/App/drastic/resources/settings.json";
+			maxcpu = "maxcpu";
+			jfile = json_object_from_file(settings);
+			json_object_object_get_ex(jfile, maxcpu, &jval);
+			speed = json_object_get_int(jval);
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
+			system(command);
+			json_object_put(jfile);
+		}
+		
+		if (isPico8Running() == 1) {
+			char command[64];
+			int speed;
+			const char* settings;
+			const char* maxcpu;
+			
+			settings = "/mnt/SDCARD/App/cfg/pico/korikicf.json";
+			maxcpu = "cpuclock";
+			jfile = json_object_from_file(settings);
+			json_object* performanceObject = json_object_object_get(jfile, "performance");
+			json_object_object_get_ex(performanceObject, maxcpu, &jval);
+			speed = json_object_get_int(jval);
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
+			system(command);
+			json_object_put(jfile);
+		}
+
+        system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		
+    } else if (cpu == 1) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		system("sync");
+	} else if (cpu == 2) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		system("sync");
+	} else if (cpu == 3) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
+		system("sync");
+	} else if (cpu == 4) {
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
+		system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed /mnt/SDCARD/.simplemenu/speed.sav");
+		system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+		system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
+		system("sync");
+	}
 }
 
 int main (int argc, char *argv[]) {
@@ -1038,6 +1081,8 @@ int main (int argc, char *argv[]) {
 							} else if (isRetroarchRunning() == 1) {
 								setcpu(2);
 							} else if (isDrasticRunning() == 1) {
+								setcpu(4);
+							} else if (isPico8Running() == 1) {
 								setcpu(4);
 							} else {
 							setcpu(1);
