@@ -54,6 +54,54 @@ set_snd_level() {
     done
 }
 
+config_file="/mnt/SDCARD/App/pico/cfg/korikicf.json"
+
+if [ ! -f "$config_file" ] || \
+   ! grep -q "customkeys" "$config_file" || \
+   ! grep -q "mouse" "$config_file" || \
+   ! grep -q "performance" "$config_file" || \
+   ! grep -q "overlay" "$config_file"; then
+   cat <<EOF > "$config_file"
+{
+  "customkeys": {
+    "A": "X",
+    "B": "Z",
+    "X": "RETURN",
+    "Y": "ESCAPE",
+    "L1": "D",
+    "L2": "D",
+    "R1": "D",
+    "R2": "D",
+    "LeftDpad": "LEFT",
+    "RightDpad": "RIGHT",
+    "UpDpad": "UP",
+    "DownDpad": "DOWN",
+    "Start": "RETURN",
+    "Select": "D",
+    "Menu": "D"
+  },
+  "mouse": {
+    "scaleFactor": 1,
+    "acceleration": 4.0,
+    "accelerationRate": 1.5,
+    "maxAcceleration": 4.0,
+    "incrementModifier": 1.0
+  },
+  "performance": {
+    "cpuclock": 1200,
+    "cpuclockincrement": 25,
+    "maxcpu": 1300,
+    "mincpu": 600
+  },
+  "overlay": {
+    "current_overlay": 4,
+    "overlay_path": "\/mnt\/SDCARD\/App\/pico\/res\/border",
+    "digit_path": "\/mnt\/SDCARD\/App\/pico\/res\/digit"
+  }
+}
+EOF
+fi
+
 MMP=/customer/app/axp_test
 BINARY=/mnt/SDCARD/App/pico/bin/pico8_dyn
 
