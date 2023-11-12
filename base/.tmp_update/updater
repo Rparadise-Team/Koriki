@@ -22,6 +22,7 @@ export PATH="${SYSTEM_PATH}/bin:${PATH}"
 export SWAPFILE="/mnt/SDCARD/cachefile"
 export CPUSAVE="/mnt/SDCARD/.simplemenu/cpu.sav"
 export GOVSAVE="/mnt/SDCARD/.simplemenu/governor.sav"
+export SPEEDSAVE="/mnt/SDCARD/.simplemenu/speed.sav"
 
 export RETROARCH_PATH="/mnt/SDCARD/RetroArch"
 
@@ -343,6 +344,15 @@ fi
 if [ ! -f "${GOVSAVE}" ]; then
 	touch "${GOVSAVE}"
 	echo ondemand > "${GOVSAVE}"
+	sync
+fi
+if [ -f "${SPEEDSAVE}" ]; then
+	echo "<unsupported>" > "${SPEEDSAVE}"
+	sync
+fi
+if [ ! -f "${SPEEDSAVE}" ]; then
+	touch "${SPEEDSAVE}"
+	echo "<unsupported>" > "${SPEEDSAVE}"
 	sync
 fi
 
