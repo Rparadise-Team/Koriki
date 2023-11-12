@@ -297,9 +297,11 @@ if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MM" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
+	sed -i 's|^input_overlay = ""$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	if [ "$SUBMODEL" == "MMv4" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ""|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
