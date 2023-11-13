@@ -58,7 +58,7 @@ fi
 
 export HOME=$mydir
 export PATH=$mydir:$PATH
-export LD_LIBRARY_PATH=$mydir/libs:/customer/lib:/config/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$mydir/libs:$LD_LIBRARY_PATH
 export SDL_VIDEODRIVER=mmiyoo
 export SDL_AUDIODRIVER=mmiyoo
 export EGL_VIDEODRIVER=mmiyoo

@@ -16,7 +16,7 @@ SETTINGS_EXT_FILE="/mnt/SDCARD/system.json"
 
 export SYSTEM_PATH="${SDCARD_PATH}/Koriki"
 
-export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib/sdl2.0:${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
 export PATH="${SYSTEM_PATH}/bin:${PATH}"
 
 export SWAPFILE="/mnt/SDCARD/cachefile"
