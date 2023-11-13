@@ -51,7 +51,7 @@ set_snd_level() {
 }
 
 export PATH=$HOME:$PATH
-export LD_LIBRARY_PATH=$HOME/libs:/customer/lib:/config/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOME/libs:$LD_LIBRARY_PATH
 export SDL_VIDEODRIVER=mmiyoo
 export SDL_AUDIODRIVER=mmiyoo
 
