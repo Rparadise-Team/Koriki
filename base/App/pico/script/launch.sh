@@ -180,10 +180,10 @@ else #fixed slow music menu
 
     if [ -f "$FILE" ]; then
         killall audioserver
-		killall -g audioserver.plu
+		killall audioserver.plu
     else
         killall audioserver
-		killall -g audioserver.min
+		killall audioserver.min
     fi
 	
 	sleep 1
