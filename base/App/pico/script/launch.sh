@@ -69,7 +69,7 @@ if [ ! -f "$config_file" ] || \
     "X": "Z",
     "Y": "X",
     "L1": "PAGEUP",
-    "L2": "A",
+    "L2": "",
     "R1": "PAGEDOWN",
     "R2": "ESCAPE",
     "LeftDpad": "LEFT",
@@ -77,8 +77,8 @@ if [ ! -f "$config_file" ] || \
     "UpDpad": "UP",
     "DownDpad": "DOWN",
     "Start": "RETURN",
-    "Select": "A",
-    "Menu": "A"
+    "Select": "",
+    "Menu": ""
   },
   "mouse": {
     "scaleFactor": 1,
