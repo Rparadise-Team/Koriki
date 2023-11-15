@@ -63,22 +63,22 @@ if [ ! -f "$config_file" ] || \
    ! grep -q "overlay" "$config_file"; then
    cat <<EOF > "$config_file"
 {
-  "customkeys": {
+  "customkeys":{
     "A": "X",
     "B": "Z",
-    "X": "RETURN",
-    "Y": "ESCAPE",
-    "L1": "D",
-    "L2": "D",
-    "R1": "D",
-    "R2": "D",
+    "X": "Z",
+    "Y": "X",
+    "L1": "PAGEUP",
+    "L2": "A",
+    "R1": "PAGEDOWN",
+    "R2": "ESCAPE",
     "LeftDpad": "LEFT",
     "RightDpad": "RIGHT",
     "UpDpad": "UP",
     "DownDpad": "DOWN",
     "Start": "RETURN",
-    "Select": "D",
-    "Menu": "D"
+    "Select": "A",
+    "Menu": "A"
   },
   "mouse": {
     "scaleFactor": 1,
@@ -153,11 +153,9 @@ setvolume &
 set_snd_level "${volume}" &
 
 echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-mount --bind /mnt/SDCARD/Roms/PICO /mnt/SDCARD/App/pico/.lexaloffle/pico-8/carts
 
-pico8_dyn -splore
+pico8_dyn -splore -width 320 -height 240 -root_path "/mnt/SDCARD/Roms/PICO/"
 
-umount /mnt/SDCARD/App/pico/.lexaloffle/pico-8/carts
 mv /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
 sync
 

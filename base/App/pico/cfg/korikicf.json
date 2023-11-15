@@ -2,19 +2,19 @@
   "customkeys":{
     "A":"X",
     "B":"Z",
-    "X":"RETURN",
-    "Y":"ESCAPE",
-    "L1":"D",
-    "L2":"D",
-    "R1":"D",
-    "R2":"D",
+    "X":"Z",
+    "Y":"X",
+    "L1":"PAGEUP",
+    "L2":"A",
+    "R1":"PAGEDOWN",
+    "R2":"ESCAPE",
     "LeftDpad":"LEFT",
     "RightDpad":"RIGHT",
     "UpDpad":"UP",
     "DownDpad":"DOWN",
     "Start":"RETURN",
-    "Select":"D",
-    "Menu":"D"
+    "Select":"A",
+    "Menu":"A"
   },
   "mouse":{
     "scaleFactor":1,
