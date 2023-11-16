@@ -55,7 +55,15 @@ int main(int argc , char* argv[]) {
   SDL_FreeSurface(background);
 
   // System version
-  load_file2(sys_version_str, "/proc/version");
+  FILE* cmd_output = popen("/etc/fw_printenv miyoo_version", "r");
+  fgets(sys_version_str, BUFFER_LEN, cmd_output);
+  pclose(cmd_output);
+	
+  char* version_start = strchr(sys_version_str, '=');
+  if (version_start != NULL) {
+      version_start++;
+      sscanf(version_start, "%s", sys_version_str);
+  } 
   SDL_Surface* sysVersion;
   SDL_Rect rectSysVersion;
   char prevLine[BUFFER_LEN];
