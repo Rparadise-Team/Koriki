@@ -9,8 +9,8 @@
 
 // :: Video Settings
 
-window_size 640 480 // window width, height
-screen_size 640 480 // screen width, height (stretched to window) 
+window_size 320 240 // window width, height
+screen_size 0 0 // screen width, height (stretched to window) 
 show_fps 0 // Draw frames per second in the corner
 
 
@@ -20,7 +20,7 @@ windowed 0 // 1 to start up in windowed mode
 window_position -1 -1 // x and y position of window (-1, -1 to let the window manager decide)
 frameless 1 // 1 to use a window with no frame
 fullscreen_method 2 // 0 maximized window (linux)  1 borderless desktop-sized window  2 hardware fullscreen (warning: erratic behaviour under some drivers)
-blit_method 0  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
+blit_method 2  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
 
 
 
@@ -68,7 +68,7 @@ volume 256
 
 
 // Location of pico-8's root folder
-root_path /mnt/SDCARD/App/pico/.lexaloffle/
+root_path /mnt/SDCARD/Roms/PICO/
 
 
 // Location of cartridge save data
@@ -145,5 +145,5 @@ periodic_backups 20
 transform_screen 0
 
 // 0 off  > 1: colour to draw pixel grid in the gfx editor at zoom:8 and zoom:4 (16 for black)
-gfx_grid_lines 0
+gfx_grid_lines 16
 

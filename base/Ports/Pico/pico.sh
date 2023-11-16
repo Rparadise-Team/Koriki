@@ -156,7 +156,7 @@ echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
 pico8_dyn -splore -width 320 -height 240 -root_path "/mnt/SDCARD/Roms/PICO/"
 
-mv /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
+cp /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
 sync
 
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
