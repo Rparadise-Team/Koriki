@@ -14,8 +14,7 @@
     "DownDpad":"DOWN",
     "Start":"RETURN",
     "Select":"",
-    "Menu":"",
-    "VolumeDown":"VOLUMEDOWN"
+    "Menu":""
   },
   "mouse":{
     "scaleFactor":1,
