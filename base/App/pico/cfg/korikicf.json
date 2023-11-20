@@ -14,7 +14,8 @@
     "DownDpad":"DOWN",
     "Start":"RETURN",
     "Select":"",
-    "Menu":""
+    "Menu":"",
+    "VolumeDown":"VOLUMEDOWN"
   },
   "mouse":{
     "scaleFactor":1,
@@ -24,14 +25,22 @@
     "incrementModifier":1.0
   },
   "performance":{
-    "cpuclock":1200,
+    "cpuclock":1000,
     "cpuclockincrement":25,
     "maxcpu":1300,
     "mincpu":600
   },
   "overlay":{
-    "current_overlay":4,
-    "overlay_path":"\/mnt\/SDCARD\/App\/pico\/res\/border",
-    "digit_path":"\/mnt\/SDCARD\/App\/pico\/res\/digit"
+    "current_overlay":3,
+    "bezel_path":"\/mnt\/SDCARD\/App\/pico\/res\/border",
+    "digit_path":"\/mnt\/SDCARD\/App\/pico\/res\/digit",
+    "bezel_int_path":"\/mnt\/SDCARD\/App\/pico\/res\/border"
+  },
+  "bezel":{
+    "current_bezel":3,
+    "current_integer_bezel":0,
+    "bezel_path":"res\/border\/",
+    "digit_path":"res\/digit",
+    "bezel_int_path":"res\/border\/"
   }
 }

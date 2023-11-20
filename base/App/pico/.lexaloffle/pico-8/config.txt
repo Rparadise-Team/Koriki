@@ -9,8 +9,8 @@
 
 // :: Video Settings
 
-window_size 320 240 // window width, height
-screen_size 0 0 // screen width, height (stretched to window) 
+window_size 640 480 // window width, height
+screen_size 640 480 // screen width, height (stretched to window) 
 show_fps 0 // Draw frames per second in the corner
 
 
@@ -23,14 +23,13 @@ fullscreen_method 2 // 0 maximized window (linux)  1 borderless desktop-sized wi
 blit_method 2  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
 
 
-
 // :: System Settings
 
 foreground_sleep_ms 1 // number of milliseconds to sleep each frame. Try 10 to conserve battery power
 
-background_sleep_ms 5 // number of milliseconds to sleep each frame when running in the background
+background_sleep_ms 10 // number of milliseconds to sleep each frame when running in the background
 
-sessions 823 // number of times program has been run
+sessions 12 // number of times program has been run
 
 // (scancode) hold this key down and left-click to simulate right-click
 rmb_key 0 // 0 for none  226 for LALT
@@ -93,10 +92,10 @@ gui_theme 0
 
 // scale of screenshots and gifs // 2 means 256x256
 screenshot_scale 3
-gif_scale 2
+gif_scale 3
 
 // maximum gif length in seconds (0..120; 0 means no gif recording)
-gif_len 8
+gif_len 16
 
 // when 1, reset the recording when pressing ctrl-9 (useful for creating a non-overlapping sequence)
 gif_reset_mode 0

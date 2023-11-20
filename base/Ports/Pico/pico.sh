@@ -60,7 +60,8 @@ if [ ! -f "$config_file" ] || \
    ! grep -q "customkeys" "$config_file" || \
    ! grep -q "mouse" "$config_file" || \
    ! grep -q "performance" "$config_file" || \
-   ! grep -q "overlay" "$config_file"; then
+   ! grep -q "overlay" "$config_file" || \
+   ! grep -q "bezel" "$config_file"; then
    cat <<EOF > "$config_file"
 {
   "customkeys":{
@@ -95,8 +96,16 @@ if [ ! -f "$config_file" ] || \
   },
   "overlay": {
     "current_overlay": 4,
-    "overlay_path": "\/mnt\/SDCARD\/App\/pico\/res\/border",
-    "digit_path": "\/mnt\/SDCARD\/App\/pico\/res\/digit"
+    "bezel_path":"\/mnt\/SDCARD\/App\/pico\/res\/border",
+    "digit_path":"\/mnt\/SDCARD\/App\/pico\/res\/digit",
+    "bezel_int_path":"\/mnt\/SDCARD\/App\/pico\/res\/border"
+  },
+  "bezel":{
+    "current_bezel":3,
+    "current_integer_bezel":0,
+    "bezel_path":"res\/border\/",
+    "digit_path":"res\/digit",
+    "bezel_int_path":"res\/border\/"
   }
 }
 EOF
@@ -154,7 +163,7 @@ set_snd_level "${volume}" &
 
 echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-pico8_dyn -splore -width 320 -height 240 -root_path "/mnt/SDCARD/Roms/PICO/"
+pico8_dyn -splore -width 640 -height 480 -root_path "/mnt/SDCARD/Roms/PICO/"
 
 cp /mnt/SDCARD/App/pico/.lexaloffle/pico-8/bbs/carts/*.p8.png /mnt/SDCARD/Roms/PICO/
 sync
