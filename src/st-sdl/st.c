@@ -252,6 +252,9 @@ static void xzoom(const Arg *);
 #include "config.h"
 
 SDL_Surface* screen;
+#ifdef MIYOOMINI
+SDL_Surface* screen2;
+#endif
 char preload_libname[PATH_MAX + 17];
 
 /* Drawing Context */
@@ -329,9 +332,11 @@ static void activeEvent(SDL_Event *);
 static void brelease(SDL_Event *);
 static void bpress(SDL_Event *);
 static void bmotion(SDL_Event *);
+#if 0
 static void selnotify(SDL_Event *);
 static void selclear(SDL_Event *);
 static void selrequest(SDL_Event *);
+#endif
 
 static void selinit(void);
 static inline bool selected(int, int);
@@ -426,39 +431,48 @@ xcalloc(size_t nmemb, size_t size) {
 	return p;
 }
 
+#ifdef MIYOOMINI	// TODO: rewrite in assember?
+//	upscale 320x240x16 -> 640x480x32 with rotate180
+void upscale_and_rotate(uint32_t* restrict src, uint32_t* restrict dst) {
+	dst = dst + 640*480 -1;
+	uint32_t x, y, pix, dpix;
+	for(y = 240; y>0 ; y--, dst-=640) {
+		for(x = 320/2; x>0 ; x--, dst-=4) {
+			pix=*src++;
+					//   00000000RRRRRRRRGGGGGGGGBBBBBBBB
+			dpix=	((pix>>2) &0b00000000000000000000000000000111)|
+				((pix>>1) &0b00000000000000000000001100000000)|
+				((pix<<3) &0b00000000000001110000000011111000)|
+				((pix<<5) &0b00000000000000001111110000000000)|
+				((pix<<8) &0b00000000111110000000000000000000);
+			*dst=dpix; *(dst-1)=dpix; *(dst-640)=dpix; *(dst-641)=dpix;
+			dpix=	((pix>>8) &0b00000000111110000000000000000000)|
+				((pix>>11)&0b00000000000000001111110000000000)|
+				((pix>>13)&0b00000000000001110000000011111000)|
+				((pix>>17)&0b00000000000000000000001100000000)|
+				((pix>>18)&0b00000000000000000000000000000111);
+			*(dst-2)=dpix; *(dst-3)=dpix; *(dst-642)=dpix; *(dst-643)=dpix;
+		}
+	}
+}
+#endif
+
 void
 xflip(void) {
 	if(xw.win == NULL) return;
     //printf("flip\n");
-#ifdef RS97_NO
-    SDL_Surface* buffer = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
-    SDL_BlitSurface(xw.win, NULL, buffer, NULL);
-    draw_keyboard(buffer);
-
-    SDL_LockSurface(buffer);
-    SDL_LockSurface(screen);
-    for(int j = 0; j < buffer->h; j++) {
-        memcpy(screen->pixels + j * 2 * screen->pitch, buffer->pixels + j * buffer->pitch, buffer->w * 2);
-        memcpy(screen->pixels + (j * 2 + 1) * screen->pitch, buffer->pixels + j * buffer->pitch, buffer->w * 2);
-        for(int i = 0; i < buffer->w; i++) {
-            SDL_Rect rect = {i * 4, j * 4, 4, 4};
-            SDL_FillRect(screen, &rect, ((unsigned short*)buffer->pixels)[j * (buffer->pitch >> 1) + i]);
-        }
-    }
-    SDL_UnlockSurface(buffer);
-    SDL_UnlockSurface(screen);
+#ifdef MIYOOMINI
+	memcpy(screen2->pixels, xw.win->pixels, 320*240*2);	// copy for keyboardMix
+	draw_keyboard(screen2);					// screen2(SW) = console + keyboard
+	upscale_and_rotate(screen2->pixels,screen->pixels);
+	SDL_Flip(screen);
 #else
-		SDL_BlitSurface(xw.win, NULL, screen, NULL);
-		draw_keyboard(screen);
-#endif
-
+	SDL_BlitSurface(xw.win, NULL, screen, NULL);
+	draw_keyboard(screen);
 	if(SDL_Flip(screen)) {
-	//if(SDL_Flip(xw.win)) {
-		fputs("FLIP ERROR\n", stderr);
-		exit(EXIT_FAILURE);
+	        //fputs("FLIP ERROR\n", stderr);
+		//exit(EXIT_FAILURE);
 	}
-#ifdef RS97_NO
-    SDL_FreeSurface(buffer);
 #endif
 }
 
@@ -952,6 +966,10 @@ execsh(void) {
 		setenv("HOME", pass->pw_dir, 0);
 	}
 	chdir(getenv("HOME"));
+
+	char *home = get_current_dir_name();
+	setenv("HOME", home, 1);
+	free(home);
 
 	setenv("LD_PRELOAD", preload_libname, 1);
 	setenv("PS1", "\\[\\033[32m\\]\\W\\[\\033[00m\\]\\$ ", 1);
@@ -2292,6 +2310,9 @@ void sdlshutdown(void) {
 		fprintf(stderr, "SDL shutdown\n");
 		if(thread) SDL_KillThread(thread);
 		if(xw.win) SDL_FreeSurface(xw.win);
+#ifdef MIYOOMINI
+		if(screen2) SDL_FreeSurface(screen2);
+#endif
 		xw.win = NULL;
 		SDL_Quit();
 	}
@@ -2351,7 +2372,11 @@ sdlinit(void) {
     //xw.w = initial_width;
     //xw.h = initial_height;
 
-#ifdef RS97_SCREEN_480
+#ifdef MIYOOMINI
+	xw.w = initial_width;
+	xw.h = initial_height;
+	if(!(screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE))) {
+#elif RS97_SCREEN_480
 	if(!(screen = SDL_SetVideoMode(320, 480, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
 #else
 	if(!(screen = SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE | SDL_DOUBLEBUF))) {
@@ -2359,7 +2384,12 @@ sdlinit(void) {
 		fprintf(stderr,"Unable to set video mode: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
+#ifdef MIYOOMINI
+    xw.win = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, 0xF800, 0x7E0, 0x1F, 0);	// console screen
+    screen2 = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, 0xF800, 0x7E0, 0x1F, 0);	// for keyboardMix
+#else
     xw.win = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
+#endif
 
 	sdlresettitle();
 	//
@@ -2740,7 +2770,9 @@ cresize(int width, int height)
 	row = (xw.h - 2*borderpx) / xw.ch;
 
     printf("set videomode %dx%d\n", xw.w, xw.h);
-#ifdef RS97_SCREEN_480
+#ifdef MIYOOMINI
+	if(!(screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE))) {
+#elif RS97_SCREEN_480
 	if(!(screen = SDL_SetVideoMode(320, 480, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))) {
 #else
 	if(!(screen = SDL_SetVideoMode(320, 240, 16, SDL_HWSURFACE | SDL_DOUBLEBUF))) {
@@ -2749,7 +2781,11 @@ cresize(int width, int height)
 		exit(EXIT_FAILURE);
 	}
 	if(xw.win) SDL_FreeSurface(xw.win);
+#ifdef MIYOOMINI
+	xw.win = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, 0xF800, 0x7E0, 0x1F, 0);	// console screen
+#else
 	xw.win = SDL_CreateRGBSurface(SDL_SWSURFACE, xw.w, xw.h, 16, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
+#endif
 	tresize(col, row);
 	xresize(col, row);
 	ttyresize();
@@ -2881,8 +2917,10 @@ main(int argc, char *argv[]) {
                 break;
             case 'e':
                 /* eat every remaining arguments */
-                if(++i < argc)
+                if(++i < argc) {
                     opt_cmd = &argv[i];
+                    show_help = 0;
+                }
                 goto run;
             case 'f':
                 if(++i < argc)
@@ -2919,6 +2957,9 @@ main(int argc, char *argv[]) {
             case 't':
                 if(++i < argc)
                     opt_title = argv[i];
+                break;
+            case 'q':
+                active = show_help = 0;
                 break;
             case 'v':
             default:

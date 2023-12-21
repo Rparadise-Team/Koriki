@@ -7,10 +7,10 @@
 //static char font[] = "fonts/monaco.ttf:fonts/monaco.ttf";
 //static char font[] = "fonts/TerminusTTF-4.46.0.ttf:fonts/TerminusTTF-4.46.0.ttf";
 static char font[] = "fonts/FIXED_V0.TTF:fonts/FIXED_V0.TTF";
-static int fontsize = 16;
-static int borderpx = 4;
-static int initial_width = 640;
-static int initial_height = 480;
+static int fontsize = 8;
+static int borderpx = 2;
+static int initial_width = 320;
+static int initial_height = 240;
 static char shell[] = "/bin/sh";
 
 /* double-click timeout (in milliseconds) between clicks for selection */
