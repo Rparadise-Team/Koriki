@@ -1,5 +1,10 @@
 #!/bin/sh
 mydir=`dirname "$0"`
+if dmesg|fgrep -q "FB_WIDTH=752"; then
+USE_752x560_RES=1
+else
+USE_752x560_RES=0
+fi
 
 setvolume () {
   vol=$(/customer/app/jsonval vol)
@@ -53,7 +58,7 @@ set_snd_level() {
 cd $mydir
 if [ ! -f "/tmp/.show_hotkeys" ]; then
     touch /tmp/.show_hotkeys
-    LD_LIBRARY_PATH=./libs:/customer/lib:/config/lib ./show_hotkeys
+    LD_LIBRARY_PATH=./libs:/customer/lib:/config/lib:/mnt/SDCARD/Koriki/lib ./show_hotkeys
 fi
 
 export HOME=$mydir
@@ -65,6 +70,11 @@ export EGL_VIDEODRIVER=mmiyoo
 
 CUST_LOGO=1
 CUST_CPUCLOCK=1
+
+if [ "$USE_752x560_RES" == "1" ]; then
+    fbset -g 752 560 752 1120 32
+    fbset > fbset.log
+fi
 
 cd $mydir
 if [ "$CUST_LOGO" == "1" ]; then
@@ -84,7 +94,7 @@ volume=$(getvolume)
 
 if [ "$CUST_CPUCLOCK" == "1" ]; then
     echo "set customized cpuspeed"
-    /mnt/SDCARD/Koriki/bin/cpuclock 1600
+    /mnt/SDCARD/Koriki/bin/cpuclock 1500
 fi
 
 setvolume &
@@ -98,6 +108,10 @@ sync
 if [ "$CUST_CPUCLOCK" == "1" ]; then
     echo "set customized cpuspeed"
     /mnt/SDCARD/Koriki/bin/cpuclock 1200
+fi
+
+if [ "$USE_752x560_RES" == "1" ]; then
+    fbset -g 640 480 640 960 32
 fi
 
 echo $sv > /proc/sys/vm/swappiness
