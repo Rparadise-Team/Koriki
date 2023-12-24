@@ -418,7 +418,16 @@ if [ -f "${SDCARD_PATH}"/App/drastic/launch.sh ]; then
 	fi
 fi
 
-# Set timezone
+# Set time
+if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
+    localtime=`cat "${SDCARD_PATH}"/App/Clock/time.txt`
+	date -s "${localtime}"
+else
+    touch "${SDCARD_PATH}"/App/Clock/time.txt
+	localtime=$(date +"%Y-%m-%d %T")
+	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
+fi
+
 if [ -f "${SDCARD_PATH}"/App/Clock/timezone.txt ]; then
     timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
 	export TZ=UTC$((-1*timezone))
@@ -434,6 +443,7 @@ while [ 1 ]; do
 	cd "${SDCARD_PATH}"/.simplemenu
 	./simplemenu
 	sleep 4s
+	sync
 done
 
 # turf off the console.
