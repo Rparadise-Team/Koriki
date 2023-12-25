@@ -1274,9 +1274,7 @@ int main (int argc, char *argv[]) {
 			unlink("/mnt/SDCARD/.simplemenu/NUL");
 			unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 			unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
-			system("export TZ=UTC+0");
-			system("date +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-
+			system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 			if (mmModel)
 				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
 			else
