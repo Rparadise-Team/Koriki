@@ -424,6 +424,7 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 	date -s "${localtime}"
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
+	date -s "2023-12-25 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi
