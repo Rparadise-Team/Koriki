@@ -72,6 +72,16 @@ else
 	export MODEL="MMP"
 fi
 
+#fix onion broken boot in koriki
+if [ ! -f "$SETTINGS_FILE" ]; then
+   if [ "$MODEL" == "MM" ]; then
+   cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+   fi
+   if [ "$MODEL" == "MMP" ]; then
+   cp "${SYSTEM_PATH}"/assets/system.mmp..json "$SETTINGS_FILE"
+   fi
+fi
+
 killprocess() {
 	pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
 	kill -9 $pid
