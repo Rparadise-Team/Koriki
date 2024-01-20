@@ -78,7 +78,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
    cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
    fi
    if [ "$MODEL" == "MMP" ]; then
-   cp "${SYSTEM_PATH}"/assets/system.mmp..json "$SETTINGS_FILE"
+   cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
    fi
 fi
 
