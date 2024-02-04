@@ -1,14 +1,19 @@
 #!/bin/sh
+
 if dmesg|fgrep -q "FB_WIDTH=640"; then
 export SCREEN_WIDTH=640
 export SCREEN_HEIGHT=480
 export SUBMODEL="MM"
+export screen_resolution="640x480"
 fi
+
 if dmesg|fgrep -q "FB_WIDTH=752"; then
 export SCREEN_WIDTH=752
 export SCREEN_HEIGHT=560
 export SUBMODEL="MMv4"
+export screen_resolution="752x560"
 fi
+
 export SDCARD_PATH="/mnt/SDCARD"
 export HOME="${SDCARD_PATH}"
 SETTINGS_INT_FILE="/appconfigs/system.json"
@@ -142,7 +147,16 @@ update() {
 		for file in `ls "${SDCARD_PATH}/update_koriki_*.zip"`; do
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
+		
+		if [ -f /tmp/new_res_available ]; then
+       		change_resolution "640x480"
+    	fi
+		
 		show "${SDCARD_PATH}"/.update_splash.png
+		
+		if [ -f /tmp/new_res_available ]; then
+       		change_resolution
+    	fi
 
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
@@ -192,6 +206,55 @@ dir_scaffolding() {
 		done
 }
 
+get_screen_resolution() {
+    max_attempts=10
+    attempt=0
+
+    echo "get_screen_resolution: start"
+    while [ "$attempt" -lt "$max_attempts" ]; do
+        screen_resolution=$(grep 'Current TimingWidth=' /proc/mi_modules/fb/mi_fb0 | sed 's/Current TimingWidth=\([0-9]*\),TimingWidth=\([0-9]*\),.*/\1x\2/')
+        if [ -n "$screen_resolution" ]; then
+            echo "get_screen_resolution: success, resolution: $screen_resolution"
+            break
+        fi
+        echo "get_screen_resolution: attempt $attempt failed"
+        attempt=$((attempt + 1))
+        sleep 0.5
+    done
+
+    if [ -z "$screen_resolution" ]; then
+        echo "get_screen_resolution: failed to get screen resolution, fall back to 640x480"
+        touch /tmp/get_screen_resolution_failed
+    fi
+
+    if [ "$screen_resolution" = "752x560" ]; then
+        touch /tmp/new_res_available
+    else
+        # can't use 752x560 without appropriate firmware or screen
+        screen_resolution="640x480"
+    fi
+
+    echo -n "$screen_resolution" > /tmp/screen_resolution
+}
+
+change_resolution() {
+    res_x=""
+    res_y=""
+
+    if [ -n "$1" ]; then
+        res_x=$(echo "$1" | cut -d 'x' -f 1)
+        res_y=$(echo "$1" | cut -d 'x' -f 2)
+    else
+        res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
+        res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
+    fi
+	
+    echo "change resolution to $res_x x $res_y"
+
+    fbset -g "$res_x" "$res_y" "$res_x" "$((res_y * 2))" 32
+}
+
+
 # set virtual memory size
 echo 4096 > "/proc/sys/vm/max_map_count"
 
@@ -203,6 +266,10 @@ echo 0 > "/sys/class/pwm/pwmchip0/export"
 echo 800 > "/sys/class/pwm/pwmchip0/pwm0/period"
 echo 70 > "/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
 echo 1 > "/sys/class/pwm/pwmchip0/pwm0/enable"
+
+# Set screen resolution
+get_screen_resolution
+change_resolution
 
 # Charging screen
 "${SYSTEM_PATH}"/bin/charging
@@ -223,10 +290,16 @@ fi
 
 # Enable swap
 if [ ! -f "${SWAPFILE}" ]; then
+	if [ -f /tmp/new_res_available ]; then
+       change_resolution "640x480"
+    fi
 	show "${SYSTEM_PATH}"/images/swap.png
 	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=256
 	mkswap "${SWAPFILE}"
 	sync
+	if [ -f /tmp/new_res_available ]; then
+       change_resolution
+    fi
 fi
 swapon -p 50 "${SWAPFILE}"
 
@@ -252,7 +325,13 @@ if [ -f "${SYSTEM_PATH}"/videosplash.mp4 ]; then
 	"${SYSTEM_PATH}"/bin/ffplayer "${SYSTEM_PATH}"/videosplash.mp4
 	echo 1 > "/sys/module/gpio_keys_polled/parameters/button_enable"
 else
+	if [ -f /tmp/new_res_available ]; then
+       change_resolution "640x480"
+    fi
 	"${SYSTEM_PATH}"/bin/show "${SDCARD_PATH}"/.simplemenu/resources/loading.png
+	if [ -f /tmp/new_res_available ]; then
+       change_resolution
+    fi
 fi
 
 # Create ROMs scaffolding
@@ -308,11 +387,27 @@ if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MM" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^input_overlay = ""$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	if [ "$SUBMODEL" == "MMv4" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ""|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_height = "480"$|video_windowed_position_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_width_max = "640"$|video_window_auto_width_max = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
@@ -326,6 +421,15 @@ if [ ! -f /customer/app/axp_test ]; then
 else
 	rm "${RETROARCH_PATH}"/retroarch
 	cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh
@@ -428,13 +532,19 @@ if [ -f "${SDCARD_PATH}"/App/drastic/launch.sh ]; then
 	fi
 fi
 
+# clean pico8 logs files
+if [ -f "${SDCARD_PATH}"/App/pico/.lexaloffle/pico-8/activity_log.txt ]; then
+	rm "${SDCARD_PATH}"/App/pico/.lexaloffle/pico-8/activity_log.txt
+	rm "${SDCARD_PATH}"/App/pico/.lexaloffle/pico-8/log.txt
+fi
+
 # Set time
 if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
     localtime=`cat "${SDCARD_PATH}"/App/Clock/time.txt`
 	date -s "${localtime}"
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
-	date -s "2023-12-25 10:00:00"
+	date -s "2024-02-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi

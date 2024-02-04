@@ -1,17 +1,17 @@
 {
   "pen":3,
-  "theme":2,
+  "theme":7,
   "mode":3,
   "xv":30000,
   "yv":35000,
   "alpha":6,
   "position":0,
   "border":5,
-  "maxcpu":1600,
+  "maxcpu":1500,
   "touchpad":0,
-  "overlay":2,
+  "overlay":3,
   "mincpu":500,
-  "alt":5,
+  "alt":9,
   "swap_l1l2":0,
   "swap_r1r2":0,
   "cust_menu":1,
@@ -24,5 +24,8 @@
   "auto_slot":0,
   "half_vol":0,
   "splash":1,
-  "hotkey":1
+  "hotkey":1,
+  "menu_bg":3,
+  "menu_cursor":1,
+  "fast_forward":6
 }
