@@ -38,7 +38,8 @@ void initializeGlobals() {
 	stripGames=1;
 	srand(time(0));
 	#if defined MIYOOMINI
-	loadConfiguration();
+	loadConfiguration1();
+	loadConfiguration2();
     #endif
 }
 
@@ -57,7 +58,9 @@ void critical_error_handler()
 	char command[100];
 	snprintf(command, sizeof(command), "rm %s/.simplemenu/last_state.sav && sync", getenv("HOME"));
 	system(command);
-	stopmusic();
+	if (musicEnabled) {
+		stopmusic();
+	}
 	freeResources();
 	exit(0);
 }

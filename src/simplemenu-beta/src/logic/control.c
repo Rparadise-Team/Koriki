@@ -916,10 +916,11 @@ void performSystemSettingsChoosingAction() {
 	BRIGHTNESS_OPTION=1;
 	OC_OPTION=2;
     AUDIOFIX_OPTION=3;
-    SCREEN_OPTION=4;
-	LOADING_OPTION=5;
-	SCREEN_TIMEOUT_OPTION=6;
-    NUM_SYSTEM_OPTIONS=7;
+	MUSIC_OPTION=4;
+    SCREEN_OPTION=5;
+	LOADING_OPTION=6;
+	SCREEN_TIMEOUT_OPTION=7;
+    NUM_SYSTEM_OPTIONS=8;
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
 			chosenSetting--;
@@ -1030,13 +1031,23 @@ void performSystemSettingsChoosingAction() {
 			}
 			getCurrentVolume();
 		} else if (chosenSetting==LOADING_OPTION) {
-			loadConfiguration();
+			loadConfiguration1();
 			if (loadingScreenEnabled == 1) {
 				loadingScreenEnabled = 0;
 			} else if (loadingScreenEnabled == 0) {
 				loadingScreenEnabled = 1;
 				}
-			saveConfiguration();
+			saveConfiguration1();
+		} else if (chosenSetting==MUSIC_OPTION) {
+			loadConfiguration2();
+			if (musicEnabled == 1) {
+				musicEnabled = 0;
+				stopmusic();
+			} else if (musicEnabled == 0) {
+				musicEnabled = 1;
+				startmusic();
+				}
+			saveConfiguration2();
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {

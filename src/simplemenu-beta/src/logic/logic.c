@@ -198,7 +198,9 @@ void quit() {
 	clearPicModeHideMenuTimer();
 	clearBatteryTimer();
 	clearWifiTimer();
-	stopmusic();
+	if (musicEnabled) {
+		stopmusic();
+	}
 	freeResources();
 	if (shutDownEnabled) {
 #ifdef TARGET_PC
@@ -410,7 +412,9 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	logMessage("INFO", "executeCommand", exec);
 	logMessage("INFO", "executeCommand", fileToBeExecutedWithFullPath);
 	SDL_ShowCursor(1);
-	stopmusic();
+	if (musicEnabled) {
+		stopmusic();
+	}
 	if (loadingScreenEnabled) {
     char tempString[1000];
     snprintf(tempString, sizeof(tempString), "%s/.simplemenu/resources/loading.png", getenv("HOME"));

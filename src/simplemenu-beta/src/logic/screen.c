@@ -1542,26 +1542,34 @@ void setupSystemSettings() {
 		values[3] = "no";
 	}
     hints[3] = "ENABLE OR DISABLE AUDIOSERVER";
+	
+	options[4]= "Music menu ";
+	if (musicEnabled) {
+		values[4] = "ON";
+	} else {
+		values[4] = "OFF";
+	}
+	hints[4] = "ENABLE OR DISABLE MUSIC MENU";
 
-    options[4] = "Screen settings ";
-	hints[4] = "SCREEN OPTIONS";
+    options[5] = "Screen settings ";
+	hints[5] = "SCREEN OPTIONS";
 	
-	options[5]= "Loading screen ";
+	options[6]= "Loading screen ";
 	if (loadingScreenEnabled) {
-		values[5] = "ON";
+		values[6] = "ON";
 	} else {
-		values[5] = "OFF";
+		values[6] = "OFF";
 	}
-	hints[5] = "ENABLE OR DISABLE LOADING SCREEN";
+	hints[6] = "ENABLE OR DISABLE LOADING SCREEN";
 	
-	options[6] = "Screen timeout ";
-	values[6] = malloc(100);
+	options[7] = "Screen timeout ";
+	values[7] = malloc(100);
 	if (timeoutValue>0) {
-		sprintf(values[6],"%d",timeoutValue);
+		sprintf(values[7],"%d",timeoutValue);
 	} else {
-		sprintf(values[6],"%s","always on");
+		sprintf(values[7],"%s","always on");
 	}
-	hints[6] = "SECONDS UNTIL THE SCREEN TURNS OFF";
+	hints[7] = "SECONDS UNTIL THE SCREEN TURNS OFF";
 #endif
 }
 

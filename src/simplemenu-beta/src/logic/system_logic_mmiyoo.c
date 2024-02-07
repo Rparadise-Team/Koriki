@@ -255,7 +255,7 @@ void setSystemValue(char const *key, int value) {
     free(request_body);
 }
 
-void saveConfiguration() {
+void saveConfiguration1() {
     FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/bootscreen.sav", "w");
     if (configFile != NULL) {
         fprintf(configFile, "Loading screen: %s\n", loadingScreenEnabled ? "yes" : "no");
@@ -263,7 +263,7 @@ void saveConfiguration() {
     }
 }
 
-void loadConfiguration() {
+void loadConfiguration1() {
     FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/bootscreen.sav", "r");
     if (configFile != NULL) {
         char option[20];
@@ -276,6 +276,30 @@ void loadConfiguration() {
         fclose(configFile);
     } else {
         loadingScreenEnabled = 1;
+	}
+}
+
+void saveConfiguration2() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/music.sav", "w");
+    if (configFile != NULL) {
+        fprintf(configFile, "Music in menu: %s\n", musicEnabled ? "yes" : "no");
+        fclose(configFile);
+    }
+}
+
+void loadConfiguration2() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/music.sav", "r");
+    if (configFile != NULL) {
+        char option[20];
+        fscanf(configFile, "Music in menu: %s", option);
+        if (strcmp(option, "yes") == 0) {
+            musicEnabled = 1;
+        } else {
+            musicEnabled = 0;
+        }
+        fclose(configFile);
+    } else {
+        musicEnabled = 1;
 	}
 }
 
@@ -525,9 +549,12 @@ void HW_Init() {
 	int brightness = 0;
 	brightness = getCurrentBrightness();
     initADC();
-	loadConfiguration();
+	loadConfiguration1();
+	loadConfiguration2();
     getCurrentVolume();
+	if (musicEnabled) {
 	startmusic();
+	}
 	setBrightness(brightness);
     logMessage("INFO","HW_Init","HW Initialized");
 }

@@ -103,6 +103,7 @@ extern int USB_OPTION;
 #if defined MIYOOMINI
 extern int AUDIOFIX_OPTION;
 extern int LOADING_OPTION;
+extern int MUSIC_OPTION;
 extern int SCREEN_OPTION;
 extern int LUMINATION_OPTION;
 extern int HUE_OPTION;
@@ -147,6 +148,7 @@ extern char cpuclock0[200];
 extern char cpuclock1[200];
 extern int audioFix;
 extern int loadingScreenEnabled;
+extern int musicEnabled;
 extern int luminationValue;
 extern int volValue;
 extern int hueValue;
