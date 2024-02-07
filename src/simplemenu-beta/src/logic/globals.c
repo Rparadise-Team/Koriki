@@ -91,6 +91,7 @@ int DEFAULT_OPTION;
 int USB_OPTION;
 #if defined MIYOOMINI
 int AUDIOFIX_OPTION;
+int LOADING_OPTION;
 int SCREEN_OPTION;
 int LUMINATION_OPTION;
 int HUE_OPTION;
@@ -139,6 +140,7 @@ int hueValue;
 int saturationValue;
 int contrastValue;
 int mmModel;
+int loadingScreenEnabled;
 #endif
 pthread_t myThread;
 

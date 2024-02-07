@@ -917,8 +917,9 @@ void performSystemSettingsChoosingAction() {
 	OC_OPTION=2;
     AUDIOFIX_OPTION=3;
     SCREEN_OPTION=4;
-	SCREEN_TIMEOUT_OPTION=5;
-    NUM_SYSTEM_OPTIONS = 6;
+	LOADING_OPTION=5;
+	SCREEN_TIMEOUT_OPTION=6;
+    NUM_SYSTEM_OPTIONS=7;
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
 			chosenSetting--;
@@ -1028,6 +1029,14 @@ void performSystemSettingsChoosingAction() {
 				setBrightness(brightness);
 			}
 			getCurrentVolume();
+		} else if (chosenSetting==LOADING_OPTION) {
+			loadConfiguration();
+			if (loadingScreenEnabled == 1) {
+				loadingScreenEnabled = 0;
+			} else if (loadingScreenEnabled == 0) {
+				loadingScreenEnabled = 1;
+				}
+			saveConfiguration();
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {

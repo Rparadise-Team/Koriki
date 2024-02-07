@@ -37,6 +37,9 @@ void initializeGlobals() {
 	menuVisibleInFullscreenMode=1;
 	stripGames=1;
 	srand(time(0));
+	#if defined MIYOOMINI
+	loadConfiguration();
+    #endif
 }
 
 void resetFrameBuffer () {

@@ -28,4 +28,6 @@ void Luma(int dev, int value);
 void Hue(int dev, int value);
 void Saturation(int dev, int value);
 void Contrast(int dev, int value);
+void loadConfiguration();
+void saveConfiguration();
 #endif

@@ -383,9 +383,7 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 		}
 		strcat(fileToBeExecutedWithFullPath1, fileToBeExecutedWithFullPath);
 	}
-	#ifndef TARGET_OD_BETA
 	unsetenv("SDL_FBCON_DONT_CLEAR");
-	#endif
 	char pReturnTo[3];
 	snprintf(pReturnTo, sizeof(pReturnTo), "%d;", returnTo);
 	char pSectionNumber[3] = "";
@@ -413,10 +411,20 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
 	logMessage("INFO", "executeCommand", fileToBeExecutedWithFullPath);
 	SDL_ShowCursor(1);
 	stopmusic();
+	if (loadingScreenEnabled) {
+    char tempString[1000];
+    snprintf(tempString, sizeof(tempString), "%s/.simplemenu/resources/loading.png", getenv("HOME"));
+    SDL_Surface* image;
+    image = IMG_Load(tempString);
+    SDL_BlitSurface(image, NULL, screen, NULL);
+    SDL_Flip(screen);
+    SDL_FreeSurface(image);
+    image = NULL;
+	SDL_Delay(2000);
+	} else {
+	SDL_Flip(screen);
+	}
 	freeResources();
-	#ifndef TARGET_OD_BETA
-	resetFrameBuffer1();
-	#endif
 	system("/mnt/SDCARD/Koriki/bin/freemma > NUL");
 
 	if(consoleApp) {
@@ -1068,7 +1076,7 @@ void loadGameList(int refresh) {
 	if (CURRENT_SECTION.initialized==0||refresh) {
 		logMessage("INFO","loadGameList","No, loading game list");
 		if(getLaunchAtBoot()==NULL) {
-			drawLoadingText();
+			//drawLoadingText();
 		}
 		CURRENT_SECTION.initialized=1;
 		//We don't need to reload the alias file if just refreshing
@@ -1100,7 +1108,7 @@ void loadGameList(int refresh) {
 				char currentline[2000];
 				while (fgets(currentline, sizeof(currentline), fp) != NULL) {
 					if(getLaunchAtBoot()==NULL) {
-						drawLoadingText();
+						//drawLoadingText();
 					}
 
 					int size = strlen(currentline)+1;
@@ -1158,7 +1166,7 @@ void loadGameList(int refresh) {
 		free(filesDirectoriesCopy);
 		for(int k=0;k<dirCounter;k++) {
 			if(getLaunchAtBoot()==NULL) {
-				drawLoadingText();
+				//drawLoadingText();
 			}
 
 			int n = 0;

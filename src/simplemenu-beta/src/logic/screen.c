@@ -1543,17 +1543,25 @@ void setupSystemSettings() {
 	}
     hints[3] = "ENABLE OR DISABLE AUDIOSERVER";
 
-    options[4]="Screen settings";
+    options[4] = "Screen settings ";
 	hints[4] = "SCREEN OPTIONS";
 	
-	options[5]="Screen timeout ";
-	values[5]=malloc(100);
-	if (timeoutValue>0) {
-		sprintf(values[5],"%d",timeoutValue);
+	options[5]= "Loading screen ";
+	if (loadingScreenEnabled) {
+		values[5] = "ON";
 	} else {
-		sprintf(values[5],"%s","always on");
+		values[5] = "OFF";
 	}
-	hints[5] = "SECONDS UNTIL THE SCREEN TURNS OFF";
+	hints[5] = "ENABLE OR DISABLE LOADING SCREEN";
+	
+	options[6] = "Screen timeout ";
+	values[6] = malloc(100);
+	if (timeoutValue>0) {
+		sprintf(values[6],"%d",timeoutValue);
+	} else {
+		sprintf(values[6],"%s","always on");
+	}
+	hints[6] = "SECONDS UNTIL THE SCREEN TURNS OFF";
 #endif
 }
 

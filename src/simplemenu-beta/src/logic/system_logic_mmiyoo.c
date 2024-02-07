@@ -255,6 +255,30 @@ void setSystemValue(char const *key, int value) {
     free(request_body);
 }
 
+void saveConfiguration() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/bootscreen.sav", "w");
+    if (configFile != NULL) {
+        fprintf(configFile, "Loading screen: %s\n", loadingScreenEnabled ? "yes" : "no");
+        fclose(configFile);
+    }
+}
+
+void loadConfiguration() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/bootscreen.sav", "r");
+    if (configFile != NULL) {
+        char option[20];
+        fscanf(configFile, "Loading screen: %s", option);
+        if (strcmp(option, "yes") == 0) {
+            loadingScreenEnabled = 1;
+        } else {
+            loadingScreenEnabled = 0;
+        }
+        fclose(configFile);
+    } else {
+        loadingScreenEnabled = 1;
+	}
+}
+
 void turnScreenOnOrOff(int state) {
     const char *path1 = "/proc/mi_modules/fb/mi_fb0";
 	const char *path2 = "/sys/class/pwm/pwmchip0/pwm0/enable";
@@ -501,6 +525,7 @@ void HW_Init() {
 	int brightness = 0;
 	brightness = getCurrentBrightness();
     initADC();
+	loadConfiguration();
     getCurrentVolume();
 	startmusic();
 	setBrightness(brightness);
