@@ -38,6 +38,7 @@ void initializeGlobals() {
 	stripGames=1;
 	srand(time(0));
 	#if defined MIYOOMINI
+	brightness = getCurrentBrightness();
 	loadConfiguration1();
 	loadConfiguration2();
     #endif

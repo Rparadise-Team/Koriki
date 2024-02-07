@@ -546,7 +546,6 @@ void stopmusic() {
 }
 
 void HW_Init() {
-	int brightness = 0;
 	brightness = getCurrentBrightness();
     initADC();
 	loadConfiguration1();

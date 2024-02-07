@@ -143,10 +143,13 @@ extern int OC_SLEEP;
 extern int backlightValue;
 extern int hdmiChanged;
 #if defined MIYOOMINI
+extern int volume;
 extern int CPUMIYOO;
 extern char cpuclock0[200];
 extern char cpuclock1[200];
 extern int audioFix;
+extern int Fix;
+extern int brightness;
 extern int loadingScreenEnabled;
 extern int musicEnabled;
 extern int luminationValue;

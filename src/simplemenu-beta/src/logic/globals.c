@@ -131,10 +131,13 @@ int OC_SLEEP;
 int backlightValue;
 int hdmiChanged;
 #if defined MIYOOMINI
+int volume;
 int CPUMIYOO;
 char cpuclock0[200];
 char cpuclock1[200];
 int audioFix;
+int Fix;
+int brightness;
 int luminationValue;
 int volValue;
 int hueValue;

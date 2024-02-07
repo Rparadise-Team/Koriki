@@ -958,7 +958,6 @@ void performSystemSettingsChoosingAction() {
 				}
 		} else if (chosenSetting==OC_OPTION) {
 			FILE *fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
-			int CPUMIYOO;
 			fscanf(fp, "%d", &CPUMIYOO);
 			fclose(fp);
 			if (keys[BTN_LEFT]) {
@@ -983,15 +982,16 @@ void performSystemSettingsChoosingAction() {
 				}
 			}
 		} else if (chosenSetting==AUDIOFIX_OPTION) {
-		 	int Fix;
 			getCurrentVolume();
             audioFix = 1 - audioFix;
             setSystemValue("audiofix", audioFix);
 		 	Fix = getCurrentSystemValue("audiofix");
+			volume = getCurrentSystemValue("vol");
 		 	if (Fix == 1) {
-				int brightness = 0;
 	        	brightness = getCurrentBrightness();
-				stopmusic();
+				if (musicEnabled) {
+					stopmusic();
+				}
 				if (mmModel) {
 					char command [100];
 					char command2 [100];
@@ -1009,12 +1009,15 @@ void performSystemSettingsChoosingAction() {
 					system(command);
 					system(command2);
 				}
-				startmusic();
+				if (musicEnabled) {
+					startmusic();
+				}
 				setBrightness(brightness);
 			} else if (Fix == 0) {
-				int brightness = 0;
 	        	brightness = getCurrentBrightness();
-				stopmusic();
+				if (musicEnabled) {
+					stopmusic();
+				}
 				if (mmModel) {
 					char command [128];
 					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && rm /tmp/audioserver_on && sync");
@@ -1026,10 +1029,13 @@ void performSystemSettingsChoosingAction() {
 					system(command);
 					unsetenv("LD_PRELOAD");
 				}
-				startmusic();
+				if (musicEnabled) {
+					startmusic();
+				}
 				setBrightness(brightness);
 			}
 			getCurrentVolume();
+			setVolume(volume, 0);
 		} else if (chosenSetting==LOADING_OPTION) {
 			loadConfiguration1();
 			if (loadingScreenEnabled == 1) {
@@ -1045,13 +1051,20 @@ void performSystemSettingsChoosingAction() {
 				stopmusic();
 			} else if (musicEnabled == 0) {
 				musicEnabled = 1;
-				startmusic();
+				if (Fix == 0) {
+					brightness = getCurrentBrightness();
+					volume = getCurrentSystemValue("vol");
 				}
+				startmusic();
+				if (Fix == 0) {
+					setBrightness(brightness);
+					setVolume(volume, 0);
+				}
+			}
 			saveConfiguration2();
 		} else if (chosenSetting==VOLUME_OPTION) {
 			if (keys[BTN_LEFT]) {
 				if (volValue>0) {
-					int volume;
 					volume = getCurrentSystemValue("vol");
 					volValue-=1;
 					setVolume(volume, -1);
@@ -1066,7 +1079,6 @@ void performSystemSettingsChoosingAction() {
 				}
 			} else {
 				if (volValue<23) {
-					int volume;
 					volume = getCurrentSystemValue("vol");
 					volValue+=1;
 					setVolume(volume, 1);
