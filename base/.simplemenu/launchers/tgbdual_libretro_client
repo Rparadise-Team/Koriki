@@ -48,7 +48,7 @@ else
 /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
 fi
 
-f [ -d "$source_dir" ]; then
+if [ -d "$source_dir" ]; then
     for file in "$source_dir"/client-*.srm; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
