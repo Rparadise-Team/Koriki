@@ -48,12 +48,27 @@ else
 /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"
 fi
 
-if [ -d "$source_dir" ]; then
+f [ -d "$source_dir" ]; then
+    for file in "$source_dir"/client-*.srm; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            destination_file="$source_dir/${filename/client-/}"
+            source_mtime=$(stat -c %Y "$file")
+            if [ -f "$destination_file" ]; then
+                destination_mtime=$(stat -c %Y "$destination_file")
+            else
+                destination_mtime=0
+            fi
+            if [ "$source_mtime" -gt "$destination_mtime" ]; then
+                mv "$file" "$destination_file"
+            fi
+        fi
+    done
     rm -f "$source_dir"/client-*
     cp "$source_dir"/* "$destination_dir"
-	rm -f "$destination_dir"/client-*
+    rm -f "$destination_dir"/client-*
     rm -rf "$source_dir"
-	sync
+    sync
 fi
 
 cp "$backup_config" "$tgb_dual_config"
