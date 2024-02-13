@@ -184,10 +184,15 @@ volume=$(getvolume)
 setvolume &
 set_snd_level "${volume}" &
 
+sv=`cat /proc/sys/vm/swappiness`
+
+# 60 by default
+echo 10 > /proc/sys/vm/swappiness
 echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
 pico8_dyn -width 640 -height 480 -run "$1"
 
+echo $sv > /proc/sys/vm/swappiness
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
 runsvr=`/customer/app/jsonval audiofix`
