@@ -301,7 +301,7 @@ if [ ! -f "${SWAPFILE}" ]; then
        change_resolution
     fi
 fi
-swapon -p 50 "${SWAPFILE}"
+swapon -p 60 "${SWAPFILE}"
 
 # Reset settings on first boot
 reset_settings
