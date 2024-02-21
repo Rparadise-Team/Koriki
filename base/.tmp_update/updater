@@ -306,6 +306,25 @@ swapon -p 60 "${SWAPFILE}"
 # Reset settings on first boot
 reset_settings
 
+# Make keys ssh
+if [ "$MODEL" == "MMP" ]; then
+	rsa_key="/appconfigs/dropbear_rsa_host_key"
+	ecdsa_key="/appconfigs/dropbear_ecdsa_host_key"
+	ed25519_key="/appconfigs/dropbear_ed25519_host_key"
+	
+	if [ ! -f "$rsa_key" ]; then
+	    dropbearkey -t rsa -f "$rsa_key"
+	fi
+	
+	if [ ! -f "$ecdsa_key" ]; then
+	    dropbearkey -t ecdsa -f "$ecdsa_key"
+	fi
+	
+	if [ ! -f "$ed25519_key" ]; then
+	    dropbearkey -t ed25519 -f "$ed25519_key"
+	fi
+fi
+
 # Get save volumen
 /customer/app/tinymix set 6 100
 vol=`/customer/app/jsonval vol`
@@ -372,13 +391,13 @@ fi
 # check if wifi value is 1
 if [ "$MODEL" == "MMP" ]; then
     runwifi=`/customer/app/jsonval wifi`
-	
+
 	if [ "$runwifi" == "1" ]; then
 	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
 	/customer/app/axp_test wifioff
 	sync
 	fi
-	
+
 fi     
 
 # autochange retroarch version and show/quit wifi app
@@ -418,6 +437,10 @@ if [ ! -f /customer/app/axp_test ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh "${SDCARD_PATH}"/.simplemenu/apps/Ftp
 		sync
 	fi
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh "${SDCARD_PATH}"/.simplemenu/apps/Ssh
+		sync
+	fi
 else
 	rm "${RETROARCH_PATH}"/retroarch
 	cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
@@ -437,6 +460,10 @@ else
 	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh
+		sync
+	fi
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ssh ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh
 		sync
 	fi
 fi
@@ -504,10 +531,13 @@ fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
+    sed -i 's/^1;0;0;16;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
     sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^1;1;0;16;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
     sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;0;16;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sync
@@ -558,7 +588,22 @@ else
 	export TZ=UTC+0
 fi
 
+#kill telnetd
+
+killall -9 telnetd
+
+# Remount passwd/group to add our own users
+
+if [ "$MODEL" == "MMP" ]; then
+	mount -o bind "${SYSTEM_PATH}"/etc/passwd /etc/passwd
+	mount -o bind "${SYSTEM_PATH}"/etc/group /etc/group
+	mount -o bind "${SYSTEM_PATH}"/etc/profile /etc/profile
+fi
+
 # Launch SimpleMenu
+
+echo "Welcome to Koriki CFW"
+
 while [ 1 ]; do
 	HOME="${SDCARD_PATH}"
 	cd "${SDCARD_PATH}"/.simplemenu
