@@ -1,0 +1,68 @@
+#!/bin/sh
+
+task_killer() {
+	r=0
+	for p in $1; do
+		if [ -d "/proc/$p" ] && [ $p -ne $$ ]; then
+			kill $2 $p
+			r=1
+		fi
+	done
+	return $r
+}
+
+kill_hooked_tasks() {
+	c=0
+	while [ $c -lt 5 ]; do
+		pids=$(fuser -m /mnt/SDCARD)
+		if task_killer "$pids" $1; then
+			return
+		fi
+		sleep 0.05
+		c=$((c + 1))
+	done
+}
+
+if [ "$0" = "/tmp/_shutdown" ]; then
+
+	killall -9 main # mandatory to avoid the suppression of .tmp_update !
+	killall -9 updater
+	pkill -TERM retroarch;
+
+	kill_hooked_tasks
+	sleep 0.1
+	kill_hooked_tasks -9
+
+	sync
+
+    if [ -f "/customer/app/axp_test" ]; then
+	umount /etc/passwd /etc/group /etc/profile
+	fi
+	swapoff /mnt/SDCARD/cachefile
+	umount -r /mnt/SDCARD
+	umount /mnt/SDCARD
+
+	if [ "$1" = "-r" ]; then
+		/sbin/reboot
+	else
+		if [ ! -f "/customer/app/axp_test" ]; then
+			/sbin/reboot # no poweroff command on Miyoo Mini
+		else
+			/sbin/poweroff
+		fi
+	fi
+
+fi
+
+if [ ! -f /tmp/_shutdown ]; then
+	cp -f "$0" /tmp/_shutdown
+fi
+
+# run the script totally detached from current shell
+pgrep -f /tmp/_shutdown || (
+	set -m
+	su root -c "/usr/bin/nohup /tmp/_shutdown $1 </dev/null >/dev/null 2>&1 &"
+)
+while true; do
+	sleep 10
+done

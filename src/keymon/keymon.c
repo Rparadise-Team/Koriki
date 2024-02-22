@@ -667,7 +667,7 @@ int isProcessRunning(const char* processName) {
 }
 
 void stopOrContinueProcesses(int value) {
-    const char *exceptions[] = {"batmon", "keymon", "init", "telnetd", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop", "wget"};
+    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop", "wget"};
     const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
     DIR *dir;
@@ -1275,10 +1275,19 @@ int main (int argc, char *argv[]) {
 			unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 			unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 			system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-			if (mmModel)
-				system("killall main; killall updater; killall audioserver; killall audioserver.min; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; reboot");
-			else
-				system("killall main; killall updater; killall audioserver; killall audioserver.plu; killall retroarch; killall gme_player; killall gmu.bin; killall simplemenu; killall batmon; killall updater; killall keymon; /etc/init.d/K00_Sys; sync; sleep 5; umount -l /mnt/SDCARD; poweroff");
+			if (mmModel) {
+				if (isProcessRunning("retroarch")) {
+					system("echo MM_in_RA; killall simplemenu; pkill -TERM retroarch; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+				} else {
+        			system("echo MM; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+				}
+    		} else {
+        		if (isProcessRunning("retroarch")) {
+					system("echo MMP_in_RA; killall simplemenu; pkill -TERM retroarch; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+				} else {
+        			system("echo MMP; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+				}
+    		}
 			while (1) pause();
 		}
 	}

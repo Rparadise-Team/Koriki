@@ -215,19 +215,35 @@ void quit() {
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown -r", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown -r", NULL);
+				}
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown -r", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown -r", NULL);
+				}
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
@@ -241,19 +257,35 @@ void quit() {
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+				}
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+				}
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && poweroff", NULL);
@@ -269,19 +301,35 @@ void quit() {
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown -r", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown -r", NULL);
+				}
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown -r", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown -r", NULL);
+				}
 			}	
 			#else
 			execlp("sh", "sh", "-c", "sync && reboot", NULL);
@@ -295,19 +343,35 @@ void quit() {
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.min  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix && killall main && killall updater && killall audioserver && killall audioserver.plu  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_with_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+				}
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
 				unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && reboot", NULL);
-				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix && killall main && killall updater  && killall batmon && killall keymon && swapoff /mnt/SDCARD/cachefile && sync && sleep 5 && umount -l /mnt/SDCARD && poweroff", NULL);
+				
+				if (access("/sys/class/gpio/gpio48/direction", F_OK) != 0) {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown", NULL);
+				} else {
+					if (mmModel)
+						execlp("sh", "sh", "-c", "echo MM_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+					else
+						execlp("sh", "sh", "-c", "echo MMP_without_audiofix; pkill -TERM simplemenu; sync; sleep 5; shutdown", NULL);
+				}
 			}
 			#else
 			execlp("sh", "sh", "-c", "sync && poweroff", NULL);

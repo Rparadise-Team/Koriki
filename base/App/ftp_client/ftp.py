@@ -12,8 +12,8 @@ SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
 start_color = (0, 0, 0)
-end_color = (0, 100, 0)
-duration = 5 * 1000
+end_color = (0, 0, 80)
+duration = 10 * 1000
 steps = 100
 
 def initialize_pygame():
@@ -27,14 +27,19 @@ def initialize_pygame():
 
 def calculate_color(start_color, end_color, duration, steps):
     colors = []
-    r_step = float(end_color[0] - start_color[0]) / steps
-    g_step = float(end_color[1] - start_color[1]) / steps
-    b_step = float(end_color[2] - start_color[2]) / steps
+    r_step = float(end_color[0] - start_color[0]) / (steps / 2)
+    g_step = float(end_color[1] - start_color[1]) / (steps / 2)
+    b_step = float(end_color[2] - start_color[2]) / (steps / 2)
 
     for step in range(steps):
-        r = start_color[0] + int(r_step * step)
-        g = start_color[1] + int(g_step * step)
-        b = start_color[2] + int(b_step * step)
+        if step < steps / 2:
+            r = start_color[0] + int(r_step * step)
+            g = start_color[1] + int(g_step * step)
+            b = start_color[2] + int(b_step * step)
+        else:
+            r = end_color[0] - int(r_step * (step - steps / 2))
+            g = end_color[1] - int(g_step * (step - steps / 2))
+            b = end_color[2] - int(b_step * (step - steps / 2))
         colors.append((r, g, b))
 
     return colors

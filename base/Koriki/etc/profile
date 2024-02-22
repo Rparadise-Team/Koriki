@@ -6,12 +6,10 @@ export PATH=$PATH:/config:/customer/app
 export TERMINFO=/config/terminfo
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/config/lib:/config/lib/ap:/customer/lib
 
-export SDCARD_PATH="/mnt/SDCARD"
-export HOME="${SDCARD_PATH}"
-export SYSTEM_PATH="${SDCARD_PATH}/Koriki"
+export SYSTEM_PATH=/mnt/SDCARD/Koriki
 
-export PATH="${SYSTEM_PATH}/bin:${PATH}"
-export LD_LIBRARY_PATH="${SYSTEM_PATH}/lib:${LD_LIBRARY_PATH}"
+export PATH=$SYSTEM_PATH/bin:$PATH
+export LD_LIBRARY_PATH=$SYSTEM_PATH/lib:$LD_LIBRARY_PATH
 
 export TERM=vt102
 export TERMINFO=/config/terminfo
