@@ -65,30 +65,57 @@ def list_roms():
 	
     background_gb = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gb.png").convert_alpha()
     background_gbc = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gbc.png").convert_alpha()
+	
+    image_directory_gb = os.path.join(ROMS_GB_PATH, "Imgs")
+    image_directory_gbc = os.path.join(ROMS_GBC_PATH, "Imgs")
+    image_directory = image_directory_gb
 
     while True:
         files = files_gb if current_directory == ROMS_GB_PATH else files_gbc
         background = background_gb if current_directory == ROMS_GB_PATH else background_gbc
+        image_directory = os.path.join(ROMS_GB_PATH if current_directory == ROMS_GB_PATH else ROMS_GBC_PATH, 'Imgs')
         screen.blit(background, (0, 0))
+
+        game_image_found = False
 
         for i, rom_name in enumerate(files[scroll:scroll+8]):
             text_color = GRAY
+            
+            if cursor_pos[1] == scroll + i:
+                text_color = WHITE
+                
             if selected_roms[0] == rom_name:
                 text_color = SELECTED_COLOR_1
                 number_text = font.render("1", True, WHITE)
-                screen.blit(number_text, (10, 60 + i * 50))
+                screen.blit(number_text, (20, 60 + i * 50))
             elif selected_roms[1] == rom_name:
                 text_color = SELECTED_COLOR_2
                 number_text = font.render("2", True, WHITE)
-                screen.blit(number_text, (10, 60 + i * 50))
+                screen.blit(number_text, (20, 60 + i * 50))
 
             text = font.render(rom_name, True, text_color)
             rect = text.get_rect(topleft=(50, 60 + i * 50))
             screen.blit(text, rect)
 
             if cursor_pos[1] == scroll + i:
-                cursor_rect = Rect(rect.x - 30, rect.y, 20, rect.height)
+                cursor_rect = Rect(rect.x - 45, rect.y, 4, rect.height)
                 pygame.draw.rect(screen, WHITE, cursor_rect)
+                
+            if not game_image_found:
+                game_image_rect = pygame.Rect(screen.get_width() - 160 - 30, screen.get_height() - 120 - 50, 160, 120)
+                pygame.draw.rect(screen, BLACK, game_image_rect)
+                pygame.draw.rect(screen, GRAY, game_image_rect, 3)
+
+            if cursor_pos[1] == scroll + i:
+                current_rom_name = files[scroll + i]
+                image_path = os.path.join(image_directory, os.path.splitext(current_rom_name)[0] + '.png')
+                if os.path.exists(image_path):
+                    game_image = pygame.image.load(image_path).convert_alpha()
+                    game_image = pygame.transform.scale(game_image, (160, 120))
+                    pygame.draw.rect(screen, BLACK, game_image_rect)
+                    pygame.draw.rect(game_image, GRAY, game_image.get_rect(), 3)
+                    screen.blit(game_image, (screen.get_width() - 160 - 30, screen.get_height() - 120 - 50))
+                    game_image_found = True
 
         pygame.display.flip()
         clock.tick(30)
@@ -162,6 +189,7 @@ def list_roms():
                 elif event.key == K_LSHIFT:
                     current_directory = ROMS_GB_PATH if current_directory == ROMS_GBC_PATH else ROMS_GBC_PATH
                     background = background_gb if current_directory == ROMS_GBC_PATH else background_gbc
+                    image_directory = image_directory_gb if current_directory == ROMS_GBC_PATH else image_directory_gbc
 					
 
 if __name__ == "__main__":
