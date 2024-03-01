@@ -1,0 +1,203 @@
+#!/bin/sh
+
+source_dir="/mnt/SDCARD/Saves/RA_saves/TGB Dual/.netplay"
+destination_dir="/mnt/SDCARD/Saves/RA_saves/TGB Dual"
+gambatte_dir="/mnt/SDCARD/Saves/RA_saves/Gambatte"
+tgb_dual_config="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.opt"
+tgb_dual_config_p2="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.p2"
+backup_config="/mnt/SDCARD/RetroArch/.retroarch/config/TGB Dual/TGB Dual.backup"
+
+show /mnt/SDCARD/App/gb_client/screen.png &
+
+if [ ! -f "$backup_config" ]; then
+    cp "$tgb_dual_config" "$backup_config"
+    cp "$tgb_dual_config_p2" "$tgb_dual_config"
+    sync
+fi
+
+if [ -d "$source_dir" ]; then
+    cp "$destination_dir"/* "$source_dir"
+    sync
+else
+    mkdir -p "$source_dir"
+    cp "$destination_dir"/* "$source_dir"
+    sync
+fi
+
+game1_name=$(basename "$1" | sed 's/\.[^.]*$//')
+game2_name=$(basename "$2" | sed 's/\.[^.]*$//')
+
+if [ ! -f "$gambatte_dir"/"$game1_name".srm ]; then
+	touch "$gambatte_dir"/"$game1_name".srm
+fi
+
+if [ ! -f "$gambatte_dir"/"$game1_name".rtc ]; then
+	touch "$gambatte_dir"/"$game1_name".rtc
+fi
+
+if [ ! -f "$gambatte_dir"/"$game2_name".srm ]; then
+	touch "$gambatte_dir"/"$game2_name".srm
+fi
+
+if [ ! -f "$gambatte_dir"/"$game2_name".rtc ]; then
+	touch "$gambatte_dir"/"$game2_name".rtc
+fi
+
+cp "$gambatte_dir"/"$game1_name".srm "$destination_dir"/"$game1_name".srm
+cp "$gambatte_dir"/"$game1_name".rtc "$destination_dir"/"$game1_name".rtc
+cp "$gambatte_dir"/"$game2_name".srm "$destination_dir"/"$game2_name".srm
+cp "$gambatte_dir"/"$game2_name".rtc "$destination_dir"/"$game2_name".rtc
+
+cp "$destination_dir"/"$game1_name".srm "$source_dir"/0server-"$game1_name".srm
+cp "$destination_dir"/"$game1_name".rtc "$source_dir"/0server-"$game1_name".rtc
+cp "$destination_dir"/"$game1_name".srm "$destination_dir"/0server-"$game1_name".srm
+cp "$destination_dir"/"$game1_name".rtc "$destination_dir"/0server-"$game1_name".rtc
+
+cp "$destination_dir"/"$game2_name".srm "$source_dir"/0client-"$game2_name".srm
+cp "$destination_dir"/"$game2_name".rtc "$source_dir"/0client-"$game2_name".rtc
+cp "$destination_dir"/"$game2_name".srm "$destination_dir"/0client-"$game2_name".srm
+cp "$destination_dir"/"$game2_name".rtc "$destination_dir"/0client-"$game2_name".rtc
+cp "$destination_dir"/"$game2_name".srm /tmp/0client-"$game2_name".srm
+cp "$destination_dir"/"$game2_name".rtc /tmp/0client-"$game2_name".rtc
+
+sync
+
+HOST="192.168.4.100"
+USER="root"
+PASS="root"
+SEND1="/tmp/0client-"$game2_name".srm"
+SEND2="/tmp/0client-"$game2_name".rtc"
+DONEFILE="/tmp/donefile"
+LOGFILE="/tmp/logftp.txt"
+
+max_attempts=3
+attempt=1
+
+cd /tmp
+
+sleep 1
+
+while [ ! -f "$DONEFILE" ] && [ $attempt -le $max_attempts ]; do
+    ncftpput -V -u "$USER" -p "$PASS" "$HOST" /tmp "$SEND1" > "$LOGFILE" 2>&1
+        if grep -q "ncftpput: cannot open $HOST: remote host refused connection" "$LOGFILE"; then
+			killall ncftp
+			pkill -TERM show
+			show /mnt/SDCARD/App/gb_client/screenfail.png &
+			if [ -d "$source_dir" ]; then
+    			rm -f "$destination_dir"/0server-*
+				rm -f "$destination_dir"/0client-*
+    			rm -rf "$source_dir"
+    			sync
+			fi
+
+			cp "$backup_config" "$tgb_dual_config"
+			rm "$backup_config"
+			sync
+
+			rm -f "$SEND1"
+			rm -f "$SEND2"
+			rm -f "$DONEFILE"
+			sync
+			
+			sleep 4
+			
+			pkill -TERM show
+            exit 1
+        fi
+    ncftpput -V -u "$USER" -p "$PASS" "$HOST" /tmp "$SEND2"
+    ncftpget -V -u "$USER" -p "$PASS" "$HOST" /tmp "$DONEFILE"
+	if [ -f "$DONEFILE" ]; then
+        break
+    fi
+    attempt=$((attempt + 1))
+done
+
+sync
+
+if [ ! -f "$DONEFILE"]; then
+	killall ncftp
+	pkill -TERM show
+	show /mnt/SDCARD/App/gb_client/screenfail.png &
+	if [ -d "$source_dir" ]; then
+    rm -f "$destination_dir"/0server-*
+    rm -f "$destination_dir"/0client-*
+    rm -rf "$source_dir"
+    sync
+	fi
+
+	cp "$backup_config" "$tgb_dual_config"
+	rm "$backup_config"
+	sync
+
+	rm -f "$SEND1"
+	rm -f "$SEND2"
+	rm -f "$DONEFILE"
+	sync
+	
+	sleep 4
+	pkill -TERM show
+	
+	exit
+fi
+
+game1_name_rom=$(basename "$1")
+game2_name_rom=$(basename "$2")
+
+if [ "${1##*.}" = "gb" ] && [ "${2##*.}" = "gb" ]; then
+    roms_directory="/mnt/SDCARD/Roms/GB"
+elif [ "${1##*.}" = "gb" ] && [ "${2##*.}" = "gbc" ]; then
+    roms_directory="/mnt/SDCARD/Roms/GBC"
+elif [ "${1##*.}" = "gbc" ] && [ "${2##*.}" = "gb" ]; then
+    roms_directory="/mnt/SDCARD/Roms/GB"
+elif [ "${1##*.}" = "gbc" ] && [ "${2##*.}" = "gbc" ]; then
+    roms_directory="/mnt/SDCARD/Roms/GBC"
+fi
+
+server_file="$roms_directory""/0server-""$game1_name_rom"
+client_file="$roms_directory""/0client-""$game2_name_rom"
+
+cp "$1" "$server_file"
+
+cp "$2" "$client_file"
+
+sync
+
+cd /mnt/SDCARD/RetroArch/
+HOME=/mnt/SDCARD/RetroArch/
+
+runsvr=`/customer/app/jsonval audiofix`
+
+sleep 5
+
+pkill -TERM show
+
+if [ "$runsvr" != "0" ] ; then
+    LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -C 192.168.4.100 -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$server_file" "$client_file"
+else
+    /mnt/SDCARD/RetroArch/retroarch -C 192.168.4.100 -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$server_file" "$client_file"
+fi
+
+if [ -d "$source_dir" ]; then
+    rm -f "$destination_dir"/0server-*
+    rm -f "$destination_dir"/0client-*
+	
+    cp "$source_dir"/0client-*.srm "$destination_dir"/"$game2_name".srm
+    cp "$source_dir"/0client-*.rtc "$destination_dir"/"$game2_name".rtc
+	
+    cp "$destination_dir"/"$game2_name".srm "$gambatte_dir"/"$game2_name".srm
+    cp "$destination_dir"/"$game2_name".rtc "$gambatte_dir"/"$game2_name".rtc
+	
+    rm -rf "$source_dir"
+    sync
+fi
+
+cp "$backup_config" "$tgb_dual_config"
+rm "$backup_config"
+sync
+
+rm -f "$server_file"
+rm -f "$client_file"
+rm -f "$SEND1"
+rm -f "$SEND2"
+rm -f "$DONEFILE"
+sync
