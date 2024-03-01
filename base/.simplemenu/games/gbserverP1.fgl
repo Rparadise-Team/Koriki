@@ -1,0 +1,3 @@
+title=GB-GBC P1 server lan
+exec="/mnt/SDCARD/App/gb_server/server.sh"
+editable=false

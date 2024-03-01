@@ -1,0 +1,3 @@
+title=GB-GBC P2 client lan
+exec="/mnt/SDCARD/App/gb_client/client.sh"
+editable=false
