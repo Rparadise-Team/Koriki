@@ -67,6 +67,14 @@ def list_roms():
     global selected_roms, selected_index, cursor_pos, current_directory
     clock = pygame.time.Clock()
     scroll = 0
+    default_game_image = pygame.Surface((160, 120))
+    default_game_image.fill(BLACK)
+    
+    game_image_rect = pygame.Rect(screen.get_width() - 160 - 30, screen.get_height() - 120 - 50, 160, 120)
+    pygame.draw.rect(screen, BLACK, game_image_rect)
+    pygame.draw.rect(screen, GRAY, game_image_rect, 3)
+
+    current_game_image = default_game_image
 
     while True:
         files = files_gb if current_directory == ROMS_GB_PATH else files_gbc
@@ -101,21 +109,20 @@ def list_roms():
                 pygame.draw.rect(screen, WHITE, cursor_rect)
                 
             screen.blit(text, rect)
-			
-            game_image_rect = pygame.Rect(screen.get_width() - 160 - 30, screen.get_height() - 120 - 50, 160, 120)
-            pygame.draw.rect(screen, BLACK, game_image_rect)
-            pygame.draw.rect(screen, GRAY, game_image_rect, 3)
 
+            image_directory = os.path.join(current_directory, 'Imgs')
+            
             if cursor_pos[1] == scroll + i:
                 current_rom_name = files[scroll + i]
                 image_path = os.path.join(image_directory, os.path.splitext(current_rom_name)[0] + '.png')
                 if os.path.exists(image_path):
-                    game_image = pygame.image.load(image_path).convert_alpha()
-                    game_image = pygame.transform.scale(game_image, (160, 120))
-                    pygame.draw.rect(screen, BLACK, game_image_rect)
-                    pygame.draw.rect(game_image, GRAY, game_image.get_rect(), 3)
-                    screen.blit(game_image, (screen.get_width() - 160 - 30, screen.get_height() - 120 - 50))
-
+                    current_game_image = pygame.image.load(image_path).convert_alpha()
+                    current_game_image = pygame.transform.scale(current_game_image, (160, 120))
+                else:
+                    current_game_image = default_game_image
+		
+        pygame.draw.rect(screen, GRAY, game_image_rect, 3)
+        screen.blit(current_game_image, (screen.get_width() - 160 - 30, screen.get_height() - 120 - 50))
         pygame.display.flip()
         clock.tick(30)
 
