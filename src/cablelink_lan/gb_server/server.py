@@ -61,8 +61,8 @@ def list_roms():
     scroll = 0
 
     current_directory = ROMS_GB_PATH
-    files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith('.gb')])
-    files_gbc = sorted([f for f in os.listdir(ROMS_GBC_PATH) if f.endswith('.gbc')])
+    files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith(('.gb', '.zip', '.7z'))])
+    files_gbc = sorted([f for f in os.listdir(ROMS_GBC_PATH) if f.endswith(('.gbc', '.zip', '.7z'))])
 	
     background_gb = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gb.png").convert_alpha()
     background_gbc = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gbc.png").convert_alpha()
@@ -159,17 +159,12 @@ def list_roms():
                     elif selected_roms[1] is None:
                         selected_roms[1] = files[selected_index[0]]
                     else:
-                        rom1_extension = os.path.splitext(selected_roms[0])[1]
-                        rom2_extension = os.path.splitext(selected_roms[1])[1]
-                        if rom1_extension == '.gb':
-                            rom1_path = os.path.join(ROMS_GB_PATH, selected_roms[0])
-                        else:
-                            rom1_path = os.path.join(ROMS_GBC_PATH, selected_roms[0])
+                        rom1_parent_dir = os.path.dirname(selected_roms[0])
+                        rom2_parent_dir = os.path.dirname(selected_roms[1])
                         
-                        if rom2_extension == '.gb':
-                            rom2_path = os.path.join(ROMS_GB_PATH, selected_roms[1])
-                        else:
-                            rom2_path = os.path.join(ROMS_GBC_PATH, selected_roms[1])
+                        rom1_path = os.path.join(ROMS_GB_PATH if '/GB/' in rom1_parent_dir else ROMS_GBC_PATH, selected_roms[0])
+                        rom2_path = os.path.join(ROMS_GB_PATH if '/GB/' in rom2_parent_dir else ROMS_GBC_PATH, selected_roms[1])
+                        
                         pygame.display.quit()
                         pygame.quit()
                         time.sleep(1)
@@ -189,10 +184,10 @@ def list_roms():
                         quit()
                         return
                 elif event.key == K_LSHIFT:
-                    current_directory = ROMS_GB_PATH if current_directory == ROMS_GBC_PATH else ROMS_GBC_PATH
-                    background = background_gb if current_directory == ROMS_GBC_PATH else background_gbc
-                    image_directory = image_directory_gb if current_directory == ROMS_GBC_PATH else image_directory_gbc
-					
+                    if current_directory == ROMS_GB_PATH:
+                        current_directory = ROMS_GBC_PATH
+                    elif current_directory == ROMS_GBC_PATH:
+                        current_directory = ROMS_GB_PATH
 
 if __name__ == "__main__":
     ip_exists, ip_address = get_ip_address()
