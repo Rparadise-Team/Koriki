@@ -23,6 +23,14 @@ font = pygame.font.Font(None, 34)
 ROMS_GB_PATH = "/mnt/SDCARD/Roms/GB"
 ROMS_GBC_PATH = "/mnt/SDCARD/Roms/GBC"
 
+current_directory = ROMS_GB_PATH
+
+files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith(('.gb', '.zip', '.7z'))])
+files_gbc = sorted([f for f in os.listdir(ROMS_GBC_PATH) if f.endswith(('.gbc', '.zip', '.7z'))])
+
+background_gb = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gb.png").convert_alpha()
+background_gbc = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gbc.png").convert_alpha()
+
 selected_roms = [None, None]
 selected_index = [0, 0]
 cursor_pos = [0, 0]
@@ -59,25 +67,14 @@ def show_message(title, instruction, warning=None):
     pygame.display.flip()
 
 def list_roms():
-    global selected_roms, selected_index, cursor_pos
+    global selected_roms, selected_index, cursor_pos, current_directory
     clock = pygame.time.Clock()
     scroll = 0
-
-    current_directory = ROMS_GB_PATH
-    files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith(('.gb', '.zip', '.7z'))])
-    files_gbc = sorted([f for f in os.listdir(ROMS_GBC_PATH) if f.endswith(('.gbc', '.zip', '.7z'))])
-	
-    background_gb = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gb.png").convert_alpha()
-    background_gbc = pygame.image.load("/mnt/SDCARD/App/gb_client/background_gbc.png").convert_alpha()
-	
-    image_directory_gb = os.path.join(ROMS_GB_PATH, "Imgs")
-    image_directory_gbc = os.path.join(ROMS_GBC_PATH, "Imgs")
-    image_directory = image_directory_gb
 
     while True:
         files = files_gb if current_directory == ROMS_GB_PATH else files_gbc
         background = background_gb if current_directory == ROMS_GB_PATH else background_gbc
-        image_directory = os.path.join(ROMS_GB_PATH if current_directory == ROMS_GB_PATH else ROMS_GBC_PATH, 'Imgs')
+        image_directory = os.path.join(current_directory, 'Imgs')
         screen.blit(background, (0, 0))
 
         for i, rom_name in enumerate(files[scroll:scroll+8]):
@@ -159,15 +156,11 @@ def list_roms():
                 elif event.key == K_SPACE:
                     if selected_roms[0] is None:
                         selected_roms[0] = files[selected_index[0]]
+                        rom1_path = os.path.join(current_directory, selected_roms[0])
                     elif selected_roms[1] is None:
                         selected_roms[1] = files[selected_index[0]]
+                        rom2_path = os.path.join(current_directory, selected_roms[1])
                     else:
-                        rom1_parent_dir = os.path.dirname(selected_roms[0])
-                        rom2_parent_dir = os.path.dirname(selected_roms[1])
-                        
-                        rom1_path = os.path.join(ROMS_GB_PATH if '/GB/' in rom1_parent_dir else ROMS_GBC_PATH, selected_roms[0])
-                        rom2_path = os.path.join(ROMS_GB_PATH if '/GB/' in rom2_parent_dir else ROMS_GBC_PATH, selected_roms[1])
-                        
                         pygame.display.quit()
                         pygame.quit()
                         time.sleep(1)
