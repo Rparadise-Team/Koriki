@@ -120,7 +120,7 @@ def list_roms():
                     current_game_image = pygame.transform.scale(current_game_image, (160, 120))
                 else:
                     current_game_image = default_game_image
-		
+					
         pygame.draw.rect(screen, GRAY, game_image_rect, 3)
         screen.blit(current_game_image, (screen.get_width() - 160 - 30, screen.get_height() - 120 - 50))
         pygame.display.flip()
@@ -139,8 +139,8 @@ def list_roms():
                 elif event.key == K_DOWN:
                     selected_index[0] = min(len(files) - 1, selected_index[0] + 1)
                     cursor_pos[1] = min(cursor_pos[1] + 1, len(files) - 1)
-                    if selected_index[0] >= scroll + 8:
-                        scroll = selected_index[0] - 7
+                    if selected_index[0] >= scroll + 5:
+                        scroll = selected_index[0] - 4
                 elif event.key == K_LEFT:
                     selected_index[0] = max(0, selected_index[0] - 8)
                     cursor_pos[1] = max(cursor_pos[1] - 8, 0)
@@ -156,7 +156,7 @@ def list_roms():
                 elif event.key == K_t:
                     selected_index[0] = min(len(files) - 1, selected_index[0] + 80)
                     cursor_pos[1] = min(cursor_pos[1] + 80, len(files) - 1)
-                    scroll = min(selected_index[0] - 7, max(0, len(files) - 8))
+                    scroll = max(0, min(selected_index[0], len(files) - 8))
                 elif event.key == K_SPACE:
                     if selected_roms[0] is None:
                         selected_roms[0] = files[selected_index[0]]

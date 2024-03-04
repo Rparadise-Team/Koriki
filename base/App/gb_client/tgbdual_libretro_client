@@ -143,14 +143,18 @@ fi
 game1_name_rom=$(basename "$1")
 game2_name_rom=$(basename "$2")
 
-if [ "${1##*.}" = "gb" ] && [ "${2##*.}" = "gb" ]; then
+if [[ "$1" == /mnt/SDCARD/Roms/GB/"$game1_name_rom" ]] && [[ "$2" == /mnt/SDCARD/Roms/GB/"$game2_name_rom" ]]; then
     roms_directory="/mnt/SDCARD/Roms/GB"
-elif [ "${1##*.}" = "gb" ] && [ "${2##*.}" = "gbc" ]; then
+	echo "GB - GB"
+elif [[ "$1" == /mnt/SDCARD/Roms/GB/"$game1_name_rom" ]] && [[ "$2" == /mnt/SDCARD/Roms/GBC/"$game2_name_rom" ]]; then
     roms_directory="/mnt/SDCARD/Roms/GBC"
-elif [ "${1##*.}" = "gbc" ] && [ "${2##*.}" = "gb" ]; then
+	echo "GB - GBC"
+elif [[ "$1" == /mnt/SDCARD/Roms/GBC/"$game1_name_rom" ]] && [[ "$2" == /mnt/SDCARD/Roms/GB/"$game2_name_rom" ]]; then
     roms_directory="/mnt/SDCARD/Roms/GB"
-elif [ "${1##*.}" = "gbc" ] && [ "${2##*.}" = "gbc" ]; then
+	echo "GBC - GB"
+elif [[ "$1" == /mnt/SDCARD/Roms/GBC/"$game1_name_rom" ]] && [[ "$2" == /mnt/SDCARD/Roms/GBC/"$game2_name_rom" ]]; then
     roms_directory="/mnt/SDCARD/Roms/GBC"
+	echo "GBC - GBC"
 fi
 
 server_file="$roms_directory""/0server-""$game1_name_rom"
