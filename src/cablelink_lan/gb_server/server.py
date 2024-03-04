@@ -25,7 +25,7 @@ ROMS_GBC_PATH = "/mnt/SDCARD/Roms/GBC"
 
 current_directory = ROMS_GB_PATH
 
-files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith(('.gb', '.zip', '.7z'))])
+files_gb = sorted([f for f in os.listdir(ROMS_GB_PATH) if f.endswith(('.gb', '.gz', '.zip', '.7z'))])
 files_gbc = sorted([f for f in os.listdir(ROMS_GBC_PATH) if f.endswith(('.gbc', '.zip', '.7z'))])
 
 background_gb = pygame.image.load("/mnt/SDCARD/App/gb_server/background_gb.png").convert_alpha()
