@@ -388,14 +388,54 @@ if [ "$runsvr" != "0" ] ; then
 	export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 fi
 
-# check if wifi value is 1
+# check if wifi value is ON or OFF
 if [ "$MODEL" == "MMP" ]; then
+	filewifi="/mnt/SDCARD/.simplemenu/wifi.sav"
+	chain="ssid=\"MiyooMini\""
     runwifi=`/customer/app/jsonval wifi`
-
-	if [ "$runwifi" == "1" ]; then
-	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-	/customer/app/axp_test wifioff
-	sync
+	
+	if [ -f "$filewifi" ]; then
+		if ! grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
+			if grep -q "wifi: on" "$filewifi"; then
+				if [ "$runwifi" == "0" ]; then
+					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 1/" "$SETTINGS_FILE"
+					/customer/app/axp_test wifion
+					sync
+				else
+					/customer/app/axp_test wifion
+				fi
+				sleep 2
+				/sbin/ifconfig wlan0 up
+				/mnt/SDCARD/Koriki/bin/wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf
+				/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
+				while true; do
+    				if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
+        				/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
+        				break
+    				else
+        				sleep 2
+    				fi
+				done > /dev/null 2>&1 &
+			elif grep -q "wifi: off" "$filewifi"; then
+				if [ "$runwifi" == "1" ]; then
+					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+					/customer/app/axp_test wifioff
+					sync
+				fi
+			fi
+		elif grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
+			if [ "$runwifi" == "1" ]; then
+				sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+				/customer/app/axp_test wifioff
+				sync
+			fi
+		fi
+	else #file wifi.sav not found
+		if [ "$runwifi" == "1" ]; then
+			sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+			/customer/app/axp_test wifioff
+			sync
+		fi
 	fi
 
 fi     
@@ -574,7 +614,7 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 	date -s "${localtime}"
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
-	date -s "2024-02-01 10:00:00"
+	date -s "2024-03-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi

@@ -407,6 +407,29 @@ int loadConfiguration3() {
 	return level;
 }
 
+void saveConfiguration4() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/wifi.sav", "w");
+    if (configFile != NULL) {
+        fprintf(configFile, "wifi: %s\n", wifiEnabled ? "on" : "off");
+        fclose(configFile);
+    }
+}
+
+void loadConfiguration4() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/wifi.sav", "r");
+    if (configFile != NULL) {
+        char option[20];
+        fscanf(configFile, "wifi: %s", option);
+        if (strcmp(option, "on") == 0) {
+            wifiEnabled = 1;
+        } else {
+            wifiEnabled = 0;
+        }
+        fclose(configFile);
+    } else {
+        wifiEnabled = 0;
+	}
+}
 
 void turnScreenOnOrOff(int state) {
     const char *path1 = "/proc/mi_modules/fb/mi_fb0";
@@ -656,6 +679,7 @@ void HW_Init() {
 	loadConfiguration1();
 	loadConfiguration2();
 	loadConfiguration3();
+	loadConfiguration4();
     getCurrentVolume();
 	if (musicEnabled) {
 	startmusic();

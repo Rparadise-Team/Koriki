@@ -1215,7 +1215,8 @@ void performSettingsChoosingAction() {
 	THEME_OPTION=1;
 	APPEARANCE_OPTION=2;
 	SYSTEM_OPTION=3;
-	HELP_OPTION=4;
+	WIFI_OPTION=4;
+	HELP_OPTION=5;
 	#else
 	SHUTDOWN_OPTION=0;
 	THEME_OPTION=1;
@@ -1230,14 +1231,14 @@ void performSettingsChoosingAction() {
 			chosenSetting--;
 		} else {
 			#if defined MIYOOMINI
-			chosenSetting=4;
+			chosenSetting=5;
 			#else
 			chosenSetting=5;
 			#endif
 		}
 	} else if (keys[BTN_DOWN]) {
 		#if defined MIYOOMINI
-		if(chosenSetting<4) {
+		if(chosenSetting<5) {
 		#else
 		if(chosenSetting<5) {
 		#endif
@@ -1287,6 +1288,17 @@ void performSettingsChoosingAction() {
 					activeTheme=0;
 				}
 			}
+		} else if (chosenSetting==WIFI_OPTION) {
+			#if defined MIYOOMINI
+			loadConfiguration4();
+			if (wifiEnabled == 1) {
+				wifiEnabled = 0;
+			} else if (wifiEnabled == 0) {
+				wifiEnabled = 1;
+			}
+			saveConfiguration4();
+			#else
+			#endif
 		} else if (chosenSetting==DEFAULT_OPTION) {
 			#ifndef MIYOOMINI
 			char command [300];

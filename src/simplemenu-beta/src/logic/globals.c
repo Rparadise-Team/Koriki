@@ -93,6 +93,7 @@ int USB_OPTION;
 int AUDIOFIX_OPTION;
 int LOADING_OPTION;
 int MUSIC_OPTION;
+int WIFI_OPTION;
 int SCREEN_OPTION;
 int LUMINATION_OPTION;
 int HUE_OPTION;
@@ -149,6 +150,7 @@ int gammaValue;
 int mmModel;
 int loadingScreenEnabled;
 int musicEnabled;
+int wifiEnabled;
 #endif
 pthread_t myThread;
 
