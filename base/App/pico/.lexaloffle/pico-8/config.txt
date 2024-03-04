@@ -9,8 +9,8 @@
 
 // :: Video Settings
 
-window_size 640 480 // window width, height
-screen_size 640 480 // screen width, height (stretched to window) 
+window_size 320 240 // window width, height
+screen_size 320 240 // screen width, height (stretched to window) 
 show_fps 0 // Draw frames per second in the corner
 
 
