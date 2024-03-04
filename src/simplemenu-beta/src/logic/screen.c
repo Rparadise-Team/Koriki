@@ -1431,6 +1431,11 @@ void setupScreenSettings() {
 	values[3]=malloc(100);
 	sprintf(values[3], "%d", contrastValue);
 	hints[3] = "CHANGE THE CONTRAST";
+	
+	options[4]="Gamma ";
+	values[4]=malloc(100);
+	sprintf(values[4], "%d", gammaValue);
+	hints[4] = "CHANGE THE TEMP COLOR";
 }
 #endif
 

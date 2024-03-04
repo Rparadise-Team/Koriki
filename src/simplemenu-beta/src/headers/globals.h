@@ -109,8 +109,10 @@ extern int LUMINATION_OPTION;
 extern int HUE_OPTION;
 extern int SATURATION_OPTION;
 extern int CONTRAST_OPTION;
+extern int GAMMA_OPTION;
 extern int NUM_SCREEN_OPTIONS;
 extern int COLOR_MAX_VALUE;
+extern int GAMMA_MAX_VALUE;
 #endif
 extern int VOLUME_OPTION;
 extern int BRIGHTNESS_OPTION;
@@ -155,6 +157,7 @@ extern int musicEnabled;
 extern int luminationValue;
 extern int volValue;
 extern int hueValue;
+extern int gammaValue;
 extern int saturationValue;
 extern int contrastValue;
 extern int mmModel;

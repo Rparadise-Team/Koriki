@@ -32,4 +32,7 @@ void loadConfiguration1();
 void saveConfiguration1();
 void loadConfiguration2();
 void saveConfiguration2();
+int loadConfiguration3();
+void saveConfiguration3(int level);
+void Gamma(int Blue, int Green, int Red);
 #endif

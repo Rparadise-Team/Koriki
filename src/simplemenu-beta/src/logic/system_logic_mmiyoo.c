@@ -303,6 +303,111 @@ void loadConfiguration2() {
 	}
 }
 
+void saveConfiguration3(int level) {
+	int Blue, Green, Red;
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/gamma.sav", "w");
+    if (configFile != NULL) {
+        fprintf(configFile, "%d\n", level);
+        fclose(configFile);
+    }
+	
+	switch (level) {
+        case 0:
+            Blue = 128;
+            Green = 128;
+            Red = 128;
+            break;
+        case 1:
+            Blue = 110;
+            Green = 125;
+            Red = 140;
+            break;
+        case 2:
+            Blue = 100;
+            Green = 120;
+            Red = 140;
+            break;
+        case 3:
+            Blue = 90;
+            Green = 115;
+            Red = 140;
+            break;
+        case 4:
+            Blue = 80;
+            Green = 110;
+            Red = 140;
+            break;
+        case 5:
+            Blue = 70;
+            Green = 105;
+            Red = 140;
+            break;
+        default:
+            // Handle invalid level
+            Blue = 128;
+            Green = 128;
+            Red = 128;
+    }
+    
+    Gamma(Blue, Green, Red);
+
+}
+
+int loadConfiguration3() {
+    int Blue, Green, Red, level;
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/gamma.sav", "r");
+    if (configFile != NULL) {
+        fscanf(configFile, "%d", &level);
+        fclose(configFile);
+    } else {
+        // Default level if configuration file doesn't exist
+        level = 0;
+    }
+
+    switch (level) {
+        case 0:
+            Blue = 128;
+            Green = 128;
+            Red = 128;
+            break;
+        case 1:
+            Blue = 110;
+            Green = 125;
+            Red = 140;
+            break;
+        case 2:
+            Blue = 100;
+            Green = 120;
+            Red = 140;
+            break;
+        case 3:
+            Blue = 90;
+            Green = 115;
+            Red = 140;
+            break;
+        case 4:
+            Blue = 80;
+            Green = 110;
+            Red = 140;
+            break;
+        case 5:
+            Blue = 70;
+            Green = 105;
+            Red = 140;
+            break;
+        default:
+            // Handle invalid level
+            Blue = 128;
+            Green = 128;
+            Red = 128;
+    }
+    
+    Gamma(Blue, Green, Red);
+	
+	return level;
+}
+
+
 void turnScreenOnOrOff(int state) {
     const char *path1 = "/proc/mi_modules/fb/mi_fb0";
 	const char *path2 = "/sys/class/pwm/pwmchip0/pwm0/enable";
@@ -550,6 +655,7 @@ void HW_Init() {
     initADC();
 	loadConfiguration1();
 	loadConfiguration2();
+	loadConfiguration3();
     getCurrentVolume();
 	if (musicEnabled) {
 	startmusic();
@@ -692,4 +798,12 @@ void Contrast(int dev, int value) {
     MI_DISP_GetLcdParam(dev, &params);
     params.stCsc.u32Contrast = value;
     MI_DISP_SetLcdParam(dev, &params);
+}
+
+void Gamma(int Blue, int Green, int Red) {
+    FILE *gammaFile = fopen("/proc/mi_modules/mi_disp/mi_disp0", "w");
+    if (gammaFile != NULL) {
+        fprintf(gammaFile, "colortemp 0 0 0 0 %d %d %d", Blue, Green, Red);
+        fclose(gammaFile);
+    }
 }

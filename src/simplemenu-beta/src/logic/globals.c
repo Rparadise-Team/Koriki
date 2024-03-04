@@ -98,8 +98,10 @@ int LUMINATION_OPTION;
 int HUE_OPTION;
 int SATURATION_OPTION;
 int CONTRAST_OPTION;
+int GAMMA_OPTION;
 int NUM_SCREEN_OPTIONS;
 int COLOR_MAX_VALUE;
+int GAMMA_MAX_VALUE;
 #endif
 int VOLUME_OPTION;
 int BRIGHTNESS_OPTION;
@@ -143,6 +145,7 @@ int volValue;
 int hueValue;
 int saturationValue;
 int contrastValue;
+int gammaValue;
 int mmModel;
 int loadingScreenEnabled;
 int musicEnabled;

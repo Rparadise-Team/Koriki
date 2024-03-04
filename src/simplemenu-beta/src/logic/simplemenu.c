@@ -41,6 +41,7 @@ void initializeGlobals() {
 	brightness = getCurrentBrightness();
 	loadConfiguration1();
 	loadConfiguration2();
+	loadConfiguration3();
     #endif
 }
 
@@ -159,6 +160,7 @@ void initialSetup2() {
 	hueValue = getCurrentSystemValue("hue");
 	saturationValue = getCurrentSystemValue("saturation");
 	contrastValue = getCurrentSystemValue("contrast");
+	gammaValue = loadConfiguration3();
 	#endif
 	brightnessValue = getCurrentBrightness();
 	maxBrightnessValue = getMaxBrightness();

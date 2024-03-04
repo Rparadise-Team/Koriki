@@ -802,8 +802,10 @@ void performScreenSettingsChoosingAction() {
     HUE_OPTION = 1;
     SATURATION_OPTION = 2;
     CONTRAST_OPTION = 3;
-    NUM_SCREEN_OPTIONS = 4;
+	GAMMA_OPTION = 4;
+    NUM_SCREEN_OPTIONS = 5;
     COLOR_MAX_VALUE = 20;
+	GAMMA_MAX_VALUE = 5;
 
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
@@ -902,6 +904,18 @@ void performScreenSettingsChoosingAction() {
 				}
 			}
 			setSystemValue("contrast", contrastValue);
+		} else if (chosenSetting==GAMMA_OPTION) {
+			loadConfiguration3();
+			if (keys[BTN_LEFT]) {
+				if (gammaValue>0) {
+					gammaValue-=1;
+				}
+			} else {
+				if (gammaValue<GAMMA_MAX_VALUE) {
+					gammaValue+=1;
+				}
+			}
+			saveConfiguration3(gammaValue);
 		}
 	} else if (keys[BTN_B]) {
 		chosenSetting=SCREEN_OPTION;
