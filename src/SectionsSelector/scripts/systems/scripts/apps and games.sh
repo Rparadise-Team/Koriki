@@ -2,8 +2,7 @@ consoles="/mnt/SDCARD/.simplemenu/section_groups/apps and games.ini"
 
 cat > ${consoles} <<EOF
 [CONSOLES]
-consoleList = APPS,GAMES,OVERLAYS,AMIGA,AMSTRAD CPC,ATARI ST,COMMODORE 64,MSX,X68000,DOS,PC98,ZX SPECTRUM,SCUMMVM,OPENBOR,PICO-8,TIC-80,DOOM,QUAKE,WOLF3D,CPS1,CPS2,CPS3,NEO GEO,MAME,FINALBURN ALPHA,FINALBURN NEO,DAPHNE,ATARI LYNX,GAME & WATCH,GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,NINTENDO DS,GAME GEAR,NEO GEO POCKET,POKEMON MINI,SUPERVISION,WONDERSWAN,ATARI 2600,ATARI 5200,ATARI 7800,INTELLIVISION,SEGA SG-1000,MASTER SYSTEM,NES,FDS,NEO GEO CD,PC ENGINE,PC ENGINE CD,PLAYSTATION,SEGA GENESIS,MSU-MD,SEGA 32X,SEGA CD,SNES,MSU-1,SGB,VIRTUAL BOY
-
+consoleList = APPS,GAMES,OVERLAYS,AMIGA,AMSTRAD CPC,ATARI ST,COMMODORE 64,MSX,X68000,DOS,PC98,ZX SPECTRUM,SCUMMVM,OPENBOR,PICO-8,TIC-80,DOOM,QUAKE,WOLF3D,CPS1,CPS2,CPS3,NEO GEO,MAME,FINALBURN ALPHA,FINALBURN NEO,DAPHNE,ATARI LYNX,GAME & WATCH,GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,NINTENDO DS,GAME GEAR,NEO GEO POCKET,POKEMON MINI,SUPERVISION,WONDERSWAN,ATARI 2600,ATARI 5200,ATARI 7800,INTELLIVISION,SEGA SG-1000,MASTER SYSTEM,NES,FDS,NEO GEO CD,PC ENGINE,PC ENGINE CD,PLAYSTATION,SEGA GENESIS,MSU-MD,SEGA 32X,SEGA CD,SNES,MSU-1,SGB,VIRTUAL BOY,ARDUINO
 
 [AMIGA]
 execs = /mnt/SDCARD/.simplemenu/launchers/puae_libretro,/mnt/SDCARD/.simplemenu/launchers/uae4arm_libretro,/mnt/SDCARD/.simplemenu/launchers/puae2021_libretro
@@ -19,6 +18,11 @@ romExts = .dsk,.sna,.tap,.cdt,.voc,.cpr,.m3u,.zip,.7z
 execs = #
 romDirs = /mnt/SDCARD/.simplemenu/apps/
 romExts = .sh,.fgl
+
+[ARDUINO]
+execs = /mnt/SDCARD/.simplemenu/launchers/arduous_libretro
+romDirs = /mnt/SDCARD/Roms/ARDUBOY/
+romExts = .hex
 
 [ATARI 2600]
 execs = /mnt/SDCARD/.simplemenu/launchers/stella2014_libretro
@@ -120,7 +124,7 @@ romExts = .gbc,.zip,.7z
 scaling = 1
 
 [GAME BOY ADVANCE]
-execs = /mnt/SDCARD/.simplemenu/launchers/gpsp_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_libretro,/mnt/SDCARD/.simplemenu/launchers/gpsp_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_gba_libretro,/mnt/SDCARD/.simplemenu/launchers/meteor_libretro,/mnt/SDCARD/.simplemenu/launchers/vbam_libretro,/mnt/SDCARD/.simplemenu/launchers/vba_next_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gpsp_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/gpsp_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_gba_libretro,/mnt/SDCARD/.simplemenu/launchers/meteor_libretro,/mnt/SDCARD/.simplemenu/launchers/vbam_libretro,/mnt/SDCARD/.simplemenu/launchers/vba_next_libretro
 romDirs = /mnt/SDCARD/Roms/GBA/
 romExts = .gba,.zip,.7z
 scaling = 1
@@ -153,7 +157,6 @@ romDirs = /mnt/SDCARD/Roms/ARCADE/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
-
 [MASTER SYSTEM]
 execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro
 romDirs = /mnt/SDCARD/Roms/MS/
@@ -171,7 +174,7 @@ romDirs = /mnt/SDCARD/Roms/NEOCD/
 romExts = .zip,.chd
 
 [NEO GEO POCKET]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_ngp_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/race_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_ngp_libretro
 romDirs = /mnt/SDCARD/Roms/NGP/
 romExts = .ngp,.ngc,.ngpc,.npc,.zip,.7z
 scaling = 1
@@ -234,7 +237,6 @@ execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro,/mnt/SDCAR
 romDirs = /mnt/SDCARD/Roms/PS/
 romExts = .pbp,.chd,.zip,.cue,.img,.iso,.m3u,.mdf
 
-
 [POKEMON MINI]
 execs = /mnt/SDCARD/.simplemenu/launchers/pokemini_libretro
 romDirs = /mnt/SDCARD/Roms/POKE/
@@ -277,7 +279,7 @@ romDirs = /mnt/SDCARD/Roms/SGB/
 romExts = .gb,.gbc,.zip,.7z
 
 [SNES]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_plus_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro
 romDirs = /mnt/SDCARD/Roms/SFC/
 romExts = .smc,.sfc,.zip,.7z
 

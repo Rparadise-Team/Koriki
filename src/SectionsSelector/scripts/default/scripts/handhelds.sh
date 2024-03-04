@@ -2,7 +2,12 @@ consoles="/mnt/SDCARD/.simplemenu/section_groups/handhelds.ini"
 
 cat > ${consoles} <<EOF
 [CONSOLES]
-consoleList = GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,NINTENDO DS,GAME & WATCH,GAME GEAR,ATARI LYNX,NEO GEO POCKET,WONDERSWAN,POKEMON MINI,SUPERVISION
+consoleList = ARDUINO,GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,NINTENDO DS,GAME & WATCH,GAME GEAR,ATARI LYNX,NEO GEO POCKET,WONDERSWAN,POKEMON MINI,SUPERVISION
+
+[ARDUINO]
+execs = /mnt/SDCARD/.simplemenu/launchers/arduous_libretro
+romDirs = /mnt/SDCARD/Roms/ARDUBOY/
+romExts = .hex
 
 [GAME BOY]
 execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_libretro
@@ -17,7 +22,7 @@ romExts = .gbc,.zip,.7z
 scaling = 1
 
 [GAME BOY ADVANCE]
-execs = /mnt/SDCARD/.simplemenu/launchers/gpsp_libretro,/mnt/SDCARD/.simplemenu/launchers/gpsp_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_gba_libretro,/mnt/SDCARD/.simplemenu/launchers/meteor_libretro,/mnt/SDCARD/.simplemenu/launchers/vbam_libretro,/mnt/SDCARD/.simplemenu/launchers/vba_next_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gpsp_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/gpsp_libretro,/mnt/SDCARD/.simplemenu/launchers/mgba_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_gba_libretro,/mnt/SDCARD/.simplemenu/launchers/meteor_libretro,/mnt/SDCARD/.simplemenu/launchers/vbam_libretro,/mnt/SDCARD/.simplemenu/launchers/vba_next_libretro
 romDirs = /mnt/SDCARD/Roms/GBA/
 romExts = .gba,.zip,.7z
 scaling = 1
@@ -47,7 +52,7 @@ romExts = .zip,.lnx,.7z
 scaling = 1
 
 [NEO GEO POCKET]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_ngp_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/race_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_ngp_libretro
 romDirs = /mnt/SDCARD/Roms/NGP/
 romExts = .ngp,.ngc,.ngpc,.npc,.zip,.7z
 scaling = 1
