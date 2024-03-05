@@ -4,8 +4,27 @@ HOME=/mnt/SDCARD/RetroArch/
 
 runsvr=`/customer/app/jsonval audiofix`
 
+destination_dir="/mnt/SDCARD/Saves/RA_saves/DoubleCherryGB"
+gambatte_dir="/mnt/SDCARD/Saves/RA_saves/Gambatte"
+
+game_name=$(basename "$1" | sed 's/\.[^.]*$//')
+
+if [ -f "$gambatte_dir"/"$game_name".srm ]; then
+	cp "$gambatte_dir"/"$game_name".srm "$destination_dir"/"$game_name".srm
+	sync
+fi
+
+if [ -f "$gambatte_dir"/"$game_name".rtc ]; then
+	cp "$gambatte_dir"/"$game_name".rtc "$destination_dir"/"$game_name".rtc
+	sync
+fi
+
 if [ "$runsvr" != "0" ] ; then
 LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
 else
 /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
 fi
+
+cp "$destination_dir"/"$game_name".srm "$gambatte_dir"/"$game_name".srm
+cp "$destination_dir"/"$game_name".rtc "$gambatte_dir"/"$game_name".rtc
+sync
