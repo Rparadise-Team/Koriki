@@ -148,15 +148,7 @@ update() {
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
 		
-		if [ -f /tmp/new_res_available ]; then
-       		change_resolution "640x480"
-    	fi
-		
 		show "${SDCARD_PATH}"/.update_splash.png
-		
-		if [ -f /tmp/new_res_available ]; then
-       		change_resolution
-    	fi
 
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
@@ -290,16 +282,10 @@ fi
 
 # Enable swap
 if [ ! -f "${SWAPFILE}" ]; then
-	if [ -f /tmp/new_res_available ]; then
-       change_resolution "640x480"
-    fi
 	show "${SYSTEM_PATH}"/images/swap.png
 	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=256
 	mkswap "${SWAPFILE}"
 	sync
-	if [ -f /tmp/new_res_available ]; then
-       change_resolution
-    fi
 fi
 swapon -p 60 "${SWAPFILE}"
 
@@ -344,13 +330,7 @@ if [ -f "${SYSTEM_PATH}"/videosplash.mp4 ]; then
 	"${SYSTEM_PATH}"/bin/ffplayer "${SYSTEM_PATH}"/videosplash.mp4
 	echo 1 > "/sys/module/gpio_keys_polled/parameters/button_enable"
 else
-	if [ -f /tmp/new_res_available ]; then
-       change_resolution "640x480"
-    fi
 	"${SYSTEM_PATH}"/bin/show "${SDCARD_PATH}"/.simplemenu/resources/loading.png
-	if [ -f /tmp/new_res_available ]; then
-       change_resolution
-    fi
 fi
 
 # Create ROMs scaffolding
