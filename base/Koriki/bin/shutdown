@@ -28,6 +28,8 @@ if [ "$0" = "/tmp/_shutdown" ]; then
 	killall -9 main # mandatory to avoid the suppression of .tmp_update !
 	killall -9 updater
 	pkill -TERM retroarch;
+	echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable;
+	echo "GUI_SHOW 0 off" > /proc/mi_modules/fb/mi_fb0
 
 	kill_hooked_tasks
 	sleep 0.1
