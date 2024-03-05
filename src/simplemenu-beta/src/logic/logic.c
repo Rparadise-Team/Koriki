@@ -575,10 +575,8 @@ void executeCommand(char *emulatorFolder, char *executable,	char *fileToBeExecut
     SDL_FreeSurface(image);
     image = NULL;
 	SDL_Delay(2000);
-	SDL_Quit();
 	} else {
 	SDL_Flip(screen);
-	SDL_Quit();
 	}
 	freeResources();
 	system("/mnt/SDCARD/Koriki/bin/freemma > NUL");
