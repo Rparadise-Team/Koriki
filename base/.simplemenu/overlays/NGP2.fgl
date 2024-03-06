@@ -1,0 +1,3 @@
+title=Neo Geo Pocket [RACE]
+exec="/mnt/SDCARD/App/Overlay/NGP/NGP2.sh"
+editable=false

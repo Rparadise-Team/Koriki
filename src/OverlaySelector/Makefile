@@ -1,5 +1,5 @@
-CONSOLE = WS
-CORE = Beetle_WonderSwan
+CONSOLE = NGP
+CORE = RACE
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 
