@@ -644,6 +644,10 @@ if [ "$MODEL" == "MMP" ]; then
 	mount -o bind "${SYSTEM_PATH}"/etc/profile /etc/profile
 fi
 
+#kill main program from stock
+
+killall -9 main
+
 # Launch SimpleMenu
 
 echo "Welcome to Koriki CFW"
