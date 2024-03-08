@@ -1644,13 +1644,16 @@ void setupSettingsScreen() {
 	options[3]="System ";
 	hints[3] = "SYSTEM OPTIONS";
 	
-	options[4]= "Autowifi ";
-	if (wifiEnabled) {
-		values[4] = "ON";
+	if (mmModel) {
 	} else {
-		values[4] = "OFF";
+		options[4]= "Autowifi ";
+		if (wifiEnabled) {
+			values[4] = "ON";
+		} else {
+			values[4] = "OFF";
+		}
+		hints[4] = "ENABLE OR DISABLE AUTO WIFI IN BOOT";
 	}
-	hints[4] = "ENABLE OR DISABLE AUTO WIFI IN BOOT";
 
 	options[5]="Help ";
 	hints[5] = "HOW TO USE THIS MENU";
