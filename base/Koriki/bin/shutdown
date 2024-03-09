@@ -1,5 +1,8 @@
 #!/bin/sh
 
+LOCK_FILE="/var/lock/_shutdown"
+
+
 task_killer() {
 	r=0
 	for p in $1; do
@@ -24,13 +27,23 @@ kill_hooked_tasks() {
 }
 
 if [ "$0" = "/tmp/_shutdown" ]; then
-
-	killall -9 main # mandatory to avoid the suppression of .tmp_update !
+	if [ ! -f "$LOCK_FILE" ]; then
+        touch "$LOCK_FILE"
+    else
+        echo "shutdown is running."
+        exit 1
+    fi
+	
+	#killall -9 main # mandatory to avoid the suppression of .tmp_update !
 	killall -9 updater
 	pkill -TERM retroarch;
+	pkill -TERM simplemenu;
+	
 	echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable;
 	echo "GUI_SHOW 0 off" > /proc/mi_modules/fb/mi_fb0
-
+	
+	sleep 1
+	
 	kill_hooked_tasks
 	sleep 0.1
 	kill_hooked_tasks -9
@@ -40,10 +53,18 @@ if [ "$0" = "/tmp/_shutdown" ]; then
     if [ -f "/customer/app/axp_test" ]; then
 	umount /etc/passwd /etc/group /etc/profile
 	fi
+	
 	swapoff /mnt/SDCARD/cachefile
 	umount -r /mnt/SDCARD
 	umount /mnt/SDCARD
 
+	sleep 1
+	
+    echo 48 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio48/direction
+    sleep 0.5 
+    echo 1 > /sys/class/gpio/gpio48/value
+	
 	if [ "$1" = "-r" ]; then
 		/sbin/reboot
 	else
@@ -65,6 +86,7 @@ pgrep -f /tmp/_shutdown || (
 	set -m
 	su root -c "/usr/bin/nohup /tmp/_shutdown $1 </dev/null >/dev/null 2>&1 &"
 )
+
 while true; do
 	sleep 10
 done

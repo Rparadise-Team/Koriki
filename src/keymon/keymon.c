@@ -1277,20 +1277,20 @@ int main (int argc, char *argv[]) {
 			system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 			
 			if (mmModel) {
-				if (isProcessRunning("retroarch")) {
-					system("echo MM_in_RA; killall simplemenu; pkill -TERM retroarch; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+        		if (isProcessRunning("retroarch")) {
+					system("echo MM_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				} else if (isProcessRunning("simplemenu") != 1) {
-					system("echo MM; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+					system("echo MM; sync; sleep 3; shutdown");
 				} else {
-        			system("echo MM; pkill -TERM simplemenu; sync; sleep 5; shutdown");
+        			system("echo MM_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				}
     		} else {
         		if (isProcessRunning("retroarch")) {
-					system("echo MMP_in_RA; killall simplemenu; pkill -TERM retroarch; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+					system("echo MMP_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				} else if (isProcessRunning("simplemenu") != 1) {
-					system("echo MMP; echo 48 > /sys/class/gpio/export; echo out > /sys/class/gpio/gpio48/direction; sleep 0.5; echo 1 > /sys/class/gpio/gpio48/value; sync; sleep 5; shutdown");
+					system("echo MMP; sync; sleep 3; shutdown");
 				} else {
-        			system("echo MMP; pkill -TERM simplemenu; sync; sleep 5; shutdown");
+        			system("echo MMP_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				}
     		}
 			while (1) pause();
