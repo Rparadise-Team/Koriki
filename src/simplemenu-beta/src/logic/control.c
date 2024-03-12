@@ -907,7 +907,7 @@ void performScreenSettingsChoosingAction() {
 		} else if (chosenSetting==GAMMA_OPTION) {
 			loadConfiguration3();
 			if (keys[BTN_LEFT]) {
-				if (gammaValue>0) {
+				if (gammaValue>-5) {
 					gammaValue-=1;
 				}
 			} else {

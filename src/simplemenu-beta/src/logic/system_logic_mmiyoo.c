@@ -312,6 +312,31 @@ void saveConfiguration3(int level) {
     }
 	
 	switch (level) {
+        case -5:
+            Blue = 140;
+            Green = 105;
+            Red = 70;
+            break;
+        case -4:
+            Blue = 140;
+            Green = 110;
+            Red = 80;
+            break;
+        case -3:
+            Blue = 140;
+            Green = 115;
+            Red = 90;
+            break;
+        case -2:
+            Blue = 140;
+            Green = 120;
+            Red = 100;
+            break;
+        case -1:
+            Blue = 140;
+            Green = 125;
+            Red = 110;
+            break;
         case 0:
             Blue = 128;
             Green = 128;
@@ -364,7 +389,32 @@ int loadConfiguration3() {
         level = 0;
     }
 
-    switch (level) {
+	switch (level) {
+        case -5:
+            Blue = 140;
+            Green = 105;
+            Red = 70;
+            break;
+        case -4:
+            Blue = 140;
+            Green = 110;
+            Red = 80;
+            break;
+        case -3:
+            Blue = 140;
+            Green = 115;
+            Red = 90;
+            break;
+        case -2:
+            Blue = 140;
+            Green = 120;
+            Red = 100;
+            break;
+        case -1:
+            Blue = 140;
+            Green = 125;
+            Red = 110;
+            break;
         case 0:
             Blue = 128;
             Green = 128;
