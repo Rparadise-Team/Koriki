@@ -136,6 +136,9 @@ reset_settings() {
 }
 
 update() {
+	
+	echo "Checking for updater Koriki package"
+	
 	if [ -f "${SDCARD_PATH}"/.deletes ]; then
 		while read file_to_delete; do
 		rm -rf "${file_to_delete}"
@@ -143,14 +146,18 @@ update() {
 		rm "${SDCARD_PATH}"/.deletes
 	fi
 
-	if [ -f "${SDCARD_PATH}/update_koriki_*.zip" ]; then
-		for file in `ls "${SDCARD_PATH}/update_koriki_*.zip"`; do
+	if [ -f "${SDCARD_PATH}/"update_koriki_*.zip ]; then
+	
+		echo "update Koriki package found"
+		
+		for file in `ls "${SDCARD_PATH}"/update_koriki_*.zip`; do
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
 		
 		show "${SDCARD_PATH}"/.update_splash.png
 
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
+		
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
 			while read file_to_delete; do
 			if [ -f "${file_to_delete}" ]; then
@@ -164,21 +171,31 @@ update() {
 		unzip -q -o "${file}" -d "${SDCARD_PATH}"
 
 		rm "${file}"
+		
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
 			rm "${SDCARD_PATH}"/.deletes
 		fi
+		
+		if [ -f "${SDCARD_PATH}"/.update_splash.png ]; then
+		rm "${SDCARD_PATH}"/.update_splash.png
+		fi
+		
 		sleep 5s
 		done
+		
 		sync
+		
 		if [ "$MODEL" == "MMP" ]; then
-			reboot
-			sleep 10s
+			"${SYSTEM_PATH}"/bin/shutdown -r
+		else
+			"${SYSTEM_PATH}"/bin/shutdown
 		fi
+		
+		sleep 10s
 	fi
+	
+	echo "update Koriki package not found"
 
-	if [ -f "${SDCARD_PATH}"/.update_splash.png ]; then
-		rm "${SDCARD_PATH}"/.update_splash.png
-	fi
 }
 
 dir_scaffolding() {
