@@ -186,9 +186,9 @@ update() {
 		sync
 		
 		if [ "$MODEL" == "MMP" ]; then
-			"${SYSTEM_PATH}"/bin/shutdown -r
+			poweroff
 		else
-			"${SYSTEM_PATH}"/bin/shutdown
+			reboot
 		fi
 		
 		sleep 10s
