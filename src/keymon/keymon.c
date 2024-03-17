@@ -624,6 +624,27 @@ int isDrasticRunning()
 	return 0;
 }
 
+int isPcsxRunning()
+{
+	FILE *fp;
+	char buffer[64];
+	const char *cmd = "pgrep pcsx";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		printf("Error al ejecutar el comando 'pgrep pcsx'\n");
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 int isPico8Running()
 {
 	FILE *fp;
@@ -945,6 +966,13 @@ void setcpu(int cpu) {
 			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
 			system(command);
 			json_object_put(jfile);
+		}
+		
+		if (isPcsxRunning() == 1) {
+			char command[64];
+			
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock 1400");
+			system(command);
 		}
 		
 		if (isPico8Running() == 1) {
