@@ -190,7 +190,7 @@ sv=`cat /proc/sys/vm/swappiness`
 echo 10 > /proc/sys/vm/swappiness
 echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-pico8_dyn -width 640 -height 480 -run "$1"
+pico8_dyn -width 320 -height 240 -run "$1"
 
 echo $sv > /proc/sys/vm/swappiness
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
