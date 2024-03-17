@@ -394,25 +394,34 @@ if [ "$MODEL" == "MMP" ]; then
 	if [ -f "$filewifi" ]; then
 		if ! grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
 			if grep -q "wifi: on" "$filewifi"; then
-				if [ "$runwifi" == "0" ]; then
-					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 1/" "$SETTINGS_FILE"
-					/customer/app/axp_test wifion
-					sync
-				else
-					/customer/app/axp_test wifion
+				if grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
+					if [ "$runwifi" == "0" ]; then
+						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 1/" "$SETTINGS_FILE"
+						/customer/app/axp_test wifion
+						sync
+					else
+						/customer/app/axp_test wifion
+					fi
+					sleep 2
+					/sbin/ifconfig wlan0 up
+					/mnt/SDCARD/Koriki/bin/wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf
+					/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
+					while true; do
+    					if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
+        					/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
+        					break
+    					else
+        					sleep 2
+    					fi
+					done > /dev/null 2>&1 &
 				fi
-				sleep 2
-				/sbin/ifconfig wlan0 up
-				/mnt/SDCARD/Koriki/bin/wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf
-				/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
-				while true; do
-    				if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
-        				/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
-        				break
-    				else
-        				sleep 2
-    				fi
-				done > /dev/null 2>&1 &
+				if ! grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
+					if [ "$runwifi" == "1" ]; then
+						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+						/customer/app/axp_test wifioff
+						sync
+					fi
+				fi
 			elif grep -q "wifi: off" "$filewifi"; then
 				if [ "$runwifi" == "1" ]; then
 					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
@@ -434,7 +443,6 @@ if [ "$MODEL" == "MMP" ]; then
 			sync
 		fi
 	fi
-
 fi     
 
 # autochange retroarch version and show/quit wifi app
