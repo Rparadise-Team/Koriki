@@ -96,7 +96,7 @@ romDirs = /mnt/SDCARD/Roms/PCECD/
 romExts = .pce,.tg16,.cue,.chd,.zip,.7z
 
 [PLAYSTATION]
-execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_standalone,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun
 romDirs = /mnt/SDCARD/Roms/PS/
 romExts = .pbp,.chd,.zip,.cue,.img,.iso,.m3u,.mdf
 EOF

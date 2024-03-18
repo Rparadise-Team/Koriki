@@ -233,7 +233,7 @@ romExts = .png,.p8,.p8.png
 aliasFile = /mnt/SDCARD/.simplemenu/alias_PICO-8.txt
 
 [PLAYSTATION]
-execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun
+execs = /mnt/SDCARD/.simplemenu/launchers/pcsx_standalone,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_old,/mnt/SDCARD/.simplemenu/launchers/pcsx_rearmed_libretro_shaun
 romDirs = /mnt/SDCARD/Roms/PS/
 romExts = .pbp,.chd,.zip,.cue,.img,.iso,.m3u,.mdf
 
