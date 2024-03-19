@@ -1,4 +1,5 @@
 ENTER MENU:              SELECT + MENU
+EXIT OF EMULATOR:        SELECT + START
 LOAD STATE:              SELECT + L1
 SAVE STATE:              SELECT + R1
 NEXT SAVE SLOT:          SELECT + L2
