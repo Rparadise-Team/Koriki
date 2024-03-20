@@ -83,9 +83,9 @@ int alphasort_no_case(const struct dirent **a, const struct dirent **b) {
 
 // Draw the bootScreen #nbs
 void showBS(int nbs) {
-    char cBSPath[250];
-    char cName[250];
-    char cPages[10];
+    char cBSPath[300];
+    char cName[300];
+    char cPages[100];
 
     sprintf(cBSPath, BS_PATH"/%s/videosplash.png", bss[nbs]);
     surfaceBSS = IMG_Load(cBSPath);
@@ -120,8 +120,8 @@ void showBS(int nbs) {
 
 int main(void) {
     int running = 1;
-    char cBSPath[250];
-    char cCommand[250];
+    char cBSPath[300];
+    char cCommand[300];
 
     struct dirent **files;
     int n = scandir("bootVideos", &files, NULL, alphasort_no_case);
@@ -167,14 +167,19 @@ int main(void) {
                         levelPage = 0;
                     }
                 } else if (((int)event.key.keysym.sym) == BUTTON_A) {
-                    if (levelPage == 1) {
-                        // Install BS
-                        sprintf(cCommand, "cp \"bootVideos/%s/videosplash.mp4\" %s; sync", bss[nCurrentPage], BOOTSCREEN_PATH);
-                        system(cCommand);
-                        running = 0;
-                    } else {
-                        levelPage = 1;
-                    }
+                	if (levelPage == 1) {
+                    	// Install BS
+                    	if (strcmp(bss[nCurrentPage], "0_novideo") == 0) {
+                        	remove(BOOTSCREEN_PATH);
+							running = 0;
+                    	} else {
+                    		sprintf(cCommand, "cp \"bootVideos/%s/videosplash.mp4\" %s; sync", bss[nCurrentPage], BOOTSCREEN_PATH);
+                    		system(cCommand);
+                    		running = 0;
+						}
+                	} else {
+                    	levelPage = 1;
+                	}
                 } else if (((int)event.key.keysym.sym) == BUTTON_RIGHT) {
                     if (nCurrentPage < (bsCount-1)){
                         nCurrentPage ++;
