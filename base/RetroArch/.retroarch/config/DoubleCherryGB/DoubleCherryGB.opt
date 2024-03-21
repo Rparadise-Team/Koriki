@@ -1,0 +1,7 @@
+multitgb_emulated_gameboys = "4"
+multitgbt_gblink_device = "4-player adapter"
+tgbdual_audio_output = "Game Boy #3"
+tgbdual_gblink_enable = "enabled"
+tgbdual_screen_placement = "left-right"
+tgbdual_single_screen_mp = "player 3 only"
+tgbdual_switch_screens = "normal"
