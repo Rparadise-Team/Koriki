@@ -304,7 +304,7 @@ if [ ! -f "${SWAPFILE}" ]; then
 	mkswap "${SWAPFILE}"
 	sync
 fi
-swapon -p 60 "${SWAPFILE}"
+swapon -p 20 "${SWAPFILE}"
 
 # Reset settings on first boot
 reset_settings
@@ -389,12 +389,15 @@ fi
 if [ "$MODEL" == "MMP" ]; then
 	filewifi="/mnt/SDCARD/.simplemenu/wifi.sav"
 	chain="ssid=\"MiyooMini\""
+	ESSID=$(sed -n 's/^\s*ssid="\([^"]*\)".*/\1/p' /appconfigs/wpa_supplicant.conf)
     runwifi=`/customer/app/jsonval wifi`
 	
 	if [ -f "$filewifi" ]; then
 		if ! grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
 			if grep -q "wifi: on" "$filewifi"; then
 				if grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
+				    echo "autowifi is on"
+					echo "connecting to the last network..."
 					if [ "$runwifi" == "0" ]; then
 						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 1/" "$SETTINGS_FILE"
 						/customer/app/axp_test wifion
@@ -402,28 +405,56 @@ if [ "$MODEL" == "MMP" ]; then
 					else
 						/customer/app/axp_test wifion
 					fi
+					
 					sleep 2
+					echo "activating wifi..."
 					/sbin/ifconfig wlan0 up
-					/mnt/SDCARD/Koriki/bin/wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf
-					/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
-					while true; do
-    					if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
-        					/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
-        					break
-    					else
-        					sleep 2
-    					fi
-					done > /dev/null 2>&1 &
+					
+					sleep 0.5
+					
+					if /mnt/SDCARD/Koriki/bin/iwlist wlan0 scan | grep -q "$ESSID"; then
+						echo "ssid found!"
+						echo "enable autowifi"
+						sleep 0.5
+						/mnt/SDCARD/Koriki/bin/wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf
+						/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
+						echo "connecting..."
+						while true; do
+    						if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
+								echo "connected!"
+        						/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
+								echo "sinc network time"
+        						break
+    						else
+        						sleep 2
+    						fi
+						done > /dev/null 2>&1 &
+					elif ! /mnt/SDCARD/Koriki/bin/iwlist wlan0 scan | grep -q "$ESSID"; then
+						echo "ssid not found..."
+						echo "disable autowifi"
+						sleep 0.5
+                    	/sbin/ifconfig wlan0 down
+						echo "power off wifi..."
+                    	if [ "$runwifi" == "1" ]; then
+                        	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+                        	/customer/app/axp_test wifioff
+                        	sync
+                    	fi
+                	fi
 				fi
+
 				if ! grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
 					if [ "$runwifi" == "1" ]; then
+						echo "last network not save"
 						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
 						/customer/app/axp_test wifioff
 						sync
 					fi
 				fi
+				
 			elif grep -q "wifi: off" "$filewifi"; then
 				if [ "$runwifi" == "1" ]; then
+					echo "autowifi is off"
 					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
 					/customer/app/axp_test wifioff
 					sync
