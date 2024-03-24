@@ -420,8 +420,8 @@ if [ "$MODEL" == "MMP" ]; then
 						/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
 						echo "connecting..."
 						while true; do
-							echo "connected!"
     						if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
+								echo "connected!"
         						/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
 								echo "sinc network time"
         						break
