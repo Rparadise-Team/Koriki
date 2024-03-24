@@ -406,7 +406,7 @@ if [ "$MODEL" == "MMP" ]; then
 						/customer/app/axp_test wifion
 					fi
 					
-					sleep 2
+					sleep 1.5
 					echo "activating wifi..."
 					/sbin/ifconfig wlan0 up
 					
@@ -420,34 +420,32 @@ if [ "$MODEL" == "MMP" ]; then
 						/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
 						echo "connecting..."
 						while true; do
+							echo "connected!"
     						if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
-								echo "connected!"
         						/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
 								echo "sinc network time"
         						break
     						else
         						sleep 2
     						fi
-						done > /dev/null 2>&1 &
+						done &
 					elif ! /mnt/SDCARD/Koriki/bin/iwlist wlan0 scan | grep -q "$ESSID"; then
 						echo "ssid not found..."
 						echo "disable autowifi"
 						sleep 0.5
                     	/sbin/ifconfig wlan0 down
 						echo "power off wifi..."
-                    	if [ "$runwifi" == "1" ]; then
-                        	sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-                        	/customer/app/axp_test wifioff
-                        	sync
-                    	fi
+						/customer/app/axp_test wifioff &
+                        sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+                        sync
                 	fi
 				fi
 
 				if ! grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
 					if [ "$runwifi" == "1" ]; then
 						echo "last network not save"
+						/customer/app/axp_test wifioff &
 						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-						/customer/app/axp_test wifioff
 						sync
 					fi
 				fi
@@ -455,22 +453,22 @@ if [ "$MODEL" == "MMP" ]; then
 			elif grep -q "wifi: off" "$filewifi"; then
 				if [ "$runwifi" == "1" ]; then
 					echo "autowifi is off"
+					/customer/app/axp_test wifioff &
 					sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-					/customer/app/axp_test wifioff
 					sync
 				fi
 			fi
 		elif grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
 			if [ "$runwifi" == "1" ]; then
+				/customer/app/axp_test wifioff &
 				sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-				/customer/app/axp_test wifioff
 				sync
 			fi
 		fi
 	else #file wifi.sav not found
 		if [ "$runwifi" == "1" ]; then
+			/customer/app/axp_test wifioff &
 			sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-			/customer/app/axp_test wifioff
 			sync
 		fi
 	fi
@@ -712,6 +710,7 @@ while [ 1 ]; do
 	HOME="${SDCARD_PATH}"
 	cd "${SDCARD_PATH}"/.simplemenu
 	./simplemenu
+	
 	sleep 4s
 	sync
 done
