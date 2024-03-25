@@ -304,7 +304,7 @@ if [ ! -f "${SWAPFILE}" ]; then
 	mkswap "${SWAPFILE}"
 	sync
 fi
-swapon -p 20 "${SWAPFILE}"
+swapon -p 40 "${SWAPFILE}"
 
 # Reset settings on first boot
 reset_settings
