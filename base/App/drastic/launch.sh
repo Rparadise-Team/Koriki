@@ -92,9 +92,11 @@ cd $mydir
 
 volume=$(getvolume)
 
+MAXCPU=$(grep -o '"maxcpu":[0-9]*' ./resources/settings.json | awk -F':' '{print $2}')
+
 if [ "$CUST_CPUCLOCK" == "1" ]; then
     echo "set customized cpuspeed"
-    /mnt/SDCARD/Koriki/bin/cpuclock 1500
+    /mnt/SDCARD/Koriki/bin/cpuclock $MAXCPU
 fi
 
 setvolume &
