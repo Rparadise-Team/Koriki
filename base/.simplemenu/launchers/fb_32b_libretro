@@ -31,7 +31,7 @@ fi
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
 
-/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fb_32b_libretro.so "$1"
+nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fb_32b_libretro.so "$1"
 
 runsvr=`/customer/app/jsonval audiofix`
 if [ "$runsvr" != "0" ] ; then

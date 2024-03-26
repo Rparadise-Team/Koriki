@@ -15,7 +15,7 @@ rm /mnt/SDCARD/Saves/RA_saves/gpSP/*.sav
 runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
-LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
+LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
 else
-/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
+nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
 fi

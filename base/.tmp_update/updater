@@ -290,7 +290,7 @@ update
 if [ -f "${SWAPFILE}" ]; then
 SWAPSIZE=`stat -c %s "${SWAPFILE}"`
 
-MINSIZE=$((512 * 1024 * 1024))
+MINSIZE=$((256 * 1024 * 1024))
 
 if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
 	rm "${SWAPFILE}"
@@ -300,7 +300,7 @@ fi
 # Enable swap
 if [ ! -f "${SWAPFILE}" ]; then
 	show "${SYSTEM_PATH}"/images/swap.png
-	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=512
+	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=256
 	mkswap "${SWAPFILE}"
 	sync
 fi
