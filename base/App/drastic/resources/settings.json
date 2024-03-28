@@ -14,7 +14,7 @@
   "alt":9,
   "swap_l1l2":0,
   "swap_r1r2":0,
-  "cust_menu":1,
+  "cust_menu":2,
   "lang":"es",
   "keys_rotate":0,
   "menu_c0":"0x000000",
@@ -25,7 +25,7 @@
   "half_vol":0,
   "splash":1,
   "hotkey":1,
-  "menu_bg":3,
-  "menu_cursor":1,
+  "menu_bg":2,
+  "menu_cursor":2,
   "fast_forward":6
 }
