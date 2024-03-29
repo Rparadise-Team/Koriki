@@ -1,9 +1,0 @@
-
-mode "752x560-77"
-	# D: 45.455 MHz, H: 48.151 kHz, V: 76.919 Hz
-	geometry 752 560 752 1120 32
-	timings 22000 64 64 32 32 64 2
-	accel false
-	rgba 8/16,8/8,8/0,8/24
-endmode
-
