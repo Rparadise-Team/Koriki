@@ -141,7 +141,7 @@ romExts = .nds,.7z,.zip,.rar
 scaling = 1
 
 [GAME GEAR]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/GG/
 romExts = .zip,.gg,.7z
 scaling = 1
@@ -163,7 +163,7 @@ romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [MASTER SYSTEM]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/MS/
 romExts = .zip,.sms,.7z
 
@@ -259,22 +259,22 @@ romDirs = /mnt/SDCARD/Roms/SCUMMVM/
 romExts = .scummvm
 
 [SEGA 32X]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/THIRTYTWOX/
 romExts = .zip,.32x,.7z
 
 [SEGA CD]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/SEGACD/
 romExts = .bin,.chd,.cue
 
 [SEGA GENESIS]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/MD/
 romExts = .zip,.bin,.smd,.md,.mdx,.gen,.7z
 
 [SEGA SG-1000]
-execs = /mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/SEGASGONE/
 romExts = .zip,.sg,.7z
 
