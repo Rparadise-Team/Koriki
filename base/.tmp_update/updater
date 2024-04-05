@@ -381,13 +381,16 @@ fi
 
 # Latency reduction audioserver by Eggs
 # NOTE: could cause performance issues on more demanding cores...maybe?
+
+# off audiofix
 runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
-	/mnt/SDCARD/Koriki/bin/audioserver &
-	touch /tmp/audioserver_on
-	sync
-	export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+	sed -i "s/\"wifi\":\s*[01]/\"audiofix\": 0/" "$SETTINGS_FILE"
+	#/mnt/SDCARD/Koriki/bin/audioserver &
+	#touch /tmp/audioserver_on
+	#sync
+	#export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
 fi
 
 # check if wifi value is ON or OFF
