@@ -386,7 +386,7 @@ fi
 runsvr=`/customer/app/jsonval audiofix`
 
 if [ "$runsvr" != "0" ] ; then
-	sed -i "s/\"wifi\":\s*[01]/\"audiofix\": 0/" "$SETTINGS_FILE"
+	sed -i "s/\"audiofix\":\s*[01]/\"audiofix\": 0/" "$SETTINGS_FILE"
 	#/mnt/SDCARD/Koriki/bin/audioserver &
 	#touch /tmp/audioserver_on
 	#sync
