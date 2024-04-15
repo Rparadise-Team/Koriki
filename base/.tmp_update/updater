@@ -488,7 +488,6 @@ if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MM" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
@@ -510,7 +509,6 @@ if [ ! -f /customer/app/axp_test ]; then
 	fi
 	if [ "$SUBMODEL" == "MMv4" ]; then
 	cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
@@ -546,7 +544,6 @@ if [ ! -f /customer/app/axp_test ]; then
 else
 	rm "${RETROARCH_PATH}"/retroarch
 	cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
@@ -643,15 +640,24 @@ fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-    sed -i 's/^1;0;0;16;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^1;0;1;0;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
     sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^1;1;0;16;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^1;1;1;0;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
     sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;16;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;1;0;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^0;0;1;0;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^0;0;0;15;15\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;0;0;14;14\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^0;1;1;0;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+    sed -i 's/^0;1;0;15;15\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;1;0;14;14\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;2;1;0;16\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;2;0;15;15\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;2;0;14;14\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sync
 fi
 
