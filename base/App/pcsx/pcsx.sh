@@ -56,6 +56,49 @@ set_snd_level() {
     done
 }
 
+audiofix_on() {
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "1" ] ; then
+	echo "Enabled audiofix"
+	touch /tmp/audioserver_on
+	/mnt/SDCARD/Koriki/bin/audioserver &
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+	fi
+fi
+}
+
+audiofix_off() {
+runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "1" ] ; then
+	FILE=/customer/app/axp_test
+	echo "Disabled audiofix"
+	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+		unset LD_PRELOAD
+	fi
+
+    if [ -f "$FILE" ]; then
+        killall audioserver
+		killall audioserver.plu
+		FILE2=/tmp/audioserver_on
+		if [ -f "$FILE2" ]; then
+			rm /tmp/audioserver_on
+			/mnt/SDCARD/Koriki/bin/freemma
+		fi
+    else
+        killall audioserver
+		killall audioserver.min
+		FILE2=/tmp/audioserver_on
+		if [ -f "$FILE2" ]; then
+			rm /tmp/audioserver_on
+			/mnt/SDCARD/Koriki/bin/freemma
+		fi
+    fi
+fi
+}
+
+export SDL_AUDIODRIVER=dsp
+
 HOME=/mnt/SDCARD/App/pcsx
 
 cd $HOME
@@ -68,14 +111,20 @@ set_snd_level "${volume}" &
 echo "set customized cpuspeed"
 /mnt/SDCARD/Koriki/bin/cpuclock 1400
 
+audiofix_on
+sleep 1
+
 ./pcsx
 sync
 
+audiofix_off
+sleep 1
+
 echo "set stock cpuspeed"
 /mnt/SDCARD/Koriki/bin/cpuclock 1200
-
 sleep 2
 
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 sync
 
+unset LD_PRELOAD
