@@ -176,6 +176,7 @@ void processEvents() {
 					case BROWSING_GAME_LIST:
 						previousState=BROWSING_GAME_LIST;
 						performAction(CURRENT_SECTION.currentGameNode);
+						refreshName=0;
 						break;
 					case SELECTING_SECTION:
 						previousState=SELECTING_SECTION;
@@ -336,6 +337,8 @@ void processEvents() {
 			refreshRequest=0;
 			refreshScreen();
 		}
+		if(refreshName)
+			refreshRequest=1;
 		//Time spent on one loop
 		int timeSpent = SDL_GetTicks()-start_time;
 		//If it took less than a frame

@@ -254,6 +254,7 @@ extern int fontOutline;
 extern int displaySectionGroupName;
 extern int showArt;
 extern int refreshRequest;
+extern int refreshName;
 
 extern int displayGameCount;
 extern char gameCountFont[1000];
