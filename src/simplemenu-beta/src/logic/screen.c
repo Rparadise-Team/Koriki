@@ -189,45 +189,47 @@ void drawSettingsOptionOnScreen(char *buf, int position, int txtColor[]) {
 void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 	static unsigned int temppos=0;
 	static int tempcounter=0;
-	static int textdir=1;
+
+	unsigned int buflen=strlen(buf);
+	char *temp = malloc(buflen*2+5+2);
 	
-	if(strlen(buf)>20) {
-		if(refreshName==0) {
-			temppos=0;
-			tempcounter=0;
-			textdir=1;
-		}
+	if(refreshName==0) {
+		temppos=0;
+		tempcounter=0;
+	}
+
+	// concatenate name+spaces+name
+	if(temppos<buflen)
+		strcpy(temp,buf+temppos);
+	if(temppos<buflen+5) {
+		if(temppos>=buflen)
+		strcpy(temp," ");
+		int nspaces=buflen+4-temppos;
+		if(nspaces>4)
+			nspaces=4;
+		strncat(temp,"    ",nspaces);
+		strcat(temp,buf);
+	}
+	if(temppos>=buflen+5)
+		strcpy(temp,buf);
+
+	// do scroll
+	if(buflen>15) {		// number of characters to activate scroll
 		refreshName=1;
 		tempcounter++;
-		if(textdir) {
-			if(tempcounter>4) { // lower number = faster
-				temppos++;
-				tempcounter=0;
-			}
-			if(temppos>strlen(buf)-10) {
-				temppos=strlen(buf)-10;
-				textdir=0;
-			}
-		} else {
-			if(tempcounter>4) { // lower number = faster
-				temppos--;
-				tempcounter=0;
-			}
-			if(temppos<1) {
-				temppos=0;
-				textdir=1;
-			}
+		if(tempcounter>30) {	// 20-30 time to scroll, lower number = faster
+			temppos++;
+			tempcounter=20;	// 0-20 time to begin scroll
+		}
+		if(temppos>=buflen+5) {
+			temppos=0;
 		}
 	} else {
 		refreshName=0;
 		temppos=0;
 		tempcounter=0;
-		textdir=1;
 	}
-
-	char *temp = malloc(strlen(buf)+2);
-	strcpy(temp,buf+temppos);
-	strcat(temp,"\0");
+	
 	int hAlign = 0;
 	if (gameListAlignment==0) {
 		hAlign = HAlignLeft;
