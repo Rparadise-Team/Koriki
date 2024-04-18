@@ -45,6 +45,7 @@ char *hints[10];
 
 int countDown;
 int refreshName=0;
+int refreshCounter=0;
 
 void displayHeart(int x, int y) {
 	if(hideHeartTimer!=NULL) {
@@ -188,14 +189,15 @@ void drawSettingsOptionOnScreen(char *buf, int position, int txtColor[]) {
 
 void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 	static unsigned int temppos=0;
-	static int tempcounter=0;
 
 	unsigned int buflen=strlen(buf);
 	char *temp = malloc(buflen*2+5+2);
+
+	if(!temp)
+		return;
 	
 	if(refreshName==0) {
 		temppos=0;
-		tempcounter=0;
 	}
 
 	// concatenate name+spaces+name
@@ -203,11 +205,12 @@ void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 		strcpy(temp,buf+temppos);
 	if(temppos<buflen+5) {
 		if(temppos>=buflen)
-		strcpy(temp," ");
+			strcpy(temp," ");
 		int nspaces=buflen+4-temppos;
 		if(nspaces>4)
 			nspaces=4;
-		strncat(temp,"    ",nspaces);
+		if(nspaces>0)
+			strncat(temp,"    ",nspaces);
 		strcat(temp,buf);
 	}
 	if(temppos>=buflen+5)
@@ -216,18 +219,13 @@ void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 	// do scroll
 	if(buflen>15) {		// number of characters to activate scroll
 		refreshName=1;
-		tempcounter++;
-		if(tempcounter>30) {	// 20-30 time to scroll, lower number = faster
-			temppos++;
-			tempcounter=20;	// 0-20 time to begin scroll
-		}
+		temppos++;
 		if(temppos>=buflen+5) {
 			temppos=0;
 		}
 	} else {
 		refreshName=0;
 		temppos=0;
-		tempcounter=0;
 	}
 	
 	int hAlign = 0;
@@ -241,7 +239,7 @@ void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 
 	int retW = 1;
 	int width=MAGIC_NUMBER;
-	TTF_SizeUTF8(font, (const char *) buf, &retW, NULL);
+	TTF_SizeUTF8(font, (const char *) temp, &retW, NULL);
 	if (transparentShading) {
 		if (retW>width) {
 			drawTextOnScreenMaxWidth(font, outlineFont, gameListX, position, temp, menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, (int[]){}, 0, retW);

@@ -181,6 +181,7 @@ void processEvents() {
 					case SELECTING_SECTION:
 						previousState=SELECTING_SECTION;
 						performAction(CURRENT_SECTION.currentGameNode);
+						refreshName=0;
 						break;
 					case SELECTING_EMULATOR:
 						performChoosingAction();
@@ -337,8 +338,13 @@ void processEvents() {
 			refreshRequest=0;
 			refreshScreen();
 		}
-		if(refreshName)
-			refreshRequest=1;
+		if(refreshName) {	// titles too long need refresh to scroll
+			refreshCounter++;
+			if(refreshCounter>10) {
+				refreshRequest=1;
+				refreshCounter=0;
+			}
+		}
 		//Time spent on one loop
 		int timeSpent = SDL_GetTicks()-start_time;
 		//If it took less than a frame
