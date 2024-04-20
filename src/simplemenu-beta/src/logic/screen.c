@@ -217,7 +217,7 @@ void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 	}
 
 	// do scroll
-	if(retW>width && width<500) {		// if name is greater than gamelist width, then do scroll, except for theme SimUI, because it has a bug
+	if(retW>width) {				// if name is greater than gamelist width, then do scroll
 		refreshName=1;
 		if(SDL_GetTicks()-initwait>1000) {	// wait 1 second before scroll
 			temppos++;			// character index of the name to display
@@ -338,10 +338,12 @@ void drawNonShadedGameNameOnScreenPicMode(char *buf, int position) {
 }
 
 void displayImageOnMenuScreen(char *fileName) {
-	SDL_Surface *screenshot = loadImage(fileName);
+	SDL_Surface *screenshot=NULL;
 
-	if(screenshot==NULL) {
-		screenshot = loadImage(menuSections[currentSectionNumber].noArtPicture);
+	if(showArt) {
+		screenshot = loadImage(fileName);
+		if(screenshot==NULL)
+			screenshot = loadImage(menuSections[currentSectionNumber].noArtPicture);
 	}
 
 	if (screenshot!=NULL) {
