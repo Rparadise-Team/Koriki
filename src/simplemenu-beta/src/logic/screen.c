@@ -189,39 +189,40 @@ void drawSettingsOptionOnScreen(char *buf, int position, int txtColor[]) {
 
 void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 	static unsigned int temppos=0;
+	static Uint32 initwait=0;
 
+	int width=MAGIC_NUMBER;
+	int retW = 1;
+	TTF_SizeUTF8(font, (const char *) buf, &retW, NULL);
+
+	// create the string
 	unsigned int buflen=strlen(buf);
-	char *temp = malloc(buflen*2+5+2);
-
-	if(!temp)
-		return;
+	char *temp;
+	if(retW>width)		// if retW > width, we need scroll, the concatenate 2 strings to do the trick
+		temp = malloc(buflen*2+5+2);
+	else
+		temp = malloc(buflen+2);
 	
-	if(refreshName==0) {
-		temppos=0;
-	}
-
 	// concatenate name+spaces+name
-	if(temppos<buflen)
-		strcpy(temp,buf+temppos);
-	if(temppos<buflen+5) {
-		if(temppos>=buflen)
-			strcpy(temp," ");
-		int nspaces=buflen+4-temppos;
-		if(nspaces>4)
-			nspaces=4;
-		if(nspaces>0)
-			strncat(temp,"    ",nspaces);
+	strcpy(temp,buf);
+	if(retW>width) {
+		strcat(temp,"     ");
 		strcat(temp,buf);
 	}
-	if(temppos>=buflen+5)
-		strcpy(temp,buf);
+
+	// set wait time before scroll
+	if(refreshName==0) {
+		temppos=0;
+		initwait=SDL_GetTicks();
+	}
 
 	// do scroll
-	if(buflen>15) {		// number of characters to activate scroll
+	if(retW>width && width<500) {		// if name is greater than gamelist width, then do scroll, except for theme SimUI, because it has a bug
 		refreshName=1;
-		temppos++;
-		if(temppos>=buflen+5) {
-			temppos=0;
+		if(SDL_GetTicks()-initwait>1000) {	// wait 1 second before scroll
+			temppos++;			// character index of the name to display
+			if(temppos>=buflen+5)
+				temppos=0;
 		}
 	} else {
 		refreshName=0;
@@ -237,20 +238,18 @@ void drawScrolledShadedGameNameOnScreenCustom(char *buf, int position){
 		hAlign = HAlignRight;
 	}
 
-	int retW = 1;
-	int width=MAGIC_NUMBER;
-	TTF_SizeUTF8(font, (const char *) temp, &retW, NULL);
+	TTF_SizeUTF8(font, (const char *) &temp[temppos], &retW, NULL);
 	if (transparentShading) {
 		if (retW>width) {
-			drawTextOnScreenMaxWidth(font, outlineFont, gameListX, position, temp, menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, (int[]){}, 0, retW);
+			drawTextOnScreenMaxWidth(font, outlineFont, gameListX, position, &temp[temppos], menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, (int[]){}, 0, retW);
 		} else {
-			drawTextOnScreen(font, outlineFont, gameListX, position, temp, menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, (int[]){}, 0);
+			drawTextOnScreen(font, outlineFont, gameListX, position, &temp[temppos], menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, (int[]){}, 0);
 		}
 	} else {
 		if (retW>width) {
-			drawTextOnScreenMaxWidth(font, outlineFont, gameListX, position, temp, menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, menuSections[currentSectionNumber].bodySelectedTextBackgroundColor, 1, retW);
+			drawTextOnScreenMaxWidth(font, outlineFont, gameListX, position, &temp[temppos], menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, menuSections[currentSectionNumber].bodySelectedTextBackgroundColor, 1, retW);
 		} else {
-			drawTextOnScreen(font, outlineFont, gameListX, position, temp, menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, menuSections[currentSectionNumber].bodySelectedTextBackgroundColor, 1);
+			drawTextOnScreen(font, outlineFont, gameListX, position, &temp[temppos], menuSections[currentSectionNumber].bodySelectedTextTextColor, VAlignBottom | hAlign, menuSections[currentSectionNumber].bodySelectedTextBackgroundColor, 1);
 		}
 	}
 	free(temp);
@@ -1227,10 +1226,8 @@ void drawGameList() {
 					MAGIC_NUMBER = gameListWidth;
 					strcpy(currentGameNameBeingDisplayed,temp);
 					displayGamePictureInMenu(rom);
-					if(strlen(temp)>20)
-						drawScrolledShadedGameNameOnScreenCustom(temp, nextLine);
-					else
-						drawShadedGameNameOnScreenCustom(temp, nextLine);
+					drawScrolledShadedGameNameOnScreenCustom(temp, nextLine);
+					// drawShadedGameNameOnScreenCustom(temp, nextLine);
 				}
 			}
 		} else {
@@ -1869,7 +1866,7 @@ void updateScreen(struct Node *node) {
 				drawSpecialScreen("SYSTEM", options, values, hints, 1);
 				break;
 #if defined MIYOOMINI
-            case SCREEN_SETTINGS:
+            		case SCREEN_SETTINGS:
 				clearOptionsValuesAndHints();
 				setupScreenSettings();
 				drawSpecialScreen("SCREEN SETTINGS", options, values, hints, 1);
