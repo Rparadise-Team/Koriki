@@ -17,6 +17,7 @@
 
 #include "cJSON.h"
 #include <json-c/json.h>
+#include "osdFramebuffer.h"
 
 //	Button Defines
 #define	BUTTON_MENU		KEY_ESC
@@ -61,6 +62,10 @@ static int input_fd = 0;
 static int mmModel = 0;
 struct json_object *jval = NULL;
 struct json_object *jfile = NULL;
+
+// Extern variables
+extern int osd_volume;
+extern int osd_brightness;
 
 char* load_file(char const* path) {
 	char* buffer = 0;
@@ -221,6 +226,7 @@ int setVolumeRaw(int volume, int add) {
 			else if (buf2[1] < -60) buf2[1] = -60;
 		} else buf2[1] = volume;
 		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
+		osd_volume=buf2[1]+60;
 		close(fd);
 		}
 	
@@ -323,6 +329,7 @@ int getVolume() {
 			recent_volume = ((vol * 3) - 60);
 			buf2[1] = recent_volume;
 			ioctl(fd, MI_AO_SETVOLUME, buf1);
+			osd_volume=buf2[1]+60;
 			close(fd);
 			}
 		} else if (audiofix == 0) {
@@ -333,6 +340,7 @@ int getVolume() {
 			   recent_volume = ((vol * 3) - 60);
 			   buf2[1] = recent_volume;
 			   ioctl(fd, MI_AO_SETVOLUME, buf1);
+			   osd_volume=buf2[1]+60;
 			   close(fd);
 			}
 			char command[100];
@@ -348,6 +356,7 @@ int getVolume() {
 	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 						
    		     	ioctl(fd, MI_AO_SETMUTE, buf1);
+   		     	osd_volume=buf2[1]+60;
 	        	close(fd);
 			}
 		}
@@ -357,6 +366,7 @@ int getVolume() {
 	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 						
    		     	ioctl(fd, MI_AO_SETMUTE, buf1);
+   		     	osd_volume=buf2[1]+60;
 	        	close(fd);
 			}
 		}
@@ -426,6 +436,7 @@ void modifyBrightness(int inc) {
 	int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
 	if (fd >= 0) {
 		dprintf(fd, "%d", brightness * 10);
+		osd_brightness=brightness;
 		close(fd);
 	}
 }
@@ -1075,6 +1086,8 @@ int main (int argc, char *argv[]) {
 	int vol = cJSON_GetNumberValue(itemVol);
 	volume = vol;
 	
+	init_framebuffer();
+	
 	// Main Loop
 	register uint32_t val;
 	register uint32_t menu_pressed = 0;
@@ -1237,17 +1250,21 @@ int main (int argc, char *argv[]) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
+						osd_show(OSD_BRIGHTNESS);
 					} else if (val == PRESSED) {
 						// Increase volume
 						setVolume(volume, 1);
+						osd_show(OSD_VOLUME);
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
+						osd_show(OSD_BRIGHTNESS);
 					} else if (val == PRESSED) {
 						// Increase volume
 						setVolume(volume, 1);
+						osd_show(OSD_VOLUME);
 					}
 				}
 				break;
@@ -1263,17 +1280,21 @@ int main (int argc, char *argv[]) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
+						osd_show(OSD_BRIGHTNESS);
 					} else if (val == PRESSED) {
 						// Decrease volume
 						setVolume(volume, -1);
+						osd_show(OSD_VOLUME);
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
+						osd_show(OSD_BRIGHTNESS);
 					} else if (val == PRESSED) {
 						// Decrease volume
 						setVolume(volume, -1);
+						osd_show(OSD_VOLUME);
 					}
 				}
 				break;
@@ -1325,4 +1346,5 @@ int main (int argc, char *argv[]) {
 		}
 	}
 	exit(EXIT_FAILURE);
+	close_framebuffer();
 }

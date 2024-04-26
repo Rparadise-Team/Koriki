@@ -1,0 +1,174 @@
+#include <stdlib.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <pthread.h>
+#include <linux/fb.h>
+#include <sys/mman.h>
+#include <sys/ioctl.h>
+#include <sys/time.h>
+#include "osdFramebuffer.h"
+
+// Set Volume (Raw)
+#define MI_AO_SETVOLUME 0x4008690b
+#define MI_AO_GETVOLUME 0xc008690c
+#define MI_AO_SETMUTE 0x4008690d
+
+int fb_fd=-1;
+struct fb_var_screeninfo vinfo;
+struct fb_fix_screeninfo finfo;
+char *fb_addr = NULL;
+//long int screensize = 0;
+
+// OSD data
+/*#define OSD_NONE=0;
+#define	OSD_VOLUME=1;
+#define OSD_BRIGHTNESS=2;*/
+pthread_t thread_id;
+int osd_running=0;
+struct timeval osd_timer;
+int osd_item=OSD_NONE;
+int osd_volume;
+int osd_brightness;
+
+void get_render_info() {
+	if(fb_fd == -1)
+		fb_fd = open("/dev/fb0", O_RDWR);
+	if (fb_fd == -1)
+		return;
+
+	// Get variable screen information
+	if (ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo) == -1)
+		return;
+}
+
+int init_framebuffer() {
+	// Open the file for reading and writing
+	fb_fd = open("/dev/fb0", O_RDWR);
+	if (fb_fd == -1)
+		return 0;
+
+	// Get fixed screen information
+	if (ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo) == -1)
+		return 0;
+
+	// Map the device to memory
+	fb_addr = (char *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fb_fd, 0);
+	if ((int)fb_addr == -1)
+		return 0;
+
+	// Get render resolution
+	get_render_info();
+
+	return 1;
+}
+
+void draw_line(int value, int cr, unsigned char cg, unsigned char cb, unsigned char ct) {
+	int x = 0, y = 0;
+	long int location = 0;
+
+	get_render_info();
+
+	for (y = 0; y < value; y++)
+		for (x = 636; x < 640; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
+
+			if (vinfo.bits_per_pixel == 32) {
+				*(fb_addr + location) = cb;		// blue
+				*(fb_addr + location + 1) = cg;		// green
+				*(fb_addr + location + 2) = cr;		// red
+				*(fb_addr + location + 3) = ct;		// transparency
+			} else  { //assume 16bpp
+				int b = cb;	// blue
+				int g = cg;	// green
+				int r = cr;	// red
+				unsigned short int t = r<<11 | g << 5 | b;
+				*((unsigned short int*)(fb_addr + location)) = t;
+			}
+		}
+	for (y = value; y < 480; y++)
+		for (x = 636; x < 640; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
+
+			if (vinfo.bits_per_pixel == 32) {
+				*(fb_addr + location) = 0;
+				*(fb_addr + location + 1) = 0;
+				*(fb_addr + location + 2) = 0;
+				*(fb_addr + location + 3) = 0;
+			} else  { //assume 16bpp
+				int b = 0;
+				int g = 0;
+				int r = 0;
+				unsigned short int t = r<<11 | g << 5 | b;
+				*((unsigned short int*)(fb_addr + location)) = t;
+			}
+		}
+}
+
+void clear_line() {
+	int x = 0, y = 0;
+	long int location = 0;
+
+	get_render_info();
+
+	for (y = 0; y < 480; y++)
+		for (x = 636; x < 640; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
+
+			if (vinfo.bits_per_pixel == 32) {
+				*(fb_addr + location) = 0;	// black
+				*(fb_addr + location + 1) = 0;	// black
+				*(fb_addr + location + 2) = 0;	// black
+				*(fb_addr + location + 3) = 0;	// No transparency
+			} else  { //assume 16bpp
+				int b = 0;
+				int g = 0;     // A little green
+				int r = 0;    // A lot of red
+				unsigned short int t = r<<11 | g << 5 | b;
+				*((unsigned short int*)(fb_addr + location)) = t;
+			}
+		}
+}
+
+void close_framebuffer() {
+	if(fb_addr)
+		munmap(fb_addr, finfo.smem_len);
+	if(fb_fd)
+		close(fb_fd);
+}
+
+static void *osd_thread(void *param) {
+	osd_running=1;
+	gettimeofday(&osd_timer, NULL);
+
+	float elapsed;
+	struct timeval now;
+	do {
+		switch(osd_item) {
+			case OSD_VOLUME:
+				draw_line(osd_volume*480/69,0,255,0,0);
+				break;
+			case OSD_BRIGHTNESS:
+				draw_line(osd_brightness*480/10,255,255,0,0);
+				break;
+		}
+		usleep(1);
+		gettimeofday(&now, NULL);
+		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;
+	} while(elapsed<3000);
+	
+	clear_line();
+	osd_item=OSD_NONE;
+	osd_running=0;
+	return 0;
+}
+
+void osd_show(int item) {
+	osd_item=item;
+	if(!osd_running)
+		pthread_create(&thread_id, NULL, osd_thread, NULL);
+	else
+		gettimeofday(&osd_timer, NULL);
+}
+
