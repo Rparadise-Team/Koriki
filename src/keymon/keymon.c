@@ -1166,11 +1166,13 @@ int main (int argc, char *argv[]) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
+						osd_show(OSD_BRIGHTNESS);
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase brightness
 						modifyBrightness(1);
+						osd_show(OSD_BRIGHTNESS);
 					}
 				}
 				break;
@@ -1186,11 +1188,13 @@ int main (int argc, char *argv[]) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
+						osd_show(OSD_BRIGHTNESS);
 					}
 				} else {
 					if (val == PRESSED && Select_pressed) {
 						// Decrease brightness
 						modifyBrightness(-1);
+						osd_show(OSD_BRIGHTNESS);
 					}
 				}
 				break;
@@ -1207,11 +1211,13 @@ int main (int argc, char *argv[]) {
 						if (val == PRESSED && menu_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
+						osd_show(OSD_VOLUME);
 						}
 					} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
+						osd_show(OSD_VOLUME);
 						}
 					}
 				}
@@ -1229,11 +1235,13 @@ int main (int argc, char *argv[]) {
 						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
+						osd_show(OSD_VOLUME);
 						}
 					} else {
 						if (val == PRESSED && Select_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
+						osd_show(OSD_VOLUME);
 						}
 					}
 				}

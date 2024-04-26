@@ -15,16 +15,15 @@
 #define MI_AO_GETVOLUME 0xc008690c
 #define MI_AO_SETMUTE 0x4008690d
 
+#define VOLUME_STEPS		69
+#define BRIGHTNESS_STEPS	10
+
 int fb_fd=-1;
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
-//long int screensize = 0;
 
 // OSD data
-/*#define OSD_NONE=0;
-#define	OSD_VOLUME=1;
-#define OSD_BRIGHTNESS=2;*/
 pthread_t thread_id;
 int osd_running=0;
 struct timeval osd_timer;
@@ -32,6 +31,7 @@ int osd_item=OSD_NONE;
 int osd_volume;
 int osd_brightness;
 
+// Get framebuffer resolution
 void get_render_info() {
 	if(fb_fd == -1)
 		fb_fd = open("/dev/fb0", O_RDWR);
@@ -43,6 +43,7 @@ void get_render_info() {
 		return;
 }
 
+// Initializa framebuffer
 int init_framebuffer() {
 	// Open the file for reading and writing
 	fb_fd = open("/dev/fb0", O_RDWR);
@@ -64,56 +65,150 @@ int init_framebuffer() {
 	return 1;
 }
 
-void draw_line(int value, int cr, unsigned char cg, unsigned char cb, unsigned char ct) {
+// Draw a line with multiple colors
+void draw_multiline(int value, int step, int top1, int top2, int top3) {
 	int x = 0, y = 0;
 	long int location = 0;
+	unsigned char cr=0, cg=255, cb=0, ct=0;
 
 	get_render_info();
+	int limit=value*vinfo.yres/step;
+	top1=top1*vinfo.yres/step;
+	top2=top2*vinfo.yres/step;
+	top3=top3*vinfo.yres/step;
 
-	for (y = 0; y < value; y++)
-		for (x = 636; x < 640; x++) {
+	for (y = 0; y < (int)vinfo.yres; y++)
+		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
 
-			if (vinfo.bits_per_pixel == 32) {
-				*(fb_addr + location) = cb;		// blue
-				*(fb_addr + location + 1) = cg;		// green
-				*(fb_addr + location + 2) = cr;		// red
-				*(fb_addr + location + 3) = ct;		// transparency
-			} else  { //assume 16bpp
-				int b = cb;	// blue
-				int g = cg;	// green
-				int r = cr;	// red
-				unsigned short int t = r<<11 | g << 5 | b;
-				*((unsigned short int*)(fb_addr + location)) = t;
-			}
-		}
-	for (y = value; y < 480; y++)
-		for (x = 636; x < 640; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-
-			if (vinfo.bits_per_pixel == 32) {
-				*(fb_addr + location) = 0;
-				*(fb_addr + location + 1) = 0;
-				*(fb_addr + location + 2) = 0;
-				*(fb_addr + location + 3) = 0;
-			} else  { //assume 16bpp
-				int b = 0;
-				int g = 0;
-				int r = 0;
-				unsigned short int t = r<<11 | g << 5 | b;
-				*((unsigned short int*)(fb_addr + location)) = t;
+			if(y<limit) {
+				if(y<top1) {
+					if (vinfo.bits_per_pixel == 32) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+						*(fb_addr + location + 3) = ct;		// transparency
+					} else  { //assume 16bpp
+						int b = cb;	// blue
+						int g = cg;	// green
+						int r = cr;	// red
+						unsigned short int t = r<<11 | g << 5 | b;
+						*((unsigned short int*)(fb_addr + location)) = t;
+					}
+				} else if(y<top2) {
+					cr=255;
+					cg=128;
+					if (vinfo.bits_per_pixel == 32) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+						*(fb_addr + location + 3) = ct;		// transparency
+					} else  { //assume 16bpp
+						int b = cb;	// blue
+						int g = cg;	// green
+						int r = cr;	// red
+						unsigned short int t = r<<11 | g << 5 | b;
+						*((unsigned short int*)(fb_addr + location)) = t;
+					}
+				} else if(y<top3) {
+					cr=255;
+					cg=0;
+					if (vinfo.bits_per_pixel == 32) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+						*(fb_addr + location + 3) = ct;		// transparency
+					} else  { //assume 16bpp
+						int b = cb;	// blue
+						int g = cg;	// green
+						int r = cr;	// red
+						unsigned short int t = r<<11 | g << 5 | b;
+						*((unsigned short int*)(fb_addr + location)) = t;
+					}
+				} else {
+					if (vinfo.bits_per_pixel == 32) {
+						*(fb_addr + location) = 0;
+						*(fb_addr + location + 1) = 0;
+						*(fb_addr + location + 2) = 0;
+						*(fb_addr + location + 3) = 0;
+					} else  { //assume 16bpp
+						int b = 0;
+						int g = 0;
+						int r = 0;
+						unsigned short int t = r<<11 | g << 5 | b;
+						*((unsigned short int*)(fb_addr + location)) = t;
+					}
+				}
+			} else {
+				if (vinfo.bits_per_pixel == 32) {
+					*(fb_addr + location) = 0;
+					*(fb_addr + location + 1) = 0;
+					*(fb_addr + location + 2) = 0;
+					*(fb_addr + location + 3) = 0;
+				} else  { //assume 16bpp
+					int b = 0;
+					int g = 0;
+					int r = 0;
+					unsigned short int t = r<<11 | g << 5 | b;
+					*((unsigned short int*)(fb_addr + location)) = t;
+				}
 			}
 		}
 }
 
+// Draw a colored line
+void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, unsigned char ct) {
+	int x = 0, y = 0;
+	long int location = 0;
+
+	get_render_info();
+	int limit=value*vinfo.yres/step;
+
+	for (y = 0; y < (int)vinfo.yres; y++)
+		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
+
+			// if below limit, paint color
+			if(y<limit) {
+				if (vinfo.bits_per_pixel == 32) {
+					*(fb_addr + location) = cb;		// blue
+					*(fb_addr + location + 1) = cg;		// green
+					*(fb_addr + location + 2) = cr;		// red
+					*(fb_addr + location + 3) = ct;		// transparency
+				} else  { //assume 16bpp
+					int b = cb;	// blue
+					int g = cg;	// green
+					int r = cr;	// red
+					unsigned short int t = r<<11 | g << 5 | b;
+					*((unsigned short int*)(fb_addr + location)) = t;
+				}
+			// over limit, paint black
+			} else {
+				if (vinfo.bits_per_pixel == 32) {
+					*(fb_addr + location) = 0;
+					*(fb_addr + location + 1) = 0;
+					*(fb_addr + location + 2) = 0;
+					*(fb_addr + location + 3) = 0;
+				} else  { //assume 16bpp
+					int b = 0;
+					int g = 0;
+					int r = 0;
+					unsigned short int t = r<<11 | g << 5 | b;
+					*((unsigned short int*)(fb_addr + location)) = t;
+				}
+			}
+		}
+}
+
+// Draw a black line
 void clear_line() {
 	int x = 0, y = 0;
 	long int location = 0;
 
 	get_render_info();
 
-	for (y = 0; y < 480; y++)
-		for (x = 636; x < 640; x++) {
+	for (y = 0; y < (int)vinfo.yres; y++)
+		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
 
 			if (vinfo.bits_per_pixel == 32) {
@@ -131,6 +226,7 @@ void clear_line() {
 		}
 }
 
+// Close framebuffer memory
 void close_framebuffer() {
 	if(fb_addr)
 		munmap(fb_addr, finfo.smem_len);
@@ -138,6 +234,7 @@ void close_framebuffer() {
 		close(fb_fd);
 }
 
+// Thread to draw the osd info
 static void *osd_thread(void *param) {
 	osd_running=1;
 	gettimeofday(&osd_timer, NULL);
@@ -147,10 +244,11 @@ static void *osd_thread(void *param) {
 	do {
 		switch(osd_item) {
 			case OSD_VOLUME:
-				draw_line(osd_volume*480/69,0,255,0,0);
+				//draw_line(osd_volume,69,0,255,0,0);
+				draw_multiline(osd_volume,VOLUME_STEPS,54,60,70);
 				break;
 			case OSD_BRIGHTNESS:
-				draw_line(osd_brightness*480/10,255,255,0,0);
+				draw_line(osd_brightness,BRIGHTNESS_STEPS,255,255,128,0);
 				break;
 		}
 		usleep(1);
@@ -164,6 +262,7 @@ static void *osd_thread(void *param) {
 	return 0;
 }
 
+// Create the osd thread or update showing time
 void osd_show(int item) {
 	osd_item=item;
 	if(!osd_running)
