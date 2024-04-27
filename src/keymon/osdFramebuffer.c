@@ -134,7 +134,7 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 	top3=top3*height/step;
 
 	for (y = 0; y < height; y++)
-		for (x = width-4; x < width; x++) {
+		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			if(y<limit) {
 				if(y<top1) {
@@ -257,7 +257,7 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 	int limit=value*height/step;
 
 	for (y = 0; y < height; y++)
-		for (x = width-4; x < width; x++) {
+		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			// if below limit, paint color
 			if(y<limit) {
@@ -323,7 +323,7 @@ void clear_line() {
     }
 	
 	for (y = 0; y < height; y++)
-		for (x = width-4; x < width; x++) {
+		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			if (vinfo.bits_per_pixel == 32) {
 				*(fb_addr + location) = 0;	// black
@@ -387,4 +387,3 @@ void osd_show(int item) {
 	else
 		gettimeofday(&osd_timer, NULL);
 }
-
