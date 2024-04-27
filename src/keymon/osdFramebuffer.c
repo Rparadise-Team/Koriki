@@ -41,6 +41,35 @@ int osd_brightness;
 	}
 }*/
 
+// get Miyoo v4 model
+int get_miyoo_v4() {
+	FILE* miyoov4 = fopen("/tmp/new_res_availabre", "r");
+	
+	if (miyoov4) { //get miyoo v4 mode
+		FILE *fp;
+		char buffer[64];
+		const char *cmd = "pgrep retroarch";
+    
+		fp = popen(cmd, "r");
+		if (fp == NULL) {
+		fclose(miyoov4);
+		return 1;
+		}
+    
+		if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+			fclose(miyoov4);
+			pclose(fp);
+			return 2;
+		}
+	}
+	
+	if (!miyoov4)
+		return 0;
+		
+	fclose(miyoov4);
+	return 0;
+}
+
 // Get framebuffer resolution
 void get_render_info() {
 	if(fb_fd == -1)
@@ -82,27 +111,31 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 	unsigned char cr=0, cg=255, cb=0, ct=0;
 
 	get_render_info();
-#if defined(MIYOOV4)
-	int limit=value*560/step;
-	top1=top1*560/step;
-	top2=top2*560/step;
-	top3=top3*560/step;
-#else
-	int limit=value*vinfo.yres/step;
-	top1=top1*vinfo.yres/step;
-	top2=top2*vinfo.yres/step;
-	top3=top3*vinfo.yres/step;
-#endif
+	
+	// Check Miyoo v4 mode
+    int miyoo_v4_mode = get_miyoo_v4();
 
-#if defined(MIYOOV4)
-	for (y = 0; y < 560; y++)
-		for (x = 752-4; x < 752; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
-#else
-	for (y = 0; y < (int)vinfo.yres; y++)
-		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-#endif
+    // Determine the correct resolution at runtime
+    int width, height;
+    if (miyoo_v4_mode == 1) {
+        width = 640;
+        height = 480;
+    } else if (miyoo_v4_mode == 2) {
+        width = 752;
+        height = 560;
+    } else {
+        width = vinfo.xres;
+        height = vinfo.yres;
+    }
+	
+	int limit=value*height/step;
+	top1=top1*height/step;
+	top2=top2*height/step;
+	top3=top3*height/step;
+
+	for (y = 0; y < height; y++)
+		for (x = width-4; x < width; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			if(y<limit) {
 				if(y<top1) {
 					if (vinfo.bits_per_pixel == 32) {
@@ -204,17 +237,28 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 	long int location = 0;
 
 	get_render_info();
-	int limit=value*vinfo.yres/step;
+	
+	// Check Miyoo v4 mode
+    int miyoo_v4_mode = get_miyoo_v4();
 
-#if defined(MIYOOV4)
-	for (y = 0; y < 560; y++)
-		for (x = 752-4; x < 752; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
-#else
-	for (y = 0; y < (int)vinfo.yres; y++)
-		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-#endif
+    // Determine the correct resolution at runtime
+    int width, height;
+    if (miyoo_v4_mode == 1) {
+        width = 640;
+        height = 480;
+    } else if (miyoo_v4_mode == 2) {
+        width = 752;
+        height = 560;
+    } else {
+        width = vinfo.xres;
+        height = vinfo.yres;
+    }
+	
+	int limit=value*height/step;
+
+	for (y = 0; y < height; y++)
+		for (x = width-4; x < width; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			// if below limit, paint color
 			if(y<limit) {
 				if (vinfo.bits_per_pixel == 32) {
@@ -261,16 +305,26 @@ void clear_line() {
 	long int location = 0;
 
 	get_render_info();
+	
+	// Check Miyoo v4 mode
+    int miyoo_v4_mode = get_miyoo_v4();
 
-#if defined(MIYOOV4)
-	for (y = 0; y < 560; y++)
-		for (x = 752-4; x < 752; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
-#else
-	for (y = 0; y < (int)vinfo.yres; y++)
-		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-#endif
+    // Determine the correct resolution at runtime
+    int width, height;
+    if (miyoo_v4_mode == 1) {
+        width = 640;
+        height = 480;
+    } else if (miyoo_v4_mode == 2) {
+        width = 752;
+        height = 560;
+    } else {
+        width = vinfo.xres;
+        height = vinfo.yres;
+    }
+	
+	for (y = 0; y < height; y++)
+		for (x = width-4; x < width; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			if (vinfo.bits_per_pixel == 32) {
 				*(fb_addr + location) = 0;	// black
 				*(fb_addr + location + 1) = 0;	// black
