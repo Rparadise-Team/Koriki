@@ -31,6 +31,16 @@ int osd_item=OSD_NONE;
 int osd_volume;
 int osd_brightness;
 
+/*void LOG(int n, int m) {
+	FILE *file= fopen("/mnt/SDCARD/logk.txt","w");
+	if(file) {
+		char txt[150];
+		sprintf(txt,"Valor 1: %d\nValor 2: %d", n,m);
+		fwrite(txt,1,sizeof(txt),file);
+		fclose(file);
+	}
+}*/
+
 // Get framebuffer resolution
 void get_render_info() {
 	if(fb_fd == -1)
@@ -72,15 +82,27 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 	unsigned char cr=0, cg=255, cb=0, ct=0;
 
 	get_render_info();
+#if defined(MIYOOV4)
+	int limit=value*560/step;
+	top1=top1*560/step;
+	top2=top2*560/step;
+	top3=top3*560/step;
+#else
 	int limit=value*vinfo.yres/step;
 	top1=top1*vinfo.yres/step;
 	top2=top2*vinfo.yres/step;
 	top3=top3*vinfo.yres/step;
+#endif
 
+#if defined(MIYOOV4)
+	for (y = 0; y < 560; y++)
+		for (x = 752-4; x < 752; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
+#else
 	for (y = 0; y < (int)vinfo.yres; y++)
 		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-
+#endif
 			if(y<limit) {
 				if(y<top1) {
 					if (vinfo.bits_per_pixel == 32) {
@@ -88,7 +110,11 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
 						*(fb_addr + location + 3) = ct;		// transparency
-					} else  { //assume 16bpp
+					} else if (vinfo.bits_per_pixel == 24) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+					} else if (vinfo.bits_per_pixel == 16) {
 						int b = cb;	// blue
 						int g = cg;	// green
 						int r = cr;	// red
@@ -103,7 +129,11 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
 						*(fb_addr + location + 3) = ct;		// transparency
-					} else  { //assume 16bpp
+					} else if (vinfo.bits_per_pixel == 24) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+					} else if (vinfo.bits_per_pixel == 16) {
 						int b = cb;	// blue
 						int g = cg;	// green
 						int r = cr;	// red
@@ -118,7 +148,11 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
 						*(fb_addr + location + 3) = ct;		// transparency
-					} else  { //assume 16bpp
+					} else if (vinfo.bits_per_pixel == 24) {
+						*(fb_addr + location) = cb;		// blue
+						*(fb_addr + location + 1) = cg;		// green
+						*(fb_addr + location + 2) = cr;		// red
+					} else if (vinfo.bits_per_pixel == 16) {
 						int b = cb;	// blue
 						int g = cg;	// green
 						int r = cr;	// red
@@ -131,7 +165,11 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location + 1) = 0;
 						*(fb_addr + location + 2) = 0;
 						*(fb_addr + location + 3) = 0;
-					} else  { //assume 16bpp
+					} else if (vinfo.bits_per_pixel == 24) {
+						*(fb_addr + location) = 0;		// blue
+						*(fb_addr + location + 1) = 0;		// green
+						*(fb_addr + location + 2) = 0;		// red
+					} else if (vinfo.bits_per_pixel == 16) {
 						int b = 0;
 						int g = 0;
 						int r = 0;
@@ -145,7 +183,11 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 					*(fb_addr + location + 1) = 0;
 					*(fb_addr + location + 2) = 0;
 					*(fb_addr + location + 3) = 0;
-				} else  { //assume 16bpp
+				} else if (vinfo.bits_per_pixel == 24) {
+					*(fb_addr + location) = 0;
+					*(fb_addr + location + 1) = 0;
+					*(fb_addr + location + 2) = 0;
+				} else if (vinfo.bits_per_pixel == 16) {
 					int b = 0;
 					int g = 0;
 					int r = 0;
@@ -164,10 +206,15 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 	get_render_info();
 	int limit=value*vinfo.yres/step;
 
+#if defined(MIYOOV4)
+	for (y = 0; y < 560; y++)
+		for (x = 752-4; x < 752; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
+#else
 	for (y = 0; y < (int)vinfo.yres; y++)
 		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-
+#endif
 			// if below limit, paint color
 			if(y<limit) {
 				if (vinfo.bits_per_pixel == 32) {
@@ -175,7 +222,11 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 					*(fb_addr + location + 1) = cg;		// green
 					*(fb_addr + location + 2) = cr;		// red
 					*(fb_addr + location + 3) = ct;		// transparency
-				} else  { //assume 16bpp
+				} else if (vinfo.bits_per_pixel == 24) {
+					*(fb_addr + location) = cb;		// blue
+					*(fb_addr + location + 1) = cg;		// green
+					*(fb_addr + location + 2) = cr;		// red
+				} else if (vinfo.bits_per_pixel == 16) {
 					int b = cb;	// blue
 					int g = cg;	// green
 					int r = cr;	// red
@@ -189,7 +240,11 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 					*(fb_addr + location + 1) = 0;
 					*(fb_addr + location + 2) = 0;
 					*(fb_addr + location + 3) = 0;
-				} else  { //assume 16bpp
+				} else if (vinfo.bits_per_pixel == 24) {
+					*(fb_addr + location) = 0;
+					*(fb_addr + location + 1) = 0;
+					*(fb_addr + location + 2) = 0;
+				} else if (vinfo.bits_per_pixel == 16) {
 					int b = 0;
 					int g = 0;
 					int r = 0;
@@ -207,19 +262,28 @@ void clear_line() {
 
 	get_render_info();
 
+#if defined(MIYOOV4)
+	for (y = 0; y < 560; y++)
+		for (x = 752-4; x < 752; x++) {
+			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * 752*(vinfo.bits_per_pixel/8);
+#else
 	for (y = 0; y < (int)vinfo.yres; y++)
 		for (x = (int)vinfo.xres-4; x < (int)vinfo.xres; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * finfo.line_length;
-
+#endif
 			if (vinfo.bits_per_pixel == 32) {
 				*(fb_addr + location) = 0;	// black
 				*(fb_addr + location + 1) = 0;	// black
 				*(fb_addr + location + 2) = 0;	// black
 				*(fb_addr + location + 3) = 0;	// No transparency
-			} else  { //assume 16bpp
-				int b = 0;
-				int g = 0;     // A little green
-				int r = 0;    // A lot of red
+			} else if (vinfo.bits_per_pixel == 24) {
+				*(fb_addr + location) = 0;		// black
+				*(fb_addr + location + 1) = 0;		// black
+				*(fb_addr + location + 2) = 0;		// black
+			} else if (vinfo.bits_per_pixel == 16) {
+				int b = 0;	// black
+				int g = 0;	// black
+				int r = 0;	// black
 				unsigned short int t = r<<11 | g << 5 | b;
 				*((unsigned short int*)(fb_addr + location)) = t;
 			}
@@ -244,7 +308,6 @@ static void *osd_thread(void *param) {
 	do {
 		switch(osd_item) {
 			case OSD_VOLUME:
-				//draw_line(osd_volume,69,0,255,0,0);
 				draw_multiline(osd_volume,VOLUME_STEPS,54,60,70);
 				break;
 			case OSD_BRIGHTNESS:
