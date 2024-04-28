@@ -105,7 +105,7 @@ int init_framebuffer() {
 }
 
 // Draw a line with multiple colors
-void draw_multiline(int value, int step, int top1, int top2, int top3) {
+void draw_multiline(int value, int step, int top1, int top2, int top3, float alpha) {
 	int x = 0, y = 0;
 	long int location = 0;
 	unsigned char cr=0, cg=255, cb=0, ct=0;
@@ -136,13 +136,20 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 	for (y = 0; y < height; y++)
 		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
+			
+			// Calculate blended color
+			unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
+			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
+			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
+            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
+			
 			if(y<limit) {
 				if(y<top1) {
 					if (vinfo.bits_per_pixel == 32) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = ct;		// transparency
+						*(fb_addr + location + 3) = blended_t;		// transparency
 					} else if (vinfo.bits_per_pixel == 24) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
@@ -161,7 +168,7 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = ct;		// transparency
+						*(fb_addr + location + 3) = blended_t;		// transparency
 					} else if (vinfo.bits_per_pixel == 24) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
@@ -180,7 +187,7 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
 						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = ct;		// transparency
+						*(fb_addr + location + 3) = blended_t;		// transparency
 					} else if (vinfo.bits_per_pixel == 24) {
 						*(fb_addr + location) = cb;		// blue
 						*(fb_addr + location + 1) = cg;		// green
@@ -194,36 +201,36 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 					}
 				} else {
 					if (vinfo.bits_per_pixel == 32) {
-						*(fb_addr + location) = 0;
-						*(fb_addr + location + 1) = 0;
-						*(fb_addr + location + 2) = 0;
-						*(fb_addr + location + 3) = 0;
+						*(fb_addr + location) = blended_b;
+						*(fb_addr + location + 1) = blended_g;
+						*(fb_addr + location + 2) = blended_r;
+						*(fb_addr + location + 3) = blended_t;
 					} else if (vinfo.bits_per_pixel == 24) {
-						*(fb_addr + location) = 0;		// blue
-						*(fb_addr + location + 1) = 0;		// green
-						*(fb_addr + location + 2) = 0;		// red
+						*(fb_addr + location) = blended_b;		// blue
+						*(fb_addr + location + 1) = blended_g;		// green
+						*(fb_addr + location + 2) = blended_t;		// red
 					} else if (vinfo.bits_per_pixel == 16) {
-						int b = 0;
-						int g = 0;
-						int r = 0;
+						int b = blended_b;
+						int g = blended_g;
+						int r = blended_r;
 						unsigned short int t = r<<11 | g << 5 | b;
 						*((unsigned short int*)(fb_addr + location)) = t;
 					}
 				}
 			} else {
 				if (vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = 0;
-					*(fb_addr + location + 1) = 0;
-					*(fb_addr + location + 2) = 0;
-					*(fb_addr + location + 3) = 0;
+					*(fb_addr + location) = blended_b;
+					*(fb_addr + location + 1) = blended_g;
+					*(fb_addr + location + 2) = blended_r;
+					*(fb_addr + location + 3) = blended_t;
 				} else if (vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = 0;
-					*(fb_addr + location + 1) = 0;
-					*(fb_addr + location + 2) = 0;
+					*(fb_addr + location) = blended_b;
+					*(fb_addr + location + 1) = blended_g;
+					*(fb_addr + location + 2) = blended_r;
 				} else if (vinfo.bits_per_pixel == 16) {
-					int b = 0;
-					int g = 0;
-					int r = 0;
+					int b = blended_b;
+					int g = blended_g;
+					int r = blended_r;
 					unsigned short int t = r<<11 | g << 5 | b;
 					*((unsigned short int*)(fb_addr + location)) = t;
 				}
@@ -232,7 +239,7 @@ void draw_multiline(int value, int step, int top1, int top2, int top3) {
 }
 
 // Draw a colored line
-void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, unsigned char ct) {
+void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, unsigned char ct, float alpha) {
 	int x = 0, y = 0;
 	long int location = 0;
 
@@ -259,13 +266,20 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 	for (y = 0; y < height; y++)
 		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
+			
+			// Calculate blended color
+            unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
+			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
+			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
+            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
+			
 			// if below limit, paint color
 			if(y<limit) {
 				if (vinfo.bits_per_pixel == 32) {
 					*(fb_addr + location) = cb;		// blue
 					*(fb_addr + location + 1) = cg;		// green
 					*(fb_addr + location + 2) = cr;		// red
-					*(fb_addr + location + 3) = ct;		// transparency
+					*(fb_addr + location + 3) = blended_t;		// transparency
 				} else if (vinfo.bits_per_pixel == 24) {
 					*(fb_addr + location) = cb;		// blue
 					*(fb_addr + location + 1) = cg;		// green
@@ -280,18 +294,18 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 			// over limit, paint black
 			} else {
 				if (vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = 0;
-					*(fb_addr + location + 1) = 0;
-					*(fb_addr + location + 2) = 0;
-					*(fb_addr + location + 3) = 0;
+					*(fb_addr + location) = blended_b;
+					*(fb_addr + location + 1) = blended_g;
+					*(fb_addr + location + 2) = blended_r;
+					*(fb_addr + location + 3) = blended_t;
 				} else if (vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = 0;
-					*(fb_addr + location + 1) = 0;
-					*(fb_addr + location + 2) = 0;
+					*(fb_addr + location) = blended_b;
+					*(fb_addr + location + 1) = blended_g;
+					*(fb_addr + location + 2) = blended_r;
 				} else if (vinfo.bits_per_pixel == 16) {
-					int b = 0;
-					int g = 0;
-					int r = 0;
+					int b = blended_b;
+					int g = blended_g;
+					int r = blended_r;
 					unsigned short int t = r<<11 | g << 5 | b;
 					*((unsigned short int*)(fb_addr + location)) = t;
 				}
@@ -300,7 +314,7 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 }
 
 // Draw a black line
-void clear_line() {
+void clear_line(float alpha) {
 	int x = 0, y = 0;
 	long int location = 0;
 
@@ -325,19 +339,26 @@ void clear_line() {
 	for (y = 0; y < height; y++)
 		for (x = width-6; x < width; x++) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
+			
+			// Calculate blended color
+            unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * 0;
+			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * 0;
+			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * 0;
+            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * 0;
+			
 			if (vinfo.bits_per_pixel == 32) {
-				*(fb_addr + location) = 0;	// black
-				*(fb_addr + location + 1) = 0;	// black
-				*(fb_addr + location + 2) = 0;	// black
-				*(fb_addr + location + 3) = 0;	// No transparency
+				*(fb_addr + location) = blended_b;	// black
+				*(fb_addr + location + 1) = blended_g;	// black
+				*(fb_addr + location + 2) = blended_r;	// black
+				*(fb_addr + location + 3) = blended_t;	// transparency
 			} else if (vinfo.bits_per_pixel == 24) {
-				*(fb_addr + location) = 0;		// black
-				*(fb_addr + location + 1) = 0;		// black
-				*(fb_addr + location + 2) = 0;		// black
+				*(fb_addr + location) = blended_b;		// black
+				*(fb_addr + location + 1) = blended_g;		// black
+				*(fb_addr + location + 2) = blended_r;		// black
 			} else if (vinfo.bits_per_pixel == 16) {
-				int b = 0;	// black
-				int g = 0;	// black
-				int r = 0;	// black
+				int b = blended_b;	// black
+				int g = blended_g;	// black
+				int r = blended_r;	// black
 				unsigned short int t = r<<11 | g << 5 | b;
 				*((unsigned short int*)(fb_addr + location)) = t;
 			}
@@ -362,10 +383,10 @@ static void *osd_thread(void *param) {
 	do {
 		switch(osd_item) {
 			case OSD_VOLUME:
-				draw_multiline(osd_volume,VOLUME_STEPS,54,60,70);
+				draw_multiline(osd_volume,VOLUME_STEPS,54,60,70,0);
 				break;
 			case OSD_BRIGHTNESS:
-				draw_line(osd_brightness,BRIGHTNESS_STEPS,255,255,128,0);
+				draw_line(osd_brightness,BRIGHTNESS_STEPS,255,255,128,0,0);
 				break;
 		}
 		usleep(1);
@@ -373,7 +394,7 @@ static void *osd_thread(void *param) {
 		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;
 	} while(elapsed<3000);
 	
-	clear_line();
+	clear_line(0);
 	osd_item=OSD_NONE;
 	osd_running=0;
 	return 0;
