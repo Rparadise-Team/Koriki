@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <pthread.h>
+#include <cstring>
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
@@ -18,10 +20,12 @@
 #define VOLUME_STEPS		69
 #define BRIGHTNESS_STEPS	10
 
-int fb_fd=-1;
+int fb_fd = open("/dev/fb0", O_RDWR);
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
+char *original_fb_addr = NULL;
+struct fb_var_screeninfo original_vinfo;
 
 // OSD data
 pthread_t thread_id;
@@ -72,8 +76,6 @@ int get_miyoo_v4() {
 
 // Get framebuffer resolution
 void get_render_info() {
-	if(fb_fd == -1)
-		fb_fd = open("/dev/fb0", O_RDWR);
 	if (fb_fd == -1)
 		return;
 
@@ -84,8 +86,6 @@ void get_render_info() {
 
 // Initializa framebuffer
 int init_framebuffer() {
-	// Open the file for reading and writing
-	fb_fd = open("/dev/fb0", O_RDWR);
 	if (fb_fd == -1)
 		return 0;
 
@@ -102,6 +102,23 @@ int init_framebuffer() {
 	get_render_info();
 
 	return 1;
+}
+
+void draw_reset(void)
+{
+    // Verificar si la imagen original del framebuffer está disponible
+    if (original_fb_addr != NULL) {
+        // Restaurar la imagen original del framebuffer
+        memcpy(fb_addr, original_fb_addr, finfo.smem_len);
+        // Restaurar los parámetros de configuración de la pantalla
+        ioctl(fb_fd, FBIOPUT_VSCREENINFO, &original_vinfo);
+        // Liberar la memoria utilizada para almacenar la imagen original
+        free(original_fb_addr);
+        original_fb_addr = NULL;
+    } else {
+        // Actualizar el framebuffer con la nueva información
+        ioctl(fb_fd, FBIOPUT_VSCREENINFO, &vinfo);
+    }
 }
 
 // Draw a line with multiple colors
@@ -236,6 +253,8 @@ void draw_multiline(int value, int step, int top1, int top2, int top3, float alp
 				}
 			}
 		}
+	
+	draw_reset();
 }
 
 // Draw a colored line
@@ -311,6 +330,8 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 				}
 			}
 		}
+	
+	draw_reset();
 }
 
 // Draw a black line
@@ -363,6 +384,8 @@ void clear_line(float alpha) {
 				*((unsigned short int*)(fb_addr + location)) = t;
 			}
 		}
+	
+	draw_reset();
 }
 
 // Close framebuffer memory
