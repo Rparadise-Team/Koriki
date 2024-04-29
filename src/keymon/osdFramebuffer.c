@@ -12,11 +12,6 @@
 #include <sys/time.h>
 #include "osdFramebuffer.h"
 
-// Set Volume (Raw)
-#define MI_AO_SETVOLUME 0x4008690b
-#define MI_AO_GETVOLUME 0xc008690c
-#define MI_AO_SETMUTE 0x4008690d
-
 #define VOLUME_STEPS		69
 #define BRIGHTNESS_STEPS	10
 
@@ -24,8 +19,6 @@ int fb_fd = open("/dev/fb0", O_RDWR);
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
-char *original_fb_addr = NULL;
-struct fb_var_screeninfo original_vinfo;
 
 // OSD data
 pthread_t thread_id;
@@ -403,8 +396,10 @@ static void *osd_thread(void *param) {
 // Create the osd thread or update showing time
 void osd_show(int item) {
 	osd_item=item;
-	if(!osd_running)
+	if(!osd_running) {
 		pthread_create(&thread_id, NULL, osd_thread, NULL);
-	else
+		clear_line(0);
+	} else {
 		gettimeofday(&osd_timer, NULL);
+	}
 }
