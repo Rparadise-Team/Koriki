@@ -371,6 +371,9 @@ int getVolume() {
 			}
 		}
 	
+	cJSON_Delete(request_json);
+	free(request_body);
+	
 	return 0;
 }
 	
