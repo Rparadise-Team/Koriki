@@ -105,7 +105,7 @@ void setmute(int mute) {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -184,7 +184,7 @@ int setVolumeRaw(int volume, int add) {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -283,7 +283,7 @@ int getVolume() {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -394,7 +394,7 @@ void modifyBrightness(int inc) {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -459,7 +459,7 @@ void sethibernate(int hibernate) {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
@@ -507,7 +507,7 @@ void sethibernate(int hibernate) {
 int isRetroarchRunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep retroarch";
     
 	fp = popen(cmd, "r");
@@ -528,7 +528,7 @@ int isRetroarchRunning()
 int isGMERunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep gme_player";
     
 	fp = popen(cmd, "r");
@@ -549,7 +549,7 @@ int isGMERunning()
 int isGMURunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep gmu.bin";
     
 	fp = popen(cmd, "r");
@@ -570,7 +570,7 @@ int isGMURunning()
 int isOpenborRunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep OpenBOR";
     
 	fp = popen(cmd, "r");
@@ -591,7 +591,7 @@ int isOpenborRunning()
 int isDukemRunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *dukems[] = {"rednukem", "eduke32", "nblood", "voidsw"};
     
 	for (unsigned int i = 0; i < sizeof(dukems) / sizeof(dukems[0]); i++) {
@@ -617,7 +617,7 @@ int isDukemRunning()
 int isDrasticRunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep drastic";
     
 	fp = popen(cmd, "r");
@@ -638,7 +638,7 @@ int isDrasticRunning()
 int isPcsxRunning()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep pcsx";
     
 	fp = popen(cmd, "r");
@@ -659,7 +659,7 @@ int isPcsxRunning()
 int isPico8Running()
 {
 	FILE *fp;
-	char buffer[64];
+	char buffer[128];
 	const char *cmd = "pgrep pico8_dyn";
     
 	fp = popen(cmd, "r");
@@ -680,7 +680,7 @@ int isPico8Running()
 int isProcessRunning(const char* processName) {
     FILE *fp;
     char cmd[64];
-	char buffer[64];
+	char buffer[128];
     snprintf(cmd, sizeof(cmd), "pgrep %s", processName);
 
     fp = popen(cmd, "r");
@@ -827,7 +827,7 @@ void display_setScreen(int value) {
 
 void killRetroArch() {
     FILE *fp;
-    char buffer[64];
+    char buffer[128];
     
     fp = popen("pgrep retroarch", "r");
     
@@ -1002,7 +1002,7 @@ int main (int argc, char *argv[]) {
 			pclose(configv4);
 			
 		} else {
-			char buffer[64];
+			char buffer[128];
 			int flash_detected = 0;
 			
 			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
