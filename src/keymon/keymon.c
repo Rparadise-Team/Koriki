@@ -57,6 +57,7 @@
 #define MI_AO_SETMUTE 0x4008690d
 
 // Global Variables
+static struct input_event ev;
 static int input_fd = 0;
 static int mmModel = 0;
 struct json_object *jval = NULL;
