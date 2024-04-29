@@ -57,8 +57,6 @@
 #define MI_AO_SETMUTE 0x4008690d
 
 // Global Variables
-static struct input_event	ev;
-static int input_fd = 0;
 static int mmModel = 0;
 struct json_object *jval = NULL;
 struct json_object *jfile = NULL;
@@ -512,7 +510,7 @@ int isRetroarchRunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep retroarch'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -533,7 +531,7 @@ int isGMERunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep gme_player'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -554,7 +552,7 @@ int isGMURunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep gmu.bin'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -575,7 +573,7 @@ int isOpenborRunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep OpenBOR'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -600,7 +598,7 @@ int isDukemRunning()
     
 		fp = popen(cmd, "r");
 		if (fp == NULL) {
-			printf("Error al ejecutar el comando 'pgrep %s'\n", dukems[i]);
+			pclose(fp);
 			return 0;
 		}
     
@@ -622,7 +620,7 @@ int isDrasticRunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep drastic'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -643,7 +641,7 @@ int isPcsxRunning()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep pcsx'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -664,7 +662,7 @@ int isPico8Running()
     
 	fp = popen(cmd, "r");
 	if (fp == NULL) {
-		printf("Error al ejecutar el comando 'pgrep pico8_dyn'\n");
+		pclose(fp);
 		return 0;
 	}
     
@@ -685,7 +683,7 @@ int isProcessRunning(const char* processName) {
 
     fp = popen(cmd, "r");
     if (fp == NULL) {
-        printf("Error al ejecutar el comando 'pgrep %s'\n", processName);
+        pclose(fp);
         return 0;
     }
 
@@ -823,64 +821,6 @@ void display_setScreen(int value) {
             system("pkill -CONT simplemenu");
         }
     }
-}
-
-void keyinput_send(int code, int mode)
-{
-    struct input_event events[1];
-
-    events[0].type = EV_KEY;
-    events[0].code = code;
-    events[0].value = mode;
-
-    int input_fd = open("/dev/input/event0", O_WRONLY);
-    if (input_fd == -1) {
-        perror("Failed to open input device");
-        return;
-    }
-
-    ssize_t bytes_written = write(input_fd, events, sizeof(events));
-    if (bytes_written == -1) {
-        perror("Failed to write to input device");
-    }
-
-    fsync(input_fd);
-    close(input_fd);
-}
-
-void keymulti_send(int code1, int mode1, int code2, int mode2) 
-{
-    int num_events = 2;
-    struct input_event *events = (struct input_event*)malloc(num_events * sizeof(struct input_event));
-
-    events[0].type = EV_KEY;
-    events[0].code = code1;
-    events[0].value = mode1;
-
-    events[1].type = EV_KEY;
-    events[1].code = code2;
-    events[1].value = mode2;
-
-    int input_fd = open("/dev/input/event0", O_WRONLY);
-    if (input_fd == -1) {
-        perror("Failed to open input device");
-        free(events);
-        return;
-    }
-
-    for (int i = 0; i < num_events; i++) {
-        ssize_t bytes_written = write(input_fd, &events[i], sizeof(events[i]));
-        if (bytes_written == -1) {
-            perror("Failed to write to input device");
-            free(events);
-            close(input_fd);
-            return;
-        }
-    }
-
-    fsync(input_fd);
-    close(input_fd);
-    free(events);
 }
 
 void killRetroArch() {
@@ -1085,6 +1025,8 @@ int main (int argc, char *argv[]) {
 	itemVol = cJSON_GetObjectItem(request_json, "vol");
 	int vol = cJSON_GetNumberValue(itemVol);
 	volume = vol;
+	cJSON_Delete(request_json);
+	free(request_body);
 	
 	init_framebuffer();
 	
@@ -1353,6 +1295,7 @@ int main (int argc, char *argv[]) {
 			while (1) pause();
 		}
 	}
+	
 	exit(EXIT_FAILURE);
 	close_framebuffer();
 }
