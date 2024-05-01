@@ -204,6 +204,7 @@ void restore_background() {
 		free(fb_barbackground);
 		fb_barbackground = NULL;
 		fb_lastframe = -1;
+		miyoo_v4_mode = -1;
 	}
 }
 
