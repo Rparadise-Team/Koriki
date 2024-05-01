@@ -13,7 +13,7 @@ void restore_background();
 void get_render_info();
 void draw_multiline(int value, int step, int top1, int top2, int top3, float alpha);
 void draw_line(int value, int cr, unsigned char cg, unsigned char cb, unsigned char ct, float alpha);
-//void clear_line(float alpha);
+//void clear_line();
 void close_framebuffer();
 void osd_show(int item);
 
