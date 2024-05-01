@@ -1033,8 +1033,6 @@ int main (int argc, char *argv[]) {
 	cJSON_Delete(request_json);
 	free(request_body);
 	
-	init_framebuffer();
-	
 	// Main Loop
 	register uint32_t val;
 	register uint32_t menu_pressed = 0;

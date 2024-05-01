@@ -15,10 +15,16 @@
 #define VOLUME_STEPS		69
 #define BRIGHTNESS_STEPS	10
 
-int fb_fd = open("/dev/fb0", O_RDWR);
+// Framebuffer data
+int fb_fd = -1;
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
+char *fb_barbackground = NULL;
+int fb_lastframe;
+
+// Miyoo model data
+int miyoo_v4_mode = -1;
 
 // OSD data
 pthread_t thread_id;
@@ -80,7 +86,7 @@ void get_render_info() {
 // Initializa framebuffer
 int init_framebuffer() {
 	if (fb_fd == -1)
-		return 0;
+		fb_fd = open("/dev/fb0", O_RDWR);
 
 	// Get fixed screen information
 	if (ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo) == -1)
@@ -88,13 +94,117 @@ int init_framebuffer() {
 
 	// Map the device to memory
 	fb_addr = (char *)mmap(0, finfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fb_fd, 0);
-	if ((int)fb_addr == -1)
+	if (fb_addr == MAP_FAILED) {
+		close(fb_fd);
+		fb_fd = -1;
 		return 0;
+	}
 
 	// Get render resolution
 	get_render_info();
 
 	return 1;
+}
+
+// Save bar background to memory
+void save_background() {
+	// Determine the correct resolution at runtime
+	int width, height;
+	if (miyoo_v4_mode == 1) {
+		width = 640;
+		height = 480;
+	} else if (miyoo_v4_mode == 2) {
+		width = 752;
+		height = 560;
+	} else {
+		width = vinfo.xres;
+		height = vinfo.yres;
+	}
+
+	// Get memory to save bar background
+	if(fb_barbackground == NULL)
+		fb_barbackground = (char*)malloc(height*6*(vinfo.bits_per_pixel/8));
+
+	// only save background when it's new
+	if(fb_barbackground && fb_lastframe != (int)vinfo.yoffset) {
+		int x, y;
+		long int location = 0, idx_background = 0;
+		fb_lastframe = vinfo.yoffset;
+
+		for (y = 0; y < height; y++)
+			for (x = width-6; x < width; x++) {
+				location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
+				if(vinfo.bits_per_pixel == 32) {
+					*(fb_barbackground + idx_background) = *(fb_addr + location);
+					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
+					*(fb_barbackground + idx_background +2) = *(fb_addr + location +2);
+					*(fb_barbackground + idx_background +3) = *(fb_addr + location +3);
+					idx_background += 4;
+				} else if(vinfo.bits_per_pixel == 24) {
+					*(fb_barbackground + idx_background) = *(fb_addr + location);
+					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
+					*(fb_barbackground + idx_background +2) = *(fb_addr + location +2);
+					idx_background += 3;
+				} else if(vinfo.bits_per_pixel == 16) {
+					*(fb_barbackground + idx_background) = *(fb_addr + location);
+					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
+					idx_background += 2;
+				} else if(vinfo.bits_per_pixel == 8) {
+					*(fb_barbackground + idx_background) = *(fb_addr + location);
+					idx_background++;
+				}
+			}
+	}
+}
+
+// Restore saved background to screen
+void restore_background() {
+	// Determine the correct resolution at runtime
+	int width, height;
+	if (miyoo_v4_mode == 1) {
+		width = 640;
+		height = 480;
+	} else if (miyoo_v4_mode == 2) {
+		width = 752;
+		height = 560;
+	} else {
+		width = vinfo.xres;
+		height = vinfo.yres;
+	}
+
+	if(fb_barbackground) {
+		int x, y;
+		long int location = 0, idx_background = 0;
+		fb_lastframe = vinfo.yoffset;
+
+		for (y = 0; y < height; y++)
+			for (x = width-6; x < width; x++) {
+				location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
+				if(vinfo.bits_per_pixel == 32) {
+					*(fb_addr + location) = *(fb_barbackground + idx_background);
+					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
+					*(fb_addr + location +2) = *(fb_barbackground + idx_background +2);
+					*(fb_addr + location +3) = *(fb_barbackground + idx_background +3);
+					idx_background += 4;
+				} else if(vinfo.bits_per_pixel == 24) {
+					*(fb_addr + location) = *(fb_barbackground + idx_background);
+					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
+					*(fb_addr + location +2) = *(fb_barbackground + idx_background +2);
+					idx_background += 3;
+				} else if(vinfo.bits_per_pixel == 16) {
+					*(fb_addr + location) = *(fb_barbackground + idx_background);
+					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
+					idx_background += 2;
+				} else if(vinfo.bits_per_pixel == 8) {
+					*(fb_addr + location) = *(fb_barbackground + idx_background);
+					idx_background++;
+				}
+			}
+		// free memory and reset pointer and last frame saved
+		free(fb_barbackground);
+		fb_barbackground = NULL;
+		fb_lastframe = -1;
+	}
 }
 
 // Draw a line with multiple colors
@@ -104,23 +214,21 @@ void draw_multiline(int value, int step, int top1, int top2, int top3, float alp
 	unsigned char cr=0, cg=255, cb=0, ct=0;
 
 	get_render_info();
+	save_background();
 	
-	// Check Miyoo v4 mode
-    int miyoo_v4_mode = get_miyoo_v4();
+	// Determine the correct resolution at runtime
+	int width, height;
+	if (miyoo_v4_mode == 1) {
+		width = 640;
+		height = 480;
+	} else if (miyoo_v4_mode == 2) {
+		width = 752;
+		height = 560;
+	} else {
+		width = vinfo.xres;
+		height = vinfo.yres;
+	}
 
-    // Determine the correct resolution at runtime
-    int width, height;
-    if (miyoo_v4_mode == 1) {
-        width = 640;
-        height = 480;
-    } else if (miyoo_v4_mode == 2) {
-        width = 752;
-        height = 560;
-    } else {
-        width = vinfo.xres;
-        height = vinfo.yres;
-    }
-	
 	int limit=value*height/step;
 	top1=top1*height/step;
 	top2=top2*height/step;
@@ -134,7 +242,7 @@ void draw_multiline(int value, int step, int top1, int top2, int top3, float alp
 			unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
 			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
 			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
-            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
+           		unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
 			
 			if(y<limit) {
 				if(y<top1) {
@@ -237,22 +345,20 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 	long int location = 0;
 
 	get_render_info();
+	save_background();
 	
-	// Check Miyoo v4 mode
-    int miyoo_v4_mode = get_miyoo_v4();
-
-    // Determine the correct resolution at runtime
-    int width, height;
-    if (miyoo_v4_mode == 1) {
-        width = 640;
-        height = 480;
-    } else if (miyoo_v4_mode == 2) {
-        width = 752;
-        height = 560;
-    } else {
-        width = vinfo.xres;
-        height = vinfo.yres;
-    }
+	// Determine the correct resolution at runtime
+	int width, height;
+	if (miyoo_v4_mode == 1) {
+		width = 640;
+		height = 480;
+	} else if (miyoo_v4_mode == 2) {
+		width = 752;
+		height = 560;
+	} else {
+		width = vinfo.xres;
+		height = vinfo.yres;
+	}
 	
 	int limit=value*height/step;
 
@@ -261,10 +367,10 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			
 			// Calculate blended color
-            unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
+			unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
 			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
 			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
-            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
+			unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
 			
 			// if below limit, paint color
 			if(y<limit) {
@@ -307,7 +413,7 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 }
 
 // Draw a black line
-void clear_line(float alpha) {
+/*void clear_line(float alpha) {
 	int x = 0, y = 0;
 	long int location = 0;
 
@@ -334,10 +440,10 @@ void clear_line(float alpha) {
 			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
 			
 			// Calculate blended color
-            unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * 0;
-			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * 0;
-			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * 0;
-            unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * 0;
+			unsigned char blended_b = 0; // (1 - alpha) * *(fb_addr + location) + alpha * 0;
+			unsigned char blended_g = 0; // (1 - alpha) * *(fb_addr + location + 1) + alpha * 0;
+			unsigned char blended_r = 0; // (1 - alpha) * *(fb_addr + location + 2) + alpha * 0;
+			unsigned char blended_t = 0; // (1 - alpha) * *(fb_addr + location + 3) + alpha * 0;
 			
 			if (vinfo.bits_per_pixel == 32) {
 				*(fb_addr + location) = blended_b;	// black
@@ -356,20 +462,28 @@ void clear_line(float alpha) {
 				*((unsigned short int*)(fb_addr + location)) = t;
 			}
 		}
-}
+}*/
 
 // Close framebuffer memory
 void close_framebuffer() {
-	if(fb_addr)
+	if(fb_addr) {
 		munmap(fb_addr, finfo.smem_len);
-	if(fb_fd)
+		fb_addr = NULL;
+	}
+	if(fb_fd) {
 		close(fb_fd);
+		fb_fd = -1;
+	}
 }
 
 // Thread to draw the osd info
 static void *osd_thread(void *param) {
 	osd_running=1;
 	gettimeofday(&osd_timer, NULL);
+	if(miyoo_v4_mode == -1)
+		miyoo_v4_mode=get_miyoo_v4();
+	init_framebuffer();
+	save_background();
 
 	float elapsed;
 	struct timeval now;
@@ -386,8 +500,10 @@ static void *osd_thread(void *param) {
 		gettimeofday(&now, NULL);
 		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;
 	} while(elapsed<3000);
-	
-	clear_line(0);
+
+	//clear_line(0);
+	restore_background();
+	close_framebuffer();
 	osd_item=OSD_NONE;
 	osd_running=0;
 	return 0;
@@ -398,7 +514,6 @@ void osd_show(int item) {
 	osd_item=item;
 	if(!osd_running) {
 		pthread_create(&thread_id, NULL, osd_thread, NULL);
-		clear_line(0);
 	} else {
 		gettimeofday(&osd_timer, NULL);
 	}
