@@ -10,6 +10,7 @@
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
+#include "osdIcons.h"
 #include "osdFramebuffer.h"
 
 #define VOLUME_STEPS		69
@@ -20,8 +21,8 @@ int fb_fd = -1;
 struct fb_var_screeninfo vinfo;
 struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
-char *fb_barbackground = NULL;
-int fb_lastframe;
+char *fb_iconbackground = NULL;
+int fb_lastframe=-1;
 
 // Miyoo model data
 int miyoo_v4_mode = -1;
@@ -122,43 +123,42 @@ void save_background() {
 	}
 
 	// Get memory to save bar background
-	if(fb_barbackground == NULL)
-		fb_barbackground = (char*)malloc(height*6*(vinfo.bits_per_pixel/8));
+	if(fb_iconbackground == NULL)
+		fb_iconbackground = (char*)malloc(OSD_ICON_WIDTH*OSD_ICON_HEIGHT*(vinfo.bits_per_pixel/8));
+
+	get_render_info();
 
 	// only save background when it's new
-	if(fb_barbackground && fb_lastframe != (int)vinfo.yoffset) {
+	if(fb_iconbackground) {
+	//if(fb_iconbackground && (fb_lastframe != (int)vinfo.yoffset)) {
 		int x, y;
 		long int location = 0, idx_background = 0;
-		fb_lastframe = vinfo.yoffset;
+		int bytes=vinfo.bits_per_pixel/8;
 
-		for (y = 0; y < height; y++)
-			for (x = width-6; x < width; x++) {
-				location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
-				if(vinfo.bits_per_pixel == 32) {
-					*(fb_barbackground + idx_background) = *(fb_addr + location);
-					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
-					*(fb_barbackground + idx_background +2) = *(fb_addr + location +2);
-					*(fb_barbackground + idx_background +3) = *(fb_addr + location +3);
+		/*if(fb_lastframe>=0)
+			restore_background(fb_lastframe);*/
+		fb_lastframe = (int)vinfo.yoffset;
+
+		if(vinfo.bits_per_pixel == 32) {
+			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
+					*(unsigned long *)(fb_iconbackground + idx_background) = *(unsigned long *)(fb_addr + location);	// copy 4 bytes (1 pixel)
 					idx_background += 4;
-				} else if(vinfo.bits_per_pixel == 24) {
-					*(fb_barbackground + idx_background) = *(fb_addr + location);
-					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
-					*(fb_barbackground + idx_background +2) = *(fb_addr + location +2);
-					idx_background += 3;
-				} else if(vinfo.bits_per_pixel == 16) {
-					*(fb_barbackground + idx_background) = *(fb_addr + location);
-					*(fb_barbackground + idx_background +1) = *(fb_addr + location +1);
+				}
+		} else if(vinfo.bits_per_pixel == 16) {
+			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
+					*(unsigned int *)(fb_iconbackground + idx_background) = *(unsigned int *)(fb_addr + location);		// copy 2 bytes (1 pixel)
 					idx_background += 2;
-				} else if(vinfo.bits_per_pixel == 8) {
-					*(fb_barbackground + idx_background) = *(fb_addr + location);
-					idx_background++;
 				}
 			}
 	}
 }
 
 // Restore saved background to screen
-void restore_background() {
+void restore_background(int frame) {
 	// Determine the correct resolution at runtime
 	int width, height;
 	if (miyoo_v4_mode == 1) {
@@ -172,185 +172,31 @@ void restore_background() {
 		height = vinfo.yres;
 	}
 
-	if(fb_barbackground) {
+	if(fb_iconbackground) {
 		int x, y;
 		long int location = 0, idx_background = 0;
-		fb_lastframe = vinfo.yoffset;
+		int bytes=vinfo.bits_per_pixel/8;
 
-		for (y = 0; y < height; y++)
-			for (x = width-6; x < width; x++) {
-				location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
-				if(vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = *(fb_barbackground + idx_background);
-					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
-					*(fb_addr + location +2) = *(fb_barbackground + idx_background +2);
-					*(fb_addr + location +3) = *(fb_barbackground + idx_background +3);
+		if(vinfo.bits_per_pixel == 32) {
+			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
+					*(unsigned long *)(fb_addr + location) = *(unsigned long *)(fb_iconbackground + idx_background);	// copy 4 bytes (1 pixel)
 					idx_background += 4;
-				} else if(vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = *(fb_barbackground + idx_background);
-					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
-					*(fb_addr + location +2) = *(fb_barbackground + idx_background +2);
-					idx_background += 3;
-				} else if(vinfo.bits_per_pixel == 16) {
-					*(fb_addr + location) = *(fb_barbackground + idx_background);
-					*(fb_addr + location +1) = *(fb_barbackground + idx_background +1);
+				}
+		} else if(vinfo.bits_per_pixel == 16) {
+			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
+					*(unsigned int *)(fb_addr + location) = *(unsigned int *)(fb_iconbackground + idx_background);		// copy 2 bytes (1 pixel)
 					idx_background += 2;
-				} else if(vinfo.bits_per_pixel == 8) {
-					*(fb_addr + location) = *(fb_barbackground + idx_background);
-					idx_background++;
 				}
-			}
-		// free memory and reset pointer and last frame saved
-		free(fb_barbackground);
-		fb_barbackground = NULL;
-		fb_lastframe = -1;
-		miyoo_v4_mode = -1;
-	}
-}
-
-// Draw a line with multiple colors
-void draw_multiline(int value, int step, int top1, int top2, int top3, float alpha) {
-	int x = 0, y = 0;
-	long int location = 0;
-	unsigned char cr=0, cg=255, cb=0, ct=0;
-
-	get_render_info();
-	save_background();
-	
-	// Determine the correct resolution at runtime
-	int width, height;
-	if (miyoo_v4_mode == 1) {
-		width = 640;
-		height = 480;
-	} else if (miyoo_v4_mode == 2) {
-		width = 752;
-		height = 560;
-	} else {
-		width = vinfo.xres;
-		height = vinfo.yres;
-	}
-
-	int limit=value*height/step;
-	top1=top1*height/step;
-	top2=top2*height/step;
-	top3=top3*height/step;
-
-	for (y = 0; y < height; y++)
-		for (x = width-6; x < width; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
-			
-			// Calculate blended color
-			unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
-			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
-			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
-           	unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
-			
-			if(y<limit) {
-				// color level 1
-				if(y<top1) {
-					if (vinfo.bits_per_pixel == 32) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = blended_t;		// transparency
-					} else if (vinfo.bits_per_pixel == 24) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-					} else if (vinfo.bits_per_pixel == 16) {
-						int b = cb;	// blue
-						int g = cg;	// green
-						int r = cr;	// red
-						unsigned short int t = r<<11 | g << 5 | b;
-						*((unsigned short int*)(fb_addr + location)) = t;
-					}
-				// color level 2
-				} else if(y<top2) {
-					cr=255;
-					cg=128;
-					if (vinfo.bits_per_pixel == 32) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = blended_t;		// transparency
-					} else if (vinfo.bits_per_pixel == 24) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-					} else if (vinfo.bits_per_pixel == 16) {
-						int b = cb;	// blue
-						int g = cg;	// green
-						int r = cr;	// red
-						unsigned short int t = r<<11 | g << 5 | b;
-						*((unsigned short int*)(fb_addr + location)) = t;
-					}
-				//color level 3
-				} else if(y<top3) {
-					cr=255;
-					cg=0;
-					if (vinfo.bits_per_pixel == 32) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-						*(fb_addr + location + 3) = blended_t;		// transparency
-					} else if (vinfo.bits_per_pixel == 24) {
-						*(fb_addr + location) = cb;		// blue
-						*(fb_addr + location + 1) = cg;		// green
-						*(fb_addr + location + 2) = cr;		// red
-					} else if (vinfo.bits_per_pixel == 16) {
-						int b = cb;	// blue
-						int g = cg;	// green
-						int r = cr;	// red
-						unsigned short int t = r<<11 | g << 5 | b;
-						*((unsigned short int*)(fb_addr + location)) = t;
-					}
-				} /*else {
-					if (vinfo.bits_per_pixel == 32) {
-						*(fb_addr + location) = blended_b;
-						*(fb_addr + location + 1) = blended_g;
-						*(fb_addr + location + 2) = blended_r;
-						*(fb_addr + location + 3) = blended_t;
-					} else if (vinfo.bits_per_pixel == 24) {
-						*(fb_addr + location) = blended_b;		// blue
-						*(fb_addr + location + 1) = blended_g;		// green
-						*(fb_addr + location + 2) = blended_r;		// red
-					} else if (vinfo.bits_per_pixel == 16) {
-						int b = blended_b;
-						int g = blended_g;
-						int r = blended_r;
-						unsigned short int t = r<<11 | g << 5 | b;
-						*((unsigned short int*)(fb_addr + location)) = t;
-					}
-				}*/
-			// over limit, paint black
-			} else {
-				if (vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = blended_b;
-					*(fb_addr + location + 1) = blended_g;
-					*(fb_addr + location + 2) = blended_r;
-					*(fb_addr + location + 3) = blended_t;
-				} else if (vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = blended_b;
-					*(fb_addr + location + 1) = blended_g;
-					*(fb_addr + location + 2) = blended_r;
-				} else if (vinfo.bits_per_pixel == 16) {
-					int b = blended_b;
-					int g = blended_g;
-					int r = blended_r;
-					unsigned short int t = r<<11 | g << 5 | b;
-					*((unsigned short int*)(fb_addr + location)) = t;
-				}
-			}
 		}
+	}
 }
 
-// Draw a colored line
-void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, unsigned char ct, float alpha) {
-	int x = 0, y = 0;
-	long int location = 0;
-
+void restore_fb() {
 	get_render_info();
-	save_background();
 	
 	// Determine the correct resolution at runtime
 	int width, height;
@@ -365,103 +211,115 @@ void draw_line(int value, int step, int cr, unsigned char cg, unsigned char cb, 
 		height = vinfo.yres;
 	}
 	
-	int limit=value*height/step;
-
-	for (y = 0; y < height; y++)
-		for (x = width-6; x < width; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
-			
-			// Calculate blended color
-			unsigned char blended_b = (1 - alpha) * *(fb_addr + location) + alpha * cb;
-			unsigned char blended_g = (1 - alpha) * *(fb_addr + location + 1) + alpha * cg;
-			unsigned char blended_r = (1 - alpha) * *(fb_addr + location + 2) + alpha * cr;
-			unsigned char blended_t = (1 - alpha) * *(fb_addr + location + 3) + alpha * ct;
-			
-			// if below limit, paint color
-			if(y<limit) {
-				if (vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = cb;		// blue
-					*(fb_addr + location + 1) = cg;		// green
-					*(fb_addr + location + 2) = cr;		// red
-					*(fb_addr + location + 3) = blended_t;		// transparency
-				} else if (vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = cb;		// blue
-					*(fb_addr + location + 1) = cg;		// green
-					*(fb_addr + location + 2) = cr;		// red
-				} else if (vinfo.bits_per_pixel == 16) {
-					int b = cb;	// blue
-					int g = cg;	// green
-					int r = cr;	// red
-					unsigned short int t = r<<11 | g << 5 | b;
-					*((unsigned short int*)(fb_addr + location)) = t;
-				}
-			// over limit, paint black
-			} else {
-				if (vinfo.bits_per_pixel == 32) {
-					*(fb_addr + location) = blended_b;
-					*(fb_addr + location + 1) = blended_g;
-					*(fb_addr + location + 2) = blended_r;
-					*(fb_addr + location + 3) = blended_t;
-				} else if (vinfo.bits_per_pixel == 24) {
-					*(fb_addr + location) = blended_b;
-					*(fb_addr + location + 1) = blended_g;
-					*(fb_addr + location + 2) = blended_r;
-				} else if (vinfo.bits_per_pixel == 16) {
-					int b = blended_b;
-					int g = blended_g;
-					int r = blended_r;
-					unsigned short int t = r<<11 | g << 5 | b;
-					*((unsigned short int*)(fb_addr + location)) = t;
-				}
-			}
-		}
+	int y;
+	// restore all double&triple buffers
+	for(y=0; y<(int)vinfo.yres_virtual; y+=height)
+		restore_background(y);
 }
 
-// Draw a black line
-/*void clear_line() {
-	int x = 0, y = 0;
-	long int location = 0;
+// Calculate percent of icon to show, return an intermediate value of OSD_ICON_WIDTH 
+int get_icon_cutoff() {
+	switch(osd_item) {
+		case OSD_VOLUME:
+			return osd_volume*OSD_ICON_WIDTH/69;	// volume values are between 0-69
+		case OSD_BRIGHTNESS:
+			return osd_brightness*OSD_ICON_WIDTH/10;	// bright values are between 1-10
+		default:
+			return 0;
+	}
+}
 
+// Restore saved background to screen
+void draw_icon() {
+	//save_background();
 	get_render_info();
-	
-	// Check Miyoo v4 mode
-    int miyoo_v4_mode = get_miyoo_v4();
 
-    // Determine the correct resolution at runtime
-    int width, height;
-    if (miyoo_v4_mode == 1) {
-        width = 640;
-        height = 480;
-    } else if (miyoo_v4_mode == 2) {
-        width = 752;
-        height = 560;
-    } else {
-        width = vinfo.xres;
-        height = vinfo.yres;
-    }
+	// Determine the correct resolution at runtime
+	int width, height;
+	if (miyoo_v4_mode == 1) {
+		width = 640;
+		height = 480;
+	} else if (miyoo_v4_mode == 2) {
+		width = 752;
+		height = 560;
+	} else {
+		width = vinfo.xres;
+		height = vinfo.yres;
+	}
+
+	int x, y;
+	long int location = 0;
+	int limit = get_icon_cutoff();
+	int bytes=vinfo.bits_per_pixel/8;
 	
-	for (y = 0; y < height; y++)
-		for (x = width-6; x < width; x++) {
-			location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) + (y+vinfo.yoffset) * width*(vinfo.bits_per_pixel/8);
-			
-			if (vinfo.bits_per_pixel == 32) {
-				*(fb_addr + location) = 0;	// black
-				*(fb_addr + location + 1) = 0;	// black
-				*(fb_addr + location + 2) = 0;	// black
-				*(fb_addr + location + 3) = 0;	// transparency
-			} else if (vinfo.bits_per_pixel == 24) {
-				*(fb_addr + location) = 0;		// black
-				*(fb_addr + location + 1) = 0;		// black
-				*(fb_addr + location + 2) = 0;		// black
-			} else if (vinfo.bits_per_pixel == 16) {
-				int b = 0;	// black
-				int g = 0;	// black
-				int r = 0;	// black
-				unsigned short int t = r<<11 | g << 5 | b;
-				*((unsigned short int*)(fb_addr + location)) = t;
+	char *icon=NULL;
+	switch(osd_item) {
+		case OSD_VOLUME:
+			icon=volume_icon;
+			break;
+		case OSD_BRIGHTNESS:
+			icon=brightness_icon;
+			break;
+		default:
+			return;
+	}
+
+	int selectcolor=-1;
+	int idx_icon=0;
+	if(vinfo.bits_per_pixel == 32) {
+		for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+			for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
+				char value=*(icon+idx_icon);
+				switch(value) {
+					case 0:
+						if((width-x)<limit)
+							selectcolor=2;
+						else
+							selectcolor=0;
+						break;
+					case 1:
+						selectcolor=1;
+						break;
+					default:
+						selectcolor=-1;
+						break;
+				}
+				if(selectcolor>=0) {
+					*(fb_addr + location) = iconcolor[selectcolor][2];
+					*(fb_addr + location +1) = iconcolor[selectcolor][1];
+					*(fb_addr + location +2) = iconcolor[selectcolor][0];
+					*(fb_addr + location +3) = 0;
+				}
+				idx_icon++;
 			}
-		}
-}*/
+	} else if(vinfo.bits_per_pixel == 16) {
+		for (y = height-OSD_ICON_HEIGHT; y < height; y++)
+			for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
+				char value=*(icon+idx_icon);
+				switch(value) {
+					case 0:
+						if((width-x)<limit)
+							selectcolor=2;
+						else
+							selectcolor=0;
+						break;
+					case 1:
+						selectcolor=1;
+						break;
+					default:
+						selectcolor=-1;
+						break;
+				}
+				if(selectcolor>=0) {
+					char c = iconcolor[selectcolor][2]<<11 | iconcolor[selectcolor][1] << 5 | iconcolor[selectcolor][0];
+					*(fb_addr + location) = c;
+				}
+				idx_icon++;
+			}
+	}
+}
 
 // Close framebuffer memory
 void close_framebuffer() {
@@ -473,6 +331,12 @@ void close_framebuffer() {
 		close(fb_fd);
 		fb_fd = -1;
 	}
+	// free memory and reset pointer and last frame saved
+	if(fb_iconbackground)
+		free(fb_iconbackground);
+	fb_iconbackground = NULL;
+	fb_lastframe = -1;
+	miyoo_v4_mode = -1;
 }
 
 // Thread to draw the osd info
@@ -487,21 +351,22 @@ static void *osd_thread(void *param) {
 	float elapsed;
 	struct timeval now;
 	do {
+		usleep(1);
 		switch(osd_item) {
 			case OSD_VOLUME:
-				draw_multiline(osd_volume,VOLUME_STEPS,54,60,70,0);
+				draw_icon();
 				break;
 			case OSD_BRIGHTNESS:
-				draw_line(osd_brightness,BRIGHTNESS_STEPS,255,255,128,0,0);
+				draw_icon();
 				break;
 		}
-		usleep(1);
 		gettimeofday(&now, NULL);
-		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;
-	} while(elapsed<3000);
+		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;	// millisecs from last loop
+	} while(elapsed<3000);	// show icon 3 seconds
 
-	//clear_line();
-	restore_background();
+	/*restore_background(fb_lastframe);
+	restore_background(vinfo.yoffset);*/
+	restore_fb();
 	close_framebuffer();
 	osd_item=OSD_NONE;
 	osd_running=0;
@@ -513,6 +378,7 @@ void osd_show(int item) {
 	osd_item=item;
 	if(!osd_running) {
 		pthread_create(&thread_id, NULL, osd_thread, NULL);
+		pthread_setschedprio(thread_id, 1);	// priority = 1
 	} else {
 		gettimeofday(&osd_timer, NULL);
 	}
