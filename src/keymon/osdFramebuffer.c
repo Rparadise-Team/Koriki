@@ -128,15 +128,11 @@ void save_background() {
 
 	get_render_info();
 
-	// only save background when it's new
 	if(fb_iconbackground) {
-	//if(fb_iconbackground && (fb_lastframe != (int)vinfo.yoffset)) {
 		int x, y;
 		long int location = 0, idx_background = 0;
 		int bytes=vinfo.bits_per_pixel/8;
 
-		/*if(fb_lastframe>=0)
-			restore_background(fb_lastframe);*/
 		fb_lastframe = (int)vinfo.yoffset;
 
 		if(vinfo.bits_per_pixel == 32) {
@@ -231,7 +227,6 @@ int get_icon_cutoff() {
 
 // Restore saved background to screen
 void draw_icon() {
-	//save_background();
 	get_render_info();
 
 	// Determine the correct resolution at runtime
@@ -251,11 +246,17 @@ void draw_icon() {
 	long int location = 0;
 	int limit = get_icon_cutoff();
 	int bytes=vinfo.bits_per_pixel/8;
+
+	int tintcolor=2;
 	
 	char *icon=NULL;
 	switch(osd_item) {
 		case OSD_VOLUME:
 			icon=volume_icon;
+			if(osd_volume>=60)
+				tintcolor=4;
+			else if(osd_volume>=54)
+				tintcolor=3;
 			break;
 		case OSD_BRIGHTNESS:
 			icon=brightness_icon;
@@ -266,6 +267,7 @@ void draw_icon() {
 
 	int selectcolor=-1;
 	int idx_icon=0;
+	
 	if(vinfo.bits_per_pixel == 32) {
 		for (y = height-OSD_ICON_HEIGHT; y < height; y++)
 			for (x = width-OSD_ICON_WIDTH; x < width; x++) {
@@ -274,7 +276,7 @@ void draw_icon() {
 				switch(value) {
 					case 0:
 						if((width-x)<limit)
-							selectcolor=2;
+							selectcolor=tintcolor;
 						else
 							selectcolor=0;
 						break;
@@ -301,7 +303,7 @@ void draw_icon() {
 				switch(value) {
 					case 0:
 						if((width-x)<limit)
-							selectcolor=2;
+							selectcolor=tintcolor;
 						else
 							selectcolor=0;
 						break;
@@ -364,8 +366,6 @@ static void *osd_thread(void *param) {
 		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;	// millisecs from last loop
 	} while(elapsed<3000);	// show icon 3 seconds
 
-	/*restore_background(fb_lastframe);
-	restore_background(vinfo.yoffset);*/
 	restore_fb();
 	close_framebuffer();
 	osd_item=OSD_NONE;
