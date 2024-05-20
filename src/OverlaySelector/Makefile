@@ -1,5 +1,5 @@
-CONSOLE = NGP
-CORE = RACE
+CONSOLE = GBC
+CORE = Gambatte
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
 

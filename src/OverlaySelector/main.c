@@ -24,13 +24,17 @@
 #define BUTTON_START SDLK_RETURN
 #define BUTTON_SELECT SDLK_RCTRL
 #define BUTTON_MENU SDLK_ESCAPE
+#define BUTTON_L SDLK_e
+#define BUTTON_R SDLK_t
 #define BUTTON_L2 SDLK_TAB
 #define BUTTON_R2 SDLK_BACKSPACE
+#define BUTTON_UP SDLK_UP
+#define BUTTON_DOWN SDLK_DOWN
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define CONSOLA	"NGP" //config dir over
-#define CORE	"RACE"
+#define CONSOLA	"GBC" //config dir over
+#define CORE	"Gambatte"
 #define BORDER	"OFF"
 
 #define NUM_IMAGES 3
@@ -47,6 +51,7 @@
 #define TEXTO9	"savestate_auto_save"
 #define TEXTO10	"savestate_auto_load"
 #define TEXTO11	"savestate_thumbnail_enable"
+#define TEXTO12 "video_threaded"
 
 #define VALOR0	""
 #define VALOR00	" "
@@ -237,21 +242,21 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO3, VALOR8, TEXTO4, VALOR00, TEXTO5, VALOR36, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR00, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 1:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO3, VALOR8, TEXTO4, VALOR19, TEXTO5, VALOR36, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR18, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
 							case 2:
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO3, VALOR8, TEXTO4, VALOR00, TEXTO5, VALOR36, TEXTO0, VALOR00, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR00, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
