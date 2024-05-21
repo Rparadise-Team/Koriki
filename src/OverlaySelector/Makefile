@@ -1,4 +1,4 @@
-CONSOLE = GBC
+CONSOLE = GB
 CORE = Gambatte
 
 TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
