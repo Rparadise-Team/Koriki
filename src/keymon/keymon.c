@@ -226,7 +226,6 @@ int setVolumeRaw(int volume, int add) {
 			else if (buf2[1] < -60) buf2[1] = -60;
 		} else buf2[1] = volume;
 		if (buf2[1] != recent_volume) ioctl(fd, MI_AO_SETVOLUME, buf1);
-		osd_volume=buf2[1]+60;
 		close(fd);
 		}
 	
@@ -329,7 +328,6 @@ int getVolume() {
 			recent_volume = ((vol * 3) - 60);
 			buf2[1] = recent_volume;
 			ioctl(fd, MI_AO_SETVOLUME, buf1);
-			osd_volume=buf2[1]+60;
 			close(fd);
 			}
 		} else if (audiofix == 0) {
@@ -340,7 +338,6 @@ int getVolume() {
 			   recent_volume = ((vol * 3) - 60);
 			   buf2[1] = recent_volume;
 			   ioctl(fd, MI_AO_SETVOLUME, buf1);
-			   osd_volume=buf2[1]+60;
 			   close(fd);
 			}
 			char command[100];
@@ -356,7 +353,6 @@ int getVolume() {
 	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 						
    		     	ioctl(fd, MI_AO_SETMUTE, buf1);
-   		     	osd_volume=buf2[1]+60;
 	        	close(fd);
 			}
 		}
@@ -366,7 +362,6 @@ int getVolume() {
 	        	uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
 						
    		     	ioctl(fd, MI_AO_SETMUTE, buf1);
-   		     	osd_volume=buf2[1]+60;
 	        	close(fd);
 			}
 		}
@@ -376,7 +371,61 @@ int getVolume() {
 	
 	return 0;
 }
+
+//read volume valor direct from config file
+int iconvol() {
+	const char *settings_file = getenv("SETTINGS_FILE");
+	if (settings_file == NULL) {
+		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+		if (!pipe) {
+			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+			if (!configv4) {
+				settings_file = "/appconfigs/system.json";
+			} else {
+				settings_file = "/mnt/SDCARD/system.json";
+			}
+			
+			pclose(configv4);
+			
+		} else {
+			char buffer[128];
+			int flash_detected = 0;
+			
+			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+					flash_detected = 1;
+					break;
+				}
+			}
+			
+			pclose(pipe);
+			
+			if (flash_detected) {
+				settings_file = "/mnt/SDCARD/system.json";
+			} else {
+				settings_file = "/appconfigs/system.json";
+			}
+		}
+	}
 	
+	// get Volume level
+	cJSON* request_json = NULL;
+	cJSON* itemVol;
+	
+	// Store in system.json
+	char *request_body = load_file(settings_file);
+	request_json = cJSON_Parse(request_body);
+	
+	itemVol = cJSON_GetObjectItem(request_json, "vol");
+	int vol = cJSON_GetNumberValue(itemVol);
+	
+	osd_volume=(vol * 3);
+	
+	cJSON_Delete(request_json);
+	free(request_body);
+	
+	return osd_volume;
+}		
 
 // Increase/Decrease Brightness
 void modifyBrightness(int inc) {
@@ -1156,12 +1205,14 @@ int main (int argc, char *argv[]) {
 						if (val == PRESSED && menu_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 						}
 					} else {
 					if (val == PRESSED && Select_pressed) {
 						// Increase volume
 						setVolume(volume, 1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 						}
 					}
@@ -1180,12 +1231,14 @@ int main (int argc, char *argv[]) {
 						if (val == PRESSED && menu_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 						}
 					} else {
 						if (val == PRESSED && Select_pressed) {
 						// Decrease volume
 						setVolume(volume, -1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 						}
 					}
@@ -1207,6 +1260,7 @@ int main (int argc, char *argv[]) {
 					} else if (val == PRESSED) {
 						// Increase volume
 						setVolume(volume, 1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 					}
 				} else {
@@ -1217,6 +1271,7 @@ int main (int argc, char *argv[]) {
 					} else if (val == PRESSED) {
 						// Increase volume
 						setVolume(volume, 1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 					}
 				}
@@ -1237,6 +1292,7 @@ int main (int argc, char *argv[]) {
 					} else if (val == PRESSED) {
 						// Decrease volume
 						setVolume(volume, -1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 					}
 				} else {
@@ -1247,6 +1303,7 @@ int main (int argc, char *argv[]) {
 					} else if (val == PRESSED) {
 						// Decrease volume
 						setVolume(volume, -1);
+						iconvol();
 						osd_show(OSD_VOLUME);
 					}
 				}
