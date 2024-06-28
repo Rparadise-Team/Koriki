@@ -102,7 +102,7 @@ aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [FINALBURN NEO]
 execs = /mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
-romDirs = /mnt/SDCARD/Roms/FBN/
+romDirs = /mnt/SDCARD/Roms/FBNEO/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
@@ -285,7 +285,7 @@ romDirs = /mnt/SDCARD/Roms/SGB/
 romExts = .gb,.gbc,.zip,.7z
 
 [SNES]
-execs = /mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/snes9x2005_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2005_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2002_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x2010_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_next_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_plus_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supafaust_libretro,/mnt/SDCARD/.simplemenu/launchers/pocketsnes_standalone
 romDirs = /mnt/SDCARD/Roms/SFC/
 romExts = .smc,.sfc,.zip,.7z
 
