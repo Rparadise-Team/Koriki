@@ -638,6 +638,11 @@ then
 	sync
 fi
 
+#check FBNEO folder
+if [ -d "/mnt/SDCARD/Roms/FBN" ]; then
+    mv "/mnt/SDCARD/Roms/FBN" "/mnt/SDCARD/Roms/FBNEO"
+fi
+
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
     sed -i 's/^1;0;1;0;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
