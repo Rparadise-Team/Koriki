@@ -692,12 +692,26 @@ if [ -f "${SDCARD_PATH}"/App/pico/.lexaloffle/pico-8/activity_log.txt ]; then
 fi
 
 # Set time
+if dmesg|fgrep -q "power key is on"; then
+	export SUBMODEL="MMP_RTC"
+else
+	export SUBMODEL="MMP_NO_RTC"
+fi
+
 if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
     localtime=`cat "${SDCARD_PATH}"/App/Clock/time.txt`
-	date -s "${localtime}"
+	if dmesg|fgrep -q "Please set rtc timer (hwclock -w) "; then
+		hwclock -w
+		date -s "${localtime}"
+	else
+		if [ "$SUBMODEL" == "MMP_NO_RTC" ]; then
+			date -s "${localtime}"
+		fi
+	fi
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
-	date -s "2024-03-01 10:00:00"
+	hwclock -w
+	date -s "2024-07-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi

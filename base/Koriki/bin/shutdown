@@ -57,6 +57,9 @@ if [ "$0" = "/tmp/_shutdown" ]; then
 	swapoff /mnt/SDCARD/cachefile
 	umount -r /mnt/SDCARD
 	umount /mnt/SDCARD
+	
+	export TZ=UTC+0
+	hwclock -w
 
 	sleep 1
 	
