@@ -127,9 +127,9 @@ if [ ! -f "$config_file" ] || \
   "bezel":{
     "current_bezel":3,
     "current_integer_bezel":0,
-    "bezel_path":"res\/border\/",
+    "bezel_path":"res\/border",
     "digit_path":"res\/digit",
-    "bezel_int_path":"res\/border\/"
+    "bezel_int_path":"res\/border"
   }
 }
 EOF
