@@ -40,7 +40,7 @@ romExts = .mgw,.zip,.7z
 scaling = 1
 
 [GAME GEAR]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone
 romDirs = /mnt/SDCARD/Roms/GG/
 romExts = .zip,.gg,.7z
 scaling = 1
