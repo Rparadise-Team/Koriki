@@ -61,19 +61,19 @@ romDirs = /mnt/SDCARD/Roms/ODYSSEY2/
 romExts = .zip,.bin
 
 [CPS1]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps1_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps1_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/CPS1/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [CPS2]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps2_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps2_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/CPS2/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [CPS3]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps3_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps3_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/CPS3/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
@@ -84,7 +84,7 @@ romDirs = /mnt/SDCARD/Roms/DAPHNE/
 romExts = .zip
 
 [DOS]
-execs = /mnt/SDCARD/.simplemenu/launchers/dosbox_pure_libretro,/mnt/SDCARD/.simplemenu/launchers/dosbox_pure_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/dosbox_pure_libretro,/mnt/SDCARD/.simplemenu/launchers/dosbox_pure_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/dosbox_standalone
 romDirs = /mnt/SDCARD/Roms/DOS/
 romExts = .zip,.dosz,.exe,.com,.bat,.iso,.cue,.vhd,.m3u,.7z
 
@@ -99,13 +99,13 @@ romDirs = /mnt/SDCARD/Roms/FDS/
 romExts = .fds,.zip,.7z
 
 [FINALBURN ALPHA]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/FBA/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [FINALBURN NEO]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/FBNEO/
 romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
@@ -168,7 +168,7 @@ romDirs = /mnt/SDCARD/Roms/MS/
 romExts = .zip,.sms,.7z
 
 [NEO GEO]
-execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_neogeo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha2012_neogeo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_neogeo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fb_32b_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha2012_neogeo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
 romDirs = /mnt/SDCARD/Roms/NEOGEO/
 romExts = .zip,.7z
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt

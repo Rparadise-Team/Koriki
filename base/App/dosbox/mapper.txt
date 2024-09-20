@@ -1,0 +1,17 @@
+key_up "key 273"
+key_down "key 274"
+key_right "key 275"
+key_left "key 276"
+key_enter "key 13" #START
+key_tab "key 305" #SELECT
+key_esc "key 27" #MENU
+mod_1 "key 27" #MENU
+hand_shutdown "key 13 mod1" #MENU + START
+key_space "key 32" #A
+key_lctrl "key 306" #B
+key_lshift "key 304" #X
+key_lalt "key 308" #Y
+key_y "key 101" #L1
+key_c "key 116" #R1
+key_pageup "key 9" #L2
+key_pagedown "key 8" #R2

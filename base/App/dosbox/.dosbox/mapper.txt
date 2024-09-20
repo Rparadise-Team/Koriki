@@ -1,0 +1,17 @@
+hand_shutdown "key 13 mod1" #MENU + START
+mod_1 "key 27" #MENU
+key_space "key 32" #A
+key_lctrl "key 306" #B
+key_down "key 274" #DOWN
+key_y "key 101" #L1
+key_pageup "key 9" #L2
+key_left "key 276" #LEFT
+key_c "key 116" #R1
+key_pagedown "key 8" #R2
+key_right "key 275" #RIGHT
+key_up "key 273" #UP
+key_lshift "key 304" #X
+key_lalt "key 308" #Y
+key_esc "key 27" #MENU
+key_tab "key 305" #SELECT
+key_enter "key 13" #START

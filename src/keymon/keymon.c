@@ -687,6 +687,27 @@ int isDrasticRunning()
 	return 0;
 }
 
+int isFBNeoRunning()
+{
+	FILE *fp;
+	char buffer[128];
+	const char *cmd = "pgrep fbneo";
+    
+	fp = popen(cmd, "r");
+	if (fp == NULL) {
+		pclose(fp);
+		return 0;
+	}
+    
+	if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+		pclose(fp);
+		return 1;
+	}
+	
+	pclose(fp);
+	return 0;
+}
+
 int isPcsxRunning()
 {
 	FILE *fp;
@@ -751,7 +772,7 @@ int isProcessRunning(const char* processName) {
 }
 
 void stopOrContinueProcesses(int value) {
-    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "simplemenu", "htop", "wget"};
+    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget"};
     const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
     DIR *dir;
@@ -801,6 +822,9 @@ void display_setScreen(int value) {
         }
         if (isDrasticRunning() == 1) {
             system("pkill -STOP drastic");
+        }
+		if (isFBNeoRunning() == 1) {
+            system("pkill -STOP fbneo");
         }
 		if (isProcessRunning("simplemenu") == 1) {
             system("pkill -STOP simplemenu");
@@ -870,6 +894,9 @@ void display_setScreen(int value) {
         }
         if (isDrasticRunning() == 1) {
             system("pkill -CONT drastic");
+        }
+		if (isFBNeoRunning() == 1) {
+            system("pkill -CONT fbneo");
         }
 		if (isProcessRunning("simplemenu") == 1) {
             system("pkill -CONT simplemenu");
@@ -974,6 +1001,13 @@ void setcpu(int cpu) {
 		}
 		
 		if (isPcsxRunning() == 1) {
+			char command[64];
+			
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock 1400");
+			system(command);
+		}
+		
+		if (isFBNeoRunning() == 1) {
 			char command[64];
 			
 			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock 1400");
@@ -1116,6 +1150,10 @@ int main (int argc, char *argv[]) {
 							} else if (isRetroarchRunning() == 1) {
 								setcpu(2);
 							} else if (isDrasticRunning() == 1) {
+								setcpu(4);
+							} else if (isPcsxRunning() == 1) {
+								setcpu(4);
+							} else if (isFBNeoRunning() == 1) {
 								setcpu(4);
 							} else if (isPico8Running() == 1) {
 								setcpu(4);

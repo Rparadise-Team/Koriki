@@ -1,0 +1,308 @@
+#!/bin/sh
+
+# Define persistent file directory under each game save directory
+PERSISTENT_FILE_NAME="backup_info.txt"
+
+# Function to create directories if they don't exist
+create_directories() {
+    local dir="$1"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir" || echo "Error creating directory $dir"
+    fi
+}
+
+# Function to copy files from source to destination
+copy_files() {
+    local src_dir="$1"
+    local dest_dir="$2"
+    create_directories "$dest_dir"
+
+    find "$src_dir" -type f | while read -r file; do
+        dest_file="$dest_dir/$(basename "$file")"
+        mkdir -p "$(dirname "$dest_file")"
+        cp -f "$file" "$dest_file" || echo "Error copying $file to $dest_file"
+    done
+}
+
+# Function to list files in a directory, sorted
+list_files() {
+    local dir="$1"
+    if [ -d "$dir" ]; then
+        find "$dir" -type f | sort
+    else
+        echo "Directory $dir not found"
+    fi
+}
+
+# Function to restore files using persistent file information
+restore_files() {
+    local save_dir="$1"
+    local persistent_file="$save_dir/$PERSISTENT_FILE_NAME"
+    
+    if [ -f "$persistent_file" ]; then
+        while IFS= read -r line; do
+            original_path=$(echo "$line" | cut -d'|' -f1)
+            saved_file_path=$(echo "$line" | cut -d'|' -f2)
+            
+            if [ -f "$saved_file_path" ]; then
+                mkdir -p "$(dirname "$original_path")"
+                cp -f "$saved_file_path" "$original_path" || echo "Error restoring $saved_file_path to $original_path"
+                echo "File restored: $original_path from $saved_file_path"
+            else
+                echo "Saved file not found: $saved_file_path"
+            fi
+        done < "$persistent_file"
+    else
+        echo "Persistence file not found: $persistent_file"
+    fi
+}
+
+# Function to backup new and modified files
+backup_new_files() {
+    local src_dir="$1"
+    local save_dir="$2"
+    local persistent_file="$save_dir/$PERSISTENT_FILE_NAME"
+    local temp_file_list="/tmp/before_files.txt"
+    local temp_file_list_after="/tmp/after_files.txt"
+
+    list_files "$src_dir" > "$temp_file_list_after"
+
+    grep -v -f "$temp_file_list" "$temp_file_list_after" > /tmp/changed_files.txt
+
+    while IFS= read -r file; do
+        dest_file="$save_dir/$(basename "$file")"
+        mkdir -p "$(dirname "$dest_file")"
+        cp -f "$file" "$dest_file" || echo "Error copying $file to $dest_file"
+        if ! grep -q "^$file|" "$persistent_file"; then
+            echo "$file|$dest_file" >> "$persistent_file"
+        fi
+    done < /tmp/changed_files.txt
+}
+
+# Function to set the volume based on calculation
+setvolume() {
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol * 3) + 40))
+    /customer/app/tinymix set 6 $volume
+}
+
+# Function to get the current volume
+getvolume() {
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol * 3) - 60))
+    echo $volume
+}
+
+# Function to set the screen brightness
+setbrightness() {
+    bright=$(/customer/app/jsonval brightness)
+    brightness=$(($bright * 10))
+    echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+}
+
+# Function to set sound level
+set_snd_level() {
+    local target_vol="$1"
+    local current_vol
+    local start_time
+    local elapsed_time
+
+    start_time=$(date +%s)
+    while [ ! -e /proc/mi_modules/mi_ao/mi_ao0 ]; do
+        sleep 0.2
+        elapsed_time=$(( $(date +%s) - start_time ))
+        if [ "$elapsed_time" -ge 30 ]; then
+            echo "Timed out waiting for /proc/mi_modules/mi_ao/mi_ao0"
+            return 1
+        fi
+    done
+
+    start_time=$(date +%s)
+    while true; do
+        echo "set_ao_volume 0 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
+        echo "set_ao_volume 1 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
+        setbrightness &
+        current_vol=$(getvolume)
+
+        if [ "$current_vol" = "$target_vol" ]; then
+            echo "Volume set to ${current_vol}dB"
+            return 0
+        fi
+
+        elapsed_time=$(( $(date +%s) - start_time ))
+        if [ "$elapsed_time" -ge 30 ]; then
+            echo "Timed out trying to set volume"
+            return 1
+        fi
+
+        sleep 0.2
+    done
+}
+
+# Function to enable audio fix
+audiofix_on() {
+    runsvr=$(/customer/app/jsonval audiofix)
+    if [ "$runsvr" != "1" ]; then
+        echo "Enabled audiofix"
+        touch /tmp/audioserver_on
+        /mnt/SDCARD/Koriki/bin/audioserver &
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+        fi
+    fi
+}
+
+# Function to disable audio fix
+audiofix_off() {
+    runsvr=$(/customer/app/jsonval audiofix)
+    if [ "$runsvr" != "1" ]; then
+        FILE=/customer/app/axp_test
+        echo "Disabled audiofix"
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            unset LD_PRELOAD
+        fi
+
+        if [ -f "$FILE" ]; then
+            killall audioserver
+            killall audioserver.plu
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        else
+            killall audioserver
+            killall audioserver.min
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        fi
+    fi
+}
+
+# Function to update aspect ratio setting in dosbox.bat
+update_aspect_setting() {
+    local bat_file="$1"
+
+    if [ -f "$bat_file" ]; then
+        if grep -q "aspect=true" "$bat_file"; then
+            sed -i 's/aspect=true/aspect=false/' "$bat_file"
+            echo "Updated aspect ratio setting to false in $bat_file"
+        fi
+    else
+        echo "No dosbox.bat or DOSBOX.BAT file found"
+    fi
+}
+
+# Initial settings and variables
+HOME="/mnt/SDCARD/App/dosbox"
+GAMECOMPRESS=0
+GAME_NAME=$(basename "$1" | cut -d. -f1)
+SAVE_DIR="/mnt/SDCARD/Saves/dosbox/$GAME_NAME"
+
+create_directories "$SAVE_DIR"
+
+# Save the original file path for restoration
+ORIGINAL_FILE_PATH="$1"
+
+# Handling compressed files
+if [[ "${1##*.}" == "zip" || "${1##*.}" == "7z" || "${1##*.}" == "dosz" ]]; then
+    ZIP_DIR=$(dirname "$1")
+    TEMP_DIR="$ZIP_DIR/tmp"
+    create_directories "$TEMP_DIR"
+
+    if [ "${1##*.}" == "7z" ]; then
+        7zr x "$1" -o"$TEMP_DIR" -y || echo "Error extracting 7z file" 
+    else
+        unzip -n "$1" -d "$TEMP_DIR" || echo "Error extracting zip file"
+    fi
+
+    list_files "$TEMP_DIR" > /tmp/before_files.txt
+
+    EXEC=$(find "$TEMP_DIR" -iname "DOSBOX.BAT" -o -iname "dosbox.bat" | head -n 1)
+	
+	if [ -n "$EXEC" ]; then
+        update_aspect_setting "$EXEC"
+    fi
+
+    if [ -z "$EXEC" ]; then
+	
+		EXEC=$(find "$TEMP_DIR" -iname "*.bat" -o -iname "*.BAT" | head -n 1)
+		
+		if [ -n "$EXEC" ]; then
+			update_aspect_setting "$EXEC"
+		fi
+
+		if [ -z "$EXEC" ]; then
+		
+			EXEC=$(find "$TEMP_DIR" -iname "*.exe" -o -iname "*.EXE" | head -n 1)
+		
+			if [ -z "$EXEC" ]; then
+			
+				EXEC=$(find "$TEMP_DIR" -iname "*.com" -o -iname "*.COM" | head -n 1)
+        		
+				if [ -z "$EXEC" ]; then
+        			echo "No executable file found in the temporary directory"
+        			rm -rf "$TEMP_DIR"
+        			exit 1
+				fi
+			fi
+		fi
+    fi
+
+    GAMECOMPRESS=1
+fi
+
+GAME_DIR="$TEMP_DIR/$GAME_NAME"
+
+# Restore saved files from SAVE_DIR before running the game
+restore_files "$SAVE_DIR"
+
+# Setting environment for dosbox
+cd "$HOME"
+python ./mapper.py
+export LD_LIBRARY_PATH=./lib:$LD_LIBRARY_PATH
+volume=$(getvolume)
+
+setvolume &
+set_snd_level "${volume}" &
+
+audiofix_on
+sleep 1
+
+# Execute dosbox with the specified game or executable file
+if [ "$GAMECOMPRESS" -eq 0 ]; then
+    ./dosbox "$1"
+else
+    ./dosbox "$EXEC"
+    backup_new_files "$TEMP_DIR" "$SAVE_DIR"
+
+    # Find the last modified file and backup with original path information
+    LAST_MODIFIED_FILE=$(find "$TEMP_DIR" -type f -exec stat -c "%Y %n" {} \; | sort -n | tail -n 1 | cut -d' ' -f2-)
+
+    if [ -n "$LAST_MODIFIED_FILE" ]; then
+        dest_file="$SAVE_DIR/$(basename "$LAST_MODIFIED_FILE")"
+        if ! cp -f "$LAST_MODIFIED_FILE" "$dest_file"; then
+            echo "Error copying $LAST_MODIFIED_FILE to $dest_file"
+        fi
+
+        if ! grep -q "^$LAST_MODIFIED_FILE|$dest_file$" "$SAVE_DIR/$PERSISTENT_FILE_NAME"; then
+            echo "$LAST_MODIFIED_FILE|$dest_file" >> "$SAVE_DIR/$PERSISTENT_FILE_NAME"
+        fi
+    else
+        echo "No files found in $TEMP_DIR"
+    fi
+
+    rm /tmp/*_files.txt
+fi
+
+# Final cleanup
+rm -rf "$TEMP_DIR"
+sync
+
+audiofix_off
+sleep 1
+
+sync

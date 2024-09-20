@@ -50,7 +50,7 @@ romDirs = /mnt/SDCARD/Roms/QUAKE/
 romExts = .pak
 
 [DOS]
-execs = /mnt/SDCARD/.simplemenu/launchers/dosbox_pure_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/dosbox_pure_libretro,/mnt/SDCARD/.simplemenu/launchers/dosbox_pure_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/dosbox_standalone
 romDirs = /mnt/SDCARD/Roms/DOS/
 romExts = .zip,.dosz,.exe,.com,.bat,.iso,.cue,.vhd,.m3u,.7z
 

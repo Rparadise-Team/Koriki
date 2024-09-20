@@ -1,0 +1,109 @@
+#!/bin/sh
+
+set -x
+
+exec > /appconfigs/resize_partition.log 2>&1
+
+export LOCK_FILE="/var/lock/_resize"
+export TMP_PATH="/tmp/fatresize"
+export TMP_LIB="/tmp/fatresize/lib"
+
+export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
+
+# Función para matar procesos que puedan bloquear la partición
+task_killer() {
+    r=0
+    for p in $1; do
+        if [ -d "/proc/$p" ] && [ $p -ne $$ ]; then
+            kill $2 $p
+            r=1
+        fi
+    done
+    return $r
+}
+
+# Intentar matar procesos que usen la partición
+kill_hooked_tasks() {
+    c=0
+    while [ $c -lt 5 ]; do
+        pids=$(fuser -m /mnt/SDCARD)
+        if task_killer "$pids" $1; then
+            return
+        fi
+        sleep 0.05
+        c=$((c + 1))
+    done
+}
+
+# Verificar si el script ya está corriendo
+if [ "$0" = "/tmp/_resize_partition" ]; then
+    if [ ! -f "$LOCK_FILE" ]; then
+        touch "$LOCK_FILE"
+    else
+        echo "resize_partition ya está en ejecución."
+        exit 1
+    fi
+
+    # Matar procesos que podrían bloquear la SD
+    echo "Terminando procesos que bloquean la partición..."
+    killall -9 updater
+    sleep 1
+    kill_hooked_tasks
+    sleep 0.1
+    kill_hooked_tasks -9
+
+    sync
+
+    # Desmontar la partición y desactivar el swap
+    echo "Desmontando la partición..."
+    swapoff /mnt/SDCARD/cachefile 2>/dev/null
+    umount -r /mnt/SDCARD 2>/dev/null
+    umount /mnt/SDCARD 2>/dev/null
+
+    # Montar el entorno necesario para ejecutar fatresize
+    echo "Preparando entorno para fatresize..."
+    export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
+	
+	$TMP_PATH/show $TMP_PATH/resize.png
+
+    # Ejecutar fatresize para redimensionar la partición
+    echo "Redimensionando la partición FAT32..."
+    $TMP_PATH/fatresize -s max /dev/mmcblk0p1
+	
+    # Verificar si fatresize se ejecutó correctamente
+    if [ $? -ne 0 ]; then
+        echo "Error al redimensionar la partición con fatresize."
+        sleep 5
+		sync
+		reboot
+    fi
+
+    # Montar la partición nuevamente
+    echo "Montando la partición de nuevo..."
+    mount /dev/mmcblk0p1 /mnt/SDCARD
+
+    # Crear archivo indicador de que el redimensionamiento ya se ha hecho
+    touch /mnt/SDCARD/resized
+
+    # Sincronizar cambios y reiniciar
+    echo "Redimensionamiento completado. Reiniciando el sistema..."
+    sync
+    reboot
+
+fi
+
+# Verificar si el script está copiado en /tmp, si no, copiarlo
+if [ ! -f /tmp/_resize_partition ]; then
+    cp -f "$0" /tmp/_resize_partition
+fi
+
+# Ejecutar el script de forma independiente en segundo plano
+pgrep -f /tmp/_resize_partition || (
+    set -m
+    su root -c "/usr/bin/nohup /tmp/_resize_partition $1 </dev/null >/dev/null 2>&1 &"
+)
+
+# Espera para no cerrar el script principal inmediatamente
+while true; do
+    sleep 10
+done

@@ -1,0 +1,142 @@
+#!/bin/sh
+
+# Function to set the volume based on calculation
+setvolume() {
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol * 3) + 40))
+    /customer/app/tinymix set 6 $volume
+}
+
+# Function to get the current volume
+getvolume() {
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol * 3) - 60))
+    echo $volume
+}
+
+# Function to set the screen brightness
+setbrightness() {
+    bright=$(/customer/app/jsonval brightness)
+    brightness=$(($bright * 10))
+    echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+}
+
+# Function to set sound level
+set_snd_level() {
+    local target_vol="$1"
+    local current_vol
+    local start_time
+    local elapsed_time
+
+    start_time=$(date +%s)
+    while [ ! -e /proc/mi_modules/mi_ao/mi_ao0 ]; do
+        sleep 0.2
+        elapsed_time=$(( $(date +%s) - start_time ))
+        if [ "$elapsed_time" -ge 30 ]; then
+            echo "Timed out waiting for /proc/mi_modules/mi_ao/mi_ao0"
+            return 1
+        fi
+    done
+
+    start_time=$(date +%s)
+    while true; do
+        echo "set_ao_volume 0 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
+        echo "set_ao_volume 1 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
+        setbrightness &
+        current_vol=$(getvolume)
+
+        if [ "$current_vol" = "$target_vol" ]; then
+            echo "Volume set to ${current_vol}dB"
+            return 0
+        fi
+
+        elapsed_time=$(( $(date +%s) - start_time ))
+        if [ "$elapsed_time" -ge 30 ]; then
+            echo "Timed out trying to set volume"
+            return 1
+        fi
+
+        sleep 0.2
+    done
+}
+
+# Function to enable audio fix
+audiofix_on() {
+    runsvr=$(/customer/app/jsonval audiofix)
+    if [ "$runsvr" != "1" ]; then
+        echo "Enabled audiofix"
+        touch /tmp/audioserver_on
+        /mnt/SDCARD/Koriki/bin/audioserver &
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+        fi
+    fi
+}
+
+# Function to disable audio fix
+audiofix_off() {
+    runsvr=$(/customer/app/jsonval audiofix)
+    if [ "$runsvr" != "1" ]; then
+        FILE=/customer/app/axp_test
+        echo "Disabled audiofix"
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            unset LD_PRELOAD
+        fi
+
+        if [ -f "$FILE" ]; then
+            killall audioserver
+            killall audioserver.plu
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        else
+            killall audioserver
+            killall audioserver.min
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        fi
+    fi
+}
+
+echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+/mnt/SDCARD/Koriki/bin/cpuclock 1400
+
+# Initial settings and variables
+HOME="/mnt/SDCARD/App/fbneo"
+
+cd "$HOME"
+
+# Extracting the base name without the extension
+base_name=$(basename "$1" .zip)
+dir_name=$(dirname "$1")
+
+# Update szAppRomPaths[0] in fbneo.ini
+fbneo_ini_path="$HOME/fbneo.ini"
+if grep -q "^szAppRomPaths\[0\]" "$fbneo_ini_path"; then
+   sed -i "s|^szAppRomPaths\[0\].*|szAppRomPaths[0] $dir_name/|" "$fbneo_ini_path"
+else
+   sed -i "/^szAppRomPaths\[0\]/a szAppRomPaths[0] $dir_name/" "$fbneo_ini_path"
+fi
+
+audiofix_on
+sleep 1
+
+volume=$(getvolume)
+
+setvolume &
+set_snd_level "${volume}" &
+
+./fbneo -fullscreen "$base_name"
+
+audiofix_off
+sleep 1
+
+/mnt/SDCARD/Koriki/bin/cpuclock 1200
+echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+sync

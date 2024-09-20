@@ -87,6 +87,56 @@ if [ ! -f "$SETTINGS_FILE" ]; then
    fi
 fi
 
+resize() {
+# Verificar si no existe el archivo "resized"
+if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
+
+	export TMP_PATH="/tmp/fatresize"
+	export TMP_LIB="/tmp/fatresize/lib"
+	
+    echo "Iniciando redimensionamiento de la partición FAT32..."
+
+    # Crear directorio temporal para fatresize y sus dependencias
+    mkdir -p $TMP_PATH
+	mkdir -p $TMP_LIB
+
+    # Copiar fatresize y sus bibliotecas necesarias
+    echo "Copiando fatresize y dependencias..."
+    cp "$SDCARD_PATH/Koriki/bin/fatresize" $TMP_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/show" $TMP_PATH/
+	cp "$SDCARD_PATH/Koriki/images/resize.png" $TMP_PATH/
+	chmod +x $TMP_PATH/fatresize
+	chmod +x $TMP_PATH/show
+    cp "$SDCARD_PATH/Koriki/lib/libparted-fs-resize.so.0" $TMP_LIB/
+    cp "$SDCARD_PATH/Koriki/lib/libparted.so.2" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libblkid.so.1" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libuuid.so.1" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libpng16.so.16" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libmsettings.so" $TMP_LIB/
+	chmod +x $TMP_LIB/libparted-fs-resize.so.0
+	chmod +x $TMP_LIB/libparted.so.2
+	chmod +x $TMP_LIB/libblkid.so.1
+	chmod +x $TMP_LIB/libuuid.so.1
+	chmod +x $TMP_LIB/libpng16.so.16
+	chmod +x $TMP_LIB/libmsettings.so
+
+
+    # Copiar el script de redimensionamiento
+    echo "Copiando el script de redimensionamiento..."
+    cp "$SDCARD_PATH/Koriki/bin/resize_partition" /tmp/
+    chmod +x /tmp/resize_partition
+
+    # Ejecutar el script de redimensionamiento
+    echo "Ejecutando el script de redimensionamiento..."
+	killall -9 main
+    /tmp/resize_partition
+	exit 0
+	
+else
+    echo "La partición ya ha sido redimensionada anteriormente."
+fi
+}
+
 killprocess() {
 	pid=`ps | grep $1 | grep -v grep | cut -d' ' -f3`
 	kill -9 $pid
@@ -279,6 +329,9 @@ echo 1 > "/sys/class/pwm/pwmchip0/pwm0/enable"
 # Set screen resolution
 get_screen_resolution
 change_resolution
+
+# Resize microsd
+resize
 
 # Charging screen
 "${SYSTEM_PATH}"/bin/charging
@@ -711,7 +764,7 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
 	hwclock -w
-	date -s "2024-07-01 10:00:00"
+	date -s "2024-09-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi
@@ -764,4 +817,3 @@ else
 	sleep 5
 	poweroff
 fi
-
