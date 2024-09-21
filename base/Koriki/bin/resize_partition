@@ -1,6 +1,12 @@
 #!/bin/sh
 
+# Enable debugging to see each command executed
 set -x
+
+# Redirect stdout and stderr to a log file in /appconfigs
+if [ -f /appconfigs/resize_partition.log ]; then
+    rm /appconfigs/resize_partition.log
+fi
 
 exec > /appconfigs/resize_partition.log 2>&1
 
@@ -8,9 +14,7 @@ export LOCK_FILE="/var/lock/_resize"
 export TMP_PATH="/tmp/fatresize"
 export TMP_LIB="/tmp/fatresize/lib"
 
-export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
-
-# Función para matar procesos que puedan bloquear la partición
+# Function to kill processes that might block the partition
 task_killer() {
     r=0
     for p in $1; do
@@ -22,11 +26,11 @@ task_killer() {
     return $r
 }
 
-# Intentar matar procesos que usen la partición
+# Attempt to kill processes that are using the partition
 kill_hooked_tasks() {
     c=0
     while [ $c -lt 5 ]; do
-        pids=$(fuser -m /mnt/SDCARD)
+        pids=$(fuser -m /mnt/SDCARD 2>/dev/null)
         if task_killer "$pids" $1; then
             return
         fi
@@ -35,18 +39,18 @@ kill_hooked_tasks() {
     done
 }
 
-# Verificar si el script ya está corriendo
+# Check if the script is already running
 if [ "$0" = "/tmp/_resize_partition" ]; then
     if [ ! -f "$LOCK_FILE" ]; then
         touch "$LOCK_FILE"
     else
-        echo "resize_partition ya está en ejecución."
+        echo "resize_partition is already running."
         exit 1
     fi
 
-    # Matar procesos que podrían bloquear la SD
-    echo "Terminando procesos que bloquean la partición..."
-    killall -9 updater
+    # Kill processes that could be blocking the SD
+    echo "Terminating processes that are blocking the partition..."
+    killall -9 updater 2>/dev/null
     sleep 1
     kill_hooked_tasks
     sleep 0.1
@@ -54,56 +58,97 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
 
     sync
 
-    # Desmontar la partición y desactivar el swap
-    echo "Desmontando la partición..."
+    # Unmount the partition and disable swap
+    echo "Unmounting the partition..."
     swapoff /mnt/SDCARD/cachefile 2>/dev/null
     umount -r /mnt/SDCARD 2>/dev/null
     umount /mnt/SDCARD 2>/dev/null
 
-    # Montar el entorno necesario para ejecutar fatresize
-    echo "Preparando entorno para fatresize..."
+    # Prepare the environment for running fatresize
+    echo "Preparing environment for fatresize..."
     export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
-	
-	$TMP_PATH/show $TMP_PATH/resize.png
 
-    # Ejecutar fatresize para redimensionar la partición
-    echo "Redimensionando la partición FAT32..."
-    $TMP_PATH/fatresize -s max /dev/mmcblk0p1
-	
-    # Verificar si fatresize se ejecutó correctamente
+    $TMP_PATH/show $TMP_PATH/resize.png
+
+    # Ensure that the fatresize binary is executable
+    chmod +x $TMP_PATH/fatresize
+
+    # Show partition information before resizing
+    echo "Partition information before resizing:"
+    fdisk -l /dev/mmcblk0
+
+    # Calculate the maximum safe size for the partition
+    echo "Calculating the maximum safe size for the partition..."
+
+    # Get the total size of the device in sectors
+    TOTAL_SECTORS=$(cat /sys/block/mmcblk0/size)
+    SECTOR_SIZE=512  # Sector size in bytes
+
+    # Calculate the total size in bytes
+    TOTAL_BYTES=$((TOTAL_SECTORS * SECTOR_SIZE))
+
+    # Get the starting sector of the partition
+    PART_START=$(cat /sys/block/mmcblk0/mmcblk0p1/start)
+
+    # Calculate the available sectors for the partition
+    AVAILABLE_SECTORS=$((TOTAL_SECTORS - PART_START))
+
+    # Calculate the maximum size for the partition in bytes
+    MAX_PART_SIZE_BYTES=$((AVAILABLE_SECTORS * SECTOR_SIZE))
+
+    # Convert to megabytes (1 MB = 1,048,576 bytes)
+    MAX_PART_SIZE_MB=$((MAX_PART_SIZE_BYTES / 1048576))
+
+    # Subtract a safety margin (e.g., 100 MB)
+    SAFE_PART_SIZE_MB=$((MAX_PART_SIZE_MB - 100))
+
+    echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
+    echo "Maximum partition size: ${MAX_PART_SIZE_MB} MB"
+    echo "Resizing the partition to: ${SAFE_PART_SIZE_MB} MB"
+
+    # Run fatresize with the adjusted size
+    echo "Resizing the FAT32 partition..."
+    $TMP_PATH/fatresize -f -v -s ${SAFE_PART_SIZE_MB}M /dev/mmcblk0p1
+
+    # Check if fatresize was successful
     if [ $? -ne 0 ]; then
-        echo "Error al redimensionar la partición con fatresize."
-        sleep 5
-		sync
-		reboot
+        echo "Error resizing the partition with fatresize."
+        # Remount the partition before exiting
+        mount /dev/mmcblk0p1 /mnt/SDCARD
+        sync
+        exit 1
     fi
 
-    # Montar la partición nuevamente
-    echo "Montando la partición de nuevo..."
+    # Remount the partition
+    echo "Remounting the partition..."
     mount /dev/mmcblk0p1 /mnt/SDCARD
 
-    # Crear archivo indicador de que el redimensionamiento ya se ha hecho
+    # Show partition information after resizing
+    echo "Partition information after resizing:"
+    fdisk -l /dev/mmcblk0
+
+    # Create a file indicating that the resize has been completed
     touch /mnt/SDCARD/resized
 
-    # Sincronizar cambios y reiniciar
-    echo "Redimensionamiento completado. Reiniciando el sistema..."
+    # Sync changes before rebooting
     sync
-    reboot
 
+    echo "Resizing completed. Rebooting the system..."
+    reboot
 fi
 
-# Verificar si el script está copiado en /tmp, si no, copiarlo
+# Check if the script is copied to /tmp, if not, copy it
 if [ ! -f /tmp/_resize_partition ]; then
     cp -f "$0" /tmp/_resize_partition
 fi
 
-# Ejecutar el script de forma independiente en segundo plano
+# Run the script independently in the background
 pgrep -f /tmp/_resize_partition || (
     set -m
     su root -c "/usr/bin/nohup /tmp/_resize_partition $1 </dev/null >/dev/null 2>&1 &"
 )
 
-# Espera para no cerrar el script principal inmediatamente
+# Wait to prevent the main script from closing immediately
 while true; do
     sleep 10
 done
