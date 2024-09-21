@@ -1,4 +1,5 @@
-![koriki](images/koriki_logo.png)
+![KORIKI GITHUB REPO](https://github.com/user-attachments/assets/6d740106-5d96-4131-8cfa-c01191d2fad5)
+
 
 # Koriki
 
