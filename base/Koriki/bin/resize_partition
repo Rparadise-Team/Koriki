@@ -77,46 +77,56 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     echo "Partition information before resizing:"
     fdisk -l /dev/mmcblk0
 
-    # Calculate the maximum safe size for the partition
-    echo "Calculating the maximum safe size for the partition..."
+    # Try to resize the partition using "max" to utilize the full space
+    echo "Attempting to resize the partition to max size..."
+    $TMP_PATH/fatresize -f -v -s max /dev/mmcblk0p1
 
-    # Get the total size of the device in sectors
-    TOTAL_SECTORS=$(cat /sys/block/mmcblk0/size)
-    SECTOR_SIZE=512  # Sector size in bytes
-
-    # Calculate the total size in bytes
-    TOTAL_BYTES=$((TOTAL_SECTORS * SECTOR_SIZE))
-
-    # Get the starting sector of the partition
-    PART_START=$(cat /sys/block/mmcblk0/mmcblk0p1/start)
-
-    # Calculate the available sectors for the partition
-    AVAILABLE_SECTORS=$((TOTAL_SECTORS - PART_START))
-
-    # Calculate the maximum size for the partition in bytes
-    MAX_PART_SIZE_BYTES=$((AVAILABLE_SECTORS * SECTOR_SIZE))
-
-    # Convert to megabytes (1 MB = 1,048,576 bytes)
-    MAX_PART_SIZE_MB=$((MAX_PART_SIZE_BYTES / 1048576))
-
-    # Subtract a safety margin (e.g., 100 MB)
-    SAFE_PART_SIZE_MB=$((MAX_PART_SIZE_MB - 100))
-
-    echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
-    echo "Maximum partition size: ${MAX_PART_SIZE_MB} MB"
-    echo "Resizing the partition to: ${SAFE_PART_SIZE_MB} MB"
-
-    # Run fatresize with the adjusted size
-    echo "Resizing the FAT32 partition..."
-    $TMP_PATH/fatresize -f -v -s ${SAFE_PART_SIZE_MB}M /dev/mmcblk0p1
-
-    # Check if fatresize was successful
+    # Check if fatresize with "max" was successful
     if [ $? -ne 0 ]; then
-        echo "Error resizing the partition with fatresize."
-        # Remount the partition before exiting
-        mount /dev/mmcblk0p1 /mnt/SDCARD
-        sync
-        exit 1
+        echo "Error resizing the partition with 'max'. Attempting optimized resize..."
+
+        # Calculate the maximum safe size for the partition
+        echo "Calculating the maximum safe size for the partition..."
+
+        # Get the total size of the device in sectors
+        TOTAL_SECTORS=$(cat /sys/block/mmcblk0/size)
+        SECTOR_SIZE=512  # Sector size in bytes
+
+        # Calculate the total size in bytes
+        TOTAL_BYTES=$((TOTAL_SECTORS * SECTOR_SIZE))
+
+        # Get the starting sector of the partition
+        PART_START=$(cat /sys/block/mmcblk0/mmcblk0p1/start)
+
+        # Calculate the available sectors for the partition
+        AVAILABLE_SECTORS=$((TOTAL_SECTORS - PART_START))
+
+        # Calculate the maximum size for the partition in bytes
+        MAX_PART_SIZE_BYTES=$((AVAILABLE_SECTORS * SECTOR_SIZE))
+
+        # Convert to megabytes (1 MB = 1,048,576 bytes)
+        MAX_PART_SIZE_MB=$((MAX_PART_SIZE_BYTES / 1048576))
+
+        # Subtract a minimal safety margin (e.g., 10 MB for alignment and safety)
+        SAFETY_MARGIN_MB=10
+        SAFE_PART_SIZE_MB=$((MAX_PART_SIZE_MB - SAFETY_MARGIN_MB))
+
+        echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
+        echo "Maximum partition size: ${MAX_PART_SIZE_MB} MB"
+        echo "Resizing the partition to: ${SAFE_PART_SIZE_MB} MB"
+
+        # Run fatresize with the adjusted size
+        echo "Resizing the FAT32 partition using calculated size..."
+        $TMP_PATH/fatresize -f -v -s ${SAFE_PART_SIZE_MB}M /dev/mmcblk0p1
+
+        # Check if fatresize was successful
+        if [ $? -ne 0 ]; then
+            echo "Error resizing the partition with calculated size."
+            # Remount the partition before exiting
+            mount /dev/mmcblk0p1 /mnt/SDCARD
+            sync
+            exit 1
+        fi
     fi
 
     # Remount the partition
