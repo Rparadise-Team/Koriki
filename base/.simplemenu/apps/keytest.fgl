@@ -1,0 +1,3 @@
+title=Key Tester
+exec="/mnt/SDCARD/App/keytest/keytest.sh"
+editable=false
