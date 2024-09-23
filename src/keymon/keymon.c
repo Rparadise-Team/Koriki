@@ -750,6 +750,27 @@ int isPico8Running()
 	return 0;
 }
 
+int isKeytesterRunning()
+{
+    FILE *fp;
+    char buffer[128];
+    const char *cmd = "pgrep keytester_launcher";
+
+    fp = popen(cmd, "r");
+    if (fp == NULL) {
+        return 0;
+    }
+
+    if (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        pclose(fp);
+        return 1;
+    }
+    
+    pclose(fp);
+    return 0;
+}
+
+
 int isProcessRunning(const char* processName) {
     FILE *fp;
     char cmd[64];
@@ -1137,6 +1158,7 @@ int main (int argc, char *argv[]) {
 					power_pressed_duration = 0;
 				} else if (val == RELEASED && power_pressed) {
 					if (power_pressed_duration < 5) { // Short press
+						if (isKeytesterRunning() == 0) {
 						if (sleep == 0) {
 							display_setScreen(0); // Turn screen back off
 							if (isGMERunning() == 1 || isGMURunning() == 1) {
@@ -1173,6 +1195,7 @@ int main (int argc, char *argv[]) {
 							power_pressed = 0;
             				repeat_power = 0;
 							sleep = 0;
+						}
 						}
 					}
 					// Long press is handled by the existing code
@@ -1290,6 +1313,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
+				if (isKeytesterRunning() == 0) {
 				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Increase brightness
@@ -1312,6 +1336,7 @@ int main (int argc, char *argv[]) {
 						iconvol();
 						osd_show(OSD_VOLUME);
 					}
+				}
 				}
 				break;
 			case BUTTON_VOLUMEDOWN:
@@ -1322,6 +1347,7 @@ int main (int argc, char *argv[]) {
 				} else {
 					repeat = 0;
 				}
+				if (isKeytesterRunning() == 0) {
 				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
 					if (val == PRESSED && menu_pressed) {
 						// Decrease brightness
@@ -1344,6 +1370,7 @@ int main (int argc, char *argv[]) {
 						iconvol();
 						osd_show(OSD_VOLUME);
 					}
+				}
 				}
 				break;
 			case BUTTON_L2:
