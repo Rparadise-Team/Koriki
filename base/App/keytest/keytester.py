@@ -21,8 +21,8 @@ is_charging = 0  # Charging status
 vibration_active = False  # Track if vibration is active
 
 # Coordinates for the icons
-icon_1_coords = (186, 87)
-icon_2_coords = (246, 84)
+icon_1_coords = (175, 93)
+icon_2_coords = (235, 90)
 
 keycode = {  # Linux event keycodes
     "UP": ("103", "#UP"),
@@ -46,24 +46,24 @@ keycode = {  # Linux event keycodes
 }
 
 circle_coordinates = {
-    "UP": (117, 304),    # "UP" button on the D-pad
-    "DOWN": (118, 347),  # "DOWN" button on the D-pad
-    "LEFT": (94, 326),   # "LEFT" button on the D-pad
-    "RIGHT": (142, 326), # "RIGHT" button on the D-pad
-    "A": (265, 325),     # "A" button
-    "B": (239, 352),     # "B" button
-    "Y": (213, 325),     # "Y" button
-    "X": (239, 299),     # "X" button
-    "L1": (558, 209),    # "L1" button
-    "R1": (364, 209),    # "R1" button
-    "L2": (513, 209),    # "L2" button
-    "R2": (410, 209),    # "R2" button
-    "start": (196, 379), # "start" button
-    "select": (161, 379),# "select" button
-    "menu": (179, 295),  # "menu" button
-    "vol+": (53, 119),   # "vol+" button
-    "vol-": (53, 149),   # "vol-" button
-    "power": (255, 75)   # "power" button
+    "UP": (109, 306),    # "UP" button on the D-pad
+    "DOWN": (109, 347),  # "DOWN" button on the D-pad
+    "LEFT": (86, 327),   # "LEFT" button on the D-pad
+    "RIGHT": (133, 327), # "RIGHT" button on the D-pad
+    "A": (255, 327),     # "A" button
+    "B": (229, 353),     # "B" button
+    "Y": (203, 327),     # "Y" button
+    "X": (229, 301),     # "X" button
+    "L1": (570, 212),    # "L1" button
+    "R1": (377, 212),    # "R1" button
+    "L2": (526, 212),    # "L2" button
+    "R2": (422, 212),    # "R2" button
+    "start": (186, 380), # "start" button
+    "select": (151, 380),# "select" button
+    "menu": (170, 297),  # "menu" button
+    "vol+": (42, 119),   # "vol+" button
+    "vol-": (42, 155),   # "vol-" button
+    "power": (250, 76)   # "power" button
 }
 
 background_image = pygame.image.load("background.png")
