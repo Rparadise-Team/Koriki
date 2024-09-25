@@ -68,8 +68,8 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     fdisk -l /dev/mmcblk0
 
     # Try resizing to max size automatically using parted
-    echo "Attempting to resize the partition to max size using parted..."
-    $TMP_PATH/parted /dev/mmcblk0 --script resizepart 1 100%
+    #echo "Attempting to resize the partition to max size using parted..."
+    #$TMP_PATH/parted /dev/mmcblk0 --script resizepart 1 100%
 	
 	echo "Attempting to resize the partition to max size..."
     $TMP_PATH/fatresize -f -v -s max /dev/mmcblk0p1
@@ -97,8 +97,8 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
         # Convert to megabytes (1 MB = 1,048,576 bytes)
         MAX_PART_SIZE_MB=$((MAX_PART_SIZE_BYTES / 1048576))
 
-        # Subtract a minimal safety margin (e.g., 10 MB for alignment and safety)
-        SAFETY_MARGIN_MB=10
+        # Subtract a minimal safety margin (e.g., 1 MB for alignment and safety)
+        SAFETY_MARGIN_MB=1
         SAFE_PART_SIZE_MB=$((MAX_PART_SIZE_MB - SAFETY_MARGIN_MB))
 
         echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
