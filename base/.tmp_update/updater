@@ -561,9 +561,11 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				if grep -q "filter = grid2x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				fi
 			fi
 			sync
 		fi
@@ -586,9 +588,11 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				if grep -q "filter = grid3x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				fi
 			fi
 			sync
 		fi
@@ -617,6 +621,7 @@ else
 	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v4" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -624,9 +629,11 @@ else
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				if grep -q "filter = grid2x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
+				fi
 			fi
 			sync
 		fi
