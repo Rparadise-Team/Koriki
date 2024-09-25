@@ -1,16 +1,6 @@
 #!/bin/sh
 
-# Enable debugging to see each command executed
-set -x
-
-# Redirect stdout and stderr to a log file in /appconfigs
-if [ -f /appconfigs/resize_partition.log ]; then
-    rm /appconfigs/resize_partition.log
-fi
-
-exec > /appconfigs/resize_partition.log 2>&1
-
-export LOCK_FILE="/var/lock/_resize"
+export LOCK_FILE="/var/lock/_resize_partition"
 export TMP_PATH="/tmp/fatresize"
 export TMP_LIB="/tmp/fatresize/lib"
 
@@ -63,32 +53,32 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     swapoff /mnt/SDCARD/cachefile 2>/dev/null
     umount -r /mnt/SDCARD 2>/dev/null
     umount /mnt/SDCARD 2>/dev/null
-
-    # Prepare the environment for running fatresize
+	
+	# Prepare the environment for running fatresize
     echo "Preparing environment for fatresize..."
     export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
 
     $TMP_PATH/show $TMP_PATH/resize.png
-
-    # Ensure that the fatresize binary is executable
-    chmod +x $TMP_PATH/fatresize
+	
+	# Ensure that the fatresize binary is executable
+    chmod +x $TMP_PATH
 
     # Show partition information before resizing
     echo "Partition information before resizing:"
     fdisk -l /dev/mmcblk0
 
-    # Try to resize the partition using "max" to utilize the full space
-    echo "Attempting to resize the partition to max size..."
+    # Try resizing to max size automatically using parted
+    echo "Attempting to resize the partition to max size using parted..."
+    $TMP_PATH/parted /dev/mmcblk0 --script resizepart 1 100%
+	
+	echo "Attempting to resize the partition to max size..."
     $TMP_PATH/fatresize -f -v -s max /dev/mmcblk0p1
 
-    # Check if fatresize with "max" was successful
+    # Check if parted was successful
     if [ $? -ne 0 ]; then
-        echo "Error resizing the partition with 'max'. Attempting optimized resize..."
+        echo "Error resizing the partition with '100%'. Attempting manual resize..."
 
-        # Calculate the maximum safe size for the partition
-        echo "Calculating the maximum safe size for the partition..."
-
-        # Get the total size of the device in sectors
+        # Calculate the total size and starting sector manually
         TOTAL_SECTORS=$(cat /sys/block/mmcblk0/size)
         SECTOR_SIZE=512  # Sector size in bytes
 
@@ -114,12 +104,12 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
         echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
         echo "Maximum partition size: ${MAX_PART_SIZE_MB} MB"
         echo "Resizing the partition to: ${SAFE_PART_SIZE_MB} MB"
-
-        # Run fatresize with the adjusted size
+		
+		# Run fatresize with the adjusted size
         echo "Resizing the FAT32 partition using calculated size..."
         $TMP_PATH/fatresize -f -v -s ${SAFE_PART_SIZE_MB}M /dev/mmcblk0p1
 
-        # Check if fatresize was successful
+        # Check if manual resize was successful
         if [ $? -ne 0 ]; then
             echo "Error resizing the partition with calculated size."
             # Remount the partition before exiting
@@ -128,6 +118,14 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
             exit 1
         fi
     fi
+
+    # Run partprobe to force partition table reload
+    echo "Forcing partition table reload with partprobe..."
+    $TMP_PATH/partprobe /dev/mmcblk0
+	
+	# Fix FAT32 header
+	echo -n -e \\xEB\\x58\\x90 > /dev/mmcblk0p1
+	sync
 
     # Remount the partition
     echo "Remounting the partition..."
@@ -141,6 +139,11 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     touch /mnt/SDCARD/resized
 
     # Sync changes before rebooting
+    sync
+    
+    umount -r /mnt/SDCARD
+    umount /mnt/SDCARD
+
     sync
 
     echo "Resizing completed. Rebooting the system..."

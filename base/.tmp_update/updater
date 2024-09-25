@@ -101,11 +101,15 @@ if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
 	mkdir -p $TMP_LIB
 
     # Copiar fatresize y sus bibliotecas necesarias
-    echo "Copiando fatresize y dependencias..."
-    cp "$SDCARD_PATH/Koriki/bin/fatresize" $TMP_PATH/
+    echo "Copiando parted y dependencias..."
+	cp "$SDCARD_PATH/Koriki/bin/fatresize" $TMP_PATH/
+    cp "$SDCARD_PATH/Koriki/bin/parted" $TMP_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/partprobe" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/show" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/images/resize.png" $TMP_PATH/
 	chmod +x $TMP_PATH/fatresize
+	chmod +x $TMP_PATH/parted
+	chmod +x $TMP_PATH/partprobe
 	chmod +x $TMP_PATH/show
     cp "$SDCARD_PATH/Koriki/lib/libparted-fs-resize.so.0" $TMP_LIB/
     cp "$SDCARD_PATH/Koriki/lib/libparted.so.2" $TMP_LIB/
@@ -549,6 +553,7 @@ if [ ! -f /customer/app/axp_test ]; then
 	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v4" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -556,6 +561,9 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
 			fi
 			sync
 		fi
@@ -570,6 +578,7 @@ if [ ! -f /customer/app/axp_test ]; then
 	sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v1" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -577,6 +586,9 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
 			fi
 			sync
 		fi

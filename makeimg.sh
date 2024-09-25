@@ -62,7 +62,7 @@ dd if=/dev/zero of="$IMAGE_NAME" bs=1M count="$SIZE_MB" status=progress
 # Paso 6: Crear una tabla de particiones y una partición FAT32
 echo "Creando tabla de particiones y una partición FAT32..."
 sudo parted -s "$IMAGE_NAME" mklabel msdos
-sudo parted -s "$IMAGE_NAME" mkpart primary fat32 1MiB 100%
+sudo parted -s "$IMAGE_NAME" mkpart primary fat32 2048s 100%
 
 # Paso 7: Asociar la imagen a un dispositivo de bucle
 echo "Asociando la imagen a un dispositivo de bucle..."
@@ -88,7 +88,7 @@ fi
 
 # Paso 8: Formatear la partición con FAT32 usando clústeres de 32K
 echo "Formateando la partición con FAT32 (clúster de 32K)..."
-sudo mkfs.vfat -F 32 -s 64 -S 512 "$PARTITION_DEVICE"
+sudo mkfs.vfat -F 32 "$PARTITION_DEVICE"
 
 # Paso 9: Montar la partición con opciones adecuadas
 echo "Montando la partición en $MOUNT_POINT..."
