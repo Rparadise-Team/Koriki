@@ -624,6 +624,9 @@ else
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
+				mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
 			fi
 			sync
 		fi
