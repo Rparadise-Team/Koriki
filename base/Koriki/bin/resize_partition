@@ -53,101 +53,82 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     swapoff /mnt/SDCARD/cachefile 2>/dev/null
     umount -r /mnt/SDCARD 2>/dev/null
     umount /mnt/SDCARD 2>/dev/null
-	
-	# Prepare the environment for running fatresize
+
+    # Prepare the environment for running fatresize
     echo "Preparing environment for fatresize..."
     export LD_LIBRARY_PATH=$TMP_LIB:/lib:/config/lib:/customer/lib:$LD_LIBRARY_PATH
 
-    $TMP_PATH/show $TMP_PATH/resize.png
-	
-	# Ensure that the fatresize binary is executable
+    # Ensure that the fatresize binary is executable
     chmod +x $TMP_PATH
+	
+	$TMP_PATH/show $TMP_PATH/resize.png
+	
+	sleep 5
 
     # Show partition information before resizing
     echo "Partition information before resizing:"
-    fdisk -l /dev/mmcblk0
-
-    # Try resizing to max size automatically using parted
-    #echo "Attempting to resize the partition to max size using parted..."
-    #$TMP_PATH/parted /dev/mmcblk0 --script resizepart 1 100%
 	
-	echo "Attempting to resize the partition to max size..."
-    $TMP_PATH/fatresize -f -v -s max /dev/mmcblk0p1
+    $TMP_PATH/fdisk -l /dev/mmcblk0
+	
+	# Extract size in GiB from fdisk and convert to KiB
+	
+    TOTAL_GIB=$($TMP_PATH/fdisk -l /dev/mmcblk0 | grep "Disk /dev/mmcblk0" | awk '{print $3}')
+    TOTAL_KIB=$(awk "BEGIN {printf \"%d\", ( $TOTAL_GIB * 1024 * 1024 ) - 2}")
 
-    # Check if parted was successful
+    echo "Total size: $TOTAL_GIB GiB"
+    echo "Converted size: $TOTAL_KIB KiB"
+	
+	$TMP_PATH/fatresize -f -v -s ${TOTAL_KIB}ki /dev/mmcblk0p1
+	
+	$TMP_PATH/fsck.fat -a -v /dev/mmcblk0p1
+	
+	$TMP_PATH/parted /dev/mmcblk0 --script resizepart 1 100%
+
+    # Check if the resize was successful
     if [ $? -ne 0 ]; then
-        echo "Error resizing the partition with '100%'. Attempting manual resize..."
-
-        # Calculate the total size and starting sector manually
-        TOTAL_SECTORS=$(cat /sys/block/mmcblk0/size)
-        SECTOR_SIZE=512  # Sector size in bytes
-
-        # Calculate the total size in bytes
-        TOTAL_BYTES=$((TOTAL_SECTORS * SECTOR_SIZE))
-
-        # Get the starting sector of the partition
-        PART_START=$(cat /sys/block/mmcblk0/mmcblk0p1/start)
-
-        # Calculate the available sectors for the partition
-        AVAILABLE_SECTORS=$((TOTAL_SECTORS - PART_START))
-
-        # Calculate the maximum size for the partition in bytes
-        MAX_PART_SIZE_BYTES=$((AVAILABLE_SECTORS * SECTOR_SIZE))
-
-        # Convert to megabytes (1 MB = 1,048,576 bytes)
-        MAX_PART_SIZE_MB=$((MAX_PART_SIZE_BYTES / 1048576))
-
-        # Subtract a minimal safety margin (e.g., 1 MB for alignment and safety)
-        SAFETY_MARGIN_MB=1
-        SAFE_PART_SIZE_MB=$((MAX_PART_SIZE_MB - SAFETY_MARGIN_MB))
-
-        echo "Total device size: $((TOTAL_BYTES / 1048576)) MB"
-        echo "Maximum partition size: ${MAX_PART_SIZE_MB} MB"
-        echo "Resizing the partition to: ${SAFE_PART_SIZE_MB} MB"
-		
-		# Run fatresize with the adjusted size
-        echo "Resizing the FAT32 partition using calculated size..."
-        $TMP_PATH/fatresize -f -v -s ${SAFE_PART_SIZE_MB}M /dev/mmcblk0p1
-
-        # Check if manual resize was successful
-        if [ $? -ne 0 ]; then
-            echo "Error resizing the partition with calculated size."
-            # Remount the partition before exiting
-            mount /dev/mmcblk0p1 /mnt/SDCARD
-            sync
-            exit 1
-        fi
+        echo "Error resizing the partition."
+        sync
+		/customer/main
+        exit 1
     fi
 
     # Run partprobe to force partition table reload
     echo "Forcing partition table reload with partprobe..."
-    $TMP_PATH/partprobe /dev/mmcblk0
 	
-	# Fix FAT32 header
-	echo -n -e \\xEB\\x58\\x90 > /dev/mmcblk0p1
-	sync
+    $TMP_PATH/partprobe /dev/mmcblk0
 
-    # Remount the partition
+    # Fix FAT32 header RAW in windows
+    echo -n -e \\xEB\\x58\\x90 > /dev/mmcblk0p1
+    sync
+	
+	$TMP_PATH/fsck.fat -a -v /dev/mmcblk0p1
+
+    # Remount the partition using system's mount command
     echo "Remounting the partition..."
     mount /dev/mmcblk0p1 /mnt/SDCARD
 
     # Show partition information after resizing
     echo "Partition information after resizing:"
-    fdisk -l /dev/mmcblk0
+    $TMP_PATH/fdisk -l /dev/mmcblk0
 
     # Create a file indicating that the resize has been completed
     touch /mnt/SDCARD/resized
 
     # Sync changes before rebooting
     sync
-    
+
+    echo "Unmounting the partition..."
     umount -r /mnt/SDCARD
     umount /mnt/SDCARD
 
     sync
 
     echo "Resizing completed. Rebooting the system..."
-    reboot
+	if [ ! -f "/customer/app/axp_test" ]; then
+    	reboot
+	else
+		poweroff
+	fi
 fi
 
 # Check if the script is copied to /tmp, if not, copy it

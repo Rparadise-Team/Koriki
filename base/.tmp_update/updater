@@ -102,26 +102,36 @@ if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
 
     # Copiar fatresize y sus bibliotecas necesarias
     echo "Copiando parted y dependencias..."
+	cp "$SDCARD_PATH/Koriki/bin/fdisk" $TMP_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/fsck.fat" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/fatresize" $TMP_PATH/
     cp "$SDCARD_PATH/Koriki/bin/parted" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/partprobe" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/show" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/images/resize.png" $TMP_PATH/
+	chmod +x $TMP_PATH/fdisk
+	chmod +x $TMP_PATH/fsck.fat
 	chmod +x $TMP_PATH/fatresize
 	chmod +x $TMP_PATH/parted
 	chmod +x $TMP_PATH/partprobe
 	chmod +x $TMP_PATH/show
+	cp "$SDCARD_PATH/Koriki/lib/libfdisk.so.1" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libsmartcols.so.1" $TMP_LIB/
     cp "$SDCARD_PATH/Koriki/lib/libparted-fs-resize.so.0" $TMP_LIB/
     cp "$SDCARD_PATH/Koriki/lib/libparted.so.2" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libblkid.so.1" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libuuid.so.1" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libpng16.so.16" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libncurses.so.6" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libmsettings.so" $TMP_LIB/
+	chmod +x $TMP_LIB/libfdisk.so.1
+	chmod +x $TMP_LIB/libsmartcols.so.1
 	chmod +x $TMP_LIB/libparted-fs-resize.so.0
 	chmod +x $TMP_LIB/libparted.so.2
 	chmod +x $TMP_LIB/libblkid.so.1
 	chmod +x $TMP_LIB/libuuid.so.1
 	chmod +x $TMP_LIB/libpng16.so.16
+	chmod +x $TMP_LIB/libncurses.so.6
 	chmod +x $TMP_LIB/libmsettings.so
 
 
@@ -561,11 +571,6 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				if grep -q "filter = grid2x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
-				fi
 			fi
 			sync
 		fi
@@ -588,11 +593,6 @@ if [ ! -f /customer/app/axp_test ]; then
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				if grep -q "filter = grid3x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
-				fi
 			fi
 			sync
 		fi
@@ -629,11 +629,6 @@ else
 			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
 				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				if grep -q "filter = grid2x" "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt; then
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid3x.filt
-					mv "${RETROARCH_PATH}"/.retroarch/filters/video/Grid0x.filt "${RETROARCH_PATH}"/.retroarch/filters/video/Grid2x.filt
-				fi
 			fi
 			sync
 		fi

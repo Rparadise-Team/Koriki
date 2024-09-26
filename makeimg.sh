@@ -10,6 +10,7 @@ fi
 BASE_DIR="./base"
 VERSION_FILE="$BASE_DIR/Koriki/version.txt"
 CLUSTER_SIZE=32768  # 32 KB (32 * 1024)
+MIN_SIZE_MB=1024    # 1 GB en MiB (1024 * 1)
 
 # Leer la versión desde el archivo version.txt
 if [ -f "$VERSION_FILE" ]; then
@@ -41,7 +42,7 @@ done
 
 # Paso 4: Calcular el número total de clústeres necesarios
 CLUSTER_NEEDED=$((SIZE_FILES / CLUSTER_SIZE + NUM_FILES))  # Dividir el tamaño total por clúster y sumar por cada archivo
-TOTAL_CLUSTER_SPACE=$((CLUSTER_NEEDED * CLUSTER_SIZE))      # Espacio total necesario para los clústeres en FAT32
+TOTAL_CLUSTER_SPACE=$((CLUSTER_NEEDED * CLUSTER_SIZE + OVERHEAD))  # Incluir la sobrecarga de clústeres
 
 # Mostrar los detalles
 echo "Número de archivos y carpetas: $NUM_FILES"
@@ -50,6 +51,11 @@ echo "Tamaño total con sobrecarga de clústeres: $TOTAL_CLUSTER_SPACE bytes"
 
 # Asegurarse de que el tamaño total sea múltiplo de 1 MiB para la creación de la imagen
 SIZE_MB=$(( (TOTAL_CLUSTER_SPACE + 1048576 - 1) / 1048576 ))
+
+# Verificar si el tamaño es menor a 2.01 GB y ajustarlo
+if [ $SIZE_MB -lt $MIN_SIZE_MB ]; then
+    SIZE_MB=$MIN_SIZE_MB
+fi
 
 echo "Versión: $VERSION"
 echo "Nombre de la imagen: $IMAGE_NAME"
