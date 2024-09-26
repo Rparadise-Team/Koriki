@@ -88,7 +88,7 @@ fi
 
 # Paso 8: Formatear la partición con FAT32 usando clústeres de 32K
 echo "Formateando la partición con FAT32 (clúster de 32K)..."
-sudo mkfs.vfat -F 32 "$PARTITION_DEVICE"
+sudo mkfs.vfat -F 32 -s 64 -S 512 "$PARTITION_DEVICE"
 
 # Paso 9: Montar la partición con opciones adecuadas
 echo "Montando la partición en $MOUNT_POINT..."
@@ -104,6 +104,9 @@ sudo rsync -a --no-owner --no-group "$BASE_DIR"/ "$MOUNT_POINT"/
 echo "Desmontando la partición y liberando el dispositivo de bucle..."
 sudo umount "$MOUNT_POINT"
 rm -r "$MOUNT_POINT"
+
+sync
+
 sudo losetup -d "$LOOP_DEVICE"
 
 # Paso 12: Comprimir la imagen
