@@ -2,10 +2,10 @@
 display_name = "Nintendo - Game Boy / Color (DoubleCherryGB)"
 authors = "GIGO|Hii|TimOelrichs"
 supported_extensions = "cgb|dmg|gb|gbc|sgb"
-corename = "DoubleCherryGB"
+corename = "DoubleCherryGB [Miyoo]"
 license = "GPLv2"
 permissions = ""
-display_version = "v0.17.0"
+display_version = "v0.1.0"
 categories = "Emulator"
 
 # Hardware Information
