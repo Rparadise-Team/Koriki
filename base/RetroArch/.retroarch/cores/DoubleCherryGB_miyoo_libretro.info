@@ -1,5 +1,5 @@
 # Software Information
-display_name = "Nintendo - Game Boy / Color (DoubleCherryGB)"
+display_name = "Nintendo - Game Boy / Color (DoubleCherryGB) [Miyoo]"
 authors = "GIGO|Hii|TimOelrichs"
 supported_extensions = "cgb|dmg|gb|gbc|sgb"
 corename = "DoubleCherryGB [Miyoo]"

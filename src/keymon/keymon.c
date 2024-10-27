@@ -1402,7 +1402,7 @@ int main (int argc, char *argv[]) {
 			
 			if (mmModel) {
         		if (isProcessRunning("retroarch")) {
-					system("echo MM_in_RA; sync; RA_shutdown");
+					system("echo MM_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				} else if (isProcessRunning("simplemenu") != 1) {
 					system("echo MM; sync; sleep 3; shutdown");
 				} else {
@@ -1410,7 +1410,7 @@ int main (int argc, char *argv[]) {
 				}
     		} else {
         		if (isProcessRunning("retroarch")) {
-					system("echo MMP_in_RA; sync; RA_shutdown");
+					system("echo MMP_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
 				} else if (isProcessRunning("simplemenu") != 1) {
 					system("echo MMP; sync; sleep 3; shutdown");
 				} else {
