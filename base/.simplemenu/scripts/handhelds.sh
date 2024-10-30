@@ -10,13 +10,13 @@ romDirs = /mnt/SDCARD/Roms/ARDUBOY/
 romExts = .hex
 
 [GAME BOY]
-execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_libretro
 romDirs = /mnt/SDCARD/Roms/GB/
 romExts = .gb,.gz,.zip,.7z
 scaling = 1
 
 [GAME BOY COLOR]
-execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/gambatte_libretro,/mnt/SDCARD/.simplemenu/launchers/gearboy_libretro,/mnt/SDCARD/.simplemenu/launchers/sameboy_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_server,/mnt/SDCARD/.simplemenu/launchers/tgbdual_libretro_client,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/DoubleCherryGB_libretro
 romDirs = /mnt/SDCARD/Roms/GBC/
 romExts = .gbc,.zip,.7z
 scaling = 1

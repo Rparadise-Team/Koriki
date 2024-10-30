@@ -86,12 +86,12 @@ romDirs = /mnt/SDCARD/Roms/NEOCD/
 romExts = .zip,.chd
 
 [PC ENGINE]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_pce_fast_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supergrafx_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_pce_fast_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_pce_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supergrafx_libretro
 romDirs = /mnt/SDCARD/Roms/PCE/
 romExts = .pce,.tg16,.cue,.zip,.7z
 
 [PC ENGINE CD]
-execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_pce_fast_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supergrafx_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/mednafen_pce_fast_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_pce_libretro,/mnt/SDCARD/.simplemenu/launchers/mednafen_supergrafx_libretro
 romDirs = /mnt/SDCARD/Roms/PCECD/
 romExts = .pce,.tg16,.cue,.chd,.zip,.7z
 
