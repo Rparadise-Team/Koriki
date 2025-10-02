@@ -1159,6 +1159,7 @@ int main (int argc, char *argv[]) {
     register uint32_t power_pressed = 0;
     int repeat_power = 0;
     int shutdown = 0;
+	int close = 0;
     uint32_t repeat = 0;
 
     ssize_t n;
@@ -1202,7 +1203,7 @@ int main (int argc, char *argv[]) {
                                     power_pressed = 0;
                                     repeat_power = 0;
                                     sleep = 1;
-                                } else if (sleep == 1) {
+                                } else if (sleep == 1 && close == 0) {
                                     setmute(0);
                                     sethibernate(0);
                                     setcpu(0);
@@ -1434,6 +1435,7 @@ int main (int argc, char *argv[]) {
                 power_pressed = 0;
                 repeat_power = 0;
                 sleep = 0;
+				close = 0;
             } else if (hv == 0 && sleep == 0) {
                 display_setScreen(0); // Turn screen back off
                 if (isGMERunning() == 1 || isGMURunning() == 1) {
@@ -1458,6 +1460,7 @@ int main (int argc, char *argv[]) {
                     setcpu(1);
                 }
                 sleep = 1;
+				close = 1;
             }
         }
         usleep(100000);
