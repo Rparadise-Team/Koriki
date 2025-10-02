@@ -87,6 +87,20 @@ char* load_file(char const* path) {
 	return buffer;
 }
 
+int file_exists(const char *filename) {
+    struct stat buffer;
+    return (stat(filename, &buffer) == 0);
+}
+
+int read_hallvalue(const char* path) {
+    FILE *f = fopen(path, "r");
+    if (!f) return -1;
+    int val = -1;
+    if (fscanf(f, "%d", &val) != 1) val = -1;
+    fclose(f);
+    return val;
+}
+
 void setmute(int mute) {
 	cJSON* request_json = NULL;
 	cJSON* itemMute;
@@ -1079,348 +1093,376 @@ void setcpu(int cpu) {
 }
 
 int main (int argc, char *argv[]) {
-	input_fd = open("/dev/input/event0", O_RDONLY);
-	mmModel = access("/customer/app/axp_test", F_OK);
-	
-	getVolume();
-	modifyBrightness(0);
-	setcpu(0);
-	sethibernate(0);
-	setmute(0);
-	setVolume(0,0);
-	int volume = 0;
-	int power_pressed_duration = 0;
-	int sleep = 0;
-	
-	//READ Volume valor from system
-	cJSON* request_json = NULL;
-	cJSON* itemVol;
-	const char *settings_file = getenv("SETTINGS_FILE");
-	if (settings_file == NULL) {
-		FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
-		if (!pipe) {
-			FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
-			if (!configv4) {
-				settings_file = "/appconfigs/system.json";
-			} else {
-				settings_file = "/mnt/SDCARD/system.json";
-			}
-			
-			pclose(configv4);
-			
-		} else {
-			char buffer[128];
-			int flash_detected = 0;
-			
-			while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
-				if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
-					flash_detected = 1;
-					break;
-				}
-			}
-			
-			pclose(pipe);
-			
-			if (flash_detected) {
-				settings_file = "/mnt/SDCARD/system.json";
-			} else {
-				settings_file = "/appconfigs/system.json";
-			}
-		}
-	}
-	
-	char *request_body = load_file(settings_file);
-	request_json = cJSON_Parse(request_body);
-	itemVol = cJSON_GetObjectItem(request_json, "vol");
-	int vol = cJSON_GetNumberValue(itemVol);
-	volume = vol;
-	cJSON_Delete(request_json);
-	free(request_body);
-	
-	// Main Loop
-	register uint32_t val;
-	register uint32_t menu_pressed = 0;
-	register uint32_t l2_pressed = 0;
-	register uint32_t r2_pressed = 0;
-	register uint32_t Select_pressed = 0;
-	register uint32_t Start_pressed = 0;
-	register uint32_t power_pressed = 0;
-	int repeat_power = 0;
-	int shutdown = 0;
-	uint32_t repeat = 0;
-	while (read(input_fd, &ev, sizeof(ev)) == sizeof(ev)) {
-		val = ev.value;
-		if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
-		switch (ev.code) {
-			case BUTTON_POWER:
-				if (val == PRESSED) {
-					power_pressed = val;
-					power_pressed_duration = 0;
-				} else if (val == RELEASED && power_pressed) {
-					if (power_pressed_duration < 5) { // Short press
-						if (isKeytesterRunning() == 0) {
-						if (sleep == 0) {
-							display_setScreen(0); // Turn screen back off
-							if (isGMERunning() == 1 || isGMURunning() == 1) {
-								setmute(0);
-							} else {
-							setmute(1);
-							}
-							sethibernate(1);
-							if (isGMERunning() == 1 || isGMURunning() == 1) {
-								setcpu(3);
-							} else if (isRetroarchRunning() == 1) {
-								setcpu(2);
-							} else if (isDrasticRunning() == 1) {
-								setcpu(4);
-							} else if (isPcsxRunning() == 1) {
-								setcpu(4);
-							} else if (isFBNeoRunning() == 1) {
-								setcpu(4);
-							} else if (isPico8Running() == 1) {
-								setcpu(4);
-							} else {
-							setcpu(1);
-							}
-							power_pressed = 0;
-							repeat_power = 0;
-							sleep = 1;
-						} else if (sleep == 1) {
-							setmute(0);
-							sethibernate(0);
-							setcpu(0);
-							if (isGMERunning() == 1 || isGMURunning() == 1) {
-							} else { getVolume(); }
-							display_setScreen(1); // Turn screen back on
-							power_pressed = 0;
-            				repeat_power = 0;
-							sleep = 0;
-						}
-						}
-					}
-					// Long press is handled by the existing code
-				} else if (val == REPEAT) {
-					if (repeat_power >= 20) {
-						shutdown = 1;
-					}
-					repeat_power++;
-				}
-				break;
-			case BUTTON_MENU:
-				if (val != REPEAT) menu_pressed = val;
-				break;
-			case BUTTON_UP:
-				if (val == REPEAT) {
-					// Adjust repeat speed to 1/2
-					val = repeat;
-					repeat ^= PRESSED;
-				} else {
-					repeat = 0;
-				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-					if (val == PRESSED && menu_pressed) {
-						// Increase brightness
-						modifyBrightness(1);
-						osd_show(OSD_BRIGHTNESS);
-					}
-				} else {
-					if (val == PRESSED && Select_pressed) {
-						// Increase brightness
-						modifyBrightness(1);
-						osd_show(OSD_BRIGHTNESS);
-					}
-				}
-				break;
-			case BUTTON_DOWN:
-				if (val == REPEAT) {
-					// Adjust repeat speed to 1/2
-					val = repeat;
-					repeat ^= PRESSED;
-				} else {
-					repeat = 0;
-				}
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-					if (val == PRESSED && menu_pressed) {
-						// Decrease brightness
-						modifyBrightness(-1);
-						osd_show(OSD_BRIGHTNESS);
-					}
-				} else {
-					if (val == PRESSED && Select_pressed) {
-						// Decrease brightness
-						modifyBrightness(-1);
-						osd_show(OSD_BRIGHTNESS);
-					}
-				}
-				break;
-			case BUTTON_RIGHT:
-				if (mmModel) {
-					if (val == REPEAT) {
-						// Adjust repeat speed to 1/2
-						val = repeat;
-						repeat ^= PRESSED;
-					} else {
-						repeat = 0;
-					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-						if (val == PRESSED && menu_pressed) {
-						// Increase volume
-						setVolume(volume, 1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-						}
-					} else {
-					if (val == PRESSED && Select_pressed) {
-						// Increase volume
-						setVolume(volume, 1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-						}
-					}
-				}
-				break;
-			case BUTTON_LEFT:
-				if (mmModel) {
-					if (val == REPEAT) {
-						// Adjust repeat speed to 1/2
-						val = repeat;
-						repeat ^= PRESSED;
-					} else {
-						repeat = 0;
-					}
-					if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-						if (val == PRESSED && menu_pressed) {
-						// Decrease volume
-						setVolume(volume, -1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-						}
-					} else {
-						if (val == PRESSED && Select_pressed) {
-						// Decrease volume
-						setVolume(volume, -1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-						}
-					}
-				}
-				break;
-			case BUTTON_VOLUMEUP:
-				if (val == REPEAT) {
-					// Adjust repeat speed to 1/2
-					val = repeat;
-					repeat ^= PRESSED;
-				} else {
-					repeat = 0;
-				}
-				if (isKeytesterRunning() == 0) {
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-					if (val == PRESSED && menu_pressed) {
-						// Increase brightness
-						modifyBrightness(1);
-						osd_show(OSD_BRIGHTNESS);
-					} else if (val == PRESSED) {
-						// Increase volume
-						setVolume(volume, 1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-					}
-				} else {
-					if (val == PRESSED && Select_pressed) {
-						// Increase brightness
-						modifyBrightness(1);
-						osd_show(OSD_BRIGHTNESS);
-					} else if (val == PRESSED) {
-						// Increase volume
-						setVolume(volume, 1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-					}
-				}
-				}
-				break;
-			case BUTTON_VOLUMEDOWN:
-				if (val == REPEAT) {
-					// Adjust repeat speed to 1/2
-					val = repeat;
-					repeat ^= PRESSED;
-				} else {
-					repeat = 0;
-				}
-				if (isKeytesterRunning() == 0) {
-				if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
-					if (val == PRESSED && menu_pressed) {
-						// Decrease brightness
-						modifyBrightness(-1);
-						osd_show(OSD_BRIGHTNESS);
-					} else if (val == PRESSED) {
-						// Decrease volume
-						setVolume(volume, -1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-					}
-				} else {
-					if (val == PRESSED && Select_pressed) {
-						// Decrease brightness
-						modifyBrightness(-1);
-						osd_show(OSD_BRIGHTNESS);
-					} else if (val == PRESSED) {
-						// Decrease volume
-						setVolume(volume, -1);
-						iconvol();
-						osd_show(OSD_VOLUME);
-					}
-				}
-				}
-				break;
-			case BUTTON_L2:
-				if (val != REPEAT) l2_pressed = val;
-				break;
-			case BUTTON_R2:
-				if (val != REPEAT) r2_pressed = val;
-				break;
-			case BUTTON_SELECT:
-				if (val != REPEAT) Select_pressed = val;
-				break;
-			case BUTTON_START:
-				if (val != REPEAT) Start_pressed = val;
-				break;
-			default:
-				break;
-		}
-		
-		if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed) {
-			killRetroArch();
-		}
-		
-		if (shutdown) {
-			power_pressed = 0;
-			unlink("/mnt/SDCARD/.simplemenu/NUL");
-			unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
-			unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
-			system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
-			
-			if (mmModel) {
-        		if (isProcessRunning("retroarch")) {
-					system("echo MM_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
-				} else if (isProcessRunning("simplemenu") != 1) {
-					system("echo MM; sync; sleep 3; shutdown");
-				} else {
-        			system("echo MM_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
-				}
-    		} else {
-        		if (isProcessRunning("retroarch")) {
-					system("echo MMP_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
-				} else if (isProcessRunning("simplemenu") != 1) {
-					system("echo MMP; sync; sleep 3; shutdown");
-				} else {
-        			system("echo MMP_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
-				}
-    		}
-			while (1) pause();
-		}
-	}
-	
-	exit(EXIT_FAILURE);
-	close_framebuffer();
+    input_fd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
+    mmModel = access("/customer/app/axp_test", F_OK);
+    
+    const char *hallvalue_path = "/sys/devices/soc0/soc/soc:hall-mh248/hallvalue";
+    int last_hallvalue = -1;
+    
+    getVolume();
+    modifyBrightness(0);
+    setcpu(0);
+    sethibernate(0);
+    setmute(0);
+    setVolume(0,0);
+    int volume = 0;
+    int power_pressed_duration = 0;
+    int sleep = 0;
+    
+    //READ Volume valor from system
+    cJSON* request_json = NULL;
+    cJSON* itemVol;
+    const char *settings_file = getenv("SETTINGS_FILE");
+    if (settings_file == NULL) {
+        FILE* pipe = popen("dmesg | fgrep '[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1'", "r");
+        if (!pipe) {
+            FILE* configv4 = fopen("/appconfigs/system.json.old", "r");
+            if (!configv4) {
+                settings_file = "/appconfigs/system.json";
+            } else {
+                settings_file = "/mnt/SDCARD/system.json";
+            }
+            pclose(configv4);
+        } else {
+            char buffer[128];
+            int flash_detected = 0;
+            while (fgets(buffer, sizeof(buffer), pipe) != NULL) {
+                if (strstr(buffer, "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1") != NULL) {
+                    flash_detected = 1;
+                    break;
+                }
+            }
+            pclose(pipe);
+            if (flash_detected) {
+                settings_file = "/mnt/SDCARD/system.json";
+            } else {
+                settings_file = "/appconfigs/system.json";
+            }
+        }
+    }
+    
+    char *request_body = load_file(settings_file);
+    request_json = cJSON_Parse(request_body);
+    itemVol = cJSON_GetObjectItem(request_json, "vol");
+    int vol = cJSON_GetNumberValue(itemVol);
+    volume = vol;
+    cJSON_Delete(request_json);
+    free(request_body);
+    
+    // Main Loop
+    register uint32_t val;
+    register uint32_t menu_pressed = 0;
+    register uint32_t l2_pressed = 0;
+    register uint32_t r2_pressed = 0;
+    register uint32_t Select_pressed = 0;
+    register uint32_t Start_pressed = 0;
+    register uint32_t power_pressed = 0;
+    int repeat_power = 0;
+    int shutdown = 0;
+    uint32_t repeat = 0;
+
+    ssize_t n;
+
+    while (1) {
+        n = read(input_fd, &ev, sizeof(ev));
+        if (n == sizeof(ev)) {
+            val = ev.value;
+            if ((ev.type != EV_KEY) || (val > REPEAT)) continue;
+            switch (ev.code) {
+                case BUTTON_POWER:
+                    if (val == PRESSED) {
+                        power_pressed = val;
+                        power_pressed_duration = 0;
+                    } else if (val == RELEASED && power_pressed) {
+                        if (power_pressed_duration < 5) { // Short press
+                            if (isKeytesterRunning() == 0) {
+                                if (sleep == 0) {
+                                    display_setScreen(0); // Turn screen back off
+                                    if (isGMERunning() == 1 || isGMURunning() == 1) {
+                                        setmute(0);
+                                    } else {
+                                        setmute(1);
+                                    }
+                                    sethibernate(1);
+                                    if (isGMERunning() == 1 || isGMURunning() == 1) {
+                                        setcpu(3);
+                                    } else if (isRetroarchRunning() == 1) {
+                                        setcpu(2);
+                                    } else if (isDrasticRunning() == 1) {
+                                        setcpu(4);
+                                    } else if (isPcsxRunning() == 1) {
+                                        setcpu(4);
+                                    } else if (isFBNeoRunning() == 1) {
+                                        setcpu(4);
+                                    } else if (isPico8Running() == 1) {
+                                        setcpu(4);
+                                    } else {
+                                        setcpu(1);
+                                    }
+                                    power_pressed = 0;
+                                    repeat_power = 0;
+                                    sleep = 1;
+                                } else if (sleep == 1) {
+                                    setmute(0);
+                                    sethibernate(0);
+                                    setcpu(0);
+                                    if (isGMERunning() == 1 || isGMURunning() == 1) {
+                                    } else {
+                                        getVolume();
+                                    }
+                                    display_setScreen(1); // Turn screen back on
+                                    power_pressed = 0;
+                                    repeat_power = 0;
+                                    sleep = 0;
+                                }
+                            }
+                        }
+                        // Long press is handled by the existing code
+                    } else if (val == REPEAT) {
+                        if (repeat_power >= 20) {
+                            shutdown = 1;
+                        }
+                        repeat_power++;
+                    }
+                    break;
+                case BUTTON_MENU:
+                    if (val != REPEAT) menu_pressed = val;
+                    break;
+                case BUTTON_UP:
+                    if (val == REPEAT) {
+                        val = repeat;
+                        repeat ^= PRESSED;
+                    } else {
+                        repeat = 0;
+                    }
+                    if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (val == PRESSED && menu_pressed) {
+                            modifyBrightness(1);
+                            osd_show(OSD_BRIGHTNESS);
+                        }
+                    } else {
+                        if (val == PRESSED && Select_pressed) {
+                            modifyBrightness(1);
+                            osd_show(OSD_BRIGHTNESS);
+                        }
+                    }
+                    break;
+                case BUTTON_DOWN:
+                    if (val == REPEAT) {
+                        val = repeat;
+                        repeat ^= PRESSED;
+                    } else {
+                        repeat = 0;
+                    }
+                    if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (val == PRESSED && menu_pressed) {
+                            modifyBrightness(-1);
+                            osd_show(OSD_BRIGHTNESS);
+                        }
+                    } else {
+                        if (val == PRESSED && Select_pressed) {
+                            modifyBrightness(-1);
+                            osd_show(OSD_BRIGHTNESS);
+                        }
+                    }
+                    break;
+                case BUTTON_RIGHT:
+                    if (mmModel) {
+                        if (val == REPEAT) {
+                            val = repeat;
+                            repeat ^= PRESSED;
+                        } else {
+                            repeat = 0;
+                        }
+                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                            if (val == PRESSED && menu_pressed) {
+                                setVolume(volume, 1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        } else {
+                            if (val == PRESSED && Select_pressed) {
+                                setVolume(volume, 1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        }
+                    }
+                    break;
+                case BUTTON_LEFT:
+                    if (mmModel) {
+                        if (val == REPEAT) {
+                            val = repeat;
+                            repeat ^= PRESSED;
+                        } else {
+                            repeat = 0;
+                        }
+                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                            if (val == PRESSED && menu_pressed) {
+                                setVolume(volume, -1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        } else {
+                            if (val == PRESSED && Select_pressed) {
+                                setVolume(volume, -1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        }
+                    }
+                    break;
+                case BUTTON_VOLUMEUP:
+                    if (val == REPEAT) {
+                        val = repeat;
+                        repeat ^= PRESSED;
+                    } else {
+                        repeat = 0;
+                    }
+                    if (isKeytesterRunning() == 0) {
+                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                            if (val == PRESSED && menu_pressed) {
+                                modifyBrightness(1);
+                                osd_show(OSD_BRIGHTNESS);
+                            } else if (val == PRESSED) {
+                                setVolume(volume, 1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        } else {
+                            if (val == PRESSED && Select_pressed) {
+                                modifyBrightness(1);
+                                osd_show(OSD_BRIGHTNESS);
+                            } else if (val == PRESSED) {
+                                setVolume(volume, 1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        }
+                    }
+                    break;
+                case BUTTON_VOLUMEDOWN:
+                    if (val == REPEAT) {
+                        val = repeat;
+                        repeat ^= PRESSED;
+                    } else {
+                        repeat = 0;
+                    }
+                    if (isKeytesterRunning() == 0) {
+                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                            if (val == PRESSED && menu_pressed) {
+                                modifyBrightness(-1);
+                                osd_show(OSD_BRIGHTNESS);
+                            } else if (val == PRESSED) {
+                                setVolume(volume, -1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        } else {
+                            if (val == PRESSED && Select_pressed) {
+                                modifyBrightness(-1);
+                                osd_show(OSD_BRIGHTNESS);
+                            } else if (val == PRESSED) {
+                                setVolume(volume, -1);
+                                iconvol();
+                                osd_show(OSD_VOLUME);
+                            }
+                        }
+                    }
+                    break;
+                case BUTTON_L2:
+                    if (val != REPEAT) l2_pressed = val;
+                    break;
+                case BUTTON_R2:
+                    if (val != REPEAT) r2_pressed = val;
+                    break;
+                case BUTTON_SELECT:
+                    if (val != REPEAT) Select_pressed = val;
+                    break;
+                case BUTTON_START:
+                    if (val != REPEAT) Start_pressed = val;
+                    break;
+                default:
+                    break;
+            }
+            
+            if (menu_pressed && l2_pressed && r2_pressed && Select_pressed && Start_pressed) {
+                killRetroArch();
+            }
+            
+            if (shutdown) {
+                power_pressed = 0;
+                unlink("/mnt/SDCARD/.simplemenu/NUL");
+                unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+                unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
+                system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
+                
+                if (mmModel) {
+                    if (isProcessRunning("retroarch")) {
+                        system("echo MM_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                    } else if (isProcessRunning("simplemenu") != 1) {
+                        system("echo MM; sync; sleep 3; shutdown");
+                    } else {
+                        system("echo MM_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                    }
+                } else {
+                    if (isProcessRunning("retroarch")) {
+                        system("echo MMP_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                    } else if (isProcessRunning("simplemenu") != 1) {
+                        system("echo MMP; sync; sleep 3; shutdown");
+                    } else {
+                        system("echo MMP_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                    }
+                }
+                while (1) pause();
+            }
+        }
+
+        // Monitorización de hallvalue para sleep/wake
+        int hv = read_hallvalue(hallvalue_path);
+        if (hv != -1 && hv != last_hallvalue) {
+            last_hallvalue = hv;
+            if (hv == 1 && sleep == 1) {
+                setmute(0);
+                sethibernate(0);
+                setcpu(0);
+                if (isGMERunning() == 1 || isGMURunning() == 1) {
+                } else {
+                    getVolume();
+                }
+                display_setScreen(1); // Turn screen back on
+                power_pressed = 0;
+                repeat_power = 0;
+                sleep = 0;
+            } else if (hv == 0 && sleep == 0) {
+                display_setScreen(0); // Turn screen back off
+                if (isGMERunning() == 1 || isGMURunning() == 1) {
+                    setmute(0);
+                } else {
+                    setmute(1);
+                }
+                sethibernate(1);
+                if (isGMERunning() == 1 || isGMURunning() == 1) {
+                    setcpu(3);
+                } else if (isRetroarchRunning() == 1) {
+                    setcpu(2);
+                } else if (isDrasticRunning() == 1) {
+                    setcpu(4);
+                } else if (isPcsxRunning() == 1) {
+                    setcpu(4);
+                } else if (isFBNeoRunning() == 1) {
+                    setcpu(4);
+                } else if (isPico8Running() == 1) {
+                    setcpu(4);
+                } else {
+                    setcpu(1);
+                }
+                sleep = 1;
+            }
+        }
+        usleep(100000);
+    }
+    
+    exit(EXIT_FAILURE);
+    close_framebuffer();
 }
