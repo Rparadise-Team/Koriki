@@ -10,7 +10,11 @@ fi
 if dmesg|fgrep -q "FB_WIDTH=752"; then
 export SCREEN_WIDTH=752
 export SCREEN_HEIGHT=560
-export SUBMODEL="MMv4"
+if [ ! -f /customer/app/axp_test ]; then
+    export SUBMODEL="MMv4"
+else
+    export SUBMODEL="MMFLIP"
+fi
 export screen_resolution="752x560"
 fi
 
@@ -63,6 +67,17 @@ else
 	fi
 	else
     	export SETTINGS_FILE="$SETTINGS_INT_FILE"
+	fi
+fi
+
+# rename root sdcard system.json in mini flip
+if [ "$SUBMODEL" == "MMFLIP" ]; then
+	if [ -f "$SETTINGS_EXT_FILE" ]; then
+		cp "$SETTINGS_EXT_FILE" "/mnt/SDCARD/system.bak"
+	fi
+else
+	if [ -f "/mnt/SDCARD/system.bak" ]; then
+		cp "/mnt/SDCARD/system.bak" "$SETTINGS_EXT_FILE"
 	fi
 fi
 
@@ -311,16 +326,8 @@ get_screen_resolution() {
 }
 
 change_resolution() {
-    res_x=""
-    res_y=""
-
-    if [ -n "$1" ]; then
-        res_x=$(echo "$1" | cut -d 'x' -f 1)
-        res_y=$(echo "$1" | cut -d 'x' -f 2)
-    else
-        res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
-        res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
-    fi
+   res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
+   res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
 	
     echo "change resolution to $res_x x $res_y"
 
@@ -612,27 +619,51 @@ if [ ! -f /customer/app/axp_test ]; then
 	fi
 else
 	rm "${RETROARCH_PATH}"/retroarch
-	cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-		if grep -q "v4" "${RETROARCH_PATH}"/done; then
-			rm "${RETROARCH_PATH}"/done
-			touch "${RETROARCH_PATH}"/done
-			echo "v1" > "${RETROARCH_PATH}"/done
-			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
-				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
-				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+	if [ "$SUBMODEL" == "MMFLIP" ]; then
+	    cp "${RETROARCH_PATH}"/retroarch.miniflip "${RETROARCH_PATH}"/retroarch
+		sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_height = "480"$|video_windowed_position_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_width_max = "640"$|video_window_auto_width_max = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+			if grep -q "v1" "${RETROARCH_PATH}"/done; then
+				rm "${RETROARCH_PATH}"/done
+				touch "${RETROARCH_PATH}"/done
+				echo "v4" > "${RETROARCH_PATH}"/done
+				if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
+					mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
+					mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+				fi
+				sync
 			fi
-			sync
-		fi
-	sync
+		sync
+	else
+	    cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
+		sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+			if grep -q "v4" "${RETROARCH_PATH}"/done; then
+				rm "${RETROARCH_PATH}"/done
+				touch "${RETROARCH_PATH}"/done
+				echo "v1" > "${RETROARCH_PATH}"/done
+				if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
+					mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
+					mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
+				fi
+				sync
+			fi
+		sync
+    fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh
 		sync
