@@ -21,6 +21,8 @@ dosbox_pure_libretro.so.zip
 dosbox_pure_miyoo_libretro.so.zip
 dosbox_svn_ce_libretro.so.zip
 dosbox_svn_libretro.so.zip
+DoubleCherryGB_libretro.so.zip
+DoubleCherryGB_miyoo_libretro.so.zip
 easyrpg_libretro.so.zip
 ecwolf_libretro.so.zip
 fake08_libretro.so.zip
@@ -43,15 +45,19 @@ gambatte_libretro.so.zip
 gearboy_libretro.so.zip
 gearsystem_libretro.so.zip
 genesis_plus_gx_libretro.so.zip
+genesis_plus_gx_mod_libretro.so.zip
 gme_libretro.so.zip
 gpsp_libretro.so.zip
 gpsp_plus_libretro.so.zip
 gw_libretro.so.zip
+gw_miyoo_libretro.so.zip
 handy_libretro.so.zip
 hatari_libretro.so.zip
+hatari_plus_libretro.so.zip
 higan_sfc_balanced_libretro.so.zip
 higan_sfc_libretro.so.zip
 km_mame2003_xtreme_amped_libretro.so.zip
+km_mame2003_xtreme_libretro.so.zip
 libmgba.so.zip
 libpcsx.so.zip
 lutro_libretro.so.zip
@@ -95,6 +101,7 @@ pcsx_rearmed_miyoo_libretro.so.zip
 pcsx_rearmed_old_libretro.so.zip
 pcsx_rearmed_shaun_libretro.so.zip
 picodrive_libretro.so.zip
+picodrive_netplay_libretro.so.zip
 pocketsnes_libretro.so.zip
 pokemini_libretro.so.zip
 potator_libretro.so.zip
@@ -103,6 +110,7 @@ prosystem_libretro.so.zip
 puae2021_libretro.so.zip
 puae_libretro.so.zip
 px68k_libretro.so.zip
+px68k_miyoo_libretro.so.zip
 quasi88_libretro.so.zip
 quicknes_libretro.so.zip
 race_libretro.so.zip
@@ -120,6 +128,7 @@ snes9x_libretro.so.zip
 snes9x_next_libretro.so.zip
 squirreljme_libretro.so.zip
 stella2014_libretro.so.zip
+swanstation_libretro.so.zip
 tgbdual_libretro.so.zip
 theodore_libretro.so.zip
 thepowdertoy_libretro.so.zip
@@ -145,11 +154,5 @@ x1_libretro.so.zip
 xrick_libretro.so.zip
 yabasanshiro_libretro.so.zip
 yabause_libretro.so.zip
-hatari_plus_libretro.so.zip
-gw_miyoo_libretro.so.zip
-px68k_miyoo_libretro.so.zip
-DoubleCherryGB_libretro.so.zip
-DoubleCherryGB_miyoo_libretro.so.zip
-swanstation_libretro.so.zip
 info.zip
 overlays.zip
