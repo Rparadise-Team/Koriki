@@ -26,7 +26,11 @@ if [ ! -f /customer/app/axp_test ]; then
 		export MODEL="MM"
 	fi
 else
-    export MODEL="MMP"
+	if dmesg|fgrep -q "FB_WIDTH=752"; then
+		export MODEL="MMF"
+	else
+    	export MODEL="MMP"
+	fi
 fi
 
 reset_settings() {
@@ -50,6 +54,13 @@ reset_settings() {
 		
 		if [ $MODEL = "MMP" ]; then
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
+            sync
+            reboot
+            sleep 10s
+        fi
+		
+		if [ $MODEL = "MMF" ]; then
+            cp ${SYSTEM_PATH}/assets/system.mmf.json $SETTINGS_FILE
             sync
             reboot
             sleep 10s
