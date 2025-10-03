@@ -796,7 +796,11 @@ fi
 if dmesg|fgrep -q "power key is on"; then
 	export SUBMODEL="MMP_RTC"
 else
-	export SUBMODEL="MMP_NO_RTC"
+    if [ "$SUBMODEL" == "MMFLIP" ]; then
+		export SUBMODEL="MMP_RTC"
+	else
+		export SUBMODEL="MMP_NO_RTC"
+	fi
 fi
 
 if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
@@ -812,7 +816,7 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 else
     touch "${SDCARD_PATH}"/App/Clock/time.txt
 	hwclock -w
-	date -s "2024-09-01 10:00:00"
+	date -s "2025-09-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi
