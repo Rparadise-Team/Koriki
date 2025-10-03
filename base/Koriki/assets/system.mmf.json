@@ -1,0 +1,19 @@
+{
+	"vol":	18,
+	"keymap":	"L2,L,R2,R,X,A,B,Y",
+	"mute":	0,
+	"bgmvol":	8,
+	"brightness":	7,
+	"language":	"en.lang",
+	"hibernate":	0,
+	"lumination":	5,
+	"hue":	5,
+	"saturation":	5,
+	"contrast":	12,
+	"fontsize":	24,
+	"audiofix":	0,
+	"wifi":	0,
+	"usenetworktime":	1,
+	"24hourclock":	1,
+	"timezone":	"Asia/Shanghai"
+}
