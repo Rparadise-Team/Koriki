@@ -189,10 +189,7 @@ int main(void) {
 
     checkCharging();
     if (is_charging == 0){
-      if (mmp)
-        system("/etc/init.d/K00_Sys; sync; umount -l /mnt/SDCARD; poweroff; sleep 10");
-      else
-        system("/etc/init.d/K00_Sys; sync; umount -l /mnt/SDCARD; reboot; sleep 10");
+        system("/mnt/SDCARD/Koriki/bin/shutdown; sleep 10");
     }
 
     if (!screen_on && !sound) {
@@ -251,7 +248,7 @@ int main(void) {
     if (mmp) { // autopoweroff MMP in 60s
             time_t current_time = time(NULL);
             if (current_time - last_activity_time >= 60) {
-                system("/sbin/poweroff");
+                system("/mnt/SDCARD/Koriki/bin/shutdown; sleep 10");
                 running = false;
             }
         }
