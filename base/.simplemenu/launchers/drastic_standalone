@@ -2,7 +2,7 @@
 
 runsvr=`/customer/app/jsonval audiofix`
 
-if [ "$runsvr" != "0" ] ; then
+if [ "$runsvr" != "0" ]; then
 	FILE=/customer/app/axp_test
 	
 	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
@@ -32,7 +32,7 @@ cd /mnt/SDCARD/App/drastic
 ./launch.sh "$1"
 
 runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
+if [ "$runsvr" != "0" ]; then
 	touch /tmp/audioserver_on
 	/mnt/SDCARD/Koriki/bin/audioserver &
 	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
