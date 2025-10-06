@@ -1,21 +1,21 @@
 #!/bin/sh
 
 if dmesg|fgrep -q "FB_WIDTH=640"; then
-export SCREEN_WIDTH=640
-export SCREEN_HEIGHT=480
-export SUBMODEL="MM"
-export screen_resolution="640x480"
+	export SCREEN_WIDTH=640
+	export SCREEN_HEIGHT=480
+	export SUBMODEL="MM"
+	export screen_resolution="640x480"
 fi
 
 if dmesg|fgrep -q "FB_WIDTH=752"; then
-export SCREEN_WIDTH=752
-export SCREEN_HEIGHT=560
-if [ ! -f /customer/app/axp_test ]; then
-    export SUBMODEL="MMv4"
-else
-    export SUBMODEL="MMFLIP"
-fi
-export screen_resolution="752x560"
+	export SCREEN_WIDTH=752
+	export SCREEN_HEIGHT=560
+	if [ ! -f /customer/app/axp_test ]; then
+		export SUBMODEL="MMv4"
+	else
+		export SUBMODEL="MMFLIP"
+	fi
+	export screen_resolution="752x560"
 fi
 
 export SDCARD_PATH="/mnt/SDCARD"
@@ -38,7 +38,7 @@ export RETROARCH_PATH="/mnt/SDCARD/RetroArch"
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
 	export SETTINGS_FILE="$SETTINGS_EXT_FILE"
-# Create v3 config file is this is not found in the root of SDCARD
+	# Create v3 config file is this is not found in the root of SDCARD
 	if [ ! -f "$SETTINGS_FILE" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 	fi
@@ -47,26 +47,26 @@ if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; t
 	fi
 else
 	if [ -f /appconfigs/system.json.old ]; then
-    export SETTINGS_FILE="$SETTINGS_EXT_FILE"
-# Create v4 config file is this is not found in the root of SDCARD
-	if [ "$SUBMODEL" == "MMv4" ]; then
-		if [ ! -f "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+		export SETTINGS_FILE="$SETTINGS_EXT_FILE"
+		# Create v4 config file is this is not found in the root of SDCARD
+		if [ "$SUBMODEL" == "MMv4" ]; then
+			if [ ! -f "$SETTINGS_FILE" ]; then
+				cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+			fi
+			if [ ! -s "$SETTINGS_FILE" ]; then
+				cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+			fi
 		fi
-		if [ ! -s "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+		if [ "$SUBMODEL" == "MM" ]; then
+			if [ ! -f "$SETTINGS_FILE" ]; then
+				cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+			fi
+			if [ ! -s "$SETTINGS_FILE" ]; then
+				cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+			fi
 		fi
-	fi
-	if [ "$SUBMODEL" == "MM" ]; then
-		if [ ! -f "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
-		fi
-		if [ ! -s "$SETTINGS_FILE" ]; then
-			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
-		fi
-	fi
 	else
-    	export SETTINGS_FILE="$SETTINGS_INT_FILE"
+		export SETTINGS_FILE="$SETTINGS_INT_FILE"
 	fi
 fi
 
@@ -94,33 +94,33 @@ fi
 
 #fix onion broken boot in koriki
 if [ ! -f "$SETTINGS_FILE" ]; then
-   if [ "$MODEL" == "MM" ]; then
-   cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
-   fi
-   if [ "$MODEL" == "MMP" ]; then
-   cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
-   fi
+	if [ "$MODEL" == "MM" ]; then
+		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+	fi
+	if [ "$MODEL" == "MMP" ]; then
+		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+	fi
 fi
 
 resize() {
 # Verificar si no existe el archivo "resized"
 if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
-
+	
 	export TMP_PATH="/tmp/fatresize"
 	export TMP_LIB="/tmp/fatresize/lib"
 	
-    echo "Iniciando redimensionamiento de la partición FAT32..."
-
-    # Crear directorio temporal para fatresize y sus dependencias
-    mkdir -p $TMP_PATH
+	echo "Iniciando redimensionamiento de la partición FAT32..."
+	
+	# Crear directorio temporal para fatresize y sus dependencias
+	mkdir -p $TMP_PATH
 	mkdir -p $TMP_LIB
-
-    # Copiar fatresize y sus bibliotecas necesarias
-    echo "Copiando parted y dependencias..."
+	
+	# Copiar fatresize y sus bibliotecas necesarias
+	echo "Copiando parted y dependencias..."
 	cp "$SDCARD_PATH/Koriki/bin/fdisk" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/fsck.fat" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/fatresize" $TMP_PATH/
-    cp "$SDCARD_PATH/Koriki/bin/parted" $TMP_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/parted" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/partprobe" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/bin/show" $TMP_PATH/
 	cp "$SDCARD_PATH/Koriki/images/resize.png" $TMP_PATH/
@@ -132,8 +132,8 @@ if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
 	chmod +x $TMP_PATH/show
 	cp "$SDCARD_PATH/Koriki/lib/libfdisk.so.1" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libsmartcols.so.1" $TMP_LIB/
-    cp "$SDCARD_PATH/Koriki/lib/libparted-fs-resize.so.0" $TMP_LIB/
-    cp "$SDCARD_PATH/Koriki/lib/libparted.so.2" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libparted-fs-resize.so.0" $TMP_LIB/
+	cp "$SDCARD_PATH/Koriki/lib/libparted.so.2" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libblkid.so.1" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libuuid.so.1" $TMP_LIB/
 	cp "$SDCARD_PATH/Koriki/lib/libpng16.so.16" $TMP_LIB/
@@ -148,21 +148,19 @@ if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
 	chmod +x $TMP_LIB/libpng16.so.16
 	chmod +x $TMP_LIB/libncurses.so.6
 	chmod +x $TMP_LIB/libmsettings.so
-
-
-    # Copiar el script de redimensionamiento
-    echo "Copiando el script de redimensionamiento..."
-    cp "$SDCARD_PATH/Koriki/bin/resize_partition" /tmp/
-    chmod +x /tmp/resize_partition
-
-    # Ejecutar el script de redimensionamiento
-    echo "Ejecutando el script de redimensionamiento..."
-	killall -9 main
-    /tmp/resize_partition
-	exit 0
 	
+	# Copiar el script de redimensionamiento
+	echo "Copiando el script de redimensionamiento..."
+	cp "$SDCARD_PATH/Koriki/bin/resize_partition" /tmp/
+	chmod +x /tmp/resize_partition
+	
+	# Ejecutar el script de redimensionamiento
+	echo "Ejecutando el script de redimensionamiento..."
+	killall -9 main
+	/tmp/resize_partition
+	exit 0
 else
-    echo "La partición ya ha sido redimensionada anteriormente."
+	echo "La partición ya ha sido redimensionada anteriormente."
 fi
 }
 
@@ -188,31 +186,33 @@ runifnecessary() {
 reset_settings() {
 	if [ -f "${SDCARD_PATH}/.reset_settings" ]; then
 		if [ "$MODEL" == "MM" ]; then
-		    if [ -f "/appconfigs/system.json.old" ]; then
-			if [ "$SUBMODEL" == "MMv4" ]; then
-			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
-			fi
-			if [ "$SUBMODEL" == "MM" ]; then
-			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
-			fi
+			if [ -f "/appconfigs/system.json.old" ]; then
+				if [ "$SUBMODEL" == "MMv4" ]; then
+					cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+				fi
+				if [ "$SUBMODEL" == "MM" ]; then
+					cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				fi
 			else
-			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 			fi
+
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			reboot
+			shutdown
 			sleep 5
 		else
-		    if [ "$SUBMODEL" == "MMF" ]; then
-			cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+			if [ "$SUBMODEL" == "MMF" ]; then
+				cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
 			else
-			cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+				cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 			fi
+
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			poweroff
+			shutdown
 			sleep 5
 		fi
 	fi
@@ -228,9 +228,9 @@ update() {
 		done < "${SDCARD_PATH}"/.deletes
 		rm "${SDCARD_PATH}"/.deletes
 	fi
-
-	if [ -f "${SDCARD_PATH}/"update_koriki_*.zip ]; then
 	
+	if [ -f "${SDCARD_PATH}/"update_koriki_*.zip ]; then
+		
 		echo "update Koriki package found"
 		
 		for file in `ls "${SDCARD_PATH}"/update_koriki_*.zip`; do
@@ -238,7 +238,7 @@ update() {
 		sync
 		
 		show "${SDCARD_PATH}"/.update_splash.png
-
+		
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
 		
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
@@ -250,9 +250,9 @@ update() {
 			fi
 			done < "${SDCARD_PATH}"/.deletes
 		fi
-
+		
 		unzip -q -o "${file}" -d "${SDCARD_PATH}"
-
+		
 		rm "${file}"
 		
 		if [ -f "${SDCARD_PATH}"/.deletes ]; then
@@ -260,7 +260,7 @@ update() {
 		fi
 		
 		if [ -f "${SDCARD_PATH}"/.update_splash.png ]; then
-		rm "${SDCARD_PATH}"/.update_splash.png
+			rm "${SDCARD_PATH}"/.update_splash.png
 		fi
 		
 		sleep 5s
@@ -268,17 +268,12 @@ update() {
 		
 		sync
 		
-		if [ "$MODEL" == "MMP" ]; then
-			poweroff
-		else
-			reboot
-		fi
+		shutdown
 		
 		sleep 10s
 	fi
 	
 	echo "update Koriki package not found"
-
 }
 
 dir_scaffolding() {
@@ -299,43 +294,43 @@ dir_scaffolding() {
 }
 
 get_screen_resolution() {
-    max_attempts=10
-    attempt=0
-
-    echo "get_screen_resolution: start"
-    while [ "$attempt" -lt "$max_attempts" ]; do
-        screen_resolution=$(grep 'Current TimingWidth=' /proc/mi_modules/fb/mi_fb0 | sed 's/Current TimingWidth=\([0-9]*\),TimingWidth=\([0-9]*\),.*/\1x\2/')
-        if [ -n "$screen_resolution" ]; then
-            echo "get_screen_resolution: success, resolution: $screen_resolution"
-            break
-        fi
-        echo "get_screen_resolution: attempt $attempt failed"
-        attempt=$((attempt + 1))
-        sleep 0.5
-    done
-
-    if [ -z "$screen_resolution" ]; then
-        echo "get_screen_resolution: failed to get screen resolution, fall back to 640x480"
-        touch /tmp/get_screen_resolution_failed
-    fi
-
-    if [ "$screen_resolution" = "752x560" ]; then
-        touch /tmp/new_res_available
-    else
-        # can't use 752x560 without appropriate firmware or screen
-        screen_resolution="640x480"
-    fi
-
-    echo -n "$screen_resolution" > /tmp/screen_resolution
+	max_attempts=10
+	attempt=0
+	
+	echo "get_screen_resolution: start"
+	while [ "$attempt" -lt "$max_attempts" ]; do
+		screen_resolution=$(grep 'Current TimingWidth=' /proc/mi_modules/fb/mi_fb0 | sed 's/Current TimingWidth=\([0-9]*\),TimingWidth=\([0-9]*\),.*/\1x\2/')
+		if [ -n "$screen_resolution" ]; then
+			echo "get_screen_resolution: success, resolution: $screen_resolution"
+			break
+		fi
+		echo "get_screen_resolution: attempt $attempt failed"
+		attempt=$((attempt + 1))
+		sleep 0.5
+	done
+	
+	if [ -z "$screen_resolution" ]; then
+		echo "get_screen_resolution: failed to get screen resolution, fall back to 640x480"
+		touch /tmp/get_screen_resolution_failed
+	fi
+	
+	if [ "$screen_resolution" = "752x560" ]; then
+		touch /tmp/new_res_available
+	else
+		# can't use 752x560 without appropriate firmware or screen
+		screen_resolution="640x480"
+	fi
+	
+	echo -n "$screen_resolution" > /tmp/screen_resolution
 }
 
 change_resolution() {
-   res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
-   res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
+	res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
+	res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
 	
-    echo "change resolution to $res_x x $res_y"
-
-    fbset -g "$res_x" "$res_y" "$res_x" "$((res_y * 2))" 32
+	echo "change resolution to $res_x x $res_y"
+	
+	fbset -g "$res_x" "$res_y" "$res_x" "$((res_y * 2))" 32
 }
 
 
@@ -366,13 +361,13 @@ update
 
 # check swap size
 if [ -f "${SWAPFILE}" ]; then
-SWAPSIZE=`stat -c %s "${SWAPFILE}"`
-
-MINSIZE=$((128 * 1024 * 1024))
-
-if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
-	rm "${SWAPFILE}"
-fi
+	SWAPSIZE=`stat -c %s "${SWAPFILE}"`
+	
+	MINSIZE=$((128 * 1024 * 1024))
+	
+	if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
+		rm -f "${SWAPFILE}"
+	fi
 fi
 
 # Enable swap
@@ -384,9 +379,9 @@ if [ ! -f "${SWAPFILE}" ]; then
 fi
 
 if [ "$MODEL" == "MMP" ]; then
-swapon -p 40 "${SWAPFILE}"
+	swapon -p 40 "${SWAPFILE}"
 else
-swapon -p 60 "${SWAPFILE}"
+	swapon -p 60 "${SWAPFILE}"
 fi
 
 # Reset settings on first boot
@@ -399,15 +394,15 @@ if [ "$MODEL" == "MMP" ]; then
 	ed25519_key="/appconfigs/dropbear_ed25519_host_key"
 	
 	if [ ! -f "$rsa_key" ]; then
-	    dropbearkey -t rsa -f "$rsa_key"
+		dropbearkey -t rsa -f "$rsa_key"
 	fi
 	
 	if [ ! -f "$ecdsa_key" ]; then
-	    dropbearkey -t ecdsa -f "$ecdsa_key"
+		dropbearkey -t ecdsa -f "$ecdsa_key"
 	fi
 	
 	if [ ! -f "$ed25519_key" ]; then
-	    dropbearkey -t ed25519 -f "$ed25519_key"
+		dropbearkey -t ed25519 -f "$ed25519_key"
 	fi
 fi
 
@@ -416,7 +411,7 @@ fi
 vol=`/customer/app/jsonval vol`
 
 if [ "$vol" -ge "20" ]; then
-    sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' "$SETTINGS_FILE"
+	sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' "$SETTINGS_FILE"
 	sync
 	vol=`/customer/app/jsonval vol`
 fi
@@ -426,7 +421,7 @@ vol=$((($vol*3)+40))
 
 # Show bootScreen or videosplash
 if [ -f "${SYSTEM_PATH}"/videosplash.mp4 ]; then
-    echo 0 > "/sys/module/gpio_keys_polled/parameters/button_enable"
+	echo 0 > "/sys/module/gpio_keys_polled/parameters/button_enable"
 	"${SYSTEM_PATH}"/bin/ffplayer "${SYSTEM_PATH}"/videosplash.mp4
 	echo 1 > "/sys/module/gpio_keys_polled/parameters/button_enable"
 else
@@ -441,18 +436,19 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 		sync
-		reboot
+		shutdown
 		sleep 5
 	fi
+
 	if [ "$MODEL" == "MM" ]; then
 		if [ "$SUBMODEL" == "MM" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 		fi
 		if [ "$SUBMODEL" == "MMv4" ]; then
-		cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
 		sync
-		reboot
+		shutdown
 		sleep 5
 	fi
 fi
@@ -476,13 +472,13 @@ if [ "$MODEL" == "MMP" ]; then
 	filewifi="/mnt/SDCARD/.simplemenu/wifi.sav"
 	chain="ssid=\"MiyooMini\""
 	ESSID=$(sed -n 's/^\s*ssid="\([^"]*\)".*/\1/p' /appconfigs/wpa_supplicant.conf)
-    runwifi=`/customer/app/jsonval wifi`
+	runwifi=`/customer/app/jsonval wifi`
 	
 	if [ -f "$filewifi" ]; then
 		if ! grep -q "$chain" "/appconfigs/wpa_supplicant.conf"; then
 			if grep -q "wifi: on" "$filewifi"; then
 				if grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
-				    echo "autowifi is on"
+					echo "autowifi is on"
 					echo "connecting to the last network..."
 					if [ "$runwifi" == "0" ]; then
 						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 1/" "$SETTINGS_FILE"
@@ -506,27 +502,27 @@ if [ "$MODEL" == "MMP" ]; then
 						/sbin/udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &
 						echo "connecting..."
 						while true; do
-    						if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
+							if /sbin/ifconfig wlan0 | grep -q "inet addr"; then
 								echo "connected!"
-        						/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
+								/mnt/SDCARD/Koriki/bin/ntpdate -u pool.ntp.org
 								echo "sinc network time"
-        						break
-    						else
-        						sleep 2
-    						fi
+								break
+							else
+								sleep 2
+							fi
 						done &
 					elif ! /mnt/SDCARD/Koriki/bin/iwlist wlan0 scan | grep -q "$ESSID"; then
 						echo "ssid not found..."
 						echo "disable autowifi"
 						sleep 0.5
-                    	/sbin/ifconfig wlan0 down
+						/sbin/ifconfig wlan0 down
 						echo "power off wifi..."
 						/customer/app/axp_test wifioff &
-                        sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
-                        sync
-                	fi
+						sed -i "s/\"wifi\":\s*[01]/\"wifi\": 0/" "$SETTINGS_FILE"
+						sync
+					fi
 				fi
-
+				
 				if ! grep -q "ssid=" "/appconfigs/wpa_supplicant.conf"; then
 					if [ "$runwifi" == "1" ]; then
 						echo "last network not save"
@@ -565,16 +561,16 @@ fi
 if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MM" ]; then
-	cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		cp "${RETROARCH_PATH}"/retroarch.mini "${RETROARCH_PATH}"/retroarch
+		sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_height = "560"$|video_windowed_position_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_width_max = "752"$|video_window_auto_width_max = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v4" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -586,17 +582,18 @@ if [ ! -f /customer/app/axp_test ]; then
 			sync
 		fi
 	fi
+	
 	if [ "$SUBMODEL" == "MMv4" ]; then
-	cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
-	sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_windowed_position_height = "480"$|video_windowed_position_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_width_max = "640"$|video_window_auto_width_max = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-	sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		cp "${RETROARCH_PATH}"/retroarch.miniv4 "${RETROARCH_PATH}"/retroarch
+		sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_windowed_position_height = "480"$|video_windowed_position_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_width_max = "640"$|video_window_auto_width_max = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v1" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -624,7 +621,7 @@ if [ ! -f /customer/app/axp_test ]; then
 else
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MMFLIP" ]; then
-	    cp "${RETROARCH_PATH}"/retroarch.miniflip "${RETROARCH_PATH}"/retroarch
+		cp "${RETROARCH_PATH}"/retroarch.miniflip "${RETROARCH_PATH}"/retroarch
 		sed -i 's|^video_fullscreen_x = "640"$|video_fullscreen_x = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^video_fullscreen_y = "480"$|video_fullscreen_y = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^video_windowed_position_width = "640"$|video_windowed_position_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
@@ -634,19 +631,19 @@ else
 		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-			if grep -q "v1" "${RETROARCH_PATH}"/done; then
-				rm "${RETROARCH_PATH}"/done
-				touch "${RETROARCH_PATH}"/done
-				echo "v4" > "${RETROARCH_PATH}"/done
-				if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
-					mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
-					mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				fi
-				sync
+		if grep -q "v1" "${RETROARCH_PATH}"/done; then
+			rm "${RETROARCH_PATH}"/done
+			touch "${RETROARCH_PATH}"/done
+			echo "v4" > "${RETROARCH_PATH}"/done
+			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
+				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
+				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
 			fi
+			sync
+		fi
 		sync
 	else
-	    cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
+		cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
 		sed -i 's|^video_fullscreen_x = "752"$|video_fullscreen_x = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^video_fullscreen_y = "560"$|video_fullscreen_y = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^video_windowed_position_width = "752"$|video_windowed_position_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
@@ -656,18 +653,18 @@ else
 		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-			if grep -q "v4" "${RETROARCH_PATH}"/done; then
-				rm "${RETROARCH_PATH}"/done
-				touch "${RETROARCH_PATH}"/done
-				echo "v1" > "${RETROARCH_PATH}"/done
-				if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
-					mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
-					mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-				fi
-				sync
+		if grep -q "v4" "${RETROARCH_PATH}"/done; then
+			rm "${RETROARCH_PATH}"/done
+			touch "${RETROARCH_PATH}"/done
+			echo "v1" > "${RETROARCH_PATH}"/done
+			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
+				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
+				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
 			fi
+			sync
+		fi
 		sync
-    fi
+	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh
 		sync
@@ -715,7 +712,7 @@ fi
 runifnecessary "keymon" "${SYSTEM_PATH}"/bin/keymon
 
 # Koriki batmon (compiled and adapter from onion)
-"${SYSTEM_PATH}"/bin/batmon &
+runifnecessary "batmon" "${SYSTEM_PATH}"/bin/batmon
 
 # create dhcp.leases
 if [ ! -f /appconfigs/dhcp.leases ]; then
@@ -745,25 +742,25 @@ fi
 
 #check FBNEO folder
 if [ -d "/mnt/SDCARD/Roms/FBN" ]; then
-    mv "/mnt/SDCARD/Roms/FBN" "/mnt/SDCARD/Roms/FBNEO"
+	mv "/mnt/SDCARD/Roms/FBN" "/mnt/SDCARD/Roms/FBNEO"
 fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-    sed -i 's/^1;0;1;0;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;0;1;0;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^1;1;1;0;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;1;1;0;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;1;0;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^0;0;1;0;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^0;0;0;15;15\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;0;1;0;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;0;0;15;15\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;0;0;14;14\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^0;1;1;0;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-    sed -i 's/^0;1;0;15;15\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;1;1;0;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;1;0;15;15\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;1;0;14;14\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;2;1;0;16\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;2;0;15;15\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
@@ -776,16 +773,16 @@ if [ -f "${SDCARD_PATH}"/App/drastic/launch.sh ]; then
 	if [ "$MODEL" == "MM" ]; then
 		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}"/App/drastic/resources/settings.json | awk -F':' '{print $2}')
 		if [ "$CURRENT_MAXCPU" != "1500" ]; then
-		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1500/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
-		sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1500|' "${SDCARD_PATH}"/App/drastic/launch.sh
-		sync
+			sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1500/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
+			sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1500|' "${SDCARD_PATH}"/App/drastic/launch.sh
+			sync
 		fi
 	else
 		CURRENT_MAXCPU=$(grep -o '"maxcpu":[0-9]*' "${SDCARD_PATH}"/App/drastic/resources/settings.json | awk -F':' '{print $2}')
 		if [ "$CURRENT_MAXCPU" != "1600" ]; then
-		sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1600/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
-		sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1600|' "${SDCARD_PATH}"/App/drastic/launch.sh
-		sync
+			sed -i 's/"maxcpu":'"$CURRENT_MAXCPU"'/"maxcpu":1600/' "${SDCARD_PATH}"/App/drastic/resources/settings.json
+			sed -i 's|"${SYSTEM_PATH}"/bin/cpuclock '"$CURRENT_MAXCPU"'|"${SYSTEM_PATH}"/bin/cpuclock 1600|' "${SDCARD_PATH}"/App/drastic/launch.sh
+			sync
 		fi
 	fi
 fi
@@ -800,7 +797,7 @@ fi
 if dmesg|fgrep -q "power key is on"; then
 	export SUBMODEL="MMP_RTC"
 else
-    if [ "$SUBMODEL" == "MMFLIP" ]; then
+	if [ "$SUBMODEL" == "MMFLIP" ]; then
 		export SUBMODEL="MMP_RTC"
 	else
 		export SUBMODEL="MMP_NO_RTC"
@@ -808,7 +805,7 @@ else
 fi
 
 if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
-    localtime=`cat "${SDCARD_PATH}"/App/Clock/time.txt`
+	localtime=`cat "${SDCARD_PATH}"/App/Clock/time.txt`
 	if dmesg|fgrep -q "Please set rtc timer (hwclock -w) "; then
 		hwclock -w
 		date -s "${localtime}"
@@ -818,7 +815,7 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 		fi
 	fi
 else
-    touch "${SDCARD_PATH}"/App/Clock/time.txt
+	touch "${SDCARD_PATH}"/App/Clock/time.txt
 	hwclock -w
 	date -s "2025-09-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
@@ -826,10 +823,10 @@ else
 fi
 
 if [ -f "${SDCARD_PATH}"/App/Clock/timezone.txt ]; then
-    timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
+	timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
 	export TZ=UTC$((-1*timezone))
 else
-    touch "${SDCARD_PATH}"/App/Clock/timezone.txt
+	touch "${SDCARD_PATH}"/App/Clock/timezone.txt
 	echo +0 > "${SDCARD_PATH}"/App/Clock/timezone.txt
 	export TZ=UTC+0
 fi
@@ -864,12 +861,6 @@ while [ 1 ]; do
 done
 
 # turf off the console.
-if [ ! -f /customer/app/axp_test ]; then
-	sync
-	sleep 5
-	reboot
-else
-	sync
-	sleep 5
-	poweroff
-fi
+sync
+sleep 5
+shutdown
