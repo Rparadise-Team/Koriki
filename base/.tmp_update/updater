@@ -325,12 +325,58 @@ get_screen_resolution() {
 }
 
 change_resolution() {
-	res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
-	res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
+	res_x=""
+	res_y=""
+	
+	if [ -n "$1" ]; then
+		res_x=$(echo "$1" | cut -d 'x' -f 1)
+		res_y=$(echo "$1" | cut -d 'x' -f 2)
+	else
+		res_x=$(echo "$screen_resolution" | cut -d 'x' -f 1)
+		res_y=$(echo "$screen_resolution" | cut -d 'x' -f 2)
+	fi
 	
 	echo "change resolution to $res_x x $res_y"
 	
-	fbset -g "$res_x" "$res_y" "$res_x" "$((res_y * 2))" 32
+	fbset -g "$res_x" "$res_y" "$res_x" "$((res_y * 3))" 32
+}
+
+reset_soundfix() {
+	runsvr=`/customer/app/jsonval audiofix`
+	FILE="/customer/app/axp_test"
+	FILE2="/tmp/audioserver_on"
+
+	if [ "$runsvr" != "0" ]; then
+		touch /tmp/audioserver_on
+		/mnt/SDCARD/Koriki/bin/audioserver &
+		if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+			export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+		fi
+	else #fixed slow music menu
+		touch /tmp/audioserver_on
+		/mnt/SDCARD/Koriki/bin/audioserver &
+		if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+			export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+		fi
+	
+		if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+			unset LD_PRELOAD
+		fi
+	
+		if [ -f "$FILE" ]; then
+			killall audioserver
+			killall audioserver.plu
+		else
+			killall audioserver
+			killall audioserver.min
+		fi
+
+		if [ -f "$FILE2" ]; then
+			rm /tmp/audioserver_on
+			/mnt/SDCARD/Koriki/bin/freemma
+		fi
+	fi
+	sync
 }
 
 
@@ -459,7 +505,7 @@ fi
 # check audiofix
 runsvr=`/customer/app/jsonval audiofix`
 
-if [ "$runsvr" != "0" ] ; then
+if [ "$runsvr" != "0" ]; then
 	#sed -i "s/\"audiofix\":\s*[01]/\"audiofix\": 0/" "$SETTINGS_FILE"
 	/mnt/SDCARD/Koriki/bin/audioserver &
 	touch /tmp/audioserver_on
@@ -854,6 +900,8 @@ echo "Welcome to Koriki CFW"
 while [ 1 ]; do
 	HOME="${SDCARD_PATH}"
 	cd "${SDCARD_PATH}"/.simplemenu
+	change_resolution
+	reset_soundfix
 	./simplemenu
 	
 	sleep 4s
