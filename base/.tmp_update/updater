@@ -73,11 +73,11 @@ fi
 # rename root sdcard system.json in mini flip
 if [ "$SUBMODEL" == "MMFLIP" ]; then
 	if [ -f "$SETTINGS_EXT_FILE" ]; then
-		cp "$SETTINGS_EXT_FILE" "/mnt/SDCARD/system.bak"
+		mv "$SETTINGS_EXT_FILE" "/mnt/SDCARD/system.bak"
 	fi
 else
 	if [ -f "/mnt/SDCARD/system.bak" ]; then
-		cp "/mnt/SDCARD/system.bak" "$SETTINGS_EXT_FILE"
+		mv "/mnt/SDCARD/system.bak" "$SETTINGS_EXT_FILE"
 	fi
 fi
 
