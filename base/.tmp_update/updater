@@ -200,7 +200,7 @@ reset_settings() {
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			shutdown
+			"${SYSTEM_PATH}"/bin/shutdown
 			sleep 5
 		else
 			if [ "$SUBMODEL" == "MMF" ]; then
@@ -212,7 +212,7 @@ reset_settings() {
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			shutdown
+			"${SYSTEM_PATH}"/bin/shutdown -r
 			sleep 5
 		fi
 	fi
@@ -237,7 +237,7 @@ update() {
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
 		
-		show "${SDCARD_PATH}"/.update_splash.png
+		"${SYSTEM_PATH}"/bin/show "${SDCARD_PATH}"/.update_splash.png
 		
 		unzip -q -o "${file}" ".deletes" -d "${SDCARD_PATH}"
 		
@@ -268,7 +268,7 @@ update() {
 		
 		sync
 		
-		shutdown
+		"${SYSTEM_PATH}"/bin/shutdown
 		
 		sleep 10s
 	fi
@@ -430,19 +430,23 @@ update
 if [ -f "${SWAPFILE}" ]; then
 	SWAPSIZE=`stat -c %s "${SWAPFILE}"`
 	
-	MINSIZE=$((128 * 1024 * 1024))
+	MINSIZE=$((256 * 1024 * 1024))
 	
 	if [ "$SWAPSIZE" -lt "$MINSIZE" ]; then
 		rm -f "${SWAPFILE}"
+		sync
 	fi
 fi
 
 # Enable swap
 if [ ! -f "${SWAPFILE}" ]; then
-	show "${SYSTEM_PATH}"/images/swap.png
-	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=128
+	if [ -f "${SDCARD_PATH}/.reset_settings" ]; then
+		"${SYSTEM_PATH}"/bin/show "${SYSTEM_PATH}"/images/swap.png
+	fi
+	dd if=/dev/zero of="${SWAPFILE}" bs=1M count=256
 	mkswap "${SWAPFILE}"
 	sync
+	sleep 1
 fi
 
 if [ "$MODEL" == "MMP" ]; then
@@ -503,7 +507,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 		sync
-		shutdown
+		"${SYSTEM_PATH}"/bin/shutdown -r
 		sleep 5
 	fi
 
@@ -515,7 +519,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
 		sync
-		shutdown
+		"${SYSTEM_PATH}"/bin/shutdown
 		sleep 5
 	fi
 fi
@@ -938,4 +942,4 @@ done
 # turf off the console.
 sync
 sleep 5
-shutdown
+"${SYSTEM_PATH}"/bin/shutdown
