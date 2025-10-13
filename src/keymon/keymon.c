@@ -1065,6 +1065,14 @@ void setcpu(int cpu) {
 			json_object_put(jfile);
 		}
 		
+		if (isDrasticRunning() == 0 || isPcsxRunning() == 0 || isFBNeoRunning() == 0 || isPico8Running() == 0) {
+			char command[64];
+			int currentclock;
+			currentclock = atoi(cpuValue) / 1000;
+			sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", currentclock);
+			system(command);
+		}
+		
 		system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
 		
 	} else if (cpu == 1) {
