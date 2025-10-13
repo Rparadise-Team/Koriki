@@ -806,7 +806,7 @@ int isProcessRunning(const char* processName) {
 }
 
 void stopOrContinueProcesses(int value) {
-	const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget", "shutdown", "cpuclock"};
+	const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
 	const char *cmdType = (value == 0) ? "STOP" : "CONT";
 	
 	DIR *dir;
@@ -1428,50 +1428,52 @@ int main (int argc, char *argv[]) {
 		}
 	
 		// Monitorización de hallvalue para sleep/wake
-		int hv = read_hallvalue(hallvalue_path);
-		if (hv != -1 && hv != last_hallvalue) {
-			last_hallvalue = hv;
-			if (hv == 1 && sleep == 1) {
-				setmute(0);
-				sethibernate(0);
-				setcpu(0);
-				if (isGMERunning() == 1 || isGMURunning() == 1) {
-				} else {
-					getVolume();
-				}
-				display_setScreen(1); // Turn screen back on
-				power_pressed = 0;
-				repeat_power = 0;
-				sleep = 0;
-				close = 0;
-			} else if (hv == 0 && sleep == 0) {
-				display_setScreen(0); // Turn screen back off
-				if (isGMERunning() == 1 || isGMURunning() == 1) {
+		if (!file_exists("/tmp/_shutdown")) {
+			int hv = read_hallvalue(hallvalue_path);
+			if (hv != -1 && hv != last_hallvalue) {
+				last_hallvalue = hv;
+				if (hv == 1 && sleep == 1) {
 					setmute(0);
-				} else {
-					setmute(1);
+					sethibernate(0);
+					setcpu(0);
+					if (isGMERunning() == 1 || isGMURunning() == 1) {
+					} else {
+						getVolume();
+					}
+					display_setScreen(1); // Turn screen back on
+					power_pressed = 0;
+					repeat_power = 0;
+					sleep = 0;
+					close = 0;
+				} else if (hv == 0 && sleep == 0) {
+					display_setScreen(0); // Turn screen back off
+					if (isGMERunning() == 1 || isGMURunning() == 1) {
+						setmute(0);
+					} else {
+						setmute(1);
+					}
+					sethibernate(1);
+					if (isGMERunning() == 1 || isGMURunning() == 1) {
+						setcpu(3);
+					} else if (isRetroarchRunning() == 1) {
+						setcpu(2);
+					} else if (isDrasticRunning() == 1) {
+						setcpu(4);
+					} else if (isPcsxRunning() == 1) {
+						setcpu(4);
+					} else if (isFBNeoRunning() == 1) {
+						setcpu(4);
+					} else if (isPico8Running() == 1) {
+						setcpu(4);
+					} else {
+						setcpu(1);
+					}
+					sleep = 1;
+					close = 1;
 				}
-				sethibernate(1);
-				if (isGMERunning() == 1 || isGMURunning() == 1) {
-					setcpu(3);
-				} else if (isRetroarchRunning() == 1) {
-					setcpu(2);
-				} else if (isDrasticRunning() == 1) {
-					setcpu(4);
-				} else if (isPcsxRunning() == 1) {
-					setcpu(4);
-				} else if (isFBNeoRunning() == 1) {
-					setcpu(4);
-				} else if (isPico8Running() == 1) {
-					setcpu(4);
-				} else {
-					setcpu(1);
-				}
-				sleep = 1;
-				close = 1;
 			}
-		}
 		usleep(50000);
+		}
 	}
 	
 	exit(EXIT_FAILURE);
