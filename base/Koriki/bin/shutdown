@@ -36,6 +36,9 @@ if [ "$0" = "/tmp/_shutdown" ]; then
 	
 	#killall -9 main # mandatory to avoid the suppression of .tmp_update !
 	killall -9 updater
+	killall -9 runtime.sh
+	killall -9 batmon
+	killall -9 keymon
 	pkill -TERM retroarch;
 	pkill -TERM simplemenu;
 	
@@ -82,6 +85,7 @@ fi
 
 if [ ! -f /tmp/_shutdown ]; then
 	cp -f "$0" /tmp/_shutdown
+        chmod +x /tmp/_shutdown
 fi
 
 # run the script totally detached from current shell
