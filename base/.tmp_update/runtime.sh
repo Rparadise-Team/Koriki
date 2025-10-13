@@ -641,7 +641,7 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v4" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -664,7 +664,7 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v1" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -701,7 +701,7 @@ else
 		sed -i 's|^video_window_auto_height_max = "480"$|video_window_auto_height_max = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v1" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
@@ -723,7 +723,7 @@ else
 		sed -i 's|^video_window_auto_height_max = "560"$|video_window_auto_height_max = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		if grep -q "v4" "${RETROARCH_PATH}"/done; then
 			rm "${RETROARCH_PATH}"/done
 			touch "${RETROARCH_PATH}"/done
