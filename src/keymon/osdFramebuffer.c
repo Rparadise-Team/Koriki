@@ -353,7 +353,7 @@ static void *osd_thread(void *param) {
 	float elapsed;
 	struct timeval now;
 	do {
-		usleep(1);
+		usleep(16667);
 		switch(osd_item) {
 			case OSD_VOLUME:
 				draw_icon();
