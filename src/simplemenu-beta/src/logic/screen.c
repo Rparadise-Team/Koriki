@@ -1824,6 +1824,36 @@ void updateScreen(struct Node *node) {
 								break;
 							case 10:
 								displaySurface(surfaceBatt10, battX, battY);
+								break;
+							case 11:
+								displaySurface(surfaceBatt11, battX, battY);
+								break;
+							case 12:
+								displaySurface(surfaceBatt12, battX, battY);
+								break;
+							case 13:
+								displaySurface(surfaceBatt13, battX, battY);
+								break;
+							case 14:
+								displaySurface(surfaceBatt14, battX, battY);
+								break;
+							case 15:
+								displaySurface(surfaceBatt15, battX, battY);
+								break;
+							case 16:
+								displaySurface(surfaceBatt16, battX, battY);
+								break;
+							case 17:
+								displaySurface(surfaceBatt17, battX, battY);
+								break;
+							case 18:
+								displaySurface(surfaceBatt18, battX, battY);
+								break;
+							case 19:
+								displaySurface(surfaceBatt19, battX, battY);
+								break;
+							case 20:
+								displaySurface(surfaceBatt20, battX, battY);
 								break;								
 							default:
 								displaySurface(surfaceBattCharging, battX, battY);
@@ -1927,7 +1957,37 @@ void updateScreen(struct Node *node) {
 								break;
 							case 10:
 								displaySurface(surfaceBatt10, battX, battY);
-								break;								
+								break;
+							case 11:
+								displaySurface(surfaceBatt11, battX, battY);
+								break;
+							case 12:
+								displaySurface(surfaceBatt12, battX, battY);
+								break;
+							case 13:
+								displaySurface(surfaceBatt13, battX, battY);
+								break;
+							case 14:
+								displaySurface(surfaceBatt14, battX, battY);
+								break;
+							case 15:
+								displaySurface(surfaceBatt15, battX, battY);
+								break;
+							case 16:
+								displaySurface(surfaceBatt16, battX, battY);
+								break;
+							case 17:
+								displaySurface(surfaceBatt17, battX, battY);
+								break;
+							case 18:
+								displaySurface(surfaceBatt18, battX, battY);
+								break;
+							case 19:
+								displaySurface(surfaceBatt19, battX, battY);
+								break;
+							case 20:
+								displaySurface(surfaceBatt20, battX, battY);
+								break;							
 							default:
 								displaySurface(surfaceBattCharging, battX, battY);
 								break;
@@ -1986,6 +2046,36 @@ void updateScreen(struct Node *node) {
 								break;
 							case 10:
 								displaySurface(surfaceBatt10, battX, battY);
+								break;
+							case 11:
+								displaySurface(surfaceBatt11, battX, battY);
+								break;
+							case 12:
+								displaySurface(surfaceBatt12, battX, battY);
+								break;
+							case 13:
+								displaySurface(surfaceBatt13, battX, battY);
+								break;
+							case 14:
+								displaySurface(surfaceBatt14, battX, battY);
+								break;
+							case 15:
+								displaySurface(surfaceBatt15, battX, battY);
+								break;
+							case 16:
+								displaySurface(surfaceBatt16, battX, battY);
+								break;
+							case 17:
+								displaySurface(surfaceBatt17, battX, battY);
+								break;
+							case 18:
+								displaySurface(surfaceBatt18, battX, battY);
+								break;
+							case 19:
+								displaySurface(surfaceBatt19, battX, battY);
+								break;
+							case 20:
+								displaySurface(surfaceBatt20, battX, battY);
 								break;								
 							default:
 								displaySurface(surfaceBattCharging, battX, battY);
