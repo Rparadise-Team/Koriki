@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/mman.h>
 #include <SDL/SDL.h>
 #include "cJSON.h"
 #include <json-c/json.h>
@@ -52,6 +53,15 @@
 #define MI_AO_GETVOLUME	0xc008690c
 #define MI_AO_SETMUTE	0x4008690d
 
+#define BASE_REG_RIU_PA (0x1F000000)
+#define BASE_REG_MPLL_PA (BASE_REG_RIU_PA + 0x103000*2)
+#define PLL_SIZE (0x1000)
+
+enum cpugov { PERFORMANCE = 0, POWERSAVE = 1, ONDEMAND = 2, USERSPACE = 3 };
+static uint32_t current_cpu_freq = 1200000;
+static enum cpugov current_governor = ONDEMAND;
+static int cpu_config_saved = 0;
+
 static struct input_event ev;
 static int input_fd = 0;
 static int mmModel = 0;
@@ -64,6 +74,241 @@ extern int osd_brightness;
 static const char *cached_settings_file = NULL;
 static int last_retroarch_state = -1;
 static int retroarch_audio_fix_applied = 0;
+
+
+static void read_current_cpu_config(uint32_t *freq, enum cpugov *gov) {
+    FILE *fp;
+    
+    *freq = 1200000;
+    *gov = ONDEMAND;
+    
+    fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "r");
+    if (fp) {
+        char gov_str[16];
+        if (fgets(gov_str, sizeof(gov_str), fp)) {
+            gov_str[strcspn(gov_str, "\n")] = 0;
+            if (strcmp(gov_str, "performance") == 0) *gov = PERFORMANCE;
+            else if (strcmp(gov_str, "powersave") == 0) *gov = POWERSAVE;
+            else if (strcmp(gov_str, "ondemand") == 0) *gov = ONDEMAND;
+            else if (strcmp(gov_str, "userspace") == 0) *gov = USERSPACE;
+            else *gov = ONDEMAND;
+        }
+        fclose(fp);
+    }
+    
+    fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "r");
+    if (!fp) {
+        fp = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed", "r");
+    }
+    if (fp) {
+        fscanf(fp, "%u", freq);
+        fclose(fp);
+    }
+}
+
+static void save_current_cpu_config(void) {
+    uint32_t current_freq = 1200000; 
+    enum cpugov current_gov = ONDEMAND;
+    
+    read_current_cpu_config(&current_freq, &current_gov);
+    
+    FILE *cpu_file = fopen(CPUSAVE, "w");
+    if (cpu_file) {
+        fprintf(cpu_file, "%u", current_freq);
+        fclose(cpu_file);
+        printf("[KEYMON]: Actual freq save: %u KHz\n", current_freq);
+    } else {
+        printf("[KEYMON]: Error to save freq in %s\n", CPUSAVE);
+    }
+    
+    FILE *gov_file = fopen(GOVSAVE, "w");
+    if (gov_file) {
+        const char govstr[4][12] = { "performance", "powersave", "ondemand", "userspace" };
+        fprintf(gov_file, "%s", govstr[current_gov]);
+        fclose(gov_file);
+        printf("[KEYMON]: Actual Governo save: %s\n", govstr[current_gov]);
+    } else {
+        printf("[KEYMON]: Error to save Govervor in %s\n", GOVSAVE);
+    }
+    
+    if (current_gov == USERSPACE) {
+        FILE *speed_file = fopen(SPEEDSAVE, "w");
+        if (speed_file) {
+            fprintf(speed_file, "%u", current_freq);
+            fclose(speed_file);
+            printf("[KEYMON]: Userspace speed save: %u KHz\n", current_freq);
+        }
+    } else {
+        FILE *speed_file = fopen(SPEEDSAVE, "w");
+        if (speed_file) {
+            fprintf(speed_file, "unsupported");
+            fclose(speed_file);
+        }
+    }
+    
+    cpu_config_saved = 1;
+    printf("[KEYMON]: configuration CPU save!!\n");
+}
+
+static void set_cpuclock(int clock) {
+    sync();
+    int fd_mem = open("/dev/mem", O_RDWR);
+    if (fd_mem < 0) {
+        printf("[KEYMON]: Error to open /dev/mem\n");
+        return;
+    }
+    
+    void* pll_map = mmap(0, PLL_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_mem, BASE_REG_MPLL_PA);
+    if (pll_map == MAP_FAILED) {
+        printf("[KEYMON]: Error in mmap\n");
+        close(fd_mem);
+        return;
+    }
+
+    uint32_t post_div;
+    if (clock >= 800000) post_div = 2;
+    else if (clock >= 400000) post_div = 4;
+    else if (clock >= 200000) post_div = 8;
+    else post_div = 16;
+
+    static const uint64_t divsrc = 432000000llu * 524288;
+    uint32_t rate = (clock * 1000)/16 * post_div / 2;
+    uint32_t lpf = (uint32_t)(divsrc / rate);
+    volatile uint16_t* p16 = (uint16_t*)pll_map;
+
+    uint32_t cur_post_div = (p16[0x232] & 0x0F) + 1;
+    uint32_t tmp_post_div = cur_post_div;
+    if (post_div > cur_post_div) {
+        while (tmp_post_div != post_div) {
+            tmp_post_div <<= 1;
+            p16[0x232] = (p16[0x232] & 0xF0) | ((tmp_post_div-1) & 0x0F);
+        }
+    }
+
+    p16[0x2A8] = 0x0000;
+    p16[0x2AE] = 0x000F;
+    p16[0x2A4] = lpf&0xFFFF;
+    p16[0x2A6] = lpf>>16;
+    p16[0x2B0] = 0x0001;
+    p16[0x2B2] |= 0x1000;
+    p16[0x2A8] = 0x0001;
+    while( !(p16[0x2BA]&1) );
+    p16[0x2A0] = lpf&0xFFFF;
+    p16[0x2A2] = lpf>>16;
+
+    if (post_div < cur_post_div) {
+        while (tmp_post_div != post_div) {
+            tmp_post_div >>= 1;
+            p16[0x232] = (p16[0x232] & 0xF0) | ((tmp_post_div-1) & 0x0F);
+        }
+    }
+
+    munmap(pll_map, PLL_SIZE);
+    close(fd_mem);
+    
+    current_cpu_freq = clock;
+    printf("[KEYMON]: CPU clock set to %d MHz\n", clock / 1000);
+}
+
+static void set_cpugovernor_optimized(enum cpugov gov) {
+    const char govstr[4][12] = { "performance", "powersave", "ondemand", "userspace" };
+    const char fn_min_freq[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+    const char fn_governor[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+    const char fn_setspeed[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed";
+    static uint32_t minfreq = 0;
+    FILE* fp;
+
+    if (!minfreq) {
+        fp = fopen(fn_min_freq, "r");
+        if (fp) { 
+            fscanf(fp, "%d", &minfreq); 
+            fclose(fp); 
+        }
+    }
+
+    if (gov == ONDEMAND) {
+        fp = fopen(fn_min_freq, "w");
+        if (fp) { 
+            fprintf(fp, "%d", minfreq > 0 ? minfreq : 400000); 
+            fclose(fp); 
+        }
+    } else {
+        fp = fopen(fn_min_freq, "w");
+        if (fp) { 
+            if (gov == POWERSAVE) {
+                fprintf(fp, "%d", current_cpu_freq);
+            } else {
+                fprintf(fp, "%d", 400000);
+            }
+            fclose(fp); 
+        }
+    }
+
+    fp = fopen(fn_governor, "w");
+    if (fp) { 
+        fwrite(govstr[gov], 1, strlen(govstr[gov]), fp); 
+        fclose(fp); 
+        current_governor = gov;
+        printf("[KEYMON]: Governor set to %s\n", govstr[gov]);
+    } else {
+        printf("[KEYMON]: Error to set governor %s\n", govstr[gov]);
+    }
+
+    if (gov == USERSPACE) {
+        int fset = open(fn_setspeed, O_WRONLY);
+        if (fset >= 0) {
+            char str[16];
+            sprintf(str, "%d", current_cpu_freq);
+            write(fset, str, strlen(str));
+            close(fset);
+            printf("[KEYMON]: Speed userspace set to %d KHz\n", current_cpu_freq);
+        }
+    }
+}
+
+static void restore_cpu_config(void) {
+    uint32_t saved_freq = 1200000;
+    enum cpugov saved_gov = ONDEMAND;
+    
+    FILE *cpu_file = fopen(CPUSAVE, "r");
+    if (cpu_file) {
+        fscanf(cpu_file, "%d", &saved_freq);
+        fclose(cpu_file);
+        printf("[KEYMON]: Restore Freq to: %d KHz\n", saved_freq);
+    } else {
+        cpu_file = fopen(CPUSAVE, "w");
+        if (cpu_file) {
+            fprintf(cpu_file, "%d", saved_freq);
+            fclose(cpu_file);
+        }
+    }
+    
+    FILE *gov_file = fopen(GOVSAVE, "r");
+    if (gov_file) {
+        char gov_str[16];
+        if (fgets(gov_str, sizeof(gov_str), gov_file)) {
+            gov_str[strcspn(gov_str, "\n")] = 0;
+            if (strcmp(gov_str, "performance") == 0) saved_gov = PERFORMANCE;
+            else if (strcmp(gov_str, "powersave") == 0) saved_gov = POWERSAVE;
+            else if (strcmp(gov_str, "ondemand") == 0) saved_gov = ONDEMAND;
+            else if (strcmp(gov_str, "userspace") == 0) saved_gov = USERSPACE;
+        }
+        fclose(gov_file);
+        printf("[KEYMON]: Restore governor: %s\n", gov_str);
+    } else {
+        gov_file = fopen(GOVSAVE, "w");
+        if (gov_file) {
+            fprintf(gov_file, "ondemand");
+            fclose(gov_file);
+        }
+    }
+    
+    current_cpu_freq = saved_freq;
+    set_cpugovernor_optimized(saved_gov);
+    set_cpuclock(saved_freq);
+    
+    printf("[KEYMON]: Restore CPU set complete\n");
+}
 
 void resetMiaoAudioForRetroarch(void) {
     printf("[KEYMON]: Applying preventive MI_AO reset for RetroArch with audiofix=1...\n");
@@ -519,7 +764,7 @@ void sethibernate(int hibernate) {
 }
 
 void stopOrContinueProcesses(int value) {
-    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
+    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "dropbear", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
     const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
     DIR *dir;
@@ -688,134 +933,139 @@ void killRetroArch() {
     }
 }
 
-void setcpu(int cpu) {
+static void print_cpu_status(void) {
+    int fd_mem = open("/dev/mem", O_RDWR);
+    if (fd_mem < 0) return;
+    
+    void* pll_map = mmap(0, PLL_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_mem, BASE_REG_MPLL_PA);
+    if (pll_map == MAP_FAILED) {
+        close(fd_mem);
+        return;
+    }
+    
+    uint32_t rate;
+    uint32_t lpf_value;
+    uint32_t post_div;
+    volatile uint8_t* p8  = (uint8_t*)pll_map;
+    volatile uint16_t* p16 = (uint16_t*)pll_map;
+
+    lpf_value = p16[0x2A4] + (p16[0x2A6] << 16); 
+    post_div = p16[0x232] + 1;
+    if (lpf_value == 0) lpf_value = (p8[0x2C2<<1] <<  16) + (p8[0x2C1<<1] << 8) + p8[0x2C0<<1];
+
+    static const uint64_t divsrc = 432000000llu * 524288;
+    rate = (divsrc / lpf_value * 2 / post_div * 16);
+
+    printf("[KEYMON]: CPU - Freq: %u KHz, Governor: %d, Config saved: %s\n", 
+           rate, current_governor, cpu_config_saved ? "yes" : "No");
+    
+    munmap(pll_map, PLL_SIZE);
+    close(fd_mem);
+}
+
+void setcpu_optimized(int cpu) {
     if (cpu == 0) {
-        FILE *file0, *file1, *file2;
-        char cpuValue[10], govValue[15], speedValue[15];
-
-        file0 = fopen(CPUSAVE, "r");
-        if (file0 == NULL) {
-            file0 = fopen(CPUSAVE, "w");
-            fprintf(file0, "%d", 1200000);
-            fclose(file0);
-            file0 = fopen(CPUSAVE, "r");
-        }
-
-        file1 = fopen(GOVSAVE, "r");
-        if (file1 == NULL) {
-            file1 = fopen(GOVSAVE, "w");
-            fprintf(file1, "ondemand");
-            fclose(file1);
-            file1 = fopen(GOVSAVE, "r");
-        }
-
-        file2 = fopen(SPEEDSAVE, "r");
-        if (file2 == NULL) {
-            file2 = fopen(SPEEDSAVE, "w");
-            fprintf(file2, "<unsupported>");
-            fclose(file2);
-            file2 = fopen(SPEEDSAVE, "r");
-        }
-
-        if (fgets(cpuValue, sizeof(cpuValue), file0)) fclose(file0);
-        if (fgets(govValue, sizeof(govValue), file1)) fclose(file1);
-        if (fgets(speedValue, sizeof(speedValue), file2)) fclose(file2);
-
-        FILE *cpuFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq", "w");
-        if (cpuFile) {
-            fprintf(cpuFile, "%s", cpuValue);
-            fclose(cpuFile);
-        }
-
-        FILE *govFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "w");
-        if (govFile) {
-            fprintf(govFile, "%s", govValue);
-            fclose(govFile);
-        }
-
-        FILE *speedFile = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed", "w");
-        if (speedFile) {
-            fprintf(speedFile, "%s", speedValue);
-            fclose(speedFile);
-        }
-
+        restore_cpu_config();
+        
         if (isDrasticRunning() == 1) {
             char command[64];
             int speed;
             const char* settings = "/mnt/SDCARD/App/drastic/resources/settings.json";
             const char* maxcpu = "maxcpu";
-
+            
             jfile = json_object_from_file(settings);
             if (jfile && json_object_object_get_ex(jfile, maxcpu, &jval)) {
                 speed = json_object_get_int(jval);
-                sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
-                system(command);
+                if (speed >= 400 && speed <= 1600) {
+                    current_cpu_freq = speed * 1000;
+                    set_cpugovernor_optimized(PERFORMANCE);
+                    set_cpuclock(current_cpu_freq);
+                    sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
+                    system(command);
+                }
             }
             if (jfile) json_object_put(jfile);
         }
-
+        
         if (isPcsxRunning() == 1) {
-            system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
+            current_cpu_freq = 1400000;
+            set_cpugovernor_optimized(PERFORMANCE);
+            set_cpuclock(1400000);
+	    system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
         }
-
+        
         if (isFBNeoRunning() == 1) {
-            system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
+            current_cpu_freq = 1400000;
+            set_cpugovernor_optimized(PERFORMANCE);
+            set_cpuclock(1400000);
+	    system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
         }
-
+        
         if (isPico8Running() == 1) {
             char command[64];
             int speed;
             const char* settings = "/mnt/SDCARD/App/cfg/pico/korikicf.json";
             const char* maxcpu = "cpuclock";
-
+            
             jfile = json_object_from_file(settings);
             if (jfile) {
                 json_object* performanceObject = json_object_object_get(jfile, "performance");
                 if (performanceObject && json_object_object_get_ex(performanceObject, maxcpu, &jval)) {
                     speed = json_object_get_int(jval);
-                    sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
-                    system(command);
+                    if (speed >= 400 && speed <= 1600) {
+                        current_cpu_freq = speed * 1000;
+                        set_cpugovernor_optimized(PERFORMANCE);
+                        set_cpuclock(current_cpu_freq);
+                        sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
+                        system(command);
+                    }
                 }
                 json_object_put(jfile);
             }
         }
-
-        if (isDrasticRunning() == 0 || isPcsxRunning() == 0 || isFBNeoRunning() == 0 || isPico8Running() == 0) {
-            char command[64];
-            int currentclock;
-            currentclock = atoi(cpuValue) / 1000;
-            sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", currentclock);
-            system(command);
+        
+        cpu_config_saved = 0;
+        
+    } else {
+        if (!cpu_config_saved) {
+            save_current_cpu_config();
         }
-
-        system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-
-    } else if (cpu == 1) {
-        system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-        system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-        system("echo 400000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-        system("/mnt/SDCARD/Koriki/bin/cpuclock 400");
-        system("sync");
-    } else if (cpu == 2) {
-        system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-        system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-        system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-        system("/mnt/SDCARD/Koriki/bin/cpuclock 600");
-        system("sync");
-    } else if (cpu == 3) {
-        system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-        system("echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-        system("echo 1000000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq");
-        system("/mnt/SDCARD/Koriki/bin/cpuclock 1000");
-        system("sync");
-    } else if (cpu == 4) {
-        system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor /mnt/SDCARD/.simplemenu/governor.sav");
-        system("cp /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed /mnt/SDCARD/.simplemenu/speed.sav");
-        system("echo powersave > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
-        system("echo 600000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq");
-        system("/mnt/SDCARD/Koriki/bin/cpuclock 600");
-        system("sync");
+        
+        switch (cpu) {
+            case 1:
+                current_cpu_freq = 400000;
+                set_cpugovernor_optimized(POWERSAVE);
+                set_cpuclock(400000);
+                break;
+                
+            case 2:
+                current_cpu_freq = 600000;
+                set_cpugovernor_optimized(POWERSAVE);
+                set_cpuclock(600000);
+                break;
+                
+            case 3:
+                current_cpu_freq = 1000000;
+                set_cpugovernor_optimized(ONDEMAND);
+                set_cpuclock(1000000);
+                break;
+                
+            case 4:
+                current_cpu_freq = 600000;
+                set_cpugovernor_optimized(POWERSAVE);
+                set_cpuclock(600000);
+                break;
+                
+            default:
+                printf("[KEYMON]: No valid cpu mode: %d\n", cpu);
+                break;
+        }
     }
+    
+    // Sincronización final
+    sync();
+    printf("[KEYMON]: setcpu_optimized(%d) complet\n", cpu);
+    print_cpu_status();
 }
 
 int main (int argc, char *argv[]) {
@@ -831,7 +1081,7 @@ int main (int argc, char *argv[]) {
 
     getVolume();
     modifyBrightness(0);
-    setcpu(0);
+    setcpu_optimized(0);
     sethibernate(0);
     setmute(0);
     setVolume(0,0);
@@ -896,19 +1146,19 @@ int main (int argc, char *argv[]) {
 
                                     sethibernate(1);
                                     if (isGMERunning() == 1 || isGMURunning() == 1) {
-                                        setcpu(3);
+                                        setcpu_optimized(3);
                                     } else if (isRetroarchRunning() == 1) {
-                                        setcpu(2);
+                                        setcpu_optimized(2);
                                     } else if (isDrasticRunning() == 1) {
-                                        setcpu(4);
+                                        setcpu_optimized(4);
                                     } else if (isPcsxRunning() == 1) {
-                                        setcpu(4);
+                                        setcpu_optimized(4);
                                     } else if (isFBNeoRunning() == 1) {
-                                        setcpu(4);
+                                        setcpu_optimized(4);
                                     } else if (isPico8Running() == 1) {
-                                        setcpu(4);
+                                        setcpu_optimized(4);
                                     } else {
-                                        setcpu(1);
+                                        setcpu_optimized(1);
                                     }
 
                                     power_pressed = 0;
@@ -918,7 +1168,7 @@ int main (int argc, char *argv[]) {
                                 } else if (sleep == 1 && close == 0) {
                                     setmute(0);
                                     sethibernate(0);
-                                    setcpu(0);
+                                    setcpu_optimized(0);
                                     if (isGMERunning() == 1 || isGMURunning() == 1) {
                                     } else {
                                         getVolume();
@@ -1156,7 +1406,7 @@ int main (int argc, char *argv[]) {
                 if (hv == 1 && sleep == 1) {
                     setmute(0);
                     sethibernate(0);
-                    setcpu(0);
+                    setcpu_optimized(0);
                     if (isGMERunning() == 1 || isGMURunning() == 1) {
                     } else {
                         getVolume();
@@ -1177,19 +1427,19 @@ int main (int argc, char *argv[]) {
 
                     sethibernate(1);
                     if (isGMERunning() == 1 || isGMURunning() == 1) {
-                        setcpu(3);
+                        setcpu_optimized(3);
                     } else if (isRetroarchRunning() == 1) {
-                        setcpu(2);
+                        setcpu_optimized(2);
                     } else if (isDrasticRunning() == 1) {
-                        setcpu(4);
+                        setcpu_optimized(4);
                     } else if (isPcsxRunning() == 1) {
-                        setcpu(4);
+                        setcpu_optimized(4);
                     } else if (isFBNeoRunning() == 1) {
-                        setcpu(4);
+                        setcpu_optimized(4);
                     } else if (isPico8Running() == 1) {
-                        setcpu(4);
+                        setcpu_optimized(4);
                     } else {
-                        setcpu(1);
+                        setcpu_optimized(1);
                     }
 
                     sleep = 1;
