@@ -1270,37 +1270,57 @@ void setupDecorations() {
 }
 
 void drawBatteryMeter() {
-	int batteryLevel90to100[] = {1,255,1};
-	int batteryLevel80to90[] = {1,255,1};
-	int batteryLevel70to80[] = {153,254,0};
-	int batteryLevel60to70[] = {153,254,0};
-	int batteryLevel50to60[] = {255,254,3};
-	int batteryLevel40to50[] = {255,254,3};
-	int batteryLevel30to40[] = {255,152,1};
-	int batteryLevel20to30[] = {255,152,1};
-	int batteryLevel10to20[] = {255,51,0};
-	int batteryLevel0to10[] = {255,51,0};
+	int batteryLevel95to100[] = {1,255,1};
+	int batteryLevel90to95[] = {1,255,1};
+	int batteryLevel85to90[] = {1,255,1};
+	int batteryLevel80to85[] = {1,255,1};
+	int batteryLevel75to80[] = {153,254,0};
+	int batteryLevel70to75[] = {153,254,0};
+	int batteryLevel65to70[] = {153,254,0};
+	int batteryLevel60to65[] = {153,254,0};
+	int batteryLevel55to60[] = {255,254,3};
+	int batteryLevel50to55[] = {255,254,3};
+	int batteryLevel45to50[] = {255,254,3};
+	int batteryLevel40to45[] = {255,254,3};
+	int batteryLevel35to40[] = {255,152,1};
+	int batteryLevel30to35[] = {255,152,1};
+	int batteryLevel25to30[] = {255,152,1};
+	int batteryLevel20to25[] = {255,152,1};
+	int batteryLevel15to20[] = {255,51,0};
+	int batteryLevel10to15[] = {255,51,0};
+	int batteryLevel5to10[] = {255,51,0};
+	int batteryLevel0to5[] = {255,51,0};
 
 	int gray5[]={121, 121, 121};
 
-	int *levels[10];
-	levels[0] = batteryLevel0to10;
-	levels[1] = batteryLevel10to20;
-	levels[2] = batteryLevel20to30;
-	levels[3] = batteryLevel30to40;
-	levels[4] = batteryLevel40to50;
-	levels[5] = batteryLevel50to60;
-	levels[6] = batteryLevel60to70;
-	levels[7] = batteryLevel70to80;
-	levels[8] = batteryLevel80to90;
-	levels[9] = batteryLevel90to100;
+	int *levels[20];
+	levels[0] = batteryLevel0to5;
+	levels[1] = batteryLevel5to10;
+	levels[2] = batteryLevel10to15;
+	levels[3] = batteryLevel15to20;
+	levels[4] = batteryLevel20to25;
+	levels[5] = batteryLevel25to30;
+	levels[6] = batteryLevel30to35;
+	levels[7] = batteryLevel35to40;
+	levels[8] = batteryLevel40to45;
+	levels[9] = batteryLevel45to50;
+	levels[10] = batteryLevel50to55;
+	levels[11] = batteryLevel55to60;
+	levels[12] = batteryLevel60to65;
+	levels[13] = batteryLevel65to70;
+	levels[14] = batteryLevel70to75;
+	levels[15] = batteryLevel75to80;
+	levels[16] = batteryLevel80to85;
+	levels[17] = batteryLevel85to90;
+	levels[18] = batteryLevel90to95;
+	levels[19] = batteryLevel95to100;
 
 	drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), gray5);
 	int pos = (lastChargeLevel);
 	logMessage("INFO","drawSettingsScreen","Positioning batt 1");
-	if (pos<11) {
+	if (pos<21) {
 		for (int i=pos-1;i>=0;i--) {
-			drawRectangleToScreen(SCREEN_WIDTH/10, calculateProportionalSizeOrDistance1(4), (SCREEN_WIDTH/10)*i, calculateProportionalSizeOrDistance1(42), levels[i]);
+			drawRectangleToScreen(SCREEN_WIDTH/20, calculateProportionalSizeOrDistance1(4), (SCREEN_WIDTH/20)*i, calculateProportionalSizeOrDistance1(42), levels[i]);
 		}
 	} else {
 		drawRectangleToScreen(SCREEN_WIDTH, calculateProportionalSizeOrDistance1(4), 0, calculateProportionalSizeOrDistance1(42), (int[]){80,80,255});

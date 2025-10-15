@@ -476,6 +476,16 @@ void loadTheme(char *theme) {
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_8", batt8);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_9", batt9);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_10", batt10);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_11", batt11);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_12", batt12);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_13", batt13);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_14", batt14);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_15", batt15);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_16", batt16);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_17", batt17);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_18", batt18);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_19", batt19);
+			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_20", batt20);
 			setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_charging", battCharging);
 			surfaceBatt1 = IMG_Load(batt1);
 			surfaceBatt2 = IMG_Load(batt2);
@@ -487,6 +497,16 @@ void loadTheme(char *theme) {
 			surfaceBatt8 = IMG_Load(batt8);
 			surfaceBatt9 = IMG_Load(batt9);
 			surfaceBatt10 = IMG_Load(batt10);
+			surfaceBatt11 = IMG_Load(batt11);
+			surfaceBatt12 = IMG_Load(batt12);
+			surfaceBatt13 = IMG_Load(batt13);
+			surfaceBatt14 = IMG_Load(batt14);
+			surfaceBatt15 = IMG_Load(batt15);
+			surfaceBatt16 = IMG_Load(batt16);
+			surfaceBatt17 = IMG_Load(batt17);
+			surfaceBatt18 = IMG_Load(batt18);
+			surfaceBatt19 = IMG_Load(batt19);
+			surfaceBatt20 = IMG_Load(batt20);
 			surfaceBattCharging = IMG_Load(battCharging);
 		}
 		
@@ -1292,6 +1312,16 @@ int loadSections(char *file) {
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_8", batt8);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_9", batt9);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_10", batt10);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_11", batt11);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_12", batt12);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_13", batt13);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_14", batt14);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_15", batt15);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_16", batt16);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_17", batt17);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_18", batt18);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_19", batt19);
+		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_20", batt20);
 		setThemeResourceValueInSection (themeConfig, "GENERAL", "batt_charging", battCharging);
 		surfaceBatt1 = IMG_Load(batt1);
 		surfaceBatt2 = IMG_Load(batt2);
@@ -1303,6 +1333,16 @@ int loadSections(char *file) {
 		surfaceBatt8 = IMG_Load(batt8);
 		surfaceBatt9 = IMG_Load(batt9);
 		surfaceBatt10 = IMG_Load(batt10);
+		surfaceBatt11 = IMG_Load(batt11);
+		surfaceBatt12 = IMG_Load(batt12);
+		surfaceBatt13 = IMG_Load(batt13);
+		surfaceBatt14 = IMG_Load(batt14);
+		surfaceBatt15 = IMG_Load(batt15);
+		surfaceBatt16 = IMG_Load(batt16);
+		surfaceBatt17 = IMG_Load(batt17);
+		surfaceBatt18 = IMG_Load(batt18);
+		surfaceBatt19 = IMG_Load(batt19);
+		surfaceBatt20 = IMG_Load(batt20);
 		surfaceBattCharging = IMG_Load(battCharging);
 	}
 	

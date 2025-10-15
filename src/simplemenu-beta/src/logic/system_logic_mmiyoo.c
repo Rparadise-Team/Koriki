@@ -765,17 +765,27 @@ int getBatteryLevel() {
             pclose(fp);
         }
     }
-    if (charge<=10)       return 1;
-    else if (charge<=20)  return 2;
-    else if (charge<=30)  return 3;
-    else if (charge<=40)  return 4;
-    else if (charge<=50)  return 5;
-    else if (charge<=60)  return 6;
-    else if (charge<=70)  return 7;
-    else if (charge<=80)  return 8;
-    else if (charge<=90)  return 9;
-    else if (charge<=100) return 10;
-    else                  return 11;
+    if (charge<=5)       return 1;
+    else if (charge<=10)  return 2;
+    else if (charge<=15)  return 3;
+    else if (charge<=20)  return 4;
+    else if (charge<=25)  return 5;
+    else if (charge<=30)  return 6;
+    else if (charge<=35)  return 7;
+    else if (charge<=40)  return 8;
+    else if (charge<=45)  return 9;
+    else if (charge<=50)  return 10;
+    else if (charge<=55)  return 11;
+    else if (charge<=60)  return 12;
+    else if (charge<=65)  return 13;
+    else if (charge<=70)  return 14;
+    else if (charge<=75)  return 15;
+    else if (charge<=80)  return 16;
+    else if (charge<=85)  return 17;
+    else if (charge<=90)  return 18;
+    else if (charge<=95)  return 19;
+    else if (charge<=100) return 20;
+    else                  return 21;
 
 }
 
