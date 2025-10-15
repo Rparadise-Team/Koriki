@@ -35,6 +35,9 @@ export SPEEDSAVE="/mnt/SDCARD/.simplemenu/speed.sav"
 
 export RETROARCH_PATH="/mnt/SDCARD/RetroArch"
 
+#kill main program from stock
+killall -9 main
+
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
 	export SETTINGS_FILE="$SETTINGS_EXT_FILE"
@@ -914,10 +917,6 @@ if [ "$MODEL" == "MMP" ]; then
 	mount -o bind "${SYSTEM_PATH}"/etc/profile /etc/profile
 fi
 
-#kill main program from stock
-
-killall -9 main
-
 # check simplemenu
 while true; do
 	check_simplemenu_hang
@@ -933,6 +932,7 @@ while [ 1 ]; do
 	cd "${SDCARD_PATH}"/.simplemenu
 	change_resolution
 	reset_soundfix
+	
 	./simplemenu
 	
 	sleep 4s
