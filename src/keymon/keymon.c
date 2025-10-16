@@ -116,9 +116,6 @@ static void save_current_cpu_config(void) {
     if (cpu_file) {
         fprintf(cpu_file, "%u", current_freq);
         fclose(cpu_file);
-        printf("[KEYMON]: Actual freq save: %u KHz\n", current_freq);
-    } else {
-        printf("[KEYMON]: Error to save freq in %s\n", CPUSAVE);
     }
     
     FILE *gov_file = fopen(GOVSAVE, "w");
@@ -126,9 +123,6 @@ static void save_current_cpu_config(void) {
         const char govstr[4][12] = { "performance", "powersave", "ondemand", "userspace" };
         fprintf(gov_file, "%s", govstr[current_gov]);
         fclose(gov_file);
-        printf("[KEYMON]: Actual Governo save: %s\n", govstr[current_gov]);
-    } else {
-        printf("[KEYMON]: Error to save Govervor in %s\n", GOVSAVE);
     }
     
     if (current_gov == USERSPACE) {
@@ -136,7 +130,6 @@ static void save_current_cpu_config(void) {
         if (speed_file) {
             fprintf(speed_file, "%u", current_freq);
             fclose(speed_file);
-            printf("[KEYMON]: Userspace speed save: %u KHz\n", current_freq);
         }
     } else {
         FILE *speed_file = fopen(SPEEDSAVE, "w");
@@ -147,20 +140,17 @@ static void save_current_cpu_config(void) {
     }
     
     cpu_config_saved = 1;
-    printf("[KEYMON]: configuration CPU save!!\n");
 }
 
 static void set_cpuclock(int clock) {
     sync();
     int fd_mem = open("/dev/mem", O_RDWR);
     if (fd_mem < 0) {
-        printf("[KEYMON]: Error to open /dev/mem\n");
         return;
     }
     
     void* pll_map = mmap(0, PLL_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_mem, BASE_REG_MPLL_PA);
     if (pll_map == MAP_FAILED) {
-        printf("[KEYMON]: Error in mmap\n");
         close(fd_mem);
         return;
     }
@@ -207,12 +197,12 @@ static void set_cpuclock(int clock) {
     close(fd_mem);
     
     current_cpu_freq = clock;
-    printf("[KEYMON]: CPU clock set to %d MHz\n", clock / 1000);
 }
 
 static void set_cpugovernor_optimized(enum cpugov gov) {
     const char govstr[4][12] = { "performance", "powersave", "ondemand", "userspace" };
     const char fn_min_freq[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
+    const char fn_max_freq[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
     const char fn_governor[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
     const char fn_setspeed[] = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed";
     static uint32_t minfreq = 0;
@@ -249,9 +239,19 @@ static void set_cpugovernor_optimized(enum cpugov gov) {
         fwrite(govstr[gov], 1, strlen(govstr[gov]), fp); 
         fclose(fp); 
         current_governor = gov;
-        printf("[KEYMON]: Governor set to %s\n", govstr[gov]);
-    } else {
-        printf("[KEYMON]: Error to set governor %s\n", govstr[gov]);
+    }
+
+   fp = fopen(fn_max_freq, "w");
+    if (fp) {
+        if (gov == PERFORMANCE)
+            fprintf(fp, "%d", current_cpu_freq);
+        else if (gov == ONDEMAND)
+            fprintf(fp, "%d", current_cpu_freq);
+        else if (gov == USERSPACE)
+            fprintf(fp, "%d", current_cpu_freq);
+        else
+            fprintf(fp, "%d", current_cpu_freq);
+        fclose(fp);
     }
 
     if (gov == USERSPACE) {
@@ -261,7 +261,6 @@ static void set_cpugovernor_optimized(enum cpugov gov) {
             sprintf(str, "%d", current_cpu_freq);
             write(fset, str, strlen(str));
             close(fset);
-            printf("[KEYMON]: Speed userspace set to %d KHz\n", current_cpu_freq);
         }
     }
 }
@@ -274,7 +273,6 @@ static void restore_cpu_config(void) {
     if (cpu_file) {
         fscanf(cpu_file, "%d", &saved_freq);
         fclose(cpu_file);
-        printf("[KEYMON]: Restore Freq to: %d KHz\n", saved_freq);
     } else {
         cpu_file = fopen(CPUSAVE, "w");
         if (cpu_file) {
@@ -294,7 +292,6 @@ static void restore_cpu_config(void) {
             else if (strcmp(gov_str, "userspace") == 0) saved_gov = USERSPACE;
         }
         fclose(gov_file);
-        printf("[KEYMON]: Restore governor: %s\n", gov_str);
     } else {
         gov_file = fopen(GOVSAVE, "w");
         if (gov_file) {
@@ -306,13 +303,9 @@ static void restore_cpu_config(void) {
     current_cpu_freq = saved_freq;
     set_cpugovernor_optimized(saved_gov);
     set_cpuclock(saved_freq);
-    
-    printf("[KEYMON]: Restore CPU set complete\n");
 }
 
 void resetMiaoAudioForRetroarch(void) {
-    printf("[KEYMON]: Applying preventive MI_AO reset for RetroArch with audiofix=1...\n");
-    
     int fd = open("/dev/mi_ao", O_RDWR);
     if (fd >= 0) {
         if (access("/proc/mi_modules/mi_ao/mi_ao0", F_OK) == 0) {
@@ -322,7 +315,6 @@ void resetMiaoAudioForRetroarch(void) {
                 usleep(30000);
                 fprintf(proc_ao, "set_ao_reset 0\n");
                 fclose(proc_ao);
-                printf("[KEYMON]: MI_AO hardware reset completed (audioserver preserved)\n");
             }
         }
         
@@ -330,9 +322,6 @@ void resetMiaoAudioForRetroarch(void) {
         ioctl(fd, clear_cmd, 0);
         
         close(fd);
-        printf("[KEYMON]: Preventive MI_AO reset completed - audiofix=1 preserved\n");
-    } else {
-        printf("[KEYMON]: Could not access /dev/mi_ao for preventive reset\n");
     }
     
     retroarch_audio_fix_applied = 1;
@@ -372,8 +361,6 @@ void initializeSettingsFile(void) {
             cached_settings_file = "/appconfigs/system.json";
         }
     }
-    
-    printf("[KEYMON]: Settings file cached: %s\n", cached_settings_file);
 }
 
 char* load_file(char const* path) {
@@ -471,18 +458,12 @@ void checkRetroarchStateChange(void) {
     int current_state = isRetroarchRunning();
     
     if (last_retroarch_state == 0 && current_state == 1) {
-        printf("[KEYMON]: RetroArch startup detected\n");
-        
         int audiofix = getAudioFix();
         if (audiofix == 1) {
-            printf("[KEYMON]: audiofix=1 detected - applying preventive reset\n");
             resetMiaoAudioForRetroarch();
-        } else {
-            printf("[KEYMON]: audiofix=0 - no preventive reset required\n");
         }
         
     } else if (last_retroarch_state == 1 && current_state == 0) {
-        printf("[KEYMON]: RetroArch shutdown detected\n");
         retroarch_audio_fix_applied = 0;
     }
     
@@ -933,42 +914,11 @@ void killRetroArch() {
     }
 }
 
-static void print_cpu_status(void) {
-    int fd_mem = open("/dev/mem", O_RDWR);
-    if (fd_mem < 0) return;
-    
-    void* pll_map = mmap(0, PLL_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_mem, BASE_REG_MPLL_PA);
-    if (pll_map == MAP_FAILED) {
-        close(fd_mem);
-        return;
-    }
-    
-    uint32_t rate;
-    uint32_t lpf_value;
-    uint32_t post_div;
-    volatile uint8_t* p8  = (uint8_t*)pll_map;
-    volatile uint16_t* p16 = (uint16_t*)pll_map;
-
-    lpf_value = p16[0x2A4] + (p16[0x2A6] << 16); 
-    post_div = p16[0x232] + 1;
-    if (lpf_value == 0) lpf_value = (p8[0x2C2<<1] <<  16) + (p8[0x2C1<<1] << 8) + p8[0x2C0<<1];
-
-    static const uint64_t divsrc = 432000000llu * 524288;
-    rate = (divsrc / lpf_value * 2 / post_div * 16);
-
-    printf("[KEYMON]: CPU - Freq: %u KHz, Governor: %d, Config saved: %s\n", 
-           rate, current_governor, cpu_config_saved ? "yes" : "No");
-    
-    munmap(pll_map, PLL_SIZE);
-    close(fd_mem);
-}
-
 void setcpu_optimized(int cpu) {
     if (cpu == 0) {
         restore_cpu_config();
         
         if (isDrasticRunning() == 1) {
-            char command[64];
             int speed;
             const char* settings = "/mnt/SDCARD/App/drastic/resources/settings.json";
             const char* maxcpu = "maxcpu";
@@ -978,10 +928,8 @@ void setcpu_optimized(int cpu) {
                 speed = json_object_get_int(jval);
                 if (speed >= 400 && speed <= 1600) {
                     current_cpu_freq = speed * 1000;
-                    set_cpugovernor_optimized(PERFORMANCE);
+                    set_cpugovernor_optimized(USERSPACE);
                     set_cpuclock(current_cpu_freq);
-                    sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
-                    system(command);
                 }
             }
             if (jfile) json_object_put(jfile);
@@ -989,20 +937,17 @@ void setcpu_optimized(int cpu) {
         
         if (isPcsxRunning() == 1) {
             current_cpu_freq = 1400000;
-            set_cpugovernor_optimized(PERFORMANCE);
+            set_cpugovernor_optimized(USERSPACE);
             set_cpuclock(1400000);
-	    system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
         }
         
         if (isFBNeoRunning() == 1) {
             current_cpu_freq = 1400000;
-            set_cpugovernor_optimized(PERFORMANCE);
+            set_cpugovernor_optimized(USERSPACE);
             set_cpuclock(1400000);
-	    system("/mnt/SDCARD/Koriki/bin/cpuclock 1400");
         }
         
         if (isPico8Running() == 1) {
-            char command[64];
             int speed;
             const char* settings = "/mnt/SDCARD/App/cfg/pico/korikicf.json";
             const char* maxcpu = "cpuclock";
@@ -1014,10 +959,8 @@ void setcpu_optimized(int cpu) {
                     speed = json_object_get_int(jval);
                     if (speed >= 400 && speed <= 1600) {
                         current_cpu_freq = speed * 1000;
-                        set_cpugovernor_optimized(PERFORMANCE);
+                        set_cpugovernor_optimized(USERSPACE);
                         set_cpuclock(current_cpu_freq);
-                        sprintf(command, "/mnt/SDCARD/Koriki/bin/cpuclock %d", speed);
-                        system(command);
                     }
                 }
                 json_object_put(jfile);
@@ -1057,15 +1000,12 @@ void setcpu_optimized(int cpu) {
                 break;
                 
             default:
-                printf("[KEYMON]: No valid cpu mode: %d\n", cpu);
                 break;
         }
     }
     
     // Sincronización final
     sync();
-    printf("[KEYMON]: setcpu_optimized(%d) complet\n", cpu);
-    print_cpu_status();
 }
 
 int main (int argc, char *argv[]) {
@@ -1115,8 +1055,6 @@ int main (int argc, char *argv[]) {
     int close = 0;
     uint32_t repeat = 0;
     ssize_t n;
-
-    printf("[KEYMON]: Optimized keymon with RetroArch audiofix detection started\n");
 
     while (1) {
         n = read(input_fd, &ev, sizeof(ev));
