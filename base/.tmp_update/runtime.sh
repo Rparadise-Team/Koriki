@@ -43,10 +43,18 @@ if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; t
 	export SETTINGS_FILE="$SETTINGS_EXT_FILE"
 	# Create v3 config file is this is not found in the root of SDCARD
 	if [ ! -f "$SETTINGS_FILE" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		if [ -f "/mnt/SDCARD/system.bak" ]; then
+			mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+		else
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		fi
 	fi
 	if [ ! -s "$SETTINGS_FILE" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		if [ -f "/mnt/SDCARD/system.bak" ]; then
+			mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+		else
+			cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+		fi
 	fi
 else
 	if [ -f /appconfigs/system.json.old ]; then
@@ -54,18 +62,34 @@ else
 		# Create v4 config file is this is not found in the root of SDCARD
 		if [ "$SUBMODEL" == "MMv4" ]; then
 			if [ ! -f "$SETTINGS_FILE" ]; then
-				cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+				if [ -f "/mnt/SDCARD/system.bak" ]; then
+					mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+				else
+					cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+				fi
 			fi
 			if [ ! -s "$SETTINGS_FILE" ]; then
-				cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+				if [ -f "/mnt/SDCARD/system.bak" ]; then
+					mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+				else
+					cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
+				fi
 			fi
 		fi
 		if [ "$SUBMODEL" == "MM" ]; then
 			if [ ! -f "$SETTINGS_FILE" ]; then
-				cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				if [ -f "/mnt/SDCARD/system.bak" ]; then
+					mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+				else
+					cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				fi
 			fi
 			if [ ! -s "$SETTINGS_FILE" ]; then
-				cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				if [ -f "/mnt/SDCARD/system.bak" ]; then
+					mv "/mnt/SDCARD/system.bak" "$SETTINGS_FILE"
+				else
+					cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
+				fi
 			fi
 		fi
 	else
