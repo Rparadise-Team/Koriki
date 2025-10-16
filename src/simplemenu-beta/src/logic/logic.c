@@ -217,9 +217,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; sync; sleep 3; shutdown -r", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown -r", NULL);
 				
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
@@ -228,9 +228,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; sync; sleep 3; shutdown -r", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown -r", NULL);
 				
 			}	
 			#else
@@ -247,9 +247,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
@@ -258,9 +258,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				
 			}	
 			#else
@@ -279,9 +279,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; sync; sleep 3; shutdown -r", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown -r", NULL);
 				
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
@@ -290,9 +290,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; sync; sleep 3; shutdown -r", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown -r", NULL);
 				
 			}	
 			#else
@@ -309,9 +309,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_with_audiofix; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_with_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				
 			} else if (audioFix == 0){
 				unlink("/mnt/SDCARD/.simplemenu/NUL");
@@ -320,9 +320,9 @@ void quit() {
 				system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
 				
 				if (mmModel)
-					execlp("sh", "sh", "-c", "echo MM_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MM_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				else
-					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; sync; sleep 3; shutdown", NULL);
+					execlp("sh", "sh", "-c", "echo MMP_without_audiofix; touch /tmp/shutdowning; sync; sleep 3; shutdown", NULL);
 				
 			}
 			#else

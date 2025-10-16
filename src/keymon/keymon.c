@@ -1317,26 +1317,26 @@ int main (int argc, char *argv[]) {
 
                 if (mmModel) {
                     if (isProcessRunning("retroarch")) {
-                        system("echo MM_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MM_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     } else if (isProcessRunning("simplemenu") != 1) {
-                        system("echo MM; sync; sleep 3; shutdown");
+                        system("echo MM; touch /tmp/shutdowning; sync; sleep 3; shutdown");
                     } else {
-                        system("echo MM_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MM_in_SM; touch /tmp/shutdowning; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     }
                 } else {
                     if (isProcessRunning("retroarch")) {
-                        system("echo MMP_in_RA; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MMP_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     } else if (isProcessRunning("simplemenu") != 1) {
-                        system("echo MMP; sync; sleep 3; shutdown");
+                        system("echo MMP; sync; touch /tmp/shutdowning; sleep 3; shutdown");
                     } else {
-                        system("echo MMP_in_SM; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MMP_in_SM; touch /tmp/shutdowning; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     }
                 }
                 while (1) pause();
             }
         }
 
-        if (!file_exists("/tmp/_shutdown")) {
+        if (!file_exists("/tmp/shutdowning")) {
             int hv = read_hallvalue(hallvalue_path);
             if (hv != -1 && hv != last_hallvalue) {
                 last_hallvalue = hv;
