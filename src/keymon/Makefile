@@ -1,4 +1,4 @@
-
+CROSS_COMPILE=/opt/miyoomini-toolchain/bin/arm-linux-gnueabihf-
 
 TARGET = keymon
 

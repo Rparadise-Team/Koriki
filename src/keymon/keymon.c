@@ -982,7 +982,7 @@ void setcpu_optimized(int cpu) {
                 
             case 2:
                 current_cpu_freq = 600000;
-                set_cpugovernor_optimized(POWERSAVE);
+                set_cpugovernor_optimized(USERSPACE);
                 set_cpuclock(600000);
                 break;
                 
@@ -993,9 +993,9 @@ void setcpu_optimized(int cpu) {
                 break;
                 
             case 4:
-                current_cpu_freq = 600000;
-                set_cpugovernor_optimized(POWERSAVE);
-                set_cpuclock(600000);
+                current_cpu_freq = 400000;
+                set_cpugovernor_optimized(USERSPACE);
+                set_cpuclock(400000);
                 break;
                 
             default:
@@ -1085,7 +1085,7 @@ int main (int argc, char *argv[]) {
                                     if (isGMERunning() == 1 || isGMURunning() == 1) {
                                         setcpu_optimized(3);
                                     } else if (isRetroarchRunning() == 1) {
-                                        setcpu_optimized(2);
+                                        setcpu_optimized(4);
                                     } else if (isDrasticRunning() == 1) {
                                         setcpu_optimized(4);
                                     } else if (isPcsxRunning() == 1) {
@@ -1366,7 +1366,7 @@ int main (int argc, char *argv[]) {
                     if (isGMERunning() == 1 || isGMURunning() == 1) {
                         setcpu_optimized(3);
                     } else if (isRetroarchRunning() == 1) {
-                        setcpu_optimized(2);
+                        setcpu_optimized(4);
                     } else if (isDrasticRunning() == 1) {
                         setcpu_optimized(4);
                     } else if (isPcsxRunning() == 1) {
@@ -1385,7 +1385,11 @@ int main (int argc, char *argv[]) {
             }
         }
 
-        usleep(50000);
+	if (sleep == 1) {
+		usleep(1000000);
+	} else {
+		usleep(5000);
+	}
     }
 
     exit(EXIT_FAILURE);
