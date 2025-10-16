@@ -311,19 +311,18 @@ void resetMiaoAudioForRetroarch(void) {
         if (access("/proc/mi_modules/mi_ao/mi_ao0", F_OK) == 0) {
             FILE *proc_ao = fopen("/proc/mi_modules/mi_ao/mi_ao0", "w");
             if (proc_ao) {
-                fprintf(proc_ao, "set_ao_reset 1\n");
+                fprintf(proc_ao, "set_ao_mute 1");
+                fflush(proc_ao);
                 usleep(30000);
-                fprintf(proc_ao, "set_ao_reset 0\n");
+                fprintf(proc_ao, "set_ao_mute 0"); 
                 fclose(proc_ao);
             }
         }
         
         int clear_cmd = 0x40004000;
         ioctl(fd, clear_cmd, 0);
-        
         close(fd);
     }
-    
     retroarch_audio_fix_applied = 1;
 }
 
