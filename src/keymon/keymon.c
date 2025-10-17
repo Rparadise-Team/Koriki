@@ -74,6 +74,7 @@ extern int osd_brightness;
 static const char *cached_settings_file = NULL;
 static int last_retroarch_state = -1;
 static int retroarch_audio_fix_applied = 0;
+static int last_invoker_state = -1;
 
 
 static void read_current_cpu_config(uint32_t *freq, enum cpugov *gov) {
@@ -468,6 +469,17 @@ void checkRetroarchStateChange(void) {
     }
     
     last_retroarch_state = current_state;
+}
+
+void checkinvoker(void) {
+    int current_state = isProcessRunning("invoker.dge");
+    int simplemenurunning = isSimpleMenuRunning();
+    
+    if (simplemenurunning == 1 && current_state == 1 && last_invoker_state == 0) {
+        system("pkill -9 invoker.dge");
+    }
+    
+    last_invoker_state = current_state;
 }
 
 void setmute(int mute) {
@@ -1037,6 +1049,7 @@ int main (int argc, char *argv[]) {
     initializeSettingsFile();
     last_retroarch_state = isRetroarchRunning();
     retroarch_audio_fix_applied = 0;
+    last_invoker_state = isProcessRunning("invoker.dge");
 
     getVolume();
     modifyBrightness(0);
@@ -1079,6 +1092,7 @@ int main (int argc, char *argv[]) {
         n = read(input_fd, &ev, sizeof(ev));
 
         checkRetroarchStateChange();
+        checkinvoker();
 
         if (n == sizeof(ev)) {
             val = ev.value;
