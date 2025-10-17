@@ -421,6 +421,7 @@ int isFBNeoRunning(void) { return isProcessRunning("fbneo"); }
 int isPcsxRunning(void) { return isProcessRunning("pcsx"); }
 int isPico8Running(void) { return isProcessRunning("pico8_dyn"); }
 int isKeytesterRunning(void) { return isProcessRunning("keytester_launcher"); }
+int isSimpleMenuRunning(void) { return isProcessRunning("simplemenu"); }
 
 int isDukemRunning(void) {
     const char *dukems[] = {"rednukem", "eduke32", "nblood", "voidsw"};
@@ -744,7 +745,7 @@ void sethibernate(int hibernate) {
 }
 
 void stopOrContinueProcesses(int value) {
-    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "dropbear", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "simplemenu", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
+    const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "dropbear", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "pico8_dyn", "simplemenu", "pcsx", "keytester_launcher", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
     const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
     DIR *dir;
@@ -784,6 +785,7 @@ void stopOrContinueProcesses(int value) {
 }
 
 void display_setScreen(int value) {
+
     if (value == 0) {
         if (isRetroarchRunning() == 1) {
             system("pkill -STOP retroarch");
@@ -801,7 +803,19 @@ void display_setScreen(int value) {
             system("pkill -STOP fbneo");
         }
 
-        if (isProcessRunning("simplemenu") == 1) {
+        if (isPcsxRunning() == 1) {
+            system("pkill -STOP pcsx");
+        }
+
+        if (isPico8Running() == 1) {
+            system("pkill -STOP pico8_dyn");
+        }
+
+        if (isKeytesterRunning() == 1) {
+            system("pkill -STOP keytester_launcher");
+        }
+
+        if (isSimpleMenuRunning() == 1) {
             system("pkill -STOP simplemenu");
         }
 
@@ -884,7 +898,19 @@ void display_setScreen(int value) {
             system("pkill -CONT fbneo");
         }
 
-        if (isProcessRunning("simplemenu") == 1) {
+        if (isPcsxRunning() == 1) {
+            system("pkill -CONT pcsx");
+        }
+
+        if (isPico8Running() == 1) {
+            system("pkill -CONT pico8_dyn");
+        }
+
+        if (isKeytesterRunning() == 1) {
+            system("pkill -CONT keytester_launcher");
+        }
+
+        if (isSimpleMenuRunning() == 1) {
             system("pkill -CONT simplemenu");
         }
     }
@@ -981,18 +1007,12 @@ void setcpu_optimized(int cpu) {
                 break;
                 
             case 2:
-                current_cpu_freq = 600000;
-                set_cpugovernor_optimized(USERSPACE);
-                set_cpuclock(600000);
-                break;
-                
-            case 3:
                 current_cpu_freq = 1000000;
                 set_cpugovernor_optimized(ONDEMAND);
                 set_cpuclock(1000000);
                 break;
                 
-            case 4:
+            case 3:
                 current_cpu_freq = 400000;
                 set_cpugovernor_optimized(USERSPACE);
                 set_cpuclock(400000);
@@ -1083,17 +1103,17 @@ int main (int argc, char *argv[]) {
 
                                     sethibernate(1);
                                     if (isGMERunning() == 1 || isGMURunning() == 1) {
-                                        setcpu_optimized(3);
+                                        setcpu_optimized(2);
                                     } else if (isRetroarchRunning() == 1) {
-                                        setcpu_optimized(4);
+                                        setcpu_optimized(1);
                                     } else if (isDrasticRunning() == 1) {
-                                        setcpu_optimized(4);
+                                        setcpu_optimized(3);
                                     } else if (isPcsxRunning() == 1) {
-                                        setcpu_optimized(4);
+                                        setcpu_optimized(3);
                                     } else if (isFBNeoRunning() == 1) {
-                                        setcpu_optimized(4);
+                                        setcpu_optimized(3);
                                     } else if (isPico8Running() == 1) {
-                                        setcpu_optimized(4);
+                                        setcpu_optimized(3);
                                     } else {
                                         setcpu_optimized(1);
                                     }
@@ -1138,7 +1158,7 @@ int main (int argc, char *argv[]) {
                         repeat = 0;
                     }
 
-                    if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                    if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                         if (val == PRESSED && menu_pressed) {
                             modifyBrightness(1);
                             osd_show(OSD_BRIGHTNESS);
@@ -1159,7 +1179,7 @@ int main (int argc, char *argv[]) {
                         repeat = 0;
                     }
 
-                    if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                    if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                         if (val == PRESSED && menu_pressed) {
                             modifyBrightness(-1);
                             osd_show(OSD_BRIGHTNESS);
@@ -1181,7 +1201,7 @@ int main (int argc, char *argv[]) {
                             repeat = 0;
                         }
 
-                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
                                 setVolume(volume, 1);
                                 iconvol();
@@ -1206,7 +1226,7 @@ int main (int argc, char *argv[]) {
                             repeat = 0;
                         }
 
-                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
                                 setVolume(volume, -1);
                                 iconvol();
@@ -1231,7 +1251,7 @@ int main (int argc, char *argv[]) {
                     }
 
                     if (isKeytesterRunning() == 0) {
-                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
                                 modifyBrightness(1);
                                 osd_show(OSD_BRIGHTNESS);
@@ -1262,7 +1282,7 @@ int main (int argc, char *argv[]) {
                     }
 
                     if (isKeytesterRunning() == 0) {
-                        if (isProcessRunning("simplemenu") || isProcessRunning("retroarch") || isDukemRunning() == 1 || isProcessRunning("pico8_dyn")) {
+                        if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
                                 modifyBrightness(-1);
                                 osd_show(OSD_BRIGHTNESS);
@@ -1364,17 +1384,17 @@ int main (int argc, char *argv[]) {
 
                     sethibernate(1);
                     if (isGMERunning() == 1 || isGMURunning() == 1) {
-                        setcpu_optimized(3);
+                        setcpu_optimized(2);
                     } else if (isRetroarchRunning() == 1) {
-                        setcpu_optimized(4);
+                        setcpu_optimized(1);
                     } else if (isDrasticRunning() == 1) {
-                        setcpu_optimized(4);
+                        setcpu_optimized(3);
                     } else if (isPcsxRunning() == 1) {
-                        setcpu_optimized(4);
+                        setcpu_optimized(3);
                     } else if (isFBNeoRunning() == 1) {
-                        setcpu_optimized(4);
+                        setcpu_optimized(3);
                     } else if (isPico8Running() == 1) {
-                        setcpu_optimized(4);
+                        setcpu_optimized(3);
                     } else {
                         setcpu_optimized(1);
                     }
