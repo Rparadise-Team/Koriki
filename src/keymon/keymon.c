@@ -1047,9 +1047,9 @@ int main (int argc, char *argv[]) {
     int last_hallvalue = -1;
 
     initializeSettingsFile();
-    last_retroarch_state = isRetroarchRunning();
-    retroarch_audio_fix_applied = 0;
-    last_invoker_state = isProcessRunning("invoker.dge");
+    //last_retroarch_state = isRetroarchRunning();
+    //retroarch_audio_fix_applied = 0;
+    //last_invoker_state = isProcessRunning("invoker.dge");
 
     getVolume();
     modifyBrightness(0);
@@ -1091,8 +1091,8 @@ int main (int argc, char *argv[]) {
     while (1) {
         n = read(input_fd, &ev, sizeof(ev));
 
-        checkRetroarchStateChange();
-        checkinvoker();
+        //checkRetroarchStateChange();
+        //checkinvoker();
 
         if (n == sizeof(ev)) {
             val = ev.value;
@@ -1422,7 +1422,7 @@ int main (int argc, char *argv[]) {
 	if (sleep == 1) {
 		usleep(1000000);
 	} else {
-		usleep(5000);
+		usleep(50000);
 	}
     }
 
