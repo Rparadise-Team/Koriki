@@ -406,28 +406,6 @@ reset_soundfix() {
 	sync
 }
 
-check_simplemenu_hang() {
-	pid=$(pidof simplemenu)
-	if [ -z "$pid" ]; then
-		return 0
-	fi
-	zombies=$(ps --ppid "$pid" -o state= | grep Z)
-	if [ -n "$zombies" ]; then
-		kill -9 "$pid"
-		return 1
-	fi
-	cpu=$(ps -p "$pid" -o %cpu= | awk '{print int($1)}')
-	if [ "$cpu" -eq 0 ]; then
-		sleep 5
-		cpu2=$(ps -p "$pid" -o %cpu= | awk '{print int($1)}')
-		if [ "$cpu2" -eq 0 ]; then
-		kill -9 "$pid"
-		return 1
-		fi
-	fi
-	return 0
-}
-
 # set virtual memory size
 echo 4096 > "/proc/sys/vm/max_map_count"
 
@@ -940,12 +918,6 @@ if [ "$MODEL" == "MMP" ]; then
 	mount -o bind "${SYSTEM_PATH}"/etc/group /etc/group
 	mount -o bind "${SYSTEM_PATH}"/etc/profile /etc/profile
 fi
-
-# check simplemenu
-while true; do
-	check_simplemenu_hang
-	sleep 30
-done &
 
 # Launch SimpleMenu
 
