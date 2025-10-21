@@ -647,16 +647,6 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-#		if grep -q "v4" "${RETROARCH_PATH}"/done; then
-#			rm "${RETROARCH_PATH}"/done
-#			touch "${RETROARCH_PATH}"/done
-#			echo "v1" > "${RETROARCH_PATH}"/done
-#			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-#			fi
-#			sync
-#		fi
 	fi
 	
 	if [ "$SUBMODEL" == "MMv4" ]; then
@@ -670,16 +660,6 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-#		if grep -q "v1" "${RETROARCH_PATH}"/done; then
-#			rm "${RETROARCH_PATH}"/done
-#			touch "${RETROARCH_PATH}"/done
-#			echo "v4" > "${RETROARCH_PATH}"/done
-#			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-#			fi
-#			sync
-#		fi
 	fi
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
@@ -707,16 +687,6 @@ else
 		sed -i 's|^custom_viewport_width = "640"$|custom_viewport_width = "752"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-#		if grep -q "v1" "${RETROARCH_PATH}"/done; then
-#			rm "${RETROARCH_PATH}"/done
-#			touch "${RETROARCH_PATH}"/done
-#			echo "v4" > "${RETROARCH_PATH}"/done
-#			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v1" ]; then
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-#			fi
-#			sync
-#		fi
 		sync
 	else
 		cp "${RETROARCH_PATH}"/retroarch.plus "${RETROARCH_PATH}"/retroarch
@@ -729,16 +699,6 @@ else
 		sed -i 's|^custom_viewport_width = "752"$|custom_viewport_width = "640"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^custom_viewport_height = "560"$|custom_viewport_height = "480"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
-#		if grep -q "v4" "${RETROARCH_PATH}"/done; then
-#			rm "${RETROARCH_PATH}"/done
-#			touch "${RETROARCH_PATH}"/done
-#			echo "v1" > "${RETROARCH_PATH}"/done
-#			if [ ! -d "${RETROARCH_PATH}/.retroarch/overlay/.ATC_v4" ]; then
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/ATC "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v4
-#				mv "${RETROARCH_PATH}"/.retroarch/overlay/.ATC_v1 "${RETROARCH_PATH}"/.retroarch/overlay/ATC
-#			fi
-#			sync
-#		fi
 		sync
 	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
