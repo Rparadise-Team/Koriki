@@ -97,6 +97,7 @@
 #define VALOR40	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
 #define VALOR41 ":/.retroarch/overlay/ATC/ATC-ARDUBOY.cfg"
 #define VALOR42 ":/.retroarch/overlay/nothing.cfg"
+#define VALOR43	":/.retroarch/filters/video/Grid2x.filt"
 
 SDL_Surface* screen = NULL;
 SDL_Surface* image[NUM_IMAGES];
@@ -106,6 +107,7 @@ SDL_Rect image_rect;
 SDL_Event event;
 bool running = true;
 int current_image = 0;
+int miyoov4 = 0;
 
 void load_image(int index) {
 	char filename[16];
@@ -153,6 +155,9 @@ void update_config(const char* filename, const char* texto1, const char* valor1,
 }
 
 int main(int argc, char* argv[]) {
+	
+	miyoov4 = access("/tmp/new_res_available", F_OK);
+	
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == -1) {
 		printf("Error initializing SDL: %s\n", SDL_GetError());
 		return -1;
@@ -243,7 +248,11 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
+								if (miyoov4) {
+								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR43, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								} else {
 								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
+								}
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
@@ -257,7 +266,11 @@ int main(int argc, char* argv[]) {
 								SDL_Delay(3000);
 								break;
 							case 2:
+								if (miyoov4) {
+								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR43, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								} else {
 								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
+								}
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
 								SDL_Flip(screen);
