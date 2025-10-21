@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Verificar que estamos en ~/Koriki/
-if [ "$(pwd)" != "$HOME/Koriki" ]; then
-    echo "Este script debe ser ejecutado desde $HOME/Koriki/"
-    exit 1
-fi
-
 # Variables
 BASE_DIR="./base"
 VERSION_FILE="$BASE_DIR/Koriki/version.txt"
