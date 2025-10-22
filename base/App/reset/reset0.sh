@@ -41,28 +41,28 @@ reset_settings() {
 			cp ${SYSTEM_PATH}/assets/system.json $SETTINGS_FILE
 			fi
             sync
-			reboot
+			shutdown
             sleep 10s
 		fi
         
 		if [ $MODEL = "MMv4" ]; then
 			cp ${SYSTEM_PATH}/assets/system-v4.json $SETTINGS_FILE
 			sync
-			reboot
+			shutdown
             sleep 10s
 		fi
 		
 		if [ $MODEL = "MMP" ]; then
             cp ${SYSTEM_PATH}/assets/system.mmp.json $SETTINGS_FILE
             sync
-            reboot
+            shutdown -r
             sleep 10s
         fi
 		
 		if [ $MODEL = "MMF" ]; then
             cp ${SYSTEM_PATH}/assets/system.mmf.json $SETTINGS_FILE
             sync
-            reboot
+            shutdown -r
             sleep 10s
         fi
 }
