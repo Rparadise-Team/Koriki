@@ -29,15 +29,19 @@
 volatile uint32_t *memregs;
 int32_t memdev = 0;
 int oldCPU;
+static int MMplus;
+static int firstLaunch = 1;
+static int percBat = 0;
+static int is_charging;
 
 typedef struct {
     int channel_value;
     int adc_value;
 } SAR_ADC_CONFIG_READ;
  
-#define SARADC_IOC_MAGIC                     'a'
-#define IOCTL_SAR_INIT                       _IO(SARADC_IOC_MAGIC, 0)
-#define IOCTL_SAR_SET_CHANNEL_READ_VALUE     _IO(SARADC_IOC_MAGIC, 1)
+#define SARADC_IOC_MAGIC 'a'
+#define IOCTL_SAR_INIT _IO(SARADC_IOC_MAGIC, 0)
+#define IOCTL_SAR_SET_CHANNEL_READ_VALUE _IO(SARADC_IOC_MAGIC, 1)
 
 static SAR_ADC_CONFIG_READ  adcCfg = {0,0};
 static int sar_fd = 0;
@@ -47,10 +51,11 @@ static void initADC(void) {
     ioctl(sar_fd, IOCTL_SAR_INIT, NULL);
 }
 
-static int is_charging = 0;
 void checkCharging(void) {
   int charging = 0;
-  if (mmModel == 0) {
+  MMplus = access("/customer/app/axp_test", F_OK);
+  
+  if (MMplus == 0) {
     char *cmd = "cd /customer/app/ ; ./axp_test";
     int axp_response_size = 100;
     char buf[axp_response_size];
@@ -62,58 +67,76 @@ void checkCharging(void) {
       if (fgets(buf, axp_response_size, fp) != NULL)
         sscanf(buf,  "{\"battery\":%d, \"voltage\":%d, \"charging\":%d}", &battery, &voltage, &charging);
     pclose(fp);
-    is_charging = charging;
   } else {
     FILE *file = fopen("/sys/devices/gpiochip0/gpio/gpio59/value", "r");
     if (file!=NULL) {
       fscanf(file, "%i", &charging);
       fclose(file);
     }
-    is_charging = charging;
   }
+
+  is_charging = charging;
+
 }
 
-int percBat = 0;
-int firstLaunch = 1; 
-int countChecks = 0;
-
-static int checkADC(void) {  
-    ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adcCfg);
-
-    int old_is_charging = is_charging;
+static int checkADC(void) {
+	int old_is_charging = is_charging;
+	int percBatTemp = 0;
+	
     checkCharging();
+    
+    MMplus = access("/customer/app/axp_test", F_OK);
 
-        //char val[3];
+    if (is_charging == 0) {
+        if (MMplus == 0) {
+             char *cmd = "cd /customer/app/ ; ./axp_test";
+             int axp_response_size = 100;
+             char buf[axp_response_size];
 
-            int percBatTemp = 0;
-            if (is_charging == 0) {
-                if (adcCfg.adc_value >= 528)
-                    percBatTemp = adcCfg.adc_value-478;
-                else if ((adcCfg.adc_value >= 512) && (adcCfg.adc_value < 528))
-                    percBatTemp = (int)(adcCfg.adc_value*2.125-1068);
-                else if ((adcCfg.adc_value >= 480) && (adcCfg.adc_value < 512))
-                    percBatTemp = (int)(adcCfg.adc_value* 0.51613 - 243.742);
-
-                if ((firstLaunch == 1) || (old_is_charging == 1)) {
-                    // Calibration needed at first launch or when the
-                    // user just unplugged his charger
-                    firstLaunch = 0;
-                    percBat = percBatTemp;
-                } else {
-                    if (percBat>percBatTemp) {
-                        percBat--;
-                    } else if (percBat < percBatTemp) {
-                        percBat++;
-                    }
-                }
-                if (percBat<0)
-                    percBat=0;
-                else if (percBat>100)
-                    percBat=100;
-            } else {
-                // The handheld is currently charging
-                percBat = 500;
+             FILE *fp;
+             fp = popen(cmd, "r");
+             if (fgets(buf, axp_response_size, fp) != NULL) {
+                sscanf(buf,  "{\"battery\":%d, \"voltage\":%*d, \"charging\":%*d}", &percBatTemp);
+             }
+             pclose(fp);
+        } else {
+            ioctl(sar_fd, IOCTL_SAR_SET_CHANNEL_READ_VALUE, &adcCfg);
+            if (adcCfg.adc_value >= 528) {
+                percBatTemp = adcCfg.adc_value - 478;
             }
+            else if ((adcCfg.adc_value >= 512) && (adcCfg.adc_value < 528)) {
+                percBatTemp = (int)(adcCfg.adc_value * 2.125 - 1068);
+            }
+            else if ((adcCfg.adc_value >= 480) && (adcCfg.adc_value < 512)) {
+                percBatTemp = (int)(adcCfg.adc_value * 0.51613 - 243.742);
+            }
+        }
+        
+        if ((firstLaunch == 1) || (old_is_charging == 1)) {
+            // Calibration needed at first launch or when the
+            // user just unplugged his charger
+            firstLaunch = 0;
+            percBat = percBatTemp;
+        } else {
+            if (percBat > percBatTemp) {
+                percBat--;
+            } else if (percBat < percBatTemp) {
+                percBat++;
+            }
+        }
+        
+        if (percBat < 0) {
+            percBat = 0;
+		} else if (percBat > 100) {
+            percBat = 100;
+		}
+        
+    } else {
+        // The handheld is currently charging
+		firstLaunch = 1;
+        percBat = 500;
+    }  
+    
     return percBat;
 }
 
@@ -743,50 +766,31 @@ void rumble() {
 }
 
 int getBatteryLevel() {
-  //int max_voltage;
-  //int voltage_now;
-  //int total;
     int charge = 0;
-    if (mmModel)
-        charge = checkADC();
-    else {
-        checkCharging();
-        if (is_charging)
-            charge = 500;
-        else {
-            char *cmd = "cd /customer/app/ ; ./axp_test";
-            int axp_response_size = 100;
-            char buf[axp_response_size];
-
-            FILE *fp;
-            fp = popen(cmd, "r");
-              if (fgets(buf, axp_response_size, fp) != NULL)
-                sscanf(buf,  "{\"battery\":%d, \"voltage\":%*d, \"charging\":%*d}", &charge);
-            pclose(fp);
-        }
-    }
-    if (charge<=5)       return 1;
-    else if (charge<=10)  return 2;
-    else if (charge<=15)  return 3;
-    else if (charge<=20)  return 4;
-    else if (charge<=25)  return 5;
-    else if (charge<=30)  return 6;
-    else if (charge<=35)  return 7;
-    else if (charge<=40)  return 8;
-    else if (charge<=45)  return 9;
-    else if (charge<=50)  return 10;
-    else if (charge<=55)  return 11;
-    else if (charge<=60)  return 12;
-    else if (charge<=65)  return 13;
-    else if (charge<=70)  return 14;
-    else if (charge<=75)  return 15;
-    else if (charge<=80)  return 16;
-    else if (charge<=85)  return 17;
-    else if (charge<=90)  return 18;
-    else if (charge<=95)  return 19;
-    else if (charge<=100) return 20;
-    else                  return 21;
-
+    
+    charge = checkADC();
+    
+    if (charge <= 5)       return 1;
+    else if (charge <= 10) return 2;
+    else if (charge <= 15) return 3;
+    else if (charge <= 20) return 4;
+    else if (charge <= 25) return 5;
+    else if (charge <= 30) return 6;
+    else if (charge <= 35) return 7;
+    else if (charge <= 40) return 8;
+    else if (charge <= 45) return 9;
+    else if (charge <= 50) return 10;
+    else if (charge <= 55) return 11;
+    else if (charge <= 60) return 12;
+    else if (charge <= 65) return 13;
+    else if (charge <= 70) return 14;
+    else if (charge <= 75) return 15;
+    else if (charge <= 80) return 16;
+    else if (charge <= 85) return 17;
+    else if (charge <= 90) return 18;
+    else if (charge <= 95) return 19;
+    else if (charge <= 100) return 20;
+    else                   return 21;
 }
 
 int getCurrentBrightness() {
@@ -798,10 +802,13 @@ int getMaxBrightness() {
 }
 
 int getCurrentWifi() {
-	if (mmModel)
+    MMplus = access("/customer/app/axp_test", F_OK);
+    
+	if (MMplus == 0) {
+        return getCurrentSystemValue("wifi");
+    } else {
 		return 2;
-	else
-		return getCurrentSystemValue("wifi");
+    }
 }
 
 void setBrightness(int value) {
