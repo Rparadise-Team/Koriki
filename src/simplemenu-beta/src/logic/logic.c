@@ -6,7 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <string.h>
 #include <time.h>
 #include <stdio.h>
 #include "opk.h"

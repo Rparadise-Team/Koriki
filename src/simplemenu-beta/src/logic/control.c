@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #if defined TARGET_OD || defined TARGET_OD_BETA
 #include <shake.h>
 #endif

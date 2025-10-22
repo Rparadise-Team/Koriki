@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #include "../headers/constants.h"
 #include "../headers/definitions.h"
