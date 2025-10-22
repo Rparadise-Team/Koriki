@@ -127,6 +127,9 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 	fi
+	if [ "$MODEL" == "MMFLIP" ]; then
+		cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+	fi
 fi
 
 resize() {
@@ -230,7 +233,7 @@ reset_settings() {
 			"${SYSTEM_PATH}"/bin/shutdown
 			sleep 5
 		else
-			if [ "$SUBMODEL" == "MMF" ]; then
+			if [ "$SUBMODEL" == "MMFLIP" ]; then
 				cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
 			else
 				cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
