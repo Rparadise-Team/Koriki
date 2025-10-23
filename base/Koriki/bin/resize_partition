@@ -98,8 +98,8 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     $TMP_PATH/partprobe /dev/mmcblk0
 
     # Fix FAT32 header RAW in windows
-    echo -n -e \\xEB\\x58\\x90 > /dev/mmcblk0p1
-    sync
+    #echo -n -e \\xEB\\x58\\x90 > /dev/mmcblk0p1
+    #sync
 	
 	$TMP_PATH/fsck.fat -a -v /dev/mmcblk0p1
 
