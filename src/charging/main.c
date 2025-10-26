@@ -189,7 +189,7 @@ int main(void) {
 
     checkCharging();
     if (is_charging == 0){
-        system("/mnt/SDCARD/Koriki/bin/shutdown; sleep 10");
+        system("shutdown; sleep 10");
     }
 
     if (!screen_on && !sound) {
@@ -248,7 +248,7 @@ int main(void) {
     if (mmp) { // autopoweroff MMP in 60s
             time_t current_time = time(NULL);
             if (current_time - last_activity_time >= 60) {
-                system("/mnt/SDCARD/Koriki/bin/shutdown; sleep 10");
+                system("shutdown; sleep 10");
                 running = false;
             }
         }
