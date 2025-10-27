@@ -201,41 +201,44 @@ fi
 
 setmon() {
 	export MON_PATH="/tmp/mons/bin"
-	mkdir -p $MON_PATH
-	
-	if [ -f "$SDCARD_PATH/Koriki/bin/batmon" ]
-		rm -f "$SDCARD_PATH/Koriki/bin/batmon"
-		sync
-	fi
-	if [ -f "$SDCARD_PATH/Koriki/bin/charging" ]
-		rm -f "$SDCARD_PATH/Koriki/bin/charging"
-		sync
-	fi
-	if [ -f "$SDCARD_PATH/Koriki/bin/keymon" ]
-		rm -f "$SDCARD_PATH/Koriki/bin/keymon"
-		sync
-	fi
-	if [ -f "$SDCARD_PATH/Koriki/bin/shutdown" ]
-		rm -f "$SDCARD_PATH/Koriki/bin/shutdown"
-		sync
-	fi
-	if [ -f "$SDCARD_PATH/Koriki/bin/killall" ]
-		rm -f "$SDCARD_PATH/Koriki/bin/killall"
-		sync
-	fi
-	
-	cp "$SDCARD_PATH/Koriki/bin/sp/batmon" $MON_PATH/
-	cp "$SDCARD_PATH/Koriki/bin/sp/charging" $MON_PATH/
-	cp "$SDCARD_PATH/Koriki/bin/sp/keymon" $MON_PATH/
-	cp "$SDCARD_PATH/Koriki/bin/sp/shutdown" $MON_PATH/
-	cp "$SDCARD_PATH/Koriki/bin/sp/killall" $MON_PATH/
 
-	chmod +x $MON_PATH/batmon
-	chmod +x $MON_PATH/charging
-	chmod +x $MON_PATH/keymon
-	chmod +x $MON_PATH/shutdown
-	chmod +x $MON_PATH/killall
-	export PATH="${MON_PATH}:${PATH}"
+	if [ ! -d $MON_PATH ]; then
+		mkdir -p $MON_PATH
+		
+		if [ -f "$SDCARD_PATH/Koriki/bin/batmon" ]; then
+			rm -f "$SDCARD_PATH/Koriki/bin/batmon"
+			sync
+		fi
+		if [ -f "$SDCARD_PATH/Koriki/bin/charging" ]; then
+			rm -f "$SDCARD_PATH/Koriki/bin/charging"
+			sync
+		fi
+		if [ -f "$SDCARD_PATH/Koriki/bin/keymon" ]; then
+			rm -f "$SDCARD_PATH/Koriki/bin/keymon"
+			sync
+		fi
+		if [ -f "$SDCARD_PATH/Koriki/bin/shutdown" ]; then
+			rm -f "$SDCARD_PATH/Koriki/bin/shutdown"
+			sync
+		fi
+		if [ -f "$SDCARD_PATH/Koriki/bin/killall" ]; then
+			rm -f "$SDCARD_PATH/Koriki/bin/killall"
+			sync
+		fi
+		
+		cp "$SDCARD_PATH/Koriki/bin/sp/batmon" $MON_PATH/
+		cp "$SDCARD_PATH/Koriki/bin/sp/charging" $MON_PATH/
+		cp "$SDCARD_PATH/Koriki/bin/sp/keymon" $MON_PATH/
+		cp "$SDCARD_PATH/Koriki/bin/sp/shutdown" $MON_PATH/
+		cp "$SDCARD_PATH/Koriki/bin/sp/killall" $MON_PATH/
+		
+		chmod +x $MON_PATH/batmon
+		chmod +x $MON_PATH/charging
+		chmod +x $MON_PATH/keymon
+		chmod +x $MON_PATH/shutdown
+		chmod +x $MON_PATH/killall
+		export PATH="${MON_PATH}:${PATH}"
+	fi
 }
 
 killprocess() {
