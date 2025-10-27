@@ -34,13 +34,14 @@ if [ "$0" = "/tmp/_shutdown" ]; then
         exit 1
     fi
 	
+	killall -w retroarch
+	killall -w simplemenu
+	
 	#killall -9 main # mandatory to avoid the suppression of .tmp_update !
-	killall -9 updater
+	#killall -9 batmon
+	#killall -9 keymon
 	killall -9 runtime.sh
-	killall -9 batmon
-	killall -9 keymon
-	pkill -TERM retroarch;
-	pkill -TERM simplemenu;
+	killall -9 updater
 	
 	echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable;
 	echo "GUI_SHOW 0 off" > /proc/mi_modules/fb/mi_fb0

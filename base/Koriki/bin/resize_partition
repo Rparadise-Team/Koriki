@@ -40,7 +40,8 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
 
     # Kill processes that could be blocking the SD
     echo "Terminating processes that are blocking the partition..."
-    killall -9 updater 2>/dev/null
+    /tmp/mons/bin/killall -9 runtime.sh 2>/dev/null
+    /tmp/mons/bin/killall -9 updater 2>/dev/null
     sleep 1
     kill_hooked_tasks
     sleep 0.1
@@ -112,7 +113,7 @@ if [ "$0" = "/tmp/_resize_partition" ]; then
     $TMP_PATH/fdisk -l /dev/mmcblk0
 
     # Create a file indicating that the resize has been completed
-    touch /mnt/SDCARD/resized
+    touch /mnt/SDCARD/RESIZED
 
     # Sync changes before rebooting
     sync

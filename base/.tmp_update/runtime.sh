@@ -35,9 +35,6 @@ export SPEEDSAVE="/mnt/SDCARD/.simplemenu/speed.sav"
 
 export RETROARCH_PATH="/mnt/SDCARD/RetroArch"
 
-#kill main program from stock
-killall -9 main
-
 # Detect flash type
 if dmesg|fgrep -q "[FSP] Flash is detected (0x1100, 0x68, 0x40, 0x18) ver1.1"; then
 	export SETTINGS_FILE="$SETTINGS_EXT_FILE"
@@ -193,12 +190,52 @@ if [ ! -f "$SDCARD_PATH/RESIZED" ]; then
 	
 	# Ejecutar el script de redimensionamiento
 	echo "Ejecutando el script de redimensionamiento..."
+	setmon
 	killall -9 main
 	/tmp/resize_partition
 	exit 0
 else
 	echo "La partición ya ha sido redimensionada anteriormente."
 fi
+}
+
+setmon() {
+	export MON_PATH="/tmp/mons/bin"
+	mkdir -p $MON_PATH
+	
+	if [ -f "$SDCARD_PATH/Koriki/bin/batmon" ]
+		rm -f "$SDCARD_PATH/Koriki/bin/batmon"
+		sync
+	fi
+	if [ -f "$SDCARD_PATH/Koriki/bin/charging" ]
+		rm -f "$SDCARD_PATH/Koriki/bin/charging"
+		sync
+	fi
+	if [ -f "$SDCARD_PATH/Koriki/bin/keymon" ]
+		rm -f "$SDCARD_PATH/Koriki/bin/keymon"
+		sync
+	fi
+	if [ -f "$SDCARD_PATH/Koriki/bin/shutdown" ]
+		rm -f "$SDCARD_PATH/Koriki/bin/shutdown"
+		sync
+	fi
+	if [ -f "$SDCARD_PATH/Koriki/bin/killall" ]
+		rm -f "$SDCARD_PATH/Koriki/bin/killall"
+		sync
+	fi
+	
+	cp "$SDCARD_PATH/Koriki/bin/sp/batmon" $MON_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/sp/charging" $MON_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/sp/keymon" $MON_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/sp/shutdown" $MON_PATH/
+	cp "$SDCARD_PATH/Koriki/bin/sp/killall" $MON_PATH/
+
+	chmod +x $MON_PATH/batmon
+	chmod +x $MON_PATH/charging
+	chmod +x $MON_PATH/keymon
+	chmod +x $MON_PATH/shutdown
+	chmod +x $MON_PATH/killall
+	export PATH="${MON_PATH}:${PATH}"
 }
 
 killprocess() {
@@ -237,7 +274,7 @@ reset_settings() {
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			"${SYSTEM_PATH}"/bin/shutdown
+			shutdown
 			sleep 5
 		else
 			if [ "$SUBMODEL" == "MMFLIP" ]; then
@@ -249,7 +286,7 @@ reset_settings() {
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
-			"${SYSTEM_PATH}"/bin/shutdown -r
+			shutdown -r
 			sleep 5
 		fi
 	fi
@@ -304,8 +341,8 @@ update() {
 		done
 		
 		sync
-		
-		"${SYSTEM_PATH}"/bin/shutdown
+		setmon
+		shutdown
 		
 		sleep 10s
 	fi
@@ -435,12 +472,6 @@ change_resolution
 # Resize microsd
 resize
 
-# Charging screen
-"${SYSTEM_PATH}"/bin/charging
-
-# Update opportunity
-update
-
 # check swap size
 if [ -f "${SWAPFILE}" ]; then
 	SWAPSIZE=`stat -c %s "${SWAPFILE}"`
@@ -469,6 +500,18 @@ if [ "$MODEL" == "MMP" ]; then
 else
 	swapon -p 60 "${SWAPFILE}"
 fi
+
+# Update opportunity
+update
+
+# Set internal systems app in tmp
+setmon
+
+#kill main program from stock
+killall -9 main
+
+# Charge screen
+charging
 
 # Reset settings on first boot
 reset_settings
@@ -522,13 +565,13 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 		sync
-		"${SYSTEM_PATH}"/bin/shutdown -r
+		shutdown -r
 		sleep 5
 	fi
 	if [ "$SUBMODEL" == "MMFLIP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
 		sync
-		"${SYSTEM_PATH}"/bin/shutdown -r
+		shutdown -r
 		sleep 5
 	fi
 
@@ -540,7 +583,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 			cp "${SYSTEM_PATH}"/assets/system-v4.json "$SETTINGS_FILE"
 		fi
 		sync
-		"${SYSTEM_PATH}"/bin/shutdown
+		shutdown
 		sleep 5
 	fi
 fi
@@ -761,10 +804,10 @@ if [ ! -f "${SPEEDSAVE}" ]; then
 fi
 
 # Koriki keymon
-runifnecessary "keymon" "${SYSTEM_PATH}"/bin/keymon
+runifnecessary "keymon" keymon
 
-# Koriki batmon (compiled and adapter from onion)
-runifnecessary "batmon" "${SYSTEM_PATH}"/bin/batmon
+# Koriki batmon
+runifnecessary "batmon" batmon
 
 # create dhcp.leases
 if [ ! -f /appconfigs/dhcp.leases ]; then
@@ -885,7 +928,7 @@ fi
 
 #kill telnetd
 
-killall -9 telnetd
+killall -15 telnetd
 
 # Remount passwd/group to add our own users
 
@@ -914,4 +957,4 @@ done
 # turf off the console.
 sync
 sleep 5
-"${SYSTEM_PATH}"/bin/shutdown
+shutdown
