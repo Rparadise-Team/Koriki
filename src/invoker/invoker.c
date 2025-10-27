@@ -24,7 +24,6 @@ char *getFilePath(char *fileName) {
 	retstr = malloc(strlen (fileName) + 1);
 	strcpy (retstr, fileName);
 	lastslash = strrchr (retstr, '/');
-	//	sleep(2);
 	if (lastslash != NULL) {
 		*lastslash = '\0';
 	}
@@ -35,7 +34,6 @@ size_t cmd_param_split(char *buffer, char *argv[], size_t argv_max_size)
 {
 	char *p, *start_of_word;
 	int c;
-//	enum states { DULL=0, IN_WORD, IN_STRING, QUOTE_DOUBLE} state = DULL;
 	enum states { DULL=0, IN_WORD, IN_STRING} state = DULL;
 	size_t argc = 0;
 	int quote = 0;
@@ -64,7 +62,6 @@ size_t cmd_param_split(char *buffer, char *argv[], size_t argv_max_size)
 				else
 					quote = 0;
 				strncpy(argv[argc],start_of_word, p - start_of_word);
-//				remove_quote(argv[argc]);
 				argc++;
 				state = DULL;
 			}
@@ -78,7 +75,6 @@ size_t cmd_param_split(char *buffer, char *argv[], size_t argv_max_size)
 
 			if (c==' ' && quote==0) {
 				strncpy(argv[argc],start_of_word, p - start_of_word);
-//				remove_quote(argv[argc]);
 				argc++;
 				state = DULL;
 			}
@@ -88,7 +84,6 @@ size_t cmd_param_split(char *buffer, char *argv[], size_t argv_max_size)
 
 	if (state != DULL && argc < argv_max_size){
 		strncpy(argv[argc],start_of_word, p - start_of_word);
-//		remove_quote(argv[argc]);
 		argc++;
 	}
 	return argc;
@@ -146,31 +141,19 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
     int i=0;
-//    for(i = 0;i<argsCount;i++) {
-//        printf("arg %d = %s\n",i,args[i]);
-//    }
 	char menuDirectory[100] = "";
 	char *directory=argv[1];
 	char *executable=argv[2];
 	char *fileToBeExecutedWithFullPath=argv[3];
 	int ret=0;
-#ifdef TARGET_BITTBOY
-	int fd;
-	struct winsize w;
-	ioctl(0, TIOCGWINSZ, &w);
-	int columns = w.ws_col+30;
-	int rows = w.ws_row-4;
-#endif
 	getcwd(menuDirectory, sizeof(menuDirectory));
 	ret = chdir(directory);
 	pid_t pid;
 	pid = fork();
-	if (pid == 0 ) {
-#ifdef TARGET_BITTBOY
-		fd = open("/dev/null",O_WRONLY | O_CREAT, 0666);
-		dup2(fd, 1);
-		dup2(fd, 2);
-#endif
+	if (pid < 0) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {
 		//it's a section meant for native apps
 		if (executable[0]=='#') {
 			ret = chdir(menuDirectory);
@@ -193,11 +176,7 @@ int main(int argc, char *argv[]) {
 					}
 					params[i]=NULL;
 					if (strstr(params[2],"default.")!=NULL) {
-#ifdef TARGET_RFW
-						params[2][strlen(params[2])]='\0';
-#else
 						params[2][strlen(params[2])-1]='\0';
-#endif
 					}
 					printf("%s\n", params[2]);
 					ret = execvp("opkrun",params);
@@ -241,11 +220,7 @@ int main(int argc, char *argv[]) {
 				if (strcmp(fileToBeExecutedWithFullPath,"*")==0) {
 					ret=execlp("opkrun","invoker",executable,NULL);
 				} else {
-#ifdef TARGET_RFW
-					ret=execlp("opkrun","invoker","-m","default.retrofw.desktop",executable,fileToBeExecutedWithFullPath,NULL);
-#else
 					ret=execlp("opkrun","invoker",executable,fileToBeExecutedWithFullPath,NULL);
-#endif
 				}
 			} else {
 				//non opk emulator with params
@@ -268,40 +243,22 @@ int main(int argc, char *argv[]) {
 				ret = execvp(localExec,args);
 			}
 		}
-#ifdef TARGET_BITTBOY
-		close(fd);
-#endif
 	} else {
-#ifdef TARGET_BITTBOY
-		writeCenteredMessage("\033[1;31mW\033[01;33mA\033[1;32mI\033[1;36mT\n", rows, columns);
-#endif
-		wait(0);
-	}
-	ret = chdir(menuDirectory);
-#ifdef TARGET_BITTBOY
-	writeCenteredMessage(" ", rows, columns);
-#endif
-	if  (ret!=-1) {
+		    // Código padre: esperar y volver a simplemenu
+    int status;
+    waitpid(pid, &status, 0);
 
-#if defined TARGET_OD_BETA
-#define SYSFS_CPUFREQ_DIR "/sys/devices/system/cpu/cpu0/cpufreq"
-#define SYSFS_CPUFREQ_LIST SYSFS_CPUFREQ_DIR "/scaling_available_frequencies"
-#define SYSFS_CPUFREQ_SET SYSFS_CPUFREQ_DIR "/scaling_setspeed"
-#define SYSFS_CPUFREQ_CUR SYSFS_CPUFREQ_DIR "/scaling_cur_freq"
-		char strMhz[10];
-		int fd = open(SYSFS_CPUFREQ_SET, O_RDWR);
-		to_string(strMhz, (996 * 1000));
-		int ret = write(fd, strMhz, strlen(strMhz));
-		close(fd);
-		char temp[300];
-#endif
+    // Volver al directorio donde está simplemenu
+    if (chdir(menuDirectory) == -1) {
+        perror("chdir");
+        exit(EXIT_FAILURE);
+    }
 
-#ifndef TARGET_PC
-		execlp("./simplemenu","simplemenu", NULL);
-#else
-		execlp("./simplemenu-x86","simplemenu-x86", "640","480",NULL);
-#endif
-	} else {
-		return (-1);
+    // Reemplazar invoker por simplemenu
+    execlp("./simplemenu", "simplemenu", "640", "480", NULL);
+
+    // Si execlp falla:
+    perror("execlp");
+    exit(EXIT_FAILURE);
 	}
 }

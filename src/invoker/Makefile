@@ -4,7 +4,8 @@ PROGRAM = invoker.dge
 #PLATFORM = RFW
 #PLATFORM = OD
 #PLATFORM = NPG
-PLATFORM = PC
+PLATFORM = MMIYOO
+#PLATFORM = PC
 
 # Compiler
 
@@ -18,8 +19,11 @@ else ifeq ($(PLATFORM), OD-BETA)
 	CC = /home/bittboy/Downloads/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-gcc	
 else ifeq ($(PLATFORM), NPG)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-gcc	
+else ifeq ($(PLATFORM), MMIYOO)
+	CC = $(CROSS_COMPILE)gcc
 else
-	CC = /opt/funkey-toolchain/bin/arm-funkey-linux-musleabihf-gcc
+	PROGRAM = /home/bittboy/git/simplemenu/simplemenu/output/invoker.dge
+	CC = gcc
 endif
 
 # You can use Ofast too but it can be more prone to bugs, careful.
@@ -32,6 +36,8 @@ else ifeq ($(PLATFORM), OD)
 else ifeq ($(PLATFORM), OD-BETA)
 	CFLAGS = -O2 -fdata-sections -ffunction-sections -fno-PIC -flto -Wall -Wextra -std=gnu99	
 else ifeq ($(PLATFORM), NPG)
+	CFLAGS = -O2 -fdata-sections -ffunction-sections -fno-PIC -flto -Wall -Wextra -std=gnu99
+else ifeq ($(PLATFORM), MMIYOO)
 	CFLAGS = -O2 -fdata-sections -ffunction-sections -fno-PIC -flto -Wall -Wextra -std=gnu99
 else
 	CFLAGS = -DTARGET_PC -O2 -fdata-sections -ffunction-sections -fno-PIC -flto -Wall -Wextra -no-pie	

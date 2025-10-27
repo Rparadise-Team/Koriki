@@ -72,10 +72,6 @@ extern int osd_volume;
 extern int osd_brightness;
 
 static const char *cached_settings_file = NULL;
-static int last_retroarch_state = -1;
-static int retroarch_audio_fix_applied = 0;
-static int last_invoker_state = -1;
-
 
 static void read_current_cpu_config(uint32_t *freq, enum cpugov *gov) {
     FILE *fp;
@@ -306,27 +302,6 @@ static void restore_cpu_config(void) {
     set_cpuclock(saved_freq);
 }
 
-void resetMiaoAudioForRetroarch(void) {
-    int fd = open("/dev/mi_ao", O_RDWR);
-    if (fd >= 0) {
-        if (access("/proc/mi_modules/mi_ao/mi_ao0", F_OK) == 0) {
-            FILE *proc_ao = fopen("/proc/mi_modules/mi_ao/mi_ao0", "w");
-            if (proc_ao) {
-                fprintf(proc_ao, "set_ao_mute 1");
-                fflush(proc_ao);
-                usleep(30000);
-                fprintf(proc_ao, "set_ao_mute 0"); 
-                fclose(proc_ao);
-            }
-        }
-        
-        int clear_cmd = 0x40004000;
-        ioctl(fd, clear_cmd, 0);
-        close(fd);
-    }
-    retroarch_audio_fix_applied = 1;
-}
-
 void initializeSettingsFile(void) {
     if (cached_settings_file != NULL) return;
     
@@ -453,33 +428,6 @@ int getAudioFix(void) {
     cJSON_Delete(request_json);
     free(request_body);
     return audiofix;
-}
-
-void checkRetroarchStateChange(void) {
-    int current_state = isRetroarchRunning();
-    
-    if (last_retroarch_state == 0 && current_state == 1) {
-        int audiofix = getAudioFix();
-        if (audiofix == 1) {
-            resetMiaoAudioForRetroarch();
-        }
-        
-    } else if (last_retroarch_state == 1 && current_state == 0) {
-        retroarch_audio_fix_applied = 0;
-    }
-    
-    last_retroarch_state = current_state;
-}
-
-void checkinvoker(void) {
-    int current_state = isProcessRunning("invoker.dge");
-    int simplemenurunning = isSimpleMenuRunning();
-    
-    if (simplemenurunning == 1 && current_state == 1 && last_invoker_state == 0) {
-        system("pkill -9 invoker.dge");
-    }
-    
-    last_invoker_state = current_state;
 }
 
 void setmute(int mute) {
@@ -1047,9 +995,6 @@ int main (int argc, char *argv[]) {
     int last_hallvalue = -1;
 
     initializeSettingsFile();
-    //last_retroarch_state = isRetroarchRunning();
-    //retroarch_audio_fix_applied = 0;
-    //last_invoker_state = isProcessRunning("invoker.dge");
 
     getVolume();
     modifyBrightness(0);
@@ -1090,9 +1035,6 @@ int main (int argc, char *argv[]) {
 
     while (1) {
         n = read(input_fd, &ev, sizeof(ev));
-
-        //checkRetroarchStateChange();
-        //checkinvoker();
 
         if (n == sizeof(ev)) {
             val = ev.value;
