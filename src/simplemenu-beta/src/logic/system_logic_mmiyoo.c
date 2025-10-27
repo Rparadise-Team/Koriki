@@ -34,22 +34,22 @@ static int firstLaunch = 1;
 static int percBat = 0;
 static int is_charging;
 
-typedef struct {
-    int channel_value;
-    int adc_value;
-} SAR_ADC_CONFIG_READ;
+//typedef struct {
+//    int channel_value;
+//    int adc_value;
+//} SAR_ADC_CONFIG_READ;
  
-#define SARADC_IOC_MAGIC 'a'
-#define IOCTL_SAR_INIT _IO(SARADC_IOC_MAGIC, 0)
-#define IOCTL_SAR_SET_CHANNEL_READ_VALUE _IO(SARADC_IOC_MAGIC, 1)
+//#define SARADC_IOC_MAGIC 'a'
+//#define IOCTL_SAR_INIT _IO(SARADC_IOC_MAGIC, 0)
+//#define IOCTL_SAR_SET_CHANNEL_READ_VALUE _IO(SARADC_IOC_MAGIC, 1)
 
-static SAR_ADC_CONFIG_READ  adcCfg = {0,0};
-static int sar_fd = 0;
+//static SAR_ADC_CONFIG_READ  adcCfg = {0,0};
+//static int sar_fd = 0;
 
-static void initADC(void) {
-    sar_fd = open("/dev/sar", O_WRONLY);
-    ioctl(sar_fd, IOCTL_SAR_INIT, NULL);
-}
+//static void initADC(void) {
+//    sar_fd = open("/dev/sar", O_WRONLY);
+//    ioctl(sar_fd, IOCTL_SAR_INIT, NULL);
+//}
 
 void checkCharging(void) {
   int charging = 0;
@@ -84,11 +84,12 @@ static int checkADC(void) {
 	int percBatTemp = 0;
 	
     checkCharging();
-    
-    MMplus = access("/customer/app/axp_test", F_OK);
+	
+	//MMplus = access("/customer/app/axp_test", F_OK); //read battery from batmon
 
+    
     if (is_charging == 0) {
-        if (MMplus == 0) {
+      /* if (MMplus == 0) {
              char *cmd = "cd /customer/app/ ; ./axp_test";
              int axp_response_size = 100;
              char buf[axp_response_size];
@@ -109,7 +110,11 @@ static int checkADC(void) {
             }
             else if ((adcCfg.adc_value >= 480) && (adcCfg.adc_value < 512)) {
                 percBatTemp = (int)(adcCfg.adc_value * 0.51613 - 243.742);
-            }
+            }  */
+        FILE *file = fopen("/tmp/batt", "r");
+        if (file!=NULL) {
+            fscanf(file, "%i", &percBatTemp);
+            fclose(file);
         }
         
         if ((firstLaunch == 1) || (old_is_charging == 1)) {
@@ -748,7 +753,7 @@ void stopmusic() {
 
 void HW_Init() {
 	brightness = getCurrentBrightness();
-    initADC();
+    //initADC();
 	loadConfiguration1();
 	loadConfiguration2();
 	loadConfiguration3();
