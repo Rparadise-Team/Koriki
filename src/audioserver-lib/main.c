@@ -7,24 +7,72 @@
 
 // Configuración de audio por defecto
 #define DEFAULT_FREQ        48000
-#define BUSY_THRESHOLD_MS   20  // 20ms de buffer threshold
+#define BUSY_THRESHOLD_MS   20
 
-// Códigos de error MI_AO (basados en documentación SigmaStar)
-#define MI_AO_ERR_CHN_BUSY    ((MI_S32)0xa005200d)  // Buffer lleno - retry recomendado
-#define MI_AO_ERR_CHN_TIMEOUT ((MI_S32)0xa005200e)  // Timeout en operación
-#define MI_AO_ERR_INVALID_CHN ((MI_S32)0xa0052001)  // Canal inválido
+// Códigos de error MI_AO
+#define MI_AO_ERR_CHN_BUSY       ((MI_S32)0xa005200d)
+#define MI_AO_ERR_DEV_NOT_ENABLED ((MI_S32)0xa0052009)
 
-// Estructura para almacenar los punteros de función y el handle
+// Estructura extendida para TODOS los símbolos MI_AO
 typedef struct {
     void* handle;
+    
+    // Funciones de configuración básica
+    MI_S32 (*MI_AO_SetPubAttr)(MI_AUDIO_DEV, MI_AUDIO_Attr_t*);
+    MI_S32 (*MI_AO_GetPubAttr)(MI_AUDIO_DEV, MI_AUDIO_Attr_t*);
+    MI_S32 (*MI_AO_Enable)(MI_AUDIO_DEV);
+    MI_S32 (*MI_AO_Disable)(MI_AUDIO_DEV);
+    MI_S32 (*MI_AO_EnableChn)(MI_AUDIO_DEV, MI_AO_CHN);
+    MI_S32 (*MI_AO_DisableChn)(MI_AUDIO_DEV, MI_AO_CHN);
+    
+    // Funciones de envío de datos
     MI_S32 (*MI_AO_SendFrame)(MI_AUDIO_DEV, MI_AO_CHN, MI_AUDIO_Frame_t*, MI_S32);
+    
+    // Funciones de remuestreo
+    MI_S32 (*MI_AO_EnableReSmp)(MI_AUDIO_DEV, MI_AO_CHN, MI_AUDIO_SampleRate_e);
+    MI_S32 (*MI_AO_DisableReSmp)(MI_AUDIO_DEV, MI_AO_CHN);
+    
+    // Funciones de control de reproducción
+    MI_S32 (*MI_AO_PauseChn)(MI_AUDIO_DEV, MI_AO_CHN);
+    MI_S32 (*MI_AO_ResumeChn)(MI_AUDIO_DEV, MI_AO_CHN);
+    MI_S32 (*MI_AO_ClearChnBuf)(MI_AUDIO_DEV, MI_AO_CHN);
+    
+    // Funciones de estado
     MI_S32 (*MI_AO_QueryChnStat)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_ChnState_t*);
+    
+    // Funciones de volumen
+    MI_S32 (*MI_AO_SetVolume)(MI_AUDIO_DEV, MI_S32);
+    MI_S32 (*MI_AO_GetVolume)(MI_AUDIO_DEV, MI_S32*);
+    MI_S32 (*MI_AO_SetMute)(MI_AUDIO_DEV, MI_BOOL);
+    MI_S32 (*MI_AO_GetMute)(MI_AUDIO_DEV, MI_BOOL*);
+    
+    // Funciones de atributos
+    MI_S32 (*MI_AO_ClrPubAttr)(MI_AUDIO_DEV);
+    
+    // Funciones de VQE (Voice Quality Enhancement)
+    MI_S32 (*MI_AO_SetVqeAttr)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_VqeConfig_t*);
+    MI_S32 (*MI_AO_GetVqeAttr)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_VqeConfig_t*);
+    MI_S32 (*MI_AO_EnableVqe)(MI_AUDIO_DEV, MI_AO_CHN);
+    MI_S32 (*MI_AO_DisableVqe)(MI_AUDIO_DEV, MI_AO_CHN);
+    
+    // Funciones de ADEC (Audio Decoder)
+    MI_S32 (*MI_AO_SetAdecAttr)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_AdecConfig_t*);
+    MI_S32 (*MI_AO_GetAdecAttr)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_AdecConfig_t*);
+    MI_S32 (*MI_AO_EnableAdec)(MI_AUDIO_DEV, MI_AO_CHN);
+    MI_S32 (*MI_AO_DisableAdec)(MI_AUDIO_DEV, MI_AO_CHN);
+    
+    // Funciones de parámetros de canal
+    MI_S32 (*MI_AO_SetChnParam)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_ChnParam_t*);
+    MI_S32 (*MI_AO_GetChnParam)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_ChnParam_t*);
+    
+    // Funciones de ganancia
+    MI_S32 (*MI_AO_SetSrcGain)(MI_AUDIO_DEV, MI_S32);
 } MI_AO_Library;
 
 // Variables estáticas con inicialización thread-safe
-static MI_AO_Library g_mi_ao_lib = {NULL, NULL, NULL};
+static MI_AO_Library g_mi_ao_lib = {NULL};
 static pthread_once_t g_init_once = PTHREAD_ONCE_INIT;
-static int g_init_status = -1;  // -1: no inicializado, 0: éxito, >0: error
+static int g_init_status = -1;
 
 // Función de inicialización que se ejecuta solo una vez
 static void mi_ao_init_once(void) {
@@ -40,115 +88,142 @@ static void mi_ao_init_once(void) {
         return;
     }
     
-    // Limpiar cualquier error previo
-    dlerror();
+    // Macro helper para cargar símbolos con error checking
+    #define LOAD_SYMBOL(name) do { \
+        dlerror(); \
+        g_mi_ao_lib.name = (typeof(g_mi_ao_lib.name))dlsym(g_mi_ao_lib.handle, #name); \
+        const char* error = dlerror(); \
+        if (error != NULL) { \
+            fprintf(stderr, "[ERROR] Failed to load " #name ": %s\n", error); \
+            dlclose(g_mi_ao_lib.handle); \
+            g_mi_ao_lib.handle = NULL; \
+            g_init_status = 2; \
+            return; \
+        } \
+    } while(0)
     
-    // Cargar MI_AO_SendFrame
-    g_mi_ao_lib.MI_AO_SendFrame = 
-        (MI_S32 (*)(MI_AUDIO_DEV, MI_AO_CHN, MI_AUDIO_Frame_t*, MI_S32))
-        dlsym(g_mi_ao_lib.handle, "MI_AO_SendFrame");
+    // Cargar todos los símbolos necesarios
+    LOAD_SYMBOL(MI_AO_SetPubAttr);
+    LOAD_SYMBOL(MI_AO_GetPubAttr);
+    LOAD_SYMBOL(MI_AO_Enable);
+    LOAD_SYMBOL(MI_AO_Disable);
+    LOAD_SYMBOL(MI_AO_EnableChn);
+    LOAD_SYMBOL(MI_AO_DisableChn);
+    LOAD_SYMBOL(MI_AO_SendFrame);
+    LOAD_SYMBOL(MI_AO_EnableReSmp);
+    LOAD_SYMBOL(MI_AO_DisableReSmp);
+    LOAD_SYMBOL(MI_AO_PauseChn);
+    LOAD_SYMBOL(MI_AO_ResumeChn);
+    LOAD_SYMBOL(MI_AO_ClearChnBuf);
+    LOAD_SYMBOL(MI_AO_QueryChnStat);
+    LOAD_SYMBOL(MI_AO_SetVolume);
+    LOAD_SYMBOL(MI_AO_GetVolume);
+    LOAD_SYMBOL(MI_AO_SetMute);
+    LOAD_SYMBOL(MI_AO_GetMute);
+    LOAD_SYMBOL(MI_AO_ClrPubAttr);
+    LOAD_SYMBOL(MI_AO_SetVqeAttr);
+    LOAD_SYMBOL(MI_AO_GetVqeAttr);
+    LOAD_SYMBOL(MI_AO_EnableVqe);
+    LOAD_SYMBOL(MI_AO_DisableVqe);
+    LOAD_SYMBOL(MI_AO_SetAdecAttr);
+    LOAD_SYMBOL(MI_AO_GetAdecAttr);
+    LOAD_SYMBOL(MI_AO_EnableAdec);
+    LOAD_SYMBOL(MI_AO_DisableAdec);
+    LOAD_SYMBOL(MI_AO_SetChnParam);
+    LOAD_SYMBOL(MI_AO_GetChnParam);
+    LOAD_SYMBOL(MI_AO_SetSrcGain);
     
-    const char* error = dlerror();
-    if (error != NULL) {
+    g_init_status = 0;
 #ifdef DEBUG
-        fprintf(stderr, "[ERROR] Failed to load MI_AO_SendFrame: %s\n", error);
+    fprintf(stderr, "[INFO] MI_AO library loaded successfully (v2.10)\n");
 #endif
-        dlclose(g_mi_ao_lib.handle);
-        g_mi_ao_lib.handle = NULL;
-        g_init_status = 2;
-        return;
-    }
-    
-    // Cargar MI_AO_QueryChnStat
-    g_mi_ao_lib.MI_AO_QueryChnStat = 
-        (MI_S32 (*)(MI_AUDIO_DEV, MI_AO_CHN, MI_AO_ChnState_t*))
-        dlsym(g_mi_ao_lib.handle, "MI_AO_QueryChnStat");
-    
-    error = dlerror();
-    if (error != NULL) {
-#ifdef DEBUG
-        fprintf(stderr, "[ERROR] Failed to load MI_AO_QueryChnStat: %s\n", error);
-#endif
-        dlclose(g_mi_ao_lib.handle);
-        g_mi_ao_lib.handle = NULL;
-        g_init_status = 3;
-        return;
-    }
-    
-    g_init_status = 0;  // Inicialización exitosa
 }
 
-// Función de cleanup (opcional, puede registrarse con atexit)
+// Función de cleanup
 void mi_ao_cleanup(void) {
     if (g_mi_ao_lib.handle) {
         dlclose(g_mi_ao_lib.handle);
         g_mi_ao_lib.handle = NULL;
-        g_mi_ao_lib.MI_AO_SendFrame = NULL;
-        g_mi_ao_lib.MI_AO_QueryChnStat = NULL;
     }
 }
 
-// Calcula el threshold dinámicamente basado en sample rate
+// Calcula el threshold dinámicamente
 static inline uint32_t calculate_busy_threshold(uint32_t sample_rate, 
                                                 uint32_t channels, 
                                                 uint32_t bytes_per_sample) {
-    // BUSY_THRESHOLD = (sample_rate * channels * bytes_per_sample * threshold_ms) / 1000
     return (sample_rate * channels * bytes_per_sample * BUSY_THRESHOLD_MS) / 1000;
 }
 
-/**
- * Wrapper mejorado de MI_AO_SendFrame con:
- * - Inicialización thread-safe usando pthread_once
- * - Manejo robusto de errores
- * - Retry logic para buffer lleno (0xa005200d)
- * - Cálculo preciso de sleep basado en estado del buffer
- * 
- * @param AoDevId: Device ID de audio output (típicamente 0)
- * @param AoChn: Canal de audio output (típicamente 0)
- * @param pstData: Puntero a la estructura con datos de audio
- * @param s32MilliSec: Timeout en milisegundos
- *                     -1: modo bloqueante infinito
- *                      0: modo no-bloqueante (retorna inmediatamente)
- *                     >0: espera hasta s32MilliSec con backpressure handling
- * @return 0 si éxito, código de error MI si fallo
- */
+// ============================================================================
+// WRAPPERS DE FUNCIONES MI_AO
+// ============================================================================
+
+// Configuración básica
+MI_S32 MI_AO_SetPubAttr(MI_AUDIO_DEV AoDevId, MI_AUDIO_Attr_t *pstAttr) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetPubAttr) return -1;
+    return g_mi_ao_lib.MI_AO_SetPubAttr(AoDevId, pstAttr);
+}
+
+MI_S32 MI_AO_GetPubAttr(MI_AUDIO_DEV AoDevId, MI_AUDIO_Attr_t *pstAttr) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetPubAttr) return -1;
+    return g_mi_ao_lib.MI_AO_GetPubAttr(AoDevId, pstAttr);
+}
+
+MI_S32 MI_AO_Enable(MI_AUDIO_DEV AoDevId) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_Enable) return -1;
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] MI_AO_Enable: Dev=%d\n", AoDevId);
+#endif
+    return g_mi_ao_lib.MI_AO_Enable(AoDevId);
+}
+
+MI_S32 MI_AO_Disable(MI_AUDIO_DEV AoDevId) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_Disable) return -1;
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] MI_AO_Disable: Dev=%d\n", AoDevId);
+#endif
+    return g_mi_ao_lib.MI_AO_Disable(AoDevId);
+}
+
+MI_S32 MI_AO_EnableChn(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_EnableChn) return -1;
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] MI_AO_EnableChn: Dev=%d, Chn=%d\n", AoDevId, AoChn);
+#endif
+    return g_mi_ao_lib.MI_AO_EnableChn(AoDevId, AoChn);
+}
+
+MI_S32 MI_AO_DisableChn(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_DisableChn) return -1;
+    return g_mi_ao_lib.MI_AO_DisableChn(AoDevId, AoChn);
+}
+
+// Envío de datos con manejo mejorado de buffer
 MI_S32 MI_AO_SendFrame(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, 
                        MI_AUDIO_Frame_t *pstData, MI_S32 s32MilliSec) {
-    
-    // Inicialización thread-safe de la librería
     pthread_once(&g_init_once, mi_ao_init_once);
     
-    // Verificar que la inicialización fue exitosa
-    if (g_init_status != 0) {
-#ifdef DEBUG
-        fprintf(stderr, "[ERROR] MI_AO library not initialized (status: %d)\n", g_init_status);
-#endif
-        return -1;
-    }
-    
-    // Validar parámetros
-    if (!pstData) {
-#ifdef DEBUG
-        fprintf(stderr, "[ERROR] pstData is NULL\n");
-#endif
-        return -1;
-    }
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SendFrame) return -1;
+    if (!pstData) return -1;
     
     MI_S32 ret;
     const int MAX_RETRY = 3;
     int retry_count = 0;
     
-    // Intentar enviar el frame con retry logic
+    // Retry logic para buffer lleno
     while (retry_count <= MAX_RETRY) {
-        // Llamar a la función real con modo no-bloqueante para tener control
         ret = g_mi_ao_lib.MI_AO_SendFrame(AoDevId, AoChn, pstData, 0);
         
-        // Si éxito o modo no-bloqueante, salir
         if (ret == 0 || s32MilliSec == 0) {
             break;
         }
         
-        // Error MI_AO_ERR_CHN_BUSY significa buffer lleno - esperar y reintentar
         if (ret == MI_AO_ERR_CHN_BUSY) {
             if (retry_count >= MAX_RETRY) {
 #ifdef DEBUG
@@ -156,57 +231,193 @@ MI_S32 MI_AO_SendFrame(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn,
 #endif
                 break;
             }
-            
-            // Dormir un poco antes de reintentar (exponential backoff)
-            usleep(1000U << retry_count);  // 1ms, 2ms, 4ms
+            usleep(1000U << retry_count);  // Exponential backoff: 1ms, 2ms, 4ms
             retry_count++;
             continue;
         }
         
-        // Otro tipo de error - reportar y salir
         if (ret != 0) {
 #ifdef DEBUG
-            fprintf(stderr, "[ERROR] MI_AO_SendFrame failed with error: 0x%x\n", (unsigned int)ret);
+            fprintf(stderr, "[ERROR] MI_AO_SendFrame failed: 0x%x\n", (unsigned int)ret);
 #endif
             break;
         }
     }
     
-    // Si modo bloqueante y hay que manejar backpressure
+    // Manejo de backpressure si el buffer está muy lleno
     if (s32MilliSec > 0 && ret == 0) {
         MI_AO_ChnState_t status;
         MI_S32 stat_ret = g_mi_ao_lib.MI_AO_QueryChnStat(AoDevId, AoChn, &status);
         
         if (stat_ret == 0) {
-            // Obtener parámetros de audio (asumiendo valores por defecto si no disponibles)
             uint32_t sample_rate = DEFAULT_FREQ;
-            uint32_t channels = 2;  // stereo
-            uint32_t bytes_per_sample = 2;  // 16-bit
+            uint32_t channels = 2;
+            uint32_t bytes_per_sample = 2;
             
-            // Calcular threshold dinámicamente
             uint32_t busy_threshold = calculate_busy_threshold(sample_rate, channels, bytes_per_sample);
             
-            // Si el buffer está muy lleno, esperar
             if (status.u32ChnBusyNum > busy_threshold) {
-                // Calcular tiempo de espera de forma segura (evitando overflow)
                 uint32_t excess_samples = status.u32ChnBusyNum - busy_threshold;
                 uint64_t bytes_per_sec = (uint64_t)sample_rate * channels * bytes_per_sample;
-                
-                // sleep_us = (excess_samples * 1000000) / bytes_per_sec
                 uint64_t sleep_us = ((uint64_t)excess_samples * 1000000ULL) / bytes_per_sec;
                 
-                // Limitar el sleep al timeout máximo
                 uint64_t max_sleep = (uint64_t)s32MilliSec * 1000ULL;
-                if (sleep_us > max_sleep) {
-                    sleep_us = max_sleep;
-                }
+                if (sleep_us > max_sleep) sleep_us = max_sleep;
                 
-                if (sleep_us > 0) {
-                    usleep((useconds_t)sleep_us);
-                }
+                if (sleep_us > 0) usleep((useconds_t)sleep_us);
             }
         }
     }
     
     return ret;
+}
+
+// Remuestreo
+MI_S32 MI_AO_EnableReSmp(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AUDIO_SampleRate_e eInSampleRate) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_EnableReSmp) return -1;
+    return g_mi_ao_lib.MI_AO_EnableReSmp(AoDevId, AoChn, eInSampleRate);
+}
+
+MI_S32 MI_AO_DisableReSmp(MI_AUDIO_DEV AiDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_DisableReSmp) return -1;
+    return g_mi_ao_lib.MI_AO_DisableReSmp(AiDevId, AoChn);
+}
+
+// Control de reproducción
+MI_S32 MI_AO_PauseChn(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_PauseChn) return -1;
+    return g_mi_ao_lib.MI_AO_PauseChn(AoDevId, AoChn);
+}
+
+MI_S32 MI_AO_ResumeChn(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_ResumeChn) return -1;
+    return g_mi_ao_lib.MI_AO_ResumeChn(AoDevId, AoChn);
+}
+
+MI_S32 MI_AO_ClearChnBuf(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_ClearChnBuf) return -1;
+    return g_mi_ao_lib.MI_AO_ClearChnBuf(AoDevId, AoChn);
+}
+
+// Estado
+MI_S32 MI_AO_QueryChnStat(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_ChnState_t *pstStatus) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_QueryChnStat) return -1;
+    if (!pstStatus) return -1;
+    return g_mi_ao_lib.MI_AO_QueryChnStat(AoDevId, AoChn, pstStatus);
+}
+
+// Volumen
+MI_S32 MI_AO_SetVolume(MI_AUDIO_DEV AoDevId, MI_S32 s32VolumeDb) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetVolume) return -1;
+    return g_mi_ao_lib.MI_AO_SetVolume(AoDevId, s32VolumeDb);
+}
+
+MI_S32 MI_AO_GetVolume(MI_AUDIO_DEV AoDevId, MI_S32 *ps32VolumeDb) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetVolume) return -1;
+    if (!ps32VolumeDb) return -1;
+    return g_mi_ao_lib.MI_AO_GetVolume(AoDevId, ps32VolumeDb);
+}
+
+MI_S32 MI_AO_SetMute(MI_AUDIO_DEV AoDevId, MI_BOOL bEnable) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetMute) return -1;
+    return g_mi_ao_lib.MI_AO_SetMute(AoDevId, bEnable);
+}
+
+MI_S32 MI_AO_GetMute(MI_AUDIO_DEV AoDevId, MI_BOOL *pbEnable) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetMute) return -1;
+    if (!pbEnable) return -1;
+    return g_mi_ao_lib.MI_AO_GetMute(AoDevId, pbEnable);
+}
+
+// Atributos
+MI_S32 MI_AO_ClrPubAttr(MI_AUDIO_DEV AoDevId) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_ClrPubAttr) return -1;
+    return g_mi_ao_lib.MI_AO_ClrPubAttr(AoDevId);
+}
+
+// VQE (Voice Quality Enhancement)
+MI_S32 MI_AO_SetVqeAttr(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_VqeConfig_t *pstVqeConfig) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetVqeAttr) return -1;
+    if (!pstVqeConfig) return -1;
+    return g_mi_ao_lib.MI_AO_SetVqeAttr(AoDevId, AoChn, pstVqeConfig);
+}
+
+MI_S32 MI_AO_GetVqeAttr(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_VqeConfig_t *pstVqeConfig) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetVqeAttr) return -1;
+    if (!pstVqeConfig) return -1;
+    return g_mi_ao_lib.MI_AO_GetVqeAttr(AoDevId, AoChn, pstVqeConfig);
+}
+
+MI_S32 MI_AO_EnableVqe(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_EnableVqe) return -1;
+    return g_mi_ao_lib.MI_AO_EnableVqe(AoDevId, AoChn);
+}
+
+MI_S32 MI_AO_DisableVqe(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_DisableVqe) return -1;
+    return g_mi_ao_lib.MI_AO_DisableVqe(AoDevId, AoChn);
+}
+
+// ADEC (Audio Decoder)
+MI_S32 MI_AO_SetAdecAttr(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_AdecConfig_t *pstAdecConfig) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetAdecAttr) return -1;
+    if (!pstAdecConfig) return -1;
+    return g_mi_ao_lib.MI_AO_SetAdecAttr(AoDevId, AoChn, pstAdecConfig);
+}
+
+MI_S32 MI_AO_GetAdecAttr(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_AdecConfig_t *pstAdecConfig) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetAdecAttr) return -1;
+    if (!pstAdecConfig) return -1;
+    return g_mi_ao_lib.MI_AO_GetAdecAttr(AoDevId, AoChn, pstAdecConfig);
+}
+
+MI_S32 MI_AO_EnableAdec(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_EnableAdec) return -1;
+    return g_mi_ao_lib.MI_AO_EnableAdec(AoDevId, AoChn);
+}
+
+MI_S32 MI_AO_DisableAdec(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_DisableAdec) return -1;
+    return g_mi_ao_lib.MI_AO_DisableAdec(AoDevId, AoChn);
+}
+
+// Parámetros de canal
+MI_S32 MI_AO_SetChnParam(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_ChnParam_t *pstChnParam) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetChnParam) return -1;
+    if (!pstChnParam) return -1;
+    return g_mi_ao_lib.MI_AO_SetChnParam(AoDevId, AoChn, pstChnParam);
+}
+
+MI_S32 MI_AO_GetChnParam(MI_AUDIO_DEV AoDevId, MI_AO_CHN AoChn, MI_AO_ChnParam_t *pstChnParam) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_GetChnParam) return -1;
+    if (!pstChnParam) return -1;
+    return g_mi_ao_lib.MI_AO_GetChnParam(AoDevId, AoChn, pstChnParam);
+}
+
+// Ganancia
+MI_S32 MI_AO_SetSrcGain(MI_AUDIO_DEV AoDevId, MI_S32 s32VolumeDb) {
+    pthread_once(&g_init_once, mi_ao_init_once);
+    if (g_init_status != 0 || !g_mi_ao_lib.MI_AO_SetSrcGain) return -1;
+    return g_mi_ao_lib.MI_AO_SetSrcGain(AoDevId, s32VolumeDb);
 }
