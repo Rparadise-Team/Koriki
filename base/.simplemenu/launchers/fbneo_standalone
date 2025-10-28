@@ -111,6 +111,8 @@ HOME="/mnt/SDCARD/App/fbneo"
 
 cd "$HOME"
 
+export SDL_AUDIODRIVER=dsp
+
 # Extracting the base name without the extension
 base_name=$(basename "$1" .zip)
 dir_name=$(dirname "$1")
@@ -131,7 +133,7 @@ volume=$(getvolume)
 setvolume &
 set_snd_level "${volume}" &
 
-./fbneo -fullscreen "$base_name"
+./fbneo "$base_name"
 
 audiofix_off
 sleep 1
