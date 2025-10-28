@@ -2,13 +2,14 @@
 
 # Versión con hash MD5 para máxima precisión
 # Extrae SOLO los cambios entre ANTIGUO (153) y NUEVO (base) a DIFERENCIAL (160)
-# Genera archivo .deletes con lista de eliminados
+# Genera archivo .deletes con lista de eliminados con rutas completas
 # Crea zip con nombre update_koriki_v{VERSION}.zip
 
 ANTIGUO="$1"      # 153 - estado previo
 NUEVO="$2"        # base - estado actual
 DIFERENCIAL="$3"  # 160 - aquí irán solo los cambios
 VERSION="$4"      # Versión para el nombre del zip
+RUTA_PREFIX="$5"  # Prefijo de ruta para .deletes (por defecto /mnt/SDCARD/)
 
 # Colores para salida
 VERDE='\033[0;32m'
@@ -16,6 +17,11 @@ ROJO='\033[0;31m'
 AMARILLO='\033[1;33m'
 AZUL='\033[0;34m'
 NC='\033[0m'
+
+# Si no se proporciona prefijo, usar el valor por defecto
+if [ -z "$RUTA_PREFIX" ]; then
+    RUTA_PREFIX="/mnt/SDCARD/"
+fi
 
 # Función para mostrar errores
 mostrar_error() {
@@ -25,8 +31,8 @@ mostrar_error() {
 
 # Verificar argumentos
 if [ $# -lt 3 ]; then
-    echo -e "${AMARILLO}Uso: $0 <dir_antiguo_153> <dir_nuevo_base> <dir_diferencial_160> [VERSION]${NC}"
-    echo -e "${AMARILLO}Ejemplo: $0 ./153 ./base ./160 1.6${NC}"
+    echo -e "${AMARILLO}Uso: $0 <dir_antiguo_153> <dir_nuevo_base> <dir_diferencial_160> [VERSION] [RUTA_PREFIX]${NC}"
+    echo -e "${AMARILLO}Ejemplo: $0 ./153 ./base ./160 1.6 /mnt/SDCARD/${NC}"
     exit 1
 fi
 
@@ -56,6 +62,7 @@ echo -e "Directorio DIFERENCIAL ($3):    ${VERDE}$DIFERENCIAL${NC}"
 if [ -n "$VERSION" ]; then
     echo -e "Versión ZIP:                    ${VERDE}$VERSION${NC}"
 fi
+echo -e "Prefijo para .deletes:          ${VERDE}$RUTA_PREFIX${NC}"
 echo -e "${AZUL}========================================${NC}"
 echo ""
 
@@ -84,6 +91,7 @@ ERRORES=0
 MODIFICADOS=0
 NUEVOS=0
 ELIMINADOS=0
+DIRS_ELIMINADOS=0
 
 # PASO 1: Encontrar archivos MODIFICADOS (existen en ambos pero con hash diferente)
 echo -e "${AZUL}Buscando archivos MODIFICADOS...${NC}"
@@ -134,21 +142,30 @@ while read archivo; do
     fi
 done
 
-# PASO 3: Encontrar archivos ELIMINADOS y guardar en .deletes
+# PASO 3: Encontrar archivos ELIMINADOS y guardar en .deletes con rutas completas
 echo -e "${AZUL}Buscando archivos ELIMINADOS...${NC}"
 
 DELETES_FILE="$DIFERENCIAL/.deletes"
 
-# Crear archivo .deletes con la lista de eliminados
-comm -13 <(cut -d' ' -f2- /tmp/hash_nuevo.txt | sort) \
-         <(cut -d' ' -f2- /tmp/hash_antiguo.txt | sort) > "$DELETES_FILE"
+# Crear archivo temporal con eliminados sin procesar
+TEMP_DELETES=$(mktemp)
 
-# Mostrar los eliminados y contar
+comm -13 <(cut -d' ' -f2- /tmp/hash_nuevo.txt | sort) \
+         <(cut -d' ' -f2- /tmp/hash_antiguo.txt | sort) > "$TEMP_DELETES"
+
+# Procesar eliminados y agregar prefijo
+> "$DELETES_FILE"
+
 while read archivo; do
     [ -z "$archivo" ] && continue
-    echo -e "  ${ROJO}[DEL]${NC} $archivo"
+    
+    # Agregar prefijo a la ruta
+    ruta_completa="${RUTA_PREFIX}${archivo}"
+    
+    echo "$ruta_completa" >> "$DELETES_FILE"
+    echo -e "  ${ROJO}[DEL]${NC} $ruta_completa"
     ((ELIMINADOS++))
-done < "$DELETES_FILE"
+done < "$TEMP_DELETES"
 
 # Si el archivo de deletes está vacío, eliminarlo
 if [ ! -s "$DELETES_FILE" ]; then
@@ -158,6 +175,45 @@ else
     echo -e "${VERDE}✓ Lista de eliminados guardada en: ${AZUL}$DELETES_FILE${NC}"
 fi
 
+# PASO 4: Eliminar directorios vacíos de ANTIGUO simulando el estado
+echo -e "${AZUL}Limpiando directorios vacíos...${NC}"
+
+# Crear lista temporal de directorios que quedarían vacíos después de eliminar archivos
+TEMP_DIRS=$(mktemp)
+find "$ANTIGUO" -type d -print0 | while IFS= read -r -d '' dir; do
+    rel_path="${dir#$ANTIGUO/}"
+    
+    # Contar archivos que quedarían en este directorio después de las eliminaciones
+    files_count=0
+    while read archivo; do
+        [ -z "$archivo" ] && continue
+        archivo_dir=$(dirname "$archivo")
+        
+        if [ "$rel_path" = "$archivo_dir" ] || [[ "$archivo_dir" == "$rel_path"/* ]]; then
+            ((files_count++))
+        fi
+    done < "$TEMP_DELETES"
+    
+    # Si el directorio estaría vacío, marcarlo para eliminación
+    if [ $files_count -eq 0 ] && [ -n "$rel_path" ]; then
+        if ! grep -q "^$rel_path" /tmp/hash_nuevo.txt 2>/dev/null; then
+            echo "$rel_path" >> "$TEMP_DIRS"
+            echo -e "  ${ROJO}[DIR-VACIO]${NC} ${RUTA_PREFIX}${rel_path}"
+            ((DIRS_ELIMINADOS++))
+        fi
+    fi
+done < "$TEMP_DELETES"
+
+# Agregar directorios vacíos al archivo .deletes si existen
+if [ -s "$TEMP_DIRS" ]; then
+    echo "" >> "$DELETES_FILE"
+    while read dir; do
+        echo "${RUTA_PREFIX}${dir}/" >> "$DELETES_FILE"
+    done < "$TEMP_DIRS"
+fi
+
+rm -f "$TEMP_DELETES" "$TEMP_DIRS"
+
 # Limpiar archivos temporales
 rm -f /tmp/hash_antiguo.txt /tmp/hash_nuevo.txt
 
@@ -165,16 +221,17 @@ echo ""
 echo -e "${AZUL}========================================${NC}"
 echo -e "${VERDE}Proceso completado${NC}"
 echo -e "${AZUL}========================================${NC}"
-echo -e "Archivos MODIFICADOS: ${AMARILLO}$MODIFICADOS${NC}"
-echo -e "Archivos NUEVOS:      ${VERDE}$NUEVOS${NC}"
-echo -e "Archivos ELIMINADOS:  ${ROJO}$ELIMINADOS${NC}"
-echo -e "Total COPIADOS:       ${VERDE}$COPIADOS${NC}"
+echo -e "Archivos MODIFICADOS:     ${AMARILLO}$MODIFICADOS${NC}"
+echo -e "Archivos NUEVOS:          ${VERDE}$NUEVOS${NC}"
+echo -e "Archivos ELIMINADOS:      ${ROJO}$ELIMINADOS${NC}"
+echo -e "Directorios VACÍOS:       ${ROJO}$DIRS_ELIMINADOS${NC}"
+echo -e "Total COPIADOS:           ${VERDE}$COPIADOS${NC}"
 if [ "$ERRORES" -gt 0 ]; then
-    echo -e "Errores:              ${ROJO}$ERRORES${NC}"
+    echo -e "Errores:                  ${ROJO}$ERRORES${NC}"
 fi
 echo -e "${AZUL}========================================${NC}"
 
-# PASO 4: Crear archivo ZIP si se proporciona versión
+# PASO 5: Crear archivo ZIP si se proporciona versión
 if [ -n "$VERSION" ]; then
     echo ""
     echo -e "${AMARILLO}Creando archivo ZIP...${NC}"
