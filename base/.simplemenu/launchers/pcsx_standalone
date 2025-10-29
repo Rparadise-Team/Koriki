@@ -1,21 +1,21 @@
 #!/bin/sh
 
 setvolume () {
-  vol=$(/customer/app/jsonval vol)
-  volume=$((($vol*3)+40))
-  /customer/app/tinymix set 6 $volume
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol*3)+40))
+    /customer/app/tinymix set 6 $volume
 }
 
 getvolume() {
-  vol=$(/customer/app/jsonval vol)
-  volume=$((($vol*3)-60))
-  echo $volume
+    vol=$(/customer/app/jsonval vol)
+    volume=$((($vol*3)-60))
+    echo $volume
 }
 
 setbrightness () {
-  bright=$(/customer/app/jsonval brightness)
-  brightness=$(($bright*10))
-  echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+    bright=$(/customer/app/jsonval brightness)
+    brightness=$(($bright*10))
+    echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 }
 
 set_snd_level() {
@@ -23,7 +23,6 @@ set_snd_level() {
     local current_vol
     local start_time
     local elapsed_time
-
     start_time=$(/bin/date +%s)
     while [ ! -e /proc/mi_modules/mi_ao/mi_ao0 ]; do
         sleep 0.2
@@ -33,78 +32,83 @@ set_snd_level() {
             return 1
         fi
     done
-
     start_time=$(date +%s)
     while true; do
         echo "set_ao_volume 0 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
         echo "set_ao_volume 1 ${target_vol}" > /proc/mi_modules/mi_ao/mi_ao0
-		setbrightness &
+        setbrightness &
         current_vol=$(getvolume)
-
         if [ "$current_vol" = "$target_vol" ]; then
             echo "Volume set to ${current_vol}dB"
             return 0
         fi
-
         elapsed_time=$(( $(date +%s) - start_time ))
         if [ "$elapsed_time" -ge 30 ]; then
             echo "Timed out trying to set volume"
             return 1
         fi
-
         sleep 0.2
     done
 }
 
 audiofix_on() {
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "1" ] ; then
-	echo "Enabled audiofix"
-	touch /tmp/audioserver_on
-	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
-		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
-	fi
-fi
+    runsvr=`/customer/app/jsonval audiofix`
+    if [ "$runsvr" != "1" ] ; then
+        echo "Enabled audiofix"
+        touch /tmp/audioserver_on
+        /mnt/SDCARD/Koriki/bin/audioserver &
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
+        fi
+    fi
 }
 
 audiofix_off() {
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "1" ] ; then
-	FILE=/customer/app/axp_test
-	echo "Disabled audiofix"
-	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
-		unset LD_PRELOAD
-	fi
-
-    if [ -f "$FILE" ]; then
-        killall audioserver
-		killall audioserver.plu
-		FILE2=/tmp/audioserver_on
-		if [ -f "$FILE2" ]; then
-			rm /tmp/audioserver_on
-			/mnt/SDCARD/Koriki/bin/freemma
-		fi
-    else
-        killall audioserver
-		killall audioserver.min
-		FILE2=/tmp/audioserver_on
-		if [ -f "$FILE2" ]; then
-			rm /tmp/audioserver_on
-			/mnt/SDCARD/Koriki/bin/freemma
-		fi
+    runsvr=`/customer/app/jsonval audiofix`
+    if [ "$runsvr" != "1" ] ; then
+        FILE=/customer/app/axp_test
+        echo "Disabled audiofix"
+        if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
+            unset LD_PRELOAD
+        fi
+        if [ -f "$FILE" ]; then
+            killall audioserver
+            killall audioserver.plu
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        else
+            killall audioserver
+            killall audioserver.min
+            FILE2=/tmp/audioserver_on
+            if [ -f "$FILE2" ]; then
+                rm /tmp/audioserver_on
+                /mnt/SDCARD/Koriki/bin/freemma
+            fi
+        fi
     fi
-fi
+}
+
+
+get_first_file_from_m3u() {
+    local m3u_file="$1"
+    while IFS= read -r line; do
+        line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        if [ -n "$line" ] && [ "${line#\#}" = "$line" ]; then
+            echo "$line"
+            return 0
+        fi
+    done < "$m3u_file"
+    return 1
 }
 
 export SDL_AUDIODRIVER=dsp
-
 HOME=/mnt/SDCARD/App/pcsx
-
 cd $HOME
 
 volume=$(getvolume)
-
 setvolume &
 set_snd_level "${volume}" &
 
@@ -114,7 +118,73 @@ echo "set customized cpuspeed"
 audiofix_on
 sleep 1
 
-./pcsx -cdfile "$1"
+ROM_FILE="$1"
+ACTUAL_FILE="$ROM_FILE"
+WORK_DIR=""
+
+case "$ROM_FILE" in
+    *.m3u|*.M3U)
+        echo "Detectado archivo M3U: $ROM_FILE"
+        
+        ROM_DIR=$(dirname "$ROM_FILE")
+        ROM_BASENAME=$(basename "$ROM_FILE" .m3u)
+        ROM_BASENAME=$(basename "$ROM_BASENAME" .M3U)
+        
+        FIRST_FILE=$(get_first_file_from_m3u "$ROM_FILE")
+        
+        if [ -n "$FIRST_FILE" ]; then
+            echo "Primer archivo del M3U: $FIRST_FILE"
+            
+            FIRST_FILE_PATH="${ROM_DIR}/${FIRST_FILE}"
+            
+            if [ ! -f "$FIRST_FILE_PATH" ]; then
+                SYSTEM_NAME=$(basename "$ROM_DIR")
+                DATA_DIR="/mnt/SDCARD/Roms/${SYSTEM_NAME}-DATA"
+                
+                echo "Archivo no encontrado en $ROM_DIR"
+                echo "Buscando en directorio DATA: $DATA_DIR"
+                
+                if [ -d "$DATA_DIR" ]; then
+                    FIRST_FILE_PATH="${DATA_DIR}/${FIRST_FILE}"
+                    if [ -f "$FIRST_FILE_PATH" ]; then
+                        echo "Archivo encontrado en directorio DATA"
+                        WORK_DIR="$DATA_DIR"
+                    fi
+                fi
+            else
+                echo "Archivo encontrado en directorio principal"
+                WORK_DIR="$ROM_DIR"
+            fi
+            
+            if [ -f "$FIRST_FILE_PATH" ]; then
+                ACTUAL_FILE="$FIRST_FILE_PATH"
+                echo "Archivo final a cargar: $ACTUAL_FILE"
+            else
+                echo "ERROR: No se encontró el archivo $FIRST_FILE"
+                echo "Intentando cargar el m3u original..."
+                ACTUAL_FILE="$ROM_FILE"
+            fi
+        else
+            echo "ERROR: No se pudo leer el contenido del M3U"
+            echo "Intentando cargar el m3u original..."
+        fi
+        ;;
+    *)
+        echo "Archivo directo (no M3U): $ROM_FILE"
+        WORK_DIR=$(dirname "$ROM_FILE")
+        ACTUAL_FILE="$ROM_FILE"
+        ;;
+esac
+
+if [ -n "$WORK_DIR" ] && [ -d "$WORK_DIR" ]; then
+    echo "Cambiando al directorio de trabajo: $WORK_DIR"
+    cd "$WORK_DIR"
+fi
+
+echo "Ejecutando: ./pcsx -cdfile \"$ACTUAL_FILE\""
+cd /mnt/SDCARD/App/pcsx
+./pcsx -cdfile "$ACTUAL_FILE"
+
 sync
 
 audiofix_off
@@ -122,7 +192,6 @@ sleep 1
 
 echo "set stock cpuspeed"
 /mnt/SDCARD/Koriki/bin/cpuclock 1200
-
 sleep 2
 
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
