@@ -28,9 +28,9 @@ MODLIBS=        $(LOCALMODLIBS) $(BASEMODLIBS)
 VERSION=	2.7
 srcdir=		.
 
-abs_srcdir=	/home/ninoh-fox/miyoomini/buildroot/output/build/python-2.7.17
-abs_builddir=	/home/ninoh-fox/miyoomini/buildroot/output/build/python-2.7.17
-build=		armv7l-unknown-linux-gnueabihf
+abs_srcdir=	/home/ninoh-fox/miyoominisdk/buildroot-2019.11.3/output/build/python-2.7.17
+abs_builddir=	/home/ninoh-fox/miyoominisdk/buildroot-2019.11.3/output/build/python-2.7.17
+build=		x86_64-pc-linux-gnu
 host=		arm-miyoomini-linux-gnueabihf
 
 CC=		/opt/miyoomini-toolchain/bin/arm-miyoomini-linux-gnueabihf-gcc
@@ -159,10 +159,10 @@ EXEMODE=	755
 FILEMODE=	644
 
 # configure script arguments
-CONFIG_ARGS=	 '--target=arm-miyoomini-linux-gnueabihf' '--host=arm-miyoomini-linux-gnueabihf' '--build=armv7l-unknown-linux-gnueabihf' '--prefix=/usr' '--exec-prefix=/usr' '--sysconfdir=/etc' '--localstatedir=/var' '--program-prefix=' '--disable-gtk-doc' '--disable-gtk-doc-html' '--disable-doc' '--disable-docs' '--disable-documentation' '--with-xmlto=no' '--with-fop=no' '--disable-dependency-tracking' '--enable-ipv6' '--disable-nls' '--disable-static' '--enable-shared' '--disable-readline' '--disable-curses' '--with-expat=none' '--disable-bsddb' '--disable-sqlite3' '--disable-ssl' '--disable-codecs-cjk' '--disable-bz2' '--disable-zlib' '--disable-hashlib' '--enable-ossaudiodev' '--without-cxx-main' '--without-doc-strings' '--with-system-ffi' '--disable-pydoc' '--disable-test-modules' '--disable-lib2to3' '--disable-gdbm' '--disable-tk' '--disable-nis' '--disable-dbm' '--disable-pyo-build' '--disable-pyc-build' 'build_alias=armv7l-unknown-linux-gnueabihf' 'host_alias=arm-miyoomini-linux-gnueabihf' 'target_alias=arm-miyoomini-linux-gnueabihf' 'CC=/opt/miyoomini-toolchain/bin/arm-miyoomini-linux-gnueabihf-gcc' 'CFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -Os  ' 'LDFLAGS=' 'CPPFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64' 'CPP=/opt/miyoomini-toolchain/bin/arm-miyoomini-linux-gnueabihf-cpp' 'PKG_CONFIG=/opt/miyoomini-toolchain/bin/pkg-config'
+CONFIG_ARGS=	 '--target=arm-miyoomini-linux-gnueabihf' '--host=arm-miyoomini-linux-gnueabihf' '--build=x86_64-pc-linux-gnu' '--prefix=/usr' '--exec-prefix=/usr' '--sysconfdir=/etc' '--localstatedir=/var' '--program-prefix=' '--disable-gtk-doc' '--disable-gtk-doc-html' '--disable-doc' '--disable-docs' '--disable-documentation' '--with-xmlto=no' '--with-fop=no' '--disable-dependency-tracking' '--enable-ipv6' '--disable-nls' '--disable-static' '--enable-shared' '--disable-readline' '--disable-curses' '--with-expat=system' '--disable-bsddb' '--disable-sqlite3' '--disable-codecs-cjk' '--enable-ossaudiodev' '--without-cxx-main' '--without-doc-strings' '--with-system-ffi' '--disable-pydoc' '--disable-test-modules' '--disable-lib2to3' '--disable-gdbm' '--disable-tk' '--disable-nis' '--disable-dbm' '--disable-pyo-build' '--disable-pyc-build' 'build_alias=x86_64-pc-linux-gnu' 'host_alias=arm-miyoomini-linux-gnueabihf' 'target_alias=arm-miyoomini-linux-gnueabihf' 'CC=/opt/miyoomini-toolchain/bin/arm-miyoomini-linux-gnueabihf-gcc' 'CFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -Os  ' 'LDFLAGS=' 'CPPFLAGS=-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64' 'CPP=/opt/miyoomini-toolchain/bin/arm-miyoomini-linux-gnueabihf-cpp' 'PKG_CONFIG=/opt/miyoomini-toolchain/bin/pkg-config'
 
 # disabled extensions
-DISABLED_EXTENSIONS=	 pyexpat _sqlite3 _codecs_kr _codecs_jp _codecs_cn _codecs_tw _codecs_hk nis _ssl _hashlib readline bz2 zlib dbm gdbm _bsddb _tkinter _curses _curses_panel
+DISABLED_EXTENSIONS=	 _sqlite3 _codecs_kr _codecs_jp _codecs_cn _codecs_tw _codecs_hk nis readline dbm gdbm _bsddb _tkinter _curses _curses_panel
 
 # Subdirectories with code
 SRCDIRS= 	Parser Objects Python Modules Modules/_io
@@ -1127,7 +1127,7 @@ ifeq (no,yes)
 LIBSUBDIRS += curses
 endif
 
-ifeq (no,yes)
+ifeq (yes,yes)
 LIBSUBDIRS += $(XMLLIBSUBDIRS)
 endif
 

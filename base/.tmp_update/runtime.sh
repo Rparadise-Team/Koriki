@@ -694,7 +694,7 @@ if [ "$MODEL" == "MMP" ]; then
 	fi
 fi     
 
-# autochange retroarch version and show/quit wifi app
+# autochange retroarch version and show/quit networks app
 
 if [ ! -f /customer/app/axp_test ]; then
 	rm "${RETROARCH_PATH}"/retroarch
@@ -736,6 +736,10 @@ if [ ! -f /customer/app/axp_test ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh "${SDCARD_PATH}"/.simplemenu/apps/Ssh
 		sync
 	fi
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh "${SDCARD_PATH}"/.simplemenu/apps/Scraper
+		sync
+	fi
 else
 	rm "${RETROARCH_PATH}"/retroarch
 	if [ "$SUBMODEL" == "MMFLIP" ]; then
@@ -773,6 +777,10 @@ else
 	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ssh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh
+		sync
+	fi
+	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Scraper ]; then
+		mv "${SDCARD_PATH}"/.simplemenu/apps/Scraper "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh
 		sync
 	fi
 fi
@@ -845,22 +853,28 @@ fi
 
 # Detect if wifi app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-	sed -i 's/^1;0;1;0;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;0;1;0;17\([^;]*;[^;]*\)$/1;0;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;0;0;16;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;1;1;0;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;1;1;0;17\([^;]*;[^;]*\)$/1;1;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;1;0;16;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;1;0;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;1;0;17\([^;]*;[^;]*\)$/1;2;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^1;2;0;16;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;0;1;0;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;0;1;0;17\([^;]*;[^;]*\)$/0;0;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;0;0;16;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;0;0;15;15\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;0;0;14;14\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;1;1;0;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;1;1;0;17\([^;]*;[^;]*\)$/0;1;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;1;0;16;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;1;0;15;15\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;1;0;14;14\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;2;1;0;16\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;2;1;0;17\([^;]*;[^;]*\)$/0;2;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	sed -i 's/^0;2;0;16;16\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;2;0;15;15\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sed -i 's/^0;2;0;14;14\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
 	sync
