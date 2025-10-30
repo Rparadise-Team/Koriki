@@ -5,9 +5,9 @@ HOME=/mnt/SDCARD
 ./OverlaySelector-SGB-mSGB_OFF
 sync
 
-if dmesg | fgrep -q "FB_WIDTH=752"; then
+if [ -f /tmp/new_res_available ]; then
     find /mnt/SDCARD/RetroArch/.retroarch/config/ -type f -name "*.cfg" | while read file; do
-        if grep -q "input_overlay = \":/.retroarch/overlay/nothing.cfg\"" "$file"; then
+        if ! grep -q 'video_dingux_ipu_keep_aspect = "true"' "$file"; then
             if grep -q "video_filter = \":/.retroarch/filters/video/Grid3x.filt\"" "$file"; then
                 sed -i 's|video_filter = ":/.retroarch/filters/video/Grid3x.filt"|video_filter = ":/.retroarch/filters/video/Grid2x.filt"|g' "$file"
             fi
