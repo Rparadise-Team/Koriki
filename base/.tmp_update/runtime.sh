@@ -785,6 +785,36 @@ else
 	fi
 fi
 
+if [ -f /tmp/new_res_available ]; then
+	if grep -q "v1" "${RETROARCH_PATH}"/done; then
+			rm "${RETROARCH_PATH}"/done
+			touch "${RETROARCH_PATH}"/done
+			echo "v4" > "${RETROARCH_PATH}"/done
+    		find /mnt/SDCARD/RetroArch/.retroarch/config/ -type f -name "*.cfg" | while read file; do
+        	if ! grep -q 'video_dingux_ipu_keep_aspect = "true"' "$file"; then
+            	if grep -q "video_filter = \":/.retroarch/filters/video/Grid3x.filt\"" "$file"; then
+                	sed -i 's|video_filter = ":/.retroarch/filters/video/Grid3x.filt"|video_filter = ":/.retroarch/filters/video/Grid2x.filt"|g' "$file"
+            	fi
+        	fi
+    		done
+		sync
+	fi
+else
+	if grep -q "v4" "${RETROARCH_PATH}"/done; then
+			rm "${RETROARCH_PATH}"/done
+			touch "${RETROARCH_PATH}"/done
+			echo "v1" > "${RETROARCH_PATH}"/done
+    		find /mnt/SDCARD/RetroArch/.retroarch/config/ -type f -name "*.cfg" | while read file; do
+        	if ! grep -q 'video_dingux_ipu_keep_aspect = "true"' "$file"; then
+            	if grep -q "video_filter = \":/.retroarch/filters/video/Grid2x.filt\"" "$file"; then
+                	sed -i 's|video_filter = ":/.retroarch/filters/video/Grid2x.filt"|video_filter = ":/.retroarch/filters/video/Grid3x.filt"|g' "$file"
+            	fi
+        	fi
+    		done
+		sync
+	fi
+fi
+
 # Set the last CPU and GOV change
 if [ -f "${CPUSAVE}" ]; then
 	CPU=`cat "${CPUSAVE}"`
