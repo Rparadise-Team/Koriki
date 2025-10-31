@@ -95,7 +95,6 @@ DIRS_ELIMINADOS=0
 
 # PASO 1: Encontrar archivos MODIFICADOS (existen en ambos pero con hash diferente)
 echo -e "${AZUL}Buscando archivos MODIFICADOS...${NC}"
-join -j 2 <(sort -k2 /tmp/hash_antiguo.txt) <(sort -k2 /tmp/hash_nuevo.txt) | \
 while read ruta hash_antiguo hash_nuevo; do
     if [ "$hash_antiguo" != "$hash_nuevo" ]; then
         archivo_origen="$NUEVO/$ruta"
@@ -115,12 +114,10 @@ while read ruta hash_antiguo hash_nuevo; do
             fi
         fi
     fi
-done
+done < <(join -j 2 <(sort -k2 /tmp/hash_antiguo.txt) <(sort -k2 /tmp/hash_nuevo.txt))
 
 # PASO 2: Encontrar archivos NUEVOS (existen en NUEVO pero no en ANTIGUO)
 echo -e "${AZUL}Buscando archivos NUEVOS...${NC}"
-comm -23 <(cut -d' ' -f2- /tmp/hash_nuevo.txt | sort) \
-         <(cut -d' ' -f2- /tmp/hash_antiguo.txt | sort) | \
 while read archivo; do
     [ -z "$archivo" ] && continue
     
@@ -140,7 +137,8 @@ while read archivo; do
             ((ERRORES++))
         fi
     fi
-done
+done < <(comm -23 <(cut -d' ' -f2- /tmp/hash_nuevo.txt | sort) \
+                   <(cut -d' ' -f2- /tmp/hash_antiguo.txt | sort))
 
 # PASO 3: Encontrar archivos ELIMINADOS y guardar en .deletes con rutas completas
 echo -e "${AZUL}Buscando archivos ELIMINADOS...${NC}"
@@ -206,10 +204,12 @@ done < "$TEMP_DELETES"
 
 # Agregar directorios vacíos al archivo .deletes si existen
 if [ -s "$TEMP_DIRS" ]; then
-    echo "" >> "$DELETES_FILE"
-    while read dir; do
-        echo "${RUTA_PREFIX}${dir}/" >> "$DELETES_FILE"
-    done < "$TEMP_DIRS"
+    if [ -f "$DELETES_FILE" ]; then
+        echo "" >> "$DELETES_FILE"
+        while read dir; do
+            echo "${RUTA_PREFIX}${dir}/" >> "$DELETES_FILE"
+        done < "$TEMP_DIRS"
+    fi
 fi
 
 rm -f "$TEMP_DELETES" "$TEMP_DIRS"
