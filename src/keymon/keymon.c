@@ -961,9 +961,9 @@ void setcpu_optimized(int cpu) {
         
         switch (cpu) {
             case 1:
-                current_cpu_freq = 400000;
+                current_cpu_freq = 600000;
                 set_cpugovernor_optimized(POWERSAVE);
-                set_cpuclock(400000);
+                set_cpuclock(600000);
                 break;
                 
             case 2:
@@ -973,9 +973,9 @@ void setcpu_optimized(int cpu) {
                 break;
                 
             case 3:
-                current_cpu_freq = 400000;
+                current_cpu_freq = 600000;
                 set_cpugovernor_optimized(USERSPACE);
-                set_cpuclock(400000);
+                set_cpuclock(600000);
                 break;
                 
             default:
