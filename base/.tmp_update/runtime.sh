@@ -791,7 +791,7 @@ if [ -f /tmp/new_res_available ]; then
 			touch "${RETROARCH_PATH}"/done
 			echo "v4" > "${RETROARCH_PATH}"/done
     		find /mnt/SDCARD/RetroArch/.retroarch/config/ -type f -name "*.cfg" | while read file; do
-        	if ! grep -q 'video_dingux_ipu_keep_aspect = "true"' "$file"; then
+        	if ! grep -q 'video_scale_integer = "true"' "$file"; then
             	if grep -q "video_filter = \":/.retroarch/filters/video/Grid3x.filt\"" "$file"; then
                 	sed -i 's|video_filter = ":/.retroarch/filters/video/Grid3x.filt"|video_filter = ":/.retroarch/filters/video/Grid2x.filt"|g' "$file"
             	fi
@@ -805,7 +805,7 @@ else
 			touch "${RETROARCH_PATH}"/done
 			echo "v1" > "${RETROARCH_PATH}"/done
     		find /mnt/SDCARD/RetroArch/.retroarch/config/ -type f -name "*.cfg" | while read file; do
-        	if ! grep -q 'video_dingux_ipu_keep_aspect = "true"' "$file"; then
+        	if ! grep -q 'video_scale_integer = "true"' "$file"; then
             	if grep -q "video_filter = \":/.retroarch/filters/video/Grid2x.filt\"" "$file"; then
                 	sed -i 's|video_filter = ":/.retroarch/filters/video/Grid2x.filt"|video_filter = ":/.retroarch/filters/video/Grid3x.filt"|g' "$file"
             	fi
@@ -983,6 +983,13 @@ if [ "$MODEL" == "MMP" ]; then
 	mount -o bind "${SYSTEM_PATH}"/etc/passwd /etc/passwd
 	mount -o bind "${SYSTEM_PATH}"/etc/group /etc/group
 	mount -o bind "${SYSTEM_PATH}"/etc/profile /etc/profile
+fi
+
+#scrap
+
+if [ ! -f "/appconfigs/keyscraper.txt" ]; then
+   touch /appconfigs/keyscraper.txt
+   echo uhdsjndoujahfjdnfgjdfunsaofugasufaslonf > /appconfigs/keyscraper.txt
 fi
 
 # Launch SimpleMenu
