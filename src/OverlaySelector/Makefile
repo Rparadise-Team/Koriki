@@ -1,7 +1,4 @@
-CONSOLE = GB
-CORE = Gambatte
-
-TARGET = OverlaySelector-$(CONSOLE)-$(CORE)
+TARGET = OverlaySelector
 
 CC = $(CROSS_COMPILE)g++
 

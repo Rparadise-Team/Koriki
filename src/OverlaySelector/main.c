@@ -2,295 +2,282 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
-#include <linux/fb.h>
-#include <linux/input.h>
 #include <stdbool.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <dirent.h>
+#include <unistd.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 #define SCREEN_BPP 32
+#define NUM_IMAGES 3
 
 #define BUTTON_A SDLK_SPACE
 #define BUTTON_B SDLK_LCTRL
-#define BUTTON_X SDLK_LSHIFT
-#define BUTTON_Y SDLK_LALT
-#define BUTTON_START SDLK_RETURN
-#define BUTTON_SELECT SDLK_RCTRL
 #define BUTTON_MENU SDLK_ESCAPE
-#define BUTTON_L SDLK_e
-#define BUTTON_R SDLK_t
-#define BUTTON_L2 SDLK_TAB
-#define BUTTON_R2 SDLK_BACKSPACE
-#define BUTTON_UP SDLK_UP
-#define BUTTON_DOWN SDLK_DOWN
-#define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
+#define BUTTON_RIGHT SDLK_RIGHT
 
-#define CONSOLA	"GB" //config dir over
-#define CORE	"Gambatte"
-#define BORDER	"OFF"
+typedef struct {
+    char key[64];
+    char value[256];
+} ConfigPair;
 
-#define NUM_IMAGES 3
+typedef struct {
+    char core[64];
+    char system[64];
+    char border[8];
+    ConfigPair modes[3][9]; // AspectRatio(0), Overlay(1), Fullscreen(2)
+} OverlayConfig;
 
-#define TEXTO0	""
-#define TEXTO1	"video_dingux_ipu_keep_aspect"
-#define TEXTO2	"video_scale_integer"
-#define TEXTO3	"custom_viewport_height"
-#define TEXTO4	"input_overlay"
-#define TEXTO5	"video_filter"
-#define TEXTO6	"aspect_ratio_index"
-#define TEXTO7	"custom_viewport_width"
-#define TEXTO8	"cheevos_enable"
-#define TEXTO9	"savestate_auto_save"
-#define TEXTO10	"savestate_auto_load"
-#define TEXTO11	"savestate_thumbnail_enable"
-#define TEXTO12 "video_threaded"
-
-#define VALOR0	""
-#define VALOR00	" "
-#define VALOR1	"false"
-#define VALOR2	"true"
-#define VALOR3	"512"
-#define VALOR4	"576"
-#define VALOR5	"608"
-#define VALOR6	"672"
-#define VALOR7	"768"
-#define VALOR8  "760"
-#define VALOR9	"23"
-#define VALOR10	"0"
-#define VALOR11	":/.retroarch/overlay/ATC/ATC-GB.cfg"
-#define VALOR12	":/.retroarch/overlay/ATC/ATC-GBPOCKET.cfg"
-#define VALOR13	":/.retroarch/overlay/ATC/ATC-LYNX.cfg"
-#define VALOR14	":/.retroarch/overlay/ATC/ATC-POKEMINI.cfg"
-#define VALOR15	":/.retroarch/overlay/ATC/ATC-GG.cfg"
-#define VALOR16	":/.retroarch/overlay/ATC/ATC-GBA.cfg"
-#define VALOR17	":/.retroarch/overlay/ATC/ATC-WS.cfg"
-#define VALOR18	":/.retroarch/overlay/ATC/ATC-GBC.cfg"
-#define VALOR19	":/.retroarch/overlay/ATC/ATC-NGP.cfg"
-#define VALOR20	":/.retroarch/overlay/ATC/ATC-SUPERVISION.cfg"
-#define VALOR21	":/.retroarch/overlay/ATC/ATC-SGB.cfg"
-#define VALOR22	":/.retroarch/overlay/ATC/ATC-PICO8.cfg"
-#define VALOR23	":/.retroarch/overlay/ATC-GRID/ATC-GB.cfg"
-#define VALOR24	":/.retroarch/overlay/ATC-GRID/ATC-LYNX.cfg"
-#define VALOR25	":/.retroarch/overlay/ATC-GRID/ATC-POKEMINI.cfg"
-#define VALOR26	":/.retroarch/overlay/ATC-GRID/ATC-GG.cfg"
-#define VALOR27	":/.retroarch/overlay/ATC-GRID/ATC-GBA.cfg"
-#define VALOR28	":/.retroarch/overlay/ATC-GRID/ATC-WS.cfg"
-#define VALOR29	":/.retroarch/overlay/ATC-GRID/ATC-GBC.cfg"
-#define VALOR30	":/.retroarch/overlay/ATC-GRID/ATC-NGP.cfg"
-#define VALOR31	":/.retroarch/overlay/ATC-GRID/ATC-SUPERVISION.cfg"
-#define VALOR32	":/.retroarch/overlay/ATC-GRID/ATC-SGB2.cfg"
-#define VALOR33	":/.retroarch/overlay/ATC-GRID/ATC-PICO8.cfg"
-#define VALOR34	":/.retroarch/overlay/ATC-GRID/fullscreen_grid3x.cfg"
-#define VALOR35	":/.retroarch/overlay/ATC-GRID/fullscreen_scanline.cfg"
-#define VALOR36	":/.retroarch/filters/video/Grid3x.filt"
-#define VALOR37	":/.retroarch/filters/video/Gameboy3x_DMG.filt"
-#define VALOR38	":/.retroarch/filters/video/Gameboy3x_Pocket.filt"
-#define VALOR39	":/.retroarch/filters/video/Scanline2x.filt"
-#define VALOR40	":/.retroarch/overlay/CTR/Perfect_CRT.cfg"
-#define VALOR41 ":/.retroarch/overlay/ATC/ATC-ARDUBOY.cfg"
-#define VALOR42 ":/.retroarch/overlay/nothing.cfg"
-#define VALOR43	":/.retroarch/filters/video/Grid2x.filt"
-
-SDL_Surface* screen = NULL;
-SDL_Surface* image[NUM_IMAGES];
-SDL_Surface* text_surface = NULL;
-TTF_Font* font = NULL;
-SDL_Rect image_rect;
-SDL_Event event;
-bool running = true;
-int current_image = 0;
+OverlayConfig cfg;
 int miyoov4 = 0;
 
-void load_image(int index) {
-	char filename[16];
-	sprintf(filename, "%d.png", index + 1);
-	image[index] = IMG_Load(filename);
+/* ---------------------------------------------------
+   Utilidades básicas
+--------------------------------------------------- */
+void trim(char *s) {
+    char *p = s;
+    while (*p == ' ' || *p == '\t') p++;
+    if (p != s) memmove(s, p, strlen(p) + 1);
+    char *end = s + strlen(s) - 1;
+    while (end >= s && (*end == ' ' || *end == '\t' || *end == '\n' || *end == '\r'))
+        *end-- = '\0';
 }
 
-void update_config(const char* filename, const char* texto1, const char* valor1, const char* texto2, const char* valor2, const char* texto3, const char* valor3, const char* texto4, const char* valor4, const char* texto5, const char* valor5, const char* texto6, const char* valor6, const char* texto7, const char* valor7, const char* texto8, const char* valor8, const char* texto9, const char* valor9) {
-	char buffer[100];
-	sprintf(buffer, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
-	if (access(buffer, F_OK) != -1) {
-		remove(buffer);
-	}
-	FILE* file = fopen(buffer, "w");
-	if (file != NULL) {
-		if (strlen(texto1) > 0 && strlen(valor1) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto1, valor1);
-		}
-		if (strlen(texto2) > 0 && strlen(valor2) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto2, valor2);
-		}
-		if (strlen(texto3) > 0 && strlen(valor3) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto3, valor3);
-		}
-		if (strlen(texto4) > 0 && strlen(valor4) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto4, valor4);
-		}
-		if (strlen(texto5) > 0 && strlen(valor5) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto5, valor5);
-		}
-		if (strlen(texto6) > 0 && strlen(valor6) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto6, valor6);
-		}
-		if (strlen(texto7) > 0 && strlen(valor7) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto7, valor7);
-		}
-		if (strlen(texto8) > 0 && strlen(valor8) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto8, valor8);
-		}
-		if (strlen(texto9) > 0 && strlen(valor9) > 0) {
-			fprintf(file, "%s = \"%s\"\n", texto9, valor9);
-		}
-		fclose(file);
+/* ---------------------------------------------------
+   Carga del archivo overlay.cfg
+--------------------------------------------------- */
+void loadConfig(const char *filename) {
+    FILE *f = fopen(filename, "r");
+    if (!f) {
+        printf("No se pudo abrir el archivo de configuración: %s\n", filename);
+        exit(1);
     }
+
+    char line[512];
+    int section = -1; // 0=Aspect, 1=Overlay, 2=Fullscreen
+    int idx = 0;
+
+    while (fgets(line, sizeof(line), f)) {
+        trim(line);
+        if (line[0] == '#' || strlen(line) == 0)
+            continue;
+
+        if (strstr(line, "[General]")) { section = -1; continue; }
+        if (strstr(line, "[AspectRatio]")) { section = 0; idx = 0; continue; }
+        if (strstr(line, "[Overlay]")) { section = 1; idx = 0; continue; }
+        if (strstr(line, "[Fullscreen]")) { section = 2; idx = 0; continue; }
+
+        if (section == -1) {
+            if (sscanf(line, "core = %63[^#\n]", cfg.core)) { trim(cfg.core); continue; }
+            if (sscanf(line, "system = %63[^#\n]", cfg.system)) { trim(cfg.system); continue; }
+            if (sscanf(line, "border = %7[^#\n]", cfg.border)) { trim(cfg.border); continue; }
+        } else {
+            char key[128], val[256];
+            if (sscanf(line, "%*d = %127[^,],%255[^\n]", key, val) == 2) {
+                trim(key);
+                trim(val);
+                strcpy(cfg.modes[section][idx].key, key);
+                strcpy(cfg.modes[section][idx].value, val);
+                if (++idx >= 9) idx = 8;
+            }
+        }
+    }
+
+    fclose(f);
 }
 
-int main(int argc, char* argv[]) {
-	
-	miyoov4 = access("/tmp/new_res_available", F_OK);
-	
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == -1) {
-		printf("Error initializing SDL: %s\n", SDL_GetError());
-		return -1;
-	}
-	
-	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
-	if (screen == NULL) {
-		printf("Error setting video mode: %s\n", SDL_GetError());
-		return -1;
-	}
-	for (int i = 0; i < NUM_IMAGES; i++) {
-		load_image(i);
-	}
+/* ---------------------------------------------------
+   Escribe el archivo .cfg del core/sistema
+--------------------------------------------------- */
+void update_config(int mode) {
+    char path[256];
+    snprintf(path, sizeof(path),
+             "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg",
+             cfg.core, cfg.system);
 
-	image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-	image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-	image_rect.w = image[current_image]->w;
-	image_rect.h = image[current_image]->h;
-	
-	TTF_Init();
-	TTF_Font *font = TTF_OpenFont("Exo-2-Bold-Italic.ttf", 32);
-	
-	SDL_Color white = {255, 255, 255};
-	SDL_Surface *text_surface = TTF_RenderText_Blended(font, "Done! Press B to exit!", white);
-	
-	int text_width = text_surface->w;
-	int text_height = text_surface->h;
-	
-	int padding = 10;
-	SDL_Surface *rect_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, text_width + padding*2, text_height + padding*2, 32, 0, 0, 0, 0);
-	SDL_FillRect(rect_surface, NULL, SDL_MapRGB(screen->format, 50, 50, 50));
-	SDL_Rect rect_pos;
-	rect_pos.x = (SCREEN_WIDTH - rect_surface->w) / 2;
-	rect_pos.y = (SCREEN_HEIGHT - rect_surface->h) / 2;
-	
-	SDL_Rect text_pos;
-	text_pos.x = rect_pos.x + padding;
-	text_pos.y = rect_pos.y + padding;
-	
-	char FILECONFIG[100];
-	sprintf(FILECONFIG, "/mnt/SDCARD/RetroArch/.retroarch/config/%s/%s.cfg", CORE, CONSOLA);
-	
-	if (strcmp(BORDER, "OFF") == 0 && strcmp(CONSOLA, "SGB") == 0) {
-		FILE *fp = fopen("/mnt/SDCARD/RetroArch/.retroarch/config/mSGB/mSGB.opt", "r+");
-		char line[256];
-		
-		while (fgets(line, sizeof(line), fp)) {
-			if (strstr(line, "mgba_sgb_borders =")) {
-				fseek(fp, -1 * strlen(line), SEEK_CUR);
-				fputs("mgba_sgb_borders = \"OFF\"\n", fp);
-				break;
-			}
-		}
-		
-		fclose(fp);
-	} else if (strcmp(BORDER, "ON") == 0 && strcmp(CONSOLA, "SGB") == 0) {
-		FILE *fp = fopen("/mnt/SDCARD/RetroArch/.retroarch/config/mSGB/mSGB.opt", "r+");
-		char line[256];
-		
-		while (fgets(line, sizeof(line), fp)) {
-			if (strstr(line, "mgba_sgb_borders =")) {
-				fseek(fp, -1 * strlen(line), SEEK_CUR);
-				fputs("mgba_sgb_borders = \"ON\"\n", fp);
-				break;
-			}
-		}
-		
-		fclose(fp);
-	}
-	
-	while (running) {
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-				case SDL_QUIT:
-					running = false;
-					break;
-				case SDL_KEYDOWN:
-					if (event.key.keysym.sym == BUTTON_RIGHT) {
-						current_image = (current_image + 1) % NUM_IMAGES;
-						image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-						image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-						break;
-					} else if (event.key.keysym.sym == BUTTON_LEFT) {
-						current_image = (current_image - 1 + NUM_IMAGES) % NUM_IMAGES;
-						image_rect.x = (SCREEN_WIDTH - image[current_image]->w) / 2;
-						image_rect.y = (SCREEN_HEIGHT - image[current_image]->h) / 2;
-						break;
-					} else if (event.key.keysym.sym == BUTTON_A) {
-						switch (current_image) {
-							case 0:
-								if (miyoov4) {
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR43, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
-								} else {
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //aspect ratio
-								}
-								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-								SDL_Flip(screen);
-								SDL_Delay(3000);
-								break;
-							case 1:
-								update_config(FILECONFIG, TEXTO1, VALOR2, TEXTO2, VALOR2, TEXTO4, VALOR11, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //overlay
-								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-								SDL_Flip(screen);
-								SDL_Delay(3000);
-								break;
-							case 2:
-								if (miyoov4) {
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR43, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
-								} else {
-								update_config(FILECONFIG, TEXTO1, VALOR1, TEXTO2, VALOR1, TEXTO4, VALOR42, TEXTO5, VALOR36, TEXTO12, VALOR1, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0, TEXTO0, VALOR0); //fullscreen
-								}
-								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-								SDL_Flip(screen);
-								SDL_Delay(3000);
-								break;
-						}
-						break;
-					} else if (event.key.keysym.sym == BUTTON_B || event.key.keysym.sym == BUTTON_MENU) {
-						running = false;
-						break;
-					}
-					break;
-			}
-		}
-		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-		SDL_BlitSurface(image[current_image], NULL, screen, &image_rect);
-		SDL_Flip(screen);
-	}
-	TTF_CloseFont(font);
-	TTF_Quit();
-	SDL_Quit();
-	return 0;
+    FILE *file = fopen(path, "w");
+    if (!file) {
+        printf("Error creando %s\n", path);
+        return;
+    }
+
+    for (int i = 0; i < 9; i++) {
+        if (strlen(cfg.modes[mode][i].key) && strlen(cfg.modes[mode][i].value)) {
+            const char *value = cfg.modes[mode][i].value;
+
+            // Detecta variantes MM/MMv4 (solo AspectRatio y Fullscreen)
+            char val_copy[256];
+            strcpy(val_copy, value);
+            char *normal = strtok(val_copy, "|");
+            char *v4 = strtok(NULL, "|");
+
+            const char *final_value = normal;
+            if (v4 && miyoov4 && mode != 1)
+                final_value = v4;
+
+            fprintf(file, "%s = \"%s\"\n", cfg.modes[mode][i].key, final_value);
+        }
+    }
+
+    fclose(file);
+    printf("Configuración escrita en %s (%s, modo %d)\n",
+           path, miyoov4 ? "MMv4" : "MM", mode);
+}
+
+/* ---------------------------------------------------
+   Modifica mgba_sgb_borders si el sistema es SGB
+--------------------------------------------------- */
+void handle_sgb_border() {
+    if (strcmp(cfg.system, "SGB") != 0)
+        return;
+
+    const char *optfile = "/mnt/SDCARD/RetroArch/.retroarch/config/mSGB/mSGB.opt";
+    FILE *fp = fopen(optfile, "r+");
+    if (!fp)
+        return;
+
+    char lines[512][256];
+    int count = 0;
+    while (fgets(lines[count], sizeof(lines[count]), fp) && count < 512)
+        count++;
+
+    rewind(fp);
+    for (int i = 0; i < count; i++) {
+        if (strstr(lines[i], "mgba_sgb_borders =")) {
+            snprintf(lines[i], sizeof(lines[i]),
+                     "mgba_sgb_borders = \"%s\"\n", cfg.border);
+        }
+        fputs(lines[i], fp);
+    }
+    fclose(fp);
+}
+
+/* ---------------------------------------------------
+   Carga imágenes numeradas (1.png, 2.png, 3.png)
+--------------------------------------------------- */
+SDL_Surface *load_image(int index) {
+    char filename[32];
+    snprintf(filename, sizeof(filename), "./%d.png", index + 1);
+    SDL_Surface *img = IMG_Load(filename);
+    if (!img)
+        printf("No se pudo cargar %s\n", filename);
+    return img;
+}
+
+/* ---------------------------------------------------
+   Dibuja recuadro con mensaje de confirmación
+--------------------------------------------------- */
+void draw_message(SDL_Surface *screen, SDL_Surface *msg) {
+    SDL_Rect rect_bg;
+    rect_bg.w = msg->w + 40;
+    rect_bg.h = msg->h + 40;
+    rect_bg.x = (SCREEN_WIDTH - rect_bg.w) / 2;
+    rect_bg.y = (SCREEN_HEIGHT - rect_bg.h) / 2;
+
+    Uint32 bg_color = SDL_MapRGB(screen->format, 40, 40, 40);
+    SDL_FillRect(screen, &rect_bg, bg_color);
+
+    SDL_Rect rect_pos = {
+        (Sint16)(rect_bg.x + 20),
+        (Sint16)(rect_bg.y + 20),
+        (Uint16)msg->w,
+        (Uint16)msg->h
+    };
+    SDL_BlitSurface(msg, NULL, screen, &rect_pos);
+}
+
+/* ---------------------------------------------------
+   Programa principal
+--------------------------------------------------- */
+int main(int argc, char *argv[]) {
+    const char *cfgpath = "./overlay.cfg";
+    if (argc > 1)
+        cfgpath = argv[1];
+
+    // Detección MMv4
+    miyoov4 = (access("/tmp/new_res_available", F_OK) == 0);
+
+    // Cargar configuración externa
+    loadConfig(cfgpath);
+
+    // Inicializar SDL
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
+        printf("Error inicializando SDL: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    SDL_Surface *screen =
+        SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
+    if (!screen) {
+        printf("Error creando ventana SDL: %s\n", SDL_GetError());
+        SDL_Quit();
+        return -1;
+    }
+
+    // Cargar imágenes
+    SDL_Surface *images[NUM_IMAGES];
+    for (int i = 0; i < NUM_IMAGES; i++)
+        images[i] = load_image(i);
+
+    // Texto informativo
+    TTF_Init();
+    TTF_Font *font = TTF_OpenFont("./Exo-2-Bold-Italic.ttf", 32);
+    SDL_Color white = {255, 255, 255};
+    SDL_Surface *msg =
+        TTF_RenderText_Blended(font, "Done! Press B to exit!", white);
+
+    // Bucle principal
+    bool running = true;
+    int current = 0;
+    SDL_Event e;
+
+    while (running) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT)
+                running = false;
+            else if (e.type == SDL_KEYDOWN) {
+                switch (e.key.keysym.sym) {
+                case BUTTON_RIGHT:
+                    current = (current + 1) % NUM_IMAGES;
+                    break;
+                case BUTTON_LEFT:
+                    current = (current - 1 + NUM_IMAGES) % NUM_IMAGES;
+                    break;
+                case BUTTON_A:
+                    update_config(current);
+                    handle_sgb_border();
+                    draw_message(screen, msg);
+                    SDL_Flip(screen);
+                    SDL_Delay(3000);
+                    break;
+                case BUTTON_B:
+                case BUTTON_MENU:
+                    running = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
+        SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+        if (images[current]) {
+            SDL_Rect img_rect = {
+                (Sint16)((SCREEN_WIDTH - images[current]->w) / 2),
+                (Sint16)((SCREEN_HEIGHT - images[current]->h) / 2),
+                (Uint16)images[current]->w,
+                (Uint16)images[current]->h};
+            SDL_BlitSurface(images[current], NULL, screen, &img_rect);
+        }
+        SDL_Flip(screen);
+    }
+
+    // Limpieza
+    TTF_CloseFont(font);
+    TTF_Quit();
+    SDL_Quit();
+
+    return 0;
 }
