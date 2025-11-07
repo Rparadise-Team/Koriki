@@ -23,6 +23,7 @@ struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
 char *fb_iconbackground = NULL;
 int fb_lastframe=-1;
+unsigned int fb_lastbuffersaved=0;
 
 // Miyoo model data
 int miyoo_v4_mode = -1;
@@ -127,24 +128,26 @@ void save_background() {
 		fb_iconbackground = (char*)malloc(OSD_ICON_WIDTH*OSD_ICON_HEIGHT*(vinfo.bits_per_pixel/8));
 
 	get_render_info();
+	fb_lastbuffersaved=vinfo.yoffset;
 
 	if(fb_iconbackground) {
 		int x, y;
+		int margin=10;
 		long int location = 0, idx_background = 0;
 		int bytes=vinfo.bits_per_pixel/8;
 
 		fb_lastframe = (int)vinfo.yoffset;
 
 		if(vinfo.bits_per_pixel == 32) {
-			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
 					*(unsigned long *)(fb_iconbackground + idx_background) = *(unsigned long *)(fb_addr + location);	// copy 4 bytes (1 pixel)
 					idx_background += 4;
 				}
 		} else if(vinfo.bits_per_pixel == 16) {
-			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
 					*(unsigned int *)(fb_iconbackground + idx_background) = *(unsigned int *)(fb_addr + location);		// copy 2 bytes (1 pixel)
 					idx_background += 2;
@@ -170,19 +173,20 @@ void restore_background(int frame) {
 
 	if(fb_iconbackground) {
 		int x, y;
+		int margin=10;
 		long int location = 0, idx_background = 0;
 		int bytes=vinfo.bits_per_pixel/8;
 
 		if(vinfo.bits_per_pixel == 32) {
-			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
 					*(unsigned long *)(fb_addr + location) = *(unsigned long *)(fb_iconbackground + idx_background);	// copy 4 bytes (1 pixel)
 					idx_background += 4;
 				}
 		} else if(vinfo.bits_per_pixel == 16) {
-			for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-				for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
 					*(unsigned int *)(fb_addr + location) = *(unsigned int *)(fb_iconbackground + idx_background);		// copy 2 bytes (1 pixel)
 					idx_background += 2;
@@ -217,9 +221,9 @@ void restore_fb() {
 int get_icon_cutoff() {
 	switch(osd_item) {
 		case OSD_VOLUME:
-			return osd_volume*OSD_ICON_WIDTH/69;	// volume values are between 0-69
+			return osd_volume*OSD_ICON_HEIGHT/69;	// volume values are between 0-69
 		case OSD_BRIGHTNESS:
-			return osd_brightness*OSD_ICON_WIDTH/10;	// bright values are between 1-10
+			return osd_brightness*OSD_ICON_HEIGHT/10;	// bright values are between 1-10
 		default:
 			return 0;
 	}
@@ -267,18 +271,20 @@ void draw_icon() {
 
 	int selectcolor=-1;
 	int idx_icon=0;
+	int margin=10;
 	
 	if(vinfo.bits_per_pixel == 32) {
-		for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-			for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+		for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+			for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
 				char value=*(icon+idx_icon);
 				switch(value) {
 					case 0:
-						if((width-x)<limit)
-							selectcolor=tintcolor;
-						else
+						if(y-(height-(OSD_ICON_HEIGHT+margin))>limit)
+						//if((height-margin-y)>limit)
 							selectcolor=0;
+						else
+							selectcolor=tintcolor;
 						break;
 					case 1:
 						selectcolor=1;
@@ -296,13 +302,13 @@ void draw_icon() {
 				idx_icon++;
 			}
 	} else if(vinfo.bits_per_pixel == 16) {
-		for (y = height-OSD_ICON_HEIGHT; y < height; y++)
-			for (x = width-OSD_ICON_WIDTH; x < width; x++) {
+		for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
+			for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
 				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
 				char value=*(icon+idx_icon);
 				switch(value) {
 					case 0:
-						if((width-x)<limit)
+						if((height-margin-y)<limit)
 							selectcolor=tintcolor;
 						else
 							selectcolor=0;
@@ -354,6 +360,10 @@ static void *osd_thread(void *param) {
 	struct timeval now;
 	do {
 		usleep(5000);
+		get_render_info();
+		if(vinfo.yoffset!=fb_lastbuffersaved)
+		  save_background();
+		  
 		switch(osd_item) {
 			case OSD_VOLUME:
 				draw_icon();
