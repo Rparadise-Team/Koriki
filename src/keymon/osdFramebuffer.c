@@ -256,7 +256,10 @@ void draw_icon() {
 	char *icon=NULL;
 	switch(osd_item) {
 		case OSD_VOLUME:
-			icon=volume_icon;
+		        if(osd_volume==0)
+		          icon=volume_mute_icon;
+		        else
+      			  icon=volume_icon;
 			if(osd_volume>=60)
 				tintcolor=4;
 			else if(osd_volume>=54)
@@ -281,7 +284,6 @@ void draw_icon() {
 				switch(value) {
 					case 0:
 						if(y-(height-(OSD_ICON_HEIGHT+margin))>limit)
-						//if((height-margin-y)>limit)
 							selectcolor=0;
 						else
 							selectcolor=tintcolor;
@@ -289,6 +291,9 @@ void draw_icon() {
 					case 1:
 						selectcolor=1;
 						break;
+					case 2:
+					        selectcolor=4;
+					        break;
 					default:
 						selectcolor=-1;
 						break;
@@ -308,7 +313,7 @@ void draw_icon() {
 				char value=*(icon+idx_icon);
 				switch(value) {
 					case 0:
-						if((height-margin-y)<limit)
+						if(y-(height-(OSD_ICON_HEIGHT+margin))>limit)
 							selectcolor=tintcolor;
 						else
 							selectcolor=0;
@@ -316,6 +321,9 @@ void draw_icon() {
 					case 1:
 						selectcolor=1;
 						break;
+					case 2:
+					        selectcolor=4;
+					        break;
 					default:
 						selectcolor=-1;
 						break;
