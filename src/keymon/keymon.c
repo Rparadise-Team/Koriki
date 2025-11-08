@@ -1151,12 +1151,16 @@ int main (int argc, char *argv[]) {
 						if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
 							if (val == PRESSED && menu_pressed) {
 								setVolume(volume, 1);
+								volume += 1;
+								if (volume > 23) volume = 23;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
 						} else {
 							if (val == PRESSED && Select_pressed) {
 								setVolume(volume, 1);
+								volume += 1;
+								if (volume > 23) volume = 23;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
@@ -1176,12 +1180,16 @@ int main (int argc, char *argv[]) {
 						if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
 							if (val == PRESSED && menu_pressed) {
 								setVolume(volume, -1);
+								volume -= 1;
+								if (volume < 0) volume = 0;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
 						} else {
 							if (val == PRESSED && Select_pressed) {
 								setVolume(volume, -1);
+								volume -= 1;
+								if (volume < 0) volume = 0;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
@@ -1204,6 +1212,8 @@ int main (int argc, char *argv[]) {
 								osd_show(OSD_BRIGHTNESS);
 							} else if (val == PRESSED) {
 								setVolume(volume, 1);
+								volume += 1;
+								if (volume > 23) volume = 23;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
@@ -1213,6 +1223,8 @@ int main (int argc, char *argv[]) {
 								osd_show(OSD_BRIGHTNESS);
 							} else if (val == PRESSED) {
 								setVolume(volume, 1);
+								volume += 1;
+								if (volume > 23) volume = 23;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
@@ -1235,6 +1247,8 @@ int main (int argc, char *argv[]) {
 								osd_show(OSD_BRIGHTNESS);
 							} else if (val == PRESSED) {
 								setVolume(volume, -1);
+								volume -= 1;
+								if (volume < 0) volume = 0;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
@@ -1244,6 +1258,8 @@ int main (int argc, char *argv[]) {
 								osd_show(OSD_BRIGHTNESS);
 							} else if (val == PRESSED) {
 								setVolume(volume, -1);
+								volume -= 1;
+								if (volume < 0) volume = 0;
 								iconvol();
 								osd_show(OSD_VOLUME);
 							}
