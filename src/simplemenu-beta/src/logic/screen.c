@@ -1755,11 +1755,11 @@ void setupSettingsScreen() {
 		options[5]= "Wifi ";
 		hints[5] = "WIFI MANAGER";
 		
-		options[6]="RetroArch ";
-		hints[6] = "RETROARCH CONFIGURATION";
-	
-		options[7]="Scraper ";
-		hints[7] = "DOWNLOAD COVERS FROM SCREENSCRAPER";
+		options[6]="Scraper ";
+		hints[6] = "DOWNLOAD COVERS FROM SCREENSCRAPER";
+		
+		options[7]="RetroArch ";
+		hints[7] = "RETROARCH CONFIGURATION";
 
 		options[8]="Help ";
 		hints[8] = "HOW TO USE THIS MENU";
