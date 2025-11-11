@@ -1163,7 +1163,7 @@ int main (int argc, char *argv[]) {
 										wifiOn();
 										wifiReconnectIfNeeded();
 									}
-									if (!isGMERunning() && !isGMURunning()) {
+									if (!isGMERunning() || !isGMURunning()) {
 										getVolume();
 									}
 
@@ -1420,7 +1420,7 @@ int main (int argc, char *argv[]) {
 						wifiOn();
 						wifiReconnectIfNeeded();
 					}
-					if (!isGMERunning() && !isGMURunning()) {
+					if (!isGMERunning() || !isGMURunning()) {
 						getVolume();
 					}
 
