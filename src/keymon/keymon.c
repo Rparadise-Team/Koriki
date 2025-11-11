@@ -453,36 +453,23 @@ void setmute(int mute) {
 	}
 }
 
-static void saveVolume(int volume)
+static int saveVolume(int volume)
 {
-    FILE *file = fopen(cached_settings_file, "r");
-    if (!file) return;
+	initializeSettingsFile();
+	cJSON* request_json = NULL;
+	cJSON* itemVol;
 
-    char *buffer = NULL;
-    size_t size = 0;
-    getline(&buffer, &size, file);
-    fclose(file);
-
-    cJSON *json = cJSON_Parse(buffer);
-    free(buffer);
-    if (!json) return;
-
-    cJSON *vol = cJSON_GetObjectItem(json, "volume");
-    if (vol)
-        cJSON_SetNumberValue(vol, volume);
-
-    file = fopen(cached_settings_file, "w");
-    if (!file) {
-        cJSON_Delete(json);
-        return;
-    }
-
-    char *system_json = cJSON_Print(json);
-    fputs(system_json, file);
-    fclose(file);
-
-    free(system_json);
-    cJSON_Delete(json);
+	char *request_body = load_file(cached_settings_file);
+	request_json = cJSON_Parse(request_body);
+	itemVol = cJSON_GetObjectItem(request_json, "vol");
+	cJSON_SetNumberValue(itemVol, volume);
+	FILE *file = fopen(cached_settings_file, "w");
+	char *system_json = cJSON_Print(request_json);
+	fputs(system_json, file);
+	fclose(file);
+	cJSON_Delete(request_json);
+	free(request_body);
+	return volume;
 }
 
 int setVolumeRaw(int volume, int add, int tiny) {
@@ -660,11 +647,38 @@ static int loadHeadphoneVol(void) {
     if (f) {
         fscanf(f, "%d", &vol);
         fclose(f);
+		return vol;
+
     }
 
-    if (vol < 0 || vol > 23) {
-        vol = getVolume();
-    }
+    initializeSettingsFile();
+    cJSON* request_json = NULL;
+    cJSON* itemVol;
+        
+    char *request_body = load_file(cached_settings_file);
+    request_json = cJSON_Parse(request_body);
+    itemVol = cJSON_GetObjectItem(request_json, "vol");
+    vol = cJSON_GetNumberValue(itemVol);
+        
+    cJSON_Delete(request_json);
+    free(request_body);
+
+    return vol;
+}
+
+static int loadVol(void) {
+    int vol = -1;
+    initializeSettingsFile();
+    cJSON* request_json = NULL;
+    cJSON* itemVol;
+        
+    char *request_body = load_file(cached_settings_file);
+    request_json = cJSON_Parse(request_body);
+    itemVol = cJSON_GetObjectItem(request_json, "vol");
+    vol = cJSON_GetNumberValue(itemVol);
+        
+    cJSON_Delete(request_json);
+    free(request_body);
 
     return vol;
 }
@@ -1531,27 +1545,26 @@ int main (int argc, char *argv[]) {
 		
 		        int hv = loadHeadphoneVol();
 		        if (hv > 23) hv = 23;
-		
-		        setVolume(hv, 0);
+				
 		        saveVolume(hv);
+		        setVolume(hv, 0);
+				volume = hv;
 		        iconvol();
 		        osd_show(OSD_VOLUME);
 		
 		    } else {
-				int current_vol = getVolume();
-		        speaker_set(1);
+                int current_vol = loadVol();
 		
 		        saveHeadphoneVol(current_vol);
 		
 		        if (current_vol > 20) {
 		            current_vol = 20;
-		            setVolume(20, 0);
-		            saveVolume(20);
-		        } else {
-		            setVolume(current_vol, 0);
-		            saveVolume(current_vol);
 		        }
-		
+				
+				saveVolume(current_vol);
+				speaker_set(1);
+		        setVolume(current_vol, 0);
+				volume = current_vol;
 		        iconvol();
 		        osd_show(OSD_VOLUME);
 		    }
