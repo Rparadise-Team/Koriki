@@ -71,6 +71,8 @@ struct json_object *jfile = NULL;
 extern int osd_volume;
 extern int osd_brightness;
 
+static int wifi_was_enabled_before_sleep = 0;
+
 static const char *cached_settings_file = NULL;
 
 static void read_current_cpu_config(uint32_t *freq, enum cpugov *gov) {
@@ -696,7 +698,36 @@ void sethibernate(int hibernate) {
 }
 
 void stopOrContinueProcesses(int value) {
-	const char *exceptions[] = {"batmon", "keymon", "init", "wpa_supplicant", "udhcpc", "hostapd", "dnsmasq", "dropbear", "gmu.bin", "gme_player", "sh", "retroarch", "OpenBOR", "drastic", "fbneo", "pico8_dyn", "simplemenu", "pcsx", "keytester_launcher", "htop", "wget", "shutdown", "_shutdown", "nohup", "killall", "pkill", "umount", "cpuclock", "hwclock", "swapoff", "sync", "reboot", "poweroff"};
+	mmModel = access("/customer/app/axp_test", F_OK);
+	
+	const char *exceptions_base[] = {
+		"batmon", "keymon", "init", "gmu.bin", "gme_player", "sh",
+		"retroarch", "OpenBOR", "drastic", "fbneo",
+		"pico8_dyn", "simplemenu", "pcsx", "keytester_launcher",
+		"shutdown", "_shutdown", "nohup", "killall",
+		"pkill", "umount", "cpuclock", "hwclock", "tinymix",
+		"swapoff", "sync", "reboot", "poweroff"
+	};
+
+	const char *exceptions_music[] = {
+		"batmon", "keymon", "init", "gmu.bin", "sh",
+		"simplemenu","shutdown", "_shutdown", "nohup", "killall",
+		"pkill", "umount", "cpuclock", "hwclock", "tinymix",
+		"swapoff", "sync", "reboot", "poweroff",
+		"wpa_supplicant", "udhcpc"
+	};
+
+	const char **exceptions;
+	int exceptions_count;
+
+	if (!mmModel && isGMURunning()) {
+		exceptions = exceptions_music;
+		exceptions_count = sizeof(exceptions_music) / sizeof(exceptions_music[0]);
+	} else {
+		exceptions = exceptions_base;
+		exceptions_count = sizeof(exceptions_base) / sizeof(exceptions_base[0]);
+	}
+
 	const char *cmdType = (value == 0) ? "STOP" : "CONT";
 
 	DIR *dir;
@@ -713,8 +744,9 @@ void stopOrContinueProcesses(int value) {
 				if (cmdline_file != NULL) {
 					char cmdline[1024];
 					if (fgets(cmdline, sizeof(cmdline), cmdline_file) != NULL) {
+
 						int shouldSkip = 0;
-						for (int i = 0; i < (int)(sizeof(exceptions) / sizeof(exceptions[0])); i++) {
+						for (int i = 0; i < exceptions_count; i++) {
 							if (strstr(cmdline, exceptions[i]) != NULL) {
 								shouldSkip = 1;
 								break;
@@ -733,6 +765,53 @@ void stopOrContinueProcesses(int value) {
 		}
 		closedir(dir);
 	}
+}
+
+int isWifiEnabled() {
+	initializeSettingsFile();
+	cJSON* request_json = NULL;
+	cJSON* itemWifi;
+
+	char *request_body = load_file(cached_settings_file);
+	if (!request_body) return 0;
+
+	request_json = cJSON_Parse(request_body);
+	if (!request_json) {
+		free(request_body);
+		return 0;
+	}
+
+	itemWifi = cJSON_GetObjectItem(request_json, "wifi");
+	int wifi = itemWifi ? cJSON_GetNumberValue(itemWifi) : 0;
+
+	cJSON_Delete(request_json);
+	free(request_body);
+	return wifi;
+}
+
+void wifiOff() {
+	system("ifconfig wlan0 down");
+	usleep(200000);
+	system("/customer/app/axp_test wifioff &");
+}
+
+void wifiOn() {
+	system("/customer/app/axp_test wifion &");
+	usleep(200000);
+	system("ifconfig wlan0 up");
+}
+
+void wifiReconnectIfNeeded() {
+	if (!wifi_was_enabled_before_sleep)
+		return;
+
+	if (!file_exists("/appconfigs/wpa_supplicant.conf"))
+		return;
+
+	system("wpa_supplicant -B -D nl80211 -i wlan0 -c /appconfigs/wpa_supplicant.conf");
+	usleep(500000);
+	system("udhcpc -i wlan0 -s /etc/init.d/udhcpc.script &");
+	usleep(1000000);
 }
 
 void display_setScreen(int value) {
@@ -1042,13 +1121,20 @@ int main (int argc, char *argv[]) {
 							if (isKeytesterRunning() == 0) {
 								if (sleep == 0) {
 									display_setScreen(0);
+									
+									wifi_was_enabled_before_sleep = isWifiEnabled();
+									
 									if (isGMERunning() == 1 || isGMURunning() == 1) {
 										setmute(0);
 									} else {
 										setmute(1);
 									}
-
+									
 									sethibernate(1);
+									if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+										wifiOff();
+									}
+									
 									if (isGMERunning() == 1 || isGMURunning() == 1) {
 										setcpu_optimized(2);
 									} else if (isRetroarchRunning() == 1) {
@@ -1073,8 +1159,11 @@ int main (int argc, char *argv[]) {
 									setmute(0);
 									sethibernate(0);
 									setcpu_optimized(0);
-									if (isGMERunning() == 1 || isGMURunning() == 1) {
-									} else {
+									if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+										wifiOn();
+										wifiReconnectIfNeeded();
+									}
+									if (!isGMERunning() && !isGMURunning()) {
 										getVolume();
 									}
 
@@ -1327,8 +1416,11 @@ int main (int argc, char *argv[]) {
 					setmute(0);
 					sethibernate(0);
 					setcpu_optimized(0);
-					if (isGMERunning() == 1 || isGMURunning() == 1) {
-					} else {
+					if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+						wifiOn();
+						wifiReconnectIfNeeded();
+					}
+					if (!isGMERunning() && !isGMURunning()) {
 						getVolume();
 					}
 
@@ -1339,6 +1431,9 @@ int main (int argc, char *argv[]) {
 					close = 0;
 				} else if (hv == 0 && sleep == 0) {
 					display_setScreen(0);
+					
+					wifi_was_enabled_before_sleep = isWifiEnabled();
+					
 					if (isGMERunning() == 1 || isGMURunning() == 1) {
 						setmute(0);
 					} else {
@@ -1346,6 +1441,9 @@ int main (int argc, char *argv[]) {
 					}
 
 					sethibernate(1);
+					if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+						wifiOff();
+					}
 					if (isGMERunning() == 1 || isGMURunning() == 1) {
 						setcpu_optimized(2);
 					} else if (isRetroarchRunning() == 1) {
@@ -1368,11 +1466,15 @@ int main (int argc, char *argv[]) {
 			}
 		}
 
-	if (sleep == 1) {
-		usleep(1000000);
-	} else {
-		usleep(50000);
-	}
+		if (sleep == 1) {
+    		if (isGMERunning() || isGMURunning()) {
+        		usleep(50000);
+    		} else {
+        		usleep(1000000);
+    		}
+		} else {
+    		usleep(50000);
+		}
 	}
 
 	exit(EXIT_FAILURE);

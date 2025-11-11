@@ -133,6 +133,8 @@ int main(int argc, char* argv[]) {
 								copy_directory(DEFAULT, SECTIONS);
 								copy_directory(DEFAULT_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
+								system("rm -f /mnt/SDCARD/.simplemenu/*_section");
+								system("touch /mnt/SDCARD/.simplemenu/default_section");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
@@ -144,6 +146,8 @@ int main(int argc, char* argv[]) {
 								copy_directory(ALPHABETIC, SECTIONS);
 								copy_directory(ALPHABETIC_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
+								system("rm -f /mnt/SDCARD/.simplemenu/*_section");
+								system("touch /mnt/SDCARD/.simplemenu/alphabetic_section");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
@@ -155,6 +159,8 @@ int main(int argc, char* argv[]) {
 								copy_directory(SYSTEMS, SECTIONS);
 								copy_directory(SYSTEMS_SCRIPTS, SCRIPTS);
 								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
+								system("rm -f /mnt/SDCARD/.simplemenu/*_section");
+								system("touch /mnt/SDCARD/.simplemenu/systems_section");
 								sync();
 								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
 								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);

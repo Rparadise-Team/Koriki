@@ -42,7 +42,9 @@ void initializeGlobals() {
 	loadConfiguration1();
 	loadConfiguration2();
 	loadConfiguration3();
-	loadConfiguration4();
+	if (!mmModel) {
+		loadConfiguration4();
+    }
     #endif
 }
 

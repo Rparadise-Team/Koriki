@@ -34,8 +34,17 @@ if [ "$0" = "/tmp/_shutdown" ]; then
         exit 1
     fi
 	
-	killall -w retroarch
-	killall -w simplemenu
+	killall -w retroarch 2>/dev/null
+	sleep 0.2
+	if pgrep -x retroarch >/dev/null; then
+    	killall -9 retroarch 2>/dev/null
+	fi
+
+	killall -w simplemenu 2>/dev/null
+	sleep 0.2
+	if pgrep -x simplemenu >/dev/null; then
+	    killall -9 simplemenu 2>/dev/null
+	fi
 	
 	#killall -9 main # mandatory to avoid the suppression of .tmp_update !
 	#killall -9 batmon

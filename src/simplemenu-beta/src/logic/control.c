@@ -1210,12 +1210,24 @@ void performSystemSettingsChoosingAction() {
 	
 void performSettingsChoosingAction() {
 	#if defined MIYOOMINI
+	if (mmModel) {
+	SHUTDOWN_OPTION=0;
+	THEME_OPTION=1;
+	APPEARANCE_OPTION=2;
+	SYSTEM_OPTION=3;
+	RETROARCH_OPTION=4;
+	HELP_OPTION=5;
+	} else {
 	SHUTDOWN_OPTION=0;
 	THEME_OPTION=1;
 	APPEARANCE_OPTION=2;
 	SYSTEM_OPTION=3;
 	WIFI_OPTION=4;
-	HELP_OPTION=5;
+	WIFIAPP_OPTION=5;
+	SCRAPER_OPTION=6;
+	RETROARCH_OPTION=7;
+	HELP_OPTION=8;
+	}
 	#else
 	SHUTDOWN_OPTION=0;
 	THEME_OPTION=1;
@@ -1230,21 +1242,37 @@ void performSettingsChoosingAction() {
 			chosenSetting--;
 		} else {
 			#if defined MIYOOMINI
+			if (mmModel) {
 			chosenSetting=5;
+			} else {
+			chosenSetting=8;
+			}
 			#else
 			chosenSetting=5;
 			#endif
 		}
 	} else if (keys[BTN_DOWN]) {
 		#if defined MIYOOMINI
-		if(chosenSetting<5) {
+		if (mmModel) {
+			if(chosenSetting<5) {
+	        	chosenSetting++;
+			} else {
+				chosenSetting=0;
+			}
+		} else {
+			if(chosenSetting<8) {
+	        	chosenSetting++;
+			} else {
+				chosenSetting=0;
+			}
+		}
 		#else
 		if(chosenSetting<5) {
-		#endif
 			chosenSetting++;
 		} else {
 			chosenSetting=0;
 		}
+		#endif
 	} else if (keys[BTN_LEFT]||keys[BTN_RIGHT]) {
 		if (chosenSetting==SHUTDOWN_OPTION) {
 			if (shutDownEnabled) {
@@ -1289,6 +1317,7 @@ void performSettingsChoosingAction() {
 			}
 		} else if (chosenSetting==WIFI_OPTION) {
 			#if defined MIYOOMINI
+			if (!mmModel) {
 			loadConfiguration4();
 			if (wifiEnabled == 1) {
 				wifiEnabled = 0;
@@ -1296,6 +1325,7 @@ void performSettingsChoosingAction() {
 				wifiEnabled = 1;
 			}
 			saveConfiguration4();
+			}
 			#else
 			#endif
 		} else if (chosenSetting==DEFAULT_OPTION) {
@@ -1354,6 +1384,28 @@ void performSettingsChoosingAction() {
 		currentState=SYSTEM_SETTINGS;
 		brightnessValue = getCurrentBrightness();
 		volValue = getCurrentSystemValue("vol");
+	} else if (chosenSetting==RETROARCH_OPTION&&keys[BTN_A]) {
+		#if defined MIYOOMINI
+		chosenSetting=0;
+		executeCommand("/mnt/SDCARD/.simplemenu/hide", "RetroArch.sh", "#", 0);
+		#else
+		#endif
+	} else if (chosenSetting==WIFIAPP_OPTION&&keys[BTN_A]) {
+		#if defined MIYOOMINI
+		if (!mmModel) {
+		chosenSetting=0;
+		executeCommand("/mnt/SDCARD/.simplemenu/hide", "Wifi.sh", "#", 0);
+		}
+		#else
+		#endif
+	} else if (chosenSetting==SCRAPER_OPTION&&keys[BTN_A]) {
+		#if defined MIYOOMINI
+		if (!mmModel) {
+		chosenSetting=0;
+		executeCommand("/mnt/SDCARD/.simplemenu/hide", "Scraper.sh", "#", 0);
+		}
+		#else
+		#endif
 	} else if (keys[BTN_B]) {
 		#if defined TARGET_OD
 		if (hdmiChanged!=hdmiEnabled) {
@@ -1410,8 +1462,6 @@ void performSettingsChoosingAction() {
 		}
 	}
 }
-
-
 
 void performChoosingAction() {
 	struct Rom *rom = CURRENT_SECTION.currentGameNode->data;

@@ -1381,7 +1381,7 @@ void drawSpecialScreen(char *title, char **options, char** values, char** hints,
 	#elif defined TARGET_OD || defined TARGET_OD_BETA || defined TARGET_PC
 	int max = 9;
 	#else
-	int max = 8;
+	int max = 9;
 	#endif
 	logMessage("INFO","drawSettingsScreen","Defining number of items");
 	logMessage("INFO","drawSettingsScreen","About to go through items");
@@ -1464,6 +1464,7 @@ void setupHelpScreen(int page) {
 
 			options[8]="B+Up/Down";
 			values[8]="Quick switch";
+			hints[0] = "PAGE 1/2 - PRESS B TO RETURN";
 			break;
 		case 2:
 			options[0] = "B+Select";
@@ -1471,12 +1472,9 @@ void setupHelpScreen(int page) {
 
 			options[1] = "B+X";
 			values[1] = "Delete game";
+			hints[0] = "PAGE 2/2 - PRESS B TO RETURN";
 			break;
 	}
-
-	char temp[300];
-	sprintf(temp,"PAGE %d/2 - PRESS B TO RETURN", page);
-	hints[0] = temp;
 }
 
 void setupAppearanceSettings() {
@@ -1740,6 +1738,11 @@ void setupSettingsScreen() {
 	hints[3] = "SYSTEM OPTIONS";
 	
 	if (mmModel) {
+		options[4]="RetroArch ";
+		hints[4] = "RETROARCH CONFIGURATION";
+
+		options[5]="Help ";
+		hints[5] = "HOW TO USE THIS MENU";
 	} else {
 		options[4]= "Autowifi ";
 		if (wifiEnabled) {
@@ -1748,10 +1751,20 @@ void setupSettingsScreen() {
 			values[4] = "OFF";
 		}
 		hints[4] = "ENABLE OR DISABLE AUTO WIFI IN BOOT";
+		
+		options[5]= "Wifi ";
+		hints[5] = "WIFI MANAGER";
+		
+		options[6]="RetroArch ";
+		hints[6] = "RETROARCH CONFIGURATION";
+	
+		options[7]="Scraper ";
+		hints[7] = "DOWNLOAD COVERS FROM SCREENSCRAPER";
+
+		options[8]="Help ";
+		hints[8] = "HOW TO USE THIS MENU";
 	}
 
-	options[5]="Help ";
-	hints[5] = "HOW TO USE THIS MENU";
 	#else
 	options[3]="Appearance ";
 	hints[3] = "APPEARANCE OPTIONS";
@@ -1919,7 +1932,7 @@ void updateScreen(struct Node *node) {
 				drawSpecialScreen("SYSTEM", options, values, hints, 1);
 				break;
 #if defined MIYOOMINI
-            		case SCREEN_SETTINGS:
+            case SCREEN_SETTINGS:
 				clearOptionsValuesAndHints();
 				setupScreenSettings();
 				drawSpecialScreen("SCREEN SETTINGS", options, values, hints, 1);

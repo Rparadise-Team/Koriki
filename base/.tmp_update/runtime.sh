@@ -275,6 +275,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
+			touch "${SDCARD_PATH}"/.simplemenu/default_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown
@@ -287,6 +288,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
+			touch "${SDCARD_PATH}"/.simplemenu/default_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown -r
@@ -724,20 +726,12 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	sync
-	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh ]; then
-		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh "${SDCARD_PATH}"/.simplemenu/apps/Wifi
-		sync
-	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh "${SDCARD_PATH}"/.simplemenu/apps/Ftp
 		sync
 	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh "${SDCARD_PATH}"/.simplemenu/apps/Ssh
-		sync
-	fi
-	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh ]; then
-		mv "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh "${SDCARD_PATH}"/.simplemenu/apps/Scraper
 		sync
 	fi
 else
@@ -767,20 +761,12 @@ else
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sync
 	fi
-	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Wifi ]; then
-		mv "${SDCARD_PATH}"/.simplemenu/apps/Wifi "${SDCARD_PATH}"/.simplemenu/apps/Wifi.sh
-		sync
-	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh
 		sync
 	fi
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ssh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ssh "${SDCARD_PATH}"/.simplemenu/apps/Ssh.sh
-		sync
-	fi
-	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Scraper ]; then
-		mv "${SDCARD_PATH}"/.simplemenu/apps/Scraper "${SDCARD_PATH}"/.simplemenu/apps/Scraper.sh
 		sync
 	fi
 fi
@@ -881,32 +867,70 @@ if [ -d "/mnt/SDCARD/Roms/FBN" ]; then
 	mv "/mnt/SDCARD/Roms/FBN" "/mnt/SDCARD/Roms/FBNEO"
 fi
 
-# Detect if wifi app was the last app and erese this from SM if is the model MM.
+# Detect if networks app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-	sed -i 's/^1;0;1;0;17\([^;]*;[^;]*\)$/1;0;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;0;0;16;16\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;0;0;15;15\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;0;0;14;14\([^;]*;[^;]*\)$/1;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;1;1;0;17\([^;]*;[^;]*\)$/1;1;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;1;0;16;16\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;1;0;15;15\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;1;0;14;14\([^;]*;[^;]*\)$/1;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;1;0;17\([^;]*;[^;]*\)$/1;2;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;16;16\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;15;15\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^1;2;0;14;14\([^;]*;[^;]*\)$/1;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;0;1;0;17\([^;]*;[^;]*\)$/0;0;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;0;0;16;16\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;0;0;15;15\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;0;0;14;14\([^;]*;[^;]*\)$/0;0;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;1;1;0;17\([^;]*;[^;]*\)$/0;1;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;1;0;16;16\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;1;0;15;15\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;1;0;14;14\([^;]*;[^;]*\)$/0;1;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;2;1;0;17\([^;]*;[^;]*\)$/0;2;1;0;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;2;0;16;16\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;2;0;15;15\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
-	sed -i 's/^0;2;0;14;14\([^;]*;[^;]*\)$/0;2;0;13;13\1/g' "${SDCARD_PATH}"/.simplemenu/last_state.sav
+	if [ -f "${SDCARD_PATH}/.simplemenu/default_section" ]; then
+    	ACTIVE="default"
+	elif [ -f "${SDCARD_PATH}/.simplemenu/alphabetic_section" ]; then
+    	ACTIVE="alphabetic"
+	elif [ -f "${SDCARD_PATH}/.simplemenu/systems_section" ]; then
+    	ACTIVE="systems"
+	else
+    	ACTIVE="default"
+	fi
+
+	LAST="${SDCARD_PATH}/.simplemenu/last_state.sav"
+	
+	case "$ACTIVE" in
+
+    default)
+        sed -i '
+        s/^1;1;0;14;14;/1;1;0;12;12;/
+        s/^1;1;1;6;14;/1;1;1;4;12;/
+        s/^1;1;1;2;14;/1;1;1;0;12;/
+        s/^1;1;1;1;14;/1;1;1;0;12;/
+        s/^1;1;1;0;14;/1;1;1;0;12;/
+
+        s/^0;1;0;14;14;/0;1;0;12;12;/
+        s/^0;1;1;6;14;/0;1;1;4;12;/
+        s/^0;1;1;2;14;/0;1;1;0;12;/
+        s/^0;1;1;1;14;/0;1;1;0;12;/
+        s/^0;1;1;0;14;/0;1;1;0;12;/
+        ' "$LAST"
+    ;;
+
+    alphabetic)
+        sed -i '
+        s/^1;2;0;14;14;/1;2;0;12;12;/
+        s/^1;2;1;6;14;/1;2;1;4;12;/
+        s/^1;2;1;2;14;/1;2;1;0;12;/
+        s/^1;2;1;1;14;/1;2;1;0;12;/
+        s/^1;2;1;0;14;/1;2;1;0;12;/
+
+        s/^0;2;0;14;14;/0;2;0;12;12;/
+        s/^0;2;1;6;14;/0;2;1;4;12;/
+        s/^0;2;1;2;14;/0;2;1;0;12;/
+        s/^0;2;1;1;14;/0;2;1;0;12;/
+        s/^0;2;1;0;14;/0;2;1;0;12;/
+        ' "$LAST"
+    ;;
+
+    systems)
+        sed -i '
+        s/^1;0;0;14;14;/1;0;0;12;12;/
+        s/^1;0;1;6;14;/1;0;1;4;12;/
+        s/^1;0;1;2;14;/1;0;1;0;12;/
+        s/^1;0;1;1;14;/1;0;1;0;12;/
+        s/^1;0;1;0;14;/1;0;1;0;12;/
+
+        s/^0;0;0;14;14;/0;0;0;12;12;/
+        s/^0;0;1;6;14;/0;0;1;4;12;/
+        s/^0;0;1;2;14;/0;0;1;0;12;/
+        s/^0;0;1;1;14;/0;0;1;0;12;/
+        s/^0;0;1;0;14;/0;0;1;0;12;/
+        ' "$LAST"
+    ;;
+    esac
 	sync
 fi
 
