@@ -73,6 +73,9 @@ extern int osd_brightness;
 
 static int wifi_was_enabled_before_sleep = 0;
 
+static int hp_last = -1;
+static int hp_fd = -1;
+
 static const char *cached_settings_file = NULL;
 
 static void read_current_cpu_config(uint32_t *freq, enum cpugov *gov) {
@@ -374,6 +377,14 @@ int read_hallvalue(const char* path) {
 	return val;
 }
 
+static void saveHeadphoneVol(int vol) {
+    FILE *f = fopen("/tmp/headvol", "w");
+    if (f) {
+        fprintf(f, "%d\n", vol);
+        fclose(f);
+    }
+}
+
 int isProcessRunning(const char* processName) {
 	FILE* fp;
 	char cmd[64];
@@ -440,6 +451,38 @@ void setmute(int mute) {
 		ioctl(fd, MI_AO_SETMUTE, buf1);
 		close(fd);
 	}
+}
+
+static void saveVolume(int volume)
+{
+    FILE *file = fopen(cached_settings_file, "r");
+    if (!file) return;
+
+    char *buffer = NULL;
+    size_t size = 0;
+    getline(&buffer, &size, file);
+    fclose(file);
+
+    cJSON *json = cJSON_Parse(buffer);
+    free(buffer);
+    if (!json) return;
+
+    cJSON *vol = cJSON_GetObjectItem(json, "volume");
+    if (vol)
+        cJSON_SetNumberValue(vol, volume);
+
+    file = fopen(cached_settings_file, "w");
+    if (!file) {
+        cJSON_Delete(json);
+        return;
+    }
+
+    char *system_json = cJSON_Print(json);
+    fputs(system_json, file);
+    fclose(file);
+
+    free(system_json);
+    cJSON_Delete(json);
 }
 
 int setVolumeRaw(int volume, int add, int tiny) {
@@ -608,7 +651,77 @@ int getVolume() {
 
 	cJSON_Delete(request_json);
 	free(request_body);
-	return 0;
+	return vol;
+}
+
+static int loadHeadphoneVol(void) {
+    int vol = -1;
+    FILE *f = fopen("/tmp/headvol", "r");
+    if (f) {
+        fscanf(f, "%d", &vol);
+        fclose(f);
+    }
+
+    if (vol < 0 || vol > 23) {
+        vol = getVolume();
+    }
+
+    return vol;
+}
+
+static void gpio_export_if_needed(int n) {
+    char path[64];
+    snprintf(path, sizeof(path), "/sys/class/gpio/gpio%d", n);
+    if (access(path, F_OK) != 0) {
+        char buf[16];
+        snprintf(buf, sizeof(buf), "%d", n);
+        int fd = open("/sys/class/gpio/export", O_WRONLY);
+        if (fd >= 0) {
+            write(fd, buf, strlen(buf));
+            close(fd);
+        }
+        usleep(20000);
+    }
+}
+
+static int detect_headphones(void) {
+    gpio_export_if_needed(45);
+
+    if (hp_fd < 0) {
+        int fd = open("/sys/class/gpio/gpio45/direction", O_WRONLY);
+        if (fd >= 0) {
+            write(fd, "in", 2);
+            close(fd);
+        }
+
+        hp_fd = open("/sys/class/gpio/gpio45/value", O_RDONLY);
+        if (hp_fd < 0)
+            return hp_last;
+    }
+
+    lseek(hp_fd, 0, SEEK_SET);
+
+    char c = '1';
+    read(hp_fd, &c, 1);
+
+    return (c == '0');
+}
+
+static void speaker_set(int on) {
+    gpio_export_if_needed(44);
+    int fd = open("/sys/class/gpio/gpio44/direction", O_WRONLY);
+    if (fd >= 0) {
+        write(fd, "out", 3);
+        close(fd);
+    }
+
+    fd = open("/sys/class/gpio/gpio44/value", O_WRONLY);
+    if (fd < 0) return;
+    if (on)
+        write(fd, "1", 1);
+    else
+        write(fd, "0", 1);
+    close(fd);
 }
 
 int iconvol() {
@@ -1065,6 +1178,7 @@ int main (int argc, char *argv[]) {
 	int last_hallvalue = -1;
 
 	initializeSettingsFile();
+	hp_last = detect_headphones();
 
 	getVolume();
 	modifyBrightness(0);
@@ -1407,7 +1521,42 @@ int main (int argc, char *argv[]) {
 				while (1) pause();
 			}
 		}
-
+		
+		int hp = detect_headphones();
+		if (hp != hp_last) {
+		    hp_last = hp;
+					
+		    if (hp) {
+				speaker_set(0);
+		
+		        int hv = loadHeadphoneVol();
+		        if (hv > 23) hv = 23;
+		
+		        setVolume(hv, 0);
+		        saveVolume(hv);
+		        iconvol();
+		        osd_show(OSD_VOLUME);
+		
+		    } else {
+				int current_vol = getVolume();
+		        speaker_set(1);
+		
+		        saveHeadphoneVol(current_vol);
+		
+		        if (current_vol > 20) {
+		            current_vol = 20;
+		            setVolume(20, 0);
+		            saveVolume(20);
+		        } else {
+		            setVolume(current_vol, 0);
+		            saveVolume(current_vol);
+		        }
+		
+		        iconvol();
+		        osd_show(OSD_VOLUME);
+		    }
+		}
+		
 		if (!file_exists("/tmp/shutdowning")) {
 			int hv = read_hallvalue(hallvalue_path);
 			if (hv != -1 && hv != last_hallvalue) {
