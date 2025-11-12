@@ -312,6 +312,9 @@ update() {
 		
 		echo "update Koriki package found"
 		
+		setmon
+		killall -9 main
+		
 		for file in `ls "${SDCARD_PATH}"/update_koriki_*.zip`; do
 		unzip -q -o "${file}" ".update_splash.png" -d "${SDCARD_PATH}"
 		sync
@@ -346,7 +349,7 @@ update() {
 		done
 		
 		sync
-		setmon
+		
 		shutdown
 		
 		sleep 10s
