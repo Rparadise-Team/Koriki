@@ -119,6 +119,7 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     echo "Creando tabla de particiones y una partición FAT32..."
     sudo parted -s "$IMAGE_NAME" mklabel msdos
     sudo parted -s "$IMAGE_NAME" mkpart primary fat32 2048s 100%
+    sudo parted -s "$IMAGE_NAME" set 1 boot on
     
     # Asociar a loop device
     echo "Asociando la imagen a un dispositivo de bucle..."
