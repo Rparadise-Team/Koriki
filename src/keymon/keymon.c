@@ -69,6 +69,8 @@ struct json_object *jval = NULL;
 struct json_object *jfile = NULL;
 
 extern int osd_volume;
+extern int osd_headphones_connected;
+extern int osd_headphones_volume;
 extern int osd_brightness;
 
 static int wifi_was_enabled_before_sleep = 0;
@@ -1193,6 +1195,7 @@ int main (int argc, char *argv[]) {
 
 	initializeSettingsFile();
 	hp_last = detect_headphones();
+	osd_headphones_connected = hp_last;
 
 	getVolume();
 	modifyBrightness(0);
@@ -1537,6 +1540,7 @@ int main (int argc, char *argv[]) {
 		}
 		
 		int hp = detect_headphones();
+		osd_headphones_connected = hp;
 		if (hp != hp_last) {
 		    hp_last = hp;
 					

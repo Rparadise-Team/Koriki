@@ -34,6 +34,7 @@ int osd_running=0;
 struct timeval osd_timer;
 int osd_item=OSD_NONE;
 int osd_volume;
+int osd_headphones_connected = 0;
 int osd_brightness;
 
 /*void LOG(int n, int m) {
@@ -256,10 +257,18 @@ void draw_icon() {
 	char *icon=NULL;
 	switch(osd_item) {
 		case OSD_VOLUME:
-		        if(osd_volume==0)
-		          icon=volume_mute_icon;
-		        else
-      			  icon=volume_icon;
+		        if(osd_headphones_connected) {
+		                if(osd_volume==0)
+		                  icon=volume_headmute_icon;
+		                else
+              			  icon=volume_head_icon;
+		        }
+		        else {
+		                if(osd_volume==0)
+		                  icon=volume_mute_icon;
+		                else
+              			  icon=volume_icon;
+              		}
 			if(osd_volume>=60)
 				tintcolor=4;
 			else if(osd_volume>=54)
