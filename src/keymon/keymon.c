@@ -70,7 +70,6 @@ struct json_object *jfile = NULL;
 
 extern int osd_volume;
 extern int osd_headphones_connected;
-extern int osd_headphones_volume;
 extern int osd_brightness;
 
 static int wifi_was_enabled_before_sleep = 0;
