@@ -62,7 +62,7 @@ dd if=/dev/zero of="$IMAGE_NAME" bs=1M count="$SIZE_MB" status=progress
 # Paso 6: Crear una tabla de particiones y una partición FAT32
 echo "Creando tabla de particiones y una partición FAT32..."
 sudo parted -s "$IMAGE_NAME" mklabel msdos
-sudo parted -s "$IMAGE_NAME" mkpart primary fat32 4MiB 100%
+sudo parted -s "$IMAGE_NAME" mkpart primary fat32 2048s 100%
 
 # Paso 7: Asociar la imagen a un dispositivo de bucle
 echo "Asociando la imagen a un dispositivo de bucle..."
