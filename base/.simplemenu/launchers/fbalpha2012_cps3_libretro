@@ -33,6 +33,12 @@ if [ "$runsvr" != "0" ] ; then
 			/mnt/SDCARD/Koriki/bin/freemma > NUL
 		fi
     fi
+	
+	volume=`/customer/app/jsonval vol`
+	
+	tinyvol= ($volume * 30) + 40
+	
+	tinymix set 6 $tinyvol
 fi
 fi
 
