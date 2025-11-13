@@ -772,7 +772,7 @@ static int detect_headphones(void) {
 
         hp_fd = open("/sys/class/gpio/gpio45/value", O_RDONLY);
         if (hp_fd < 0)
-            return (hp_state == HP_STATE_CONNECTED);
+            return 0;
     }
 
     lseek(hp_fd, 0, SEEK_SET);
@@ -1257,7 +1257,7 @@ int main (int argc, char *argv[]) {
 
     /* Estado inicial de auriculares (sin disparar acciones extra) */
     int hp_init = detect_headphones();
-    osd_headphones_connected = hp_init;
+    osd_headphones_connected = 0;
     hp_state = hp_init ? HP_STATE_CONNECTED : HP_STATE_DISCONNECTED;
 
     getVolume();
