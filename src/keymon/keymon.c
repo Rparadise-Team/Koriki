@@ -96,7 +96,6 @@ static int iconvol(void);
 /*                         CACHE DE system.json                              */
 /* ------------------------------------------------------------------------- */
 static cJSON *root_json = NULL;
-static int json_loaded_once = 0;
 
 typedef struct SettingsCache {
     int vol;
@@ -404,24 +403,41 @@ int file_exists(const char *filename) {
 /* ----------------- CARGA Y GUARDADO DEL CACHE DE AJUSTES ----------------- */
 
 void loadSettingsCache(void) {
-    if (sc.loaded)
-        return;
-
     initializeSettingsFile();
 
+    static time_t last_mtime = 0;
+
+    struct stat st;
+    if (stat(cached_settings_file, &st) != 0) {
+        return;
+    }
+
+    /* Si está cargado y NO ha cambiado el fichero, no hacemos nada */
+    if (sc.loaded && st.st_mtime == last_mtime) {
+        return;
+    }
+
+    /* Si ha cambiado, actualizamos */
+    last_mtime = st.st_mtime;
+
+    /* limpiar JSON previo si existía */
+    if (root_json) {
+        cJSON_Delete(root_json);
+        root_json = NULL;
+    }
+
+    /* recargar fichero */
     char *body = load_file(cached_settings_file);
     if (!body)
         return;
 
-    /* CARGAR EL JSON COMPLETO EN RAM */
     root_json = cJSON_Parse(body);
     free(body);
 
     if (!root_json)
         return;
 
-    json_loaded_once = 1;
-
+    /* cargar datos nuevos en la cache */
     #define LOAD_INT(key, target)                     \
         do {                                          \
             cJSON *obj = cJSON_GetObjectItem(root_json, key); \
