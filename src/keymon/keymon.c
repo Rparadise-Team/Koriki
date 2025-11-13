@@ -632,16 +632,13 @@ int setVolumeRaw(int volume, int add, int tiny) {
     int mute = sc.mute;
     int fix  = sc.audiofix;
 
-    if (add == 3 && vol < 23) vol++;
-    if (add == -3 && vol > 0) vol--;
-
     if (fd >= 0) {
         int buf2[] = {0, 0};
         uint64_t buf1[] = {sizeof(buf2), (uintptr_t)buf2};
         ioctl(fd, MI_AO_GETVOLUME, buf1);
         recent_volume = buf2[1];
 
-        if (add) {
+        if (add != 0) {
             buf2[1] += add;
             if (buf2[1] > 9) buf2[1] = 9;
             else if (buf2[1] < -60) buf2[1] = -60;
@@ -656,7 +653,7 @@ int setVolumeRaw(int volume, int add, int tiny) {
     if (fix == 0) {
         char command[100];
         int tinyvol;
-        if (add) {
+        if (add != 0) {
             tinyvol = tiny + add;
             if (tinyvol >= 109) tinyvol = 109;
             else if (tinyvol <= 40) tinyvol = 40;
@@ -666,6 +663,9 @@ int setVolumeRaw(int volume, int add, int tiny) {
         sprintf(command, "tinymix set 6 %d", tinyvol);
         system(command);
     }
+	
+	if (add == 3 && vol < 23) vol++;
+    if (add == -3 && vol > 0) vol--;
 
     if (add != 0) {
         int oldmute = mute;
@@ -684,15 +684,29 @@ int setVolumeRaw(int volume, int add, int tiny) {
             setmute(mute);
         }
     }
+	
+	volume = sc.vol;
 
-    return recent_volume;
+    return volume;
 }
 
 int setVolume(int volume, int add) {
-    int recent_volume = 0;
-    int rawVolumeValue = ((volume * 3) - 60);
-    int rawAdd = (add * 3);
-    int rawTiny = (volume * 3) + 40;
+    loadSettingsCache();
+    int recent_volume = sc.vol;
+
+    int rawVolumeValue;
+    int rawAdd;
+    int rawTiny;
+
+    if (recent_volume != volume) {
+        rawVolumeValue = (volume * 3) - 60;
+        rawAdd = add * 3;
+        rawTiny = (volume * 3) + 40;
+    } else {
+        rawVolumeValue = (recent_volume * 3) - 60;
+        rawAdd = add * 3;
+        rawTiny = (recent_volume * 3) + 40;
+    }
 
     recent_volume = setVolumeRaw(rawVolumeValue, rawAdd, rawTiny);
     return recent_volume;
@@ -1432,17 +1446,17 @@ int main (int argc, char *argv[]) {
 
                         if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
-                                setVolume(volume, 1);
-                                volume += 1;
-                                if (volume > 23) volume = 23;
+                                loadSettingsCache();
+                                volume = sc.vol;
+								setVolume(volume, 1);
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
                         } else {
                             if (val == PRESSED && Select_pressed) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, 1);
-                                volume += 1;
-                                if (volume > 23) volume = 23;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
@@ -1461,17 +1475,17 @@ int main (int argc, char *argv[]) {
 
                         if (isSimpleMenuRunning() == 1 || isRetroarchRunning() == 1 || isDukemRunning() == 1 || isPico8Running() == 1) {
                             if (val == PRESSED && menu_pressed) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, -1);
-                                volume -= 1;
-                                if (volume < 0) volume = 0;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
                         } else {
                             if (val == PRESSED && Select_pressed) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, -1);
-                                volume -= 1;
-                                if (volume < 0) volume = 0;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
@@ -1493,9 +1507,9 @@ int main (int argc, char *argv[]) {
                                 modifyBrightness(1);
                                 osd_show(OSD_BRIGHTNESS);
                             } else if (val == PRESSED) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, 1);
-                                volume += 1;
-                                if (volume > 23) volume = 23;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
@@ -1504,9 +1518,9 @@ int main (int argc, char *argv[]) {
                                 modifyBrightness(1);
                                 osd_show(OSD_BRIGHTNESS);
                             } else if (val == PRESSED) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, 1);
-                                volume += 1;
-                                if (volume > 23) volume = 23;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
@@ -1528,9 +1542,9 @@ int main (int argc, char *argv[]) {
                                 modifyBrightness(-1);
                                 osd_show(OSD_BRIGHTNESS);
                             } else if (val == PRESSED) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, -1);
-                                volume -= 1;
-                                if (volume < 0) volume = 0;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
@@ -1539,9 +1553,9 @@ int main (int argc, char *argv[]) {
                                 modifyBrightness(-1);
                                 osd_show(OSD_BRIGHTNESS);
                             } else if (val == PRESSED) {
+                                loadSettingsCache();
+                                volume = sc.vol;
                                 setVolume(volume, -1);
-                                volume -= 1;
-                                if (volume < 0) volume = 0;
                                 iconvol();
                                 osd_show(OSD_VOLUME);
                             }
