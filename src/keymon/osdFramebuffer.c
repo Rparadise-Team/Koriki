@@ -23,7 +23,7 @@ struct fb_fix_screeninfo finfo;
 char *fb_addr = NULL;
 char *fb_iconbackground = NULL;
 int fb_lastframe=-1;
-unsigned int fb_lastbuffersaved=0;
+unsigned int fb_lastbuffersaved=-1;
 
 // Miyoo model data
 int miyoo_v4_mode = -1;
@@ -232,7 +232,7 @@ int get_icon_cutoff() {
 
 // Restore saved background to screen
 void draw_icon() {
-	get_render_info();
+	//get_render_info();
 
 	// Determine the correct resolution at runtime
 	int width, height;
@@ -371,30 +371,32 @@ static void *osd_thread(void *param) {
 	if(miyoo_v4_mode == -1)
 		miyoo_v4_mode=get_miyoo_v4();
 	init_framebuffer();
-	save_background();
 
 	float elapsed;
 	struct timeval now;
 	do {
-		usleep(5000);
+		usleep(0x2000);
 		get_render_info();
-		if(vinfo.yoffset!=fb_lastbuffersaved)
+		if(vinfo.yoffset!=fb_lastbuffersaved) {
+		  restore_background(fb_lastbuffersaved);
 		  save_background();
-		  
-		switch(osd_item) {
-			case OSD_VOLUME:
-				draw_icon();
-				break;
-			case OSD_BRIGHTNESS:
-				draw_icon();
-				break;
+		  switch(osd_item) {
+			  case OSD_VOLUME:
+				  draw_icon();
+				  break;
+			  case OSD_BRIGHTNESS:
+				  draw_icon();
+				  break;
+		  }
 		}
+		  
 		gettimeofday(&now, NULL);
 		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;	// millisecs from last loop
 	} while(elapsed<3000);	// show icon 3 seconds
 
 	restore_fb();
 	close_framebuffer();
+	fb_lastbuffersaved=-1;
 	osd_item=OSD_NONE;
 	osd_running=0;
 	return 0;
