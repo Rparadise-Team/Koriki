@@ -1002,43 +1002,36 @@ CLOCK_DIR="${SDCARD_PATH}/App/Clock"
 TZFILE="${CLOCK_DIR}/timezone.txt"
 DSTFILE="${CLOCK_DIR}/dst_state"
 
-if [ ! -f "$TZFILE" ]; then
-	touch "$TZFILE"
-	echo +0 > "$TZFILE"
-fi
+[ -f "$TZFILE" ] || echo "+0" > "$TZFILE"
+[ -f "$DSTFILE" ] || echo "0" > "$DSTFILE"
 
-if [ ! -f "$DSTFILE" ]; then
-	touch "$DSTFILE"
-	echo 0 > "$DSTFILE"
-fi
-
-BASE_TZ=`cat "$TZFILE" | tr -d '+'`
-CURRENT_DST=`cat "$DSTFILE"`
+BASE_TZ=$(cat "$TZFILE" | tr -d '+')
+CURRENT_DST=$(cat "$DSTFILE")
 TODAY=$(date +%m%d)
 
 if [ $TODAY -ge 0325 ] && [ $TODAY -le 1028 ]; then
-	NEW_DST=1
+    NEW_DST=1
 else
-	NEW_DST=0
+    NEW_DST=0
 fi
 
 if [ "$NEW_DST" != "$CURRENT_DST" ]; then
-	
-	echo $NEW_DST > "$DSTFILE"
-	
-	if [ $NEW_DST -eq 1 ]; then
-		BASE_TZ_NUM=$((BASE_TZ_NUM + 1))
-	else
-		BASE_TZ_NUM=$((BASE_TZ_NUM - 1))
-	fi
-	
-	if [ $BASE_TZ_NUM -gt 0 ]; then
-		echo "+${BASE_TZ_NUM}" > "$TZFILE"
-	elif [ $BASE_TZ_NUM -eq 0 ]; then
-		echo "+0" > "$TZFILE"
-	else
-		echo "${BASE_TZ_NUM}" > "$TZFILE"
-	fi
+
+    echo "$NEW_DST" > "$DSTFILE"
+
+    BASE_TZ_NUM=$BASE_TZ
+
+    if [ "$NEW_DST" -eq 1 ]; then
+        BASE_TZ_NUM=$((BASE_TZ_NUM + 1))
+    else
+        BASE_TZ_NUM=$((BASE_TZ_NUM - 1))
+    fi
+
+    if [ $BASE_TZ_NUM -ge 0 ]; then
+        echo "+$BASE_TZ_NUM" > "$TZFILE"
+    else
+        echo "$BASE_TZ_NUM" > "$TZFILE"
+    fi
 fi
 
 # time zone
