@@ -37,6 +37,10 @@ int osd_volume;
 int osd_headphones_connected = 0;
 int osd_brightness;
 
+// Variables para evitar redibujos innecesarios
+static int last_volume = -1;
+static int last_brightness = -1;
+
 /*void LOG(int n, int m) {
 	FILE *file= fopen("/mnt/SDCARD/logk.txt","w");
 	if(file) {
@@ -58,8 +62,8 @@ int get_miyoo_v4() {
     
 		fp = popen(cmd, "r");
 		if (fp == NULL) {
-		fclose(miyoov4);
-		return 1;
+			fclose(miyoov4);
+			return 1;
 		}
     
 		if (fgets(buffer, sizeof(buffer), fp) != NULL) {
@@ -109,8 +113,8 @@ int init_framebuffer() {
 	return 1;
 }
 
-// Save bar background to memory
-void save_background() {
+// Save bar background to memory (guarda todos los buffers)
+void save_background_all_buffers() {
 	// Determine the correct resolution at runtime
 	int width, height;
 	if (miyoo_v4_mode == 1) {
@@ -124,81 +128,47 @@ void save_background() {
 		height = vinfo.yres;
 	}
 
-	// Get memory to save bar background
+	// Calcula el tamaño total para guardar todos los buffers
+	int num_buffers = vinfo.yres_virtual / height;
+	int buffer_size = OSD_ICON_WIDTH * OSD_ICON_HEIGHT * (vinfo.bits_per_pixel / 8);
+	
+	// Get memory to save bar background de todos los buffers
 	if(fb_iconbackground == NULL)
-		fb_iconbackground = (char*)malloc(OSD_ICON_WIDTH*OSD_ICON_HEIGHT*(vinfo.bits_per_pixel/8));
+		fb_iconbackground = (char*)malloc(buffer_size * num_buffers);
 
 	get_render_info();
-	fb_lastbuffersaved=vinfo.yoffset;
 
 	if(fb_iconbackground) {
-		int x, y;
-		int margin=10;
+		int x, y, buffer_idx;
+		int margin = 10;
 		long int location = 0, idx_background = 0;
-		int bytes=vinfo.bits_per_pixel/8;
+		int bytes = vinfo.bits_per_pixel / 8;
 
-		fb_lastframe = (int)vinfo.yoffset;
-
-		if(vinfo.bits_per_pixel == 32) {
-			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
-					*(unsigned long *)(fb_iconbackground + idx_background) = *(unsigned long *)(fb_addr + location);	// copy 4 bytes (1 pixel)
-					idx_background += 4;
-				}
-		} else if(vinfo.bits_per_pixel == 16) {
-			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-					location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
-					*(unsigned int *)(fb_iconbackground + idx_background) = *(unsigned int *)(fb_addr + location);		// copy 2 bytes (1 pixel)
-					idx_background += 2;
-				}
+		// Guarda el fondo de cada buffer
+		for(buffer_idx = 0; buffer_idx < num_buffers; buffer_idx++) {
+			int y_offset = buffer_idx * height;
+			
+			if(vinfo.bits_per_pixel == 32) {
+				for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++)
+					for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+						location = (x + vinfo.xoffset) * bytes + (y + y_offset) * width * bytes;
+						*(unsigned long *)(fb_iconbackground + idx_background) = *(unsigned long *)(fb_addr + location);
+						idx_background += 4;
+					}
+			} else if(vinfo.bits_per_pixel == 16) {
+				for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++)
+					for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+						location = (x + vinfo.xoffset) * bytes + (y + y_offset) * width * bytes;
+						*(unsigned int *)(fb_iconbackground + idx_background) = *(unsigned int *)(fb_addr + location);
+						idx_background += 2;
+					}
 			}
-	}
-}
-
-// Restore saved background to screen
-void restore_background(int frame) {
-	// Determine the correct resolution at runtime
-	int width, height;
-	if (miyoo_v4_mode == 1) {
-		width = 640;
-		height = 480;
-	} else if (miyoo_v4_mode == 2) {
-		width = 752;
-		height = 560;
-	} else {
-		width = vinfo.xres;
-		height = vinfo.yres;
-	}
-
-	if(fb_iconbackground) {
-		int x, y;
-		int margin=10;
-		long int location = 0, idx_background = 0;
-		int bytes=vinfo.bits_per_pixel/8;
-
-		if(vinfo.bits_per_pixel == 32) {
-			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
-					*(unsigned long *)(fb_addr + location) = *(unsigned long *)(fb_iconbackground + idx_background);	// copy 4 bytes (1 pixel)
-					idx_background += 4;
-				}
-		} else if(vinfo.bits_per_pixel == 16) {
-			for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-				for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-					location = (x+vinfo.xoffset) * bytes + (y+frame) * width*bytes;
-					*(unsigned int *)(fb_addr + location) = *(unsigned int *)(fb_iconbackground + idx_background);		// copy 2 bytes (1 pixel)
-					idx_background += 2;
-				}
 		}
 	}
 }
 
-void restore_fb() {
-	get_render_info();
-	
+// Restore saved background to all buffers
+void restore_background_all_buffers() {
 	// Determine the correct resolution at runtime
 	int width, height;
 	if (miyoo_v4_mode == 1) {
@@ -211,11 +181,35 @@ void restore_fb() {
 		width = vinfo.xres;
 		height = vinfo.yres;
 	}
-	
-	int y;
-	// restore all double&triple buffers
-	for(y=0; y<(int)vinfo.yres_virtual; y+=height)
-		restore_background(y);
+
+	if(fb_iconbackground) {
+		int x, y, buffer_idx;
+		int margin = 10;
+		long int location = 0, idx_background = 0;
+		int bytes = vinfo.bits_per_pixel / 8;
+		int num_buffers = vinfo.yres_virtual / height;
+
+		// Restaura el fondo en cada buffer
+		for(buffer_idx = 0; buffer_idx < num_buffers; buffer_idx++) {
+			int y_offset = buffer_idx * height;
+			
+			if(vinfo.bits_per_pixel == 32) {
+				for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++)
+					for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+						location = (x + vinfo.xoffset) * bytes + (y + y_offset) * width * bytes;
+						*(unsigned long *)(fb_addr + location) = *(unsigned long *)(fb_iconbackground + idx_background);
+						idx_background += 4;
+					}
+			} else if(vinfo.bits_per_pixel == 16) {
+				for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++)
+					for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+						location = (x + vinfo.xoffset) * bytes + (y + y_offset) * width * bytes;
+						*(unsigned int *)(fb_addr + location) = *(unsigned int *)(fb_iconbackground + idx_background);
+						idx_background += 2;
+					}
+			}
+		}
+	}
 }
 
 // Calculate percent of icon to show, return an intermediate value of OSD_ICON_WIDTH 
@@ -230,10 +224,8 @@ int get_icon_cutoff() {
 	}
 }
 
-// Restore saved background to screen
-void draw_icon() {
-	//get_render_info();
-
+// Nueva función: dibuja el icono en el buffer ACTUAL (yoffset actual)
+void draw_icon_at_current_buffer() {
 	// Determine the correct resolution at runtime
 	int width, height;
 	if (miyoo_v4_mode == 1) {
@@ -250,99 +242,104 @@ void draw_icon() {
 	int x, y;
 	long int location = 0;
 	int limit = get_icon_cutoff();
-	int bytes=vinfo.bits_per_pixel/8;
-
-	int tintcolor=2;
+	int bytes = vinfo.bits_per_pixel / 8;
+	int tintcolor = 2;
 	
-	char *icon=NULL;
+	char *icon = NULL;
 	switch(osd_item) {
 		case OSD_VOLUME:
-		        if(osd_headphones_connected) {
-		                if(osd_volume==0)
-		                  icon=volume_headmute_icon;
-		                else
-              			  icon=volume_head_icon;
-		        }
-		        else {
-		                if(osd_volume==0)
-		                  icon=volume_mute_icon;
-		                else
-              			  icon=volume_icon;
-              		}
-			if(osd_volume>=60)
-				tintcolor=4;
-			else if(osd_volume>=54)
-				tintcolor=3;
+			if(osd_headphones_connected) {
+				if(osd_volume == 0)
+					icon = volume_headmute_icon;
+				else
+					icon = volume_head_icon;
+			} else {
+				if(osd_volume == 0)
+					icon = volume_mute_icon;
+				else
+					icon = volume_icon;
+			}
+			if(osd_volume >= 60)
+				tintcolor = 4;
+			else if(osd_volume >= 54)
+				tintcolor = 3;
 			break;
 		case OSD_BRIGHTNESS:
-			icon=brightness_icon;
+			icon = brightness_icon;
 			break;
 		default:
 			return;
 	}
 
-	int selectcolor=-1;
-	int idx_icon=0;
-	int margin=10;
+	int selectcolor = -1;
+	int idx_icon = 0;
+	int margin = 10;
 	
+	// Dibuja en el buffer ACTUAL usando vinfo.yoffset
 	if(vinfo.bits_per_pixel == 32) {
-		for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-			for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
-				char value=*(icon+idx_icon);
+		for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++) {
+			for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+				location = (x + vinfo.xoffset) * bytes + (y + vinfo.yoffset) * width * bytes;
+				char value = *(icon + idx_icon);
+				
 				switch(value) {
 					case 0:
-						if(y-(height-(OSD_ICON_HEIGHT+margin))>limit)
-							selectcolor=0;
+						if(y - (height - (OSD_ICON_HEIGHT + margin)) > limit)
+							selectcolor = 0;
 						else
-							selectcolor=tintcolor;
+							selectcolor = tintcolor;
 						break;
 					case 1:
-						selectcolor=1;
+						selectcolor = 1;
 						break;
 					case 2:
-					        selectcolor=4;
-					        break;
+						selectcolor = 4;
+						break;
 					default:
-						selectcolor=-1;
+						selectcolor = -1;
 						break;
 				}
-				if(selectcolor>=0) {
+				
+				if(selectcolor >= 0) {
 					*(fb_addr + location) = iconcolor[selectcolor][2];
-					*(fb_addr + location +1) = iconcolor[selectcolor][1];
-					*(fb_addr + location +2) = iconcolor[selectcolor][0];
-					*(fb_addr + location +3) = 0;
+					*(fb_addr + location + 1) = iconcolor[selectcolor][1];
+					*(fb_addr + location + 2) = iconcolor[selectcolor][0];
+					*(fb_addr + location + 3) = 0;
 				}
 				idx_icon++;
 			}
+		}
 	} else if(vinfo.bits_per_pixel == 16) {
-		for (y = height-(OSD_ICON_HEIGHT+margin); y < (height-margin); y++)
-			for (x = width-(OSD_ICON_WIDTH+margin); x < (width-margin); x++) {
-				location = (x+vinfo.xoffset) * bytes + (y+vinfo.yoffset) * width*bytes;
-				char value=*(icon+idx_icon);
+		for (y = height - (OSD_ICON_HEIGHT + margin); y < (height - margin); y++) {
+			for (x = width - (OSD_ICON_WIDTH + margin); x < (width - margin); x++) {
+				location = (x + vinfo.xoffset) * bytes + (y + vinfo.yoffset) * width * bytes;
+				char value = *(icon + idx_icon);
+				
 				switch(value) {
 					case 0:
-						if(y-(height-(OSD_ICON_HEIGHT+margin))>limit)
-							selectcolor=tintcolor;
+						if(y - (height - (OSD_ICON_HEIGHT + margin)) > limit)
+							selectcolor = tintcolor;
 						else
-							selectcolor=0;
+							selectcolor = 0;
 						break;
 					case 1:
-						selectcolor=1;
+						selectcolor = 1;
 						break;
 					case 2:
-					        selectcolor=4;
-					        break;
+						selectcolor = 4;
+						break;
 					default:
-						selectcolor=-1;
+						selectcolor = -1;
 						break;
 				}
-				if(selectcolor>=0) {
-					char c = iconcolor[selectcolor][2]<<11 | iconcolor[selectcolor][1] << 5 | iconcolor[selectcolor][0];
+				
+				if(selectcolor >= 0) {
+					char c = iconcolor[selectcolor][2] << 11 | iconcolor[selectcolor][1] << 5 | iconcolor[selectcolor][0];
 					*(fb_addr + location) = c;
 				}
 				idx_icon++;
 			}
+		}
 	}
 }
 
@@ -364,47 +361,78 @@ void close_framebuffer() {
 	miyoo_v4_mode = -1;
 }
 
-// Thread to draw the osd info
+// Thread to draw the osd info - VERSIÓN HÍBRIDA: guarda fondo + dibuja cada frame
 static void *osd_thread(void *param) {
-	osd_running=1;
+	osd_running = 1;
 	gettimeofday(&osd_timer, NULL);
+	
 	if(miyoo_v4_mode == -1)
-		miyoo_v4_mode=get_miyoo_v4();
+		miyoo_v4_mode = get_miyoo_v4();
+	
 	init_framebuffer();
-
+	
+	// Guarda el fondo de TODOS los buffers al inicio
+	save_background_all_buffers();
+	
+	// Guarda los valores actuales
+	last_volume = osd_volume;
+	last_brightness = osd_brightness;
+	
 	float elapsed;
 	struct timeval now;
+	int last_yoffset = -1;
+	
+	// Loop principal - dibuja el icono en cada frame para overlay
 	do {
-		usleep(0x2000);
+		usleep(8333); // ~120fps para capturar cambios de buffer rápidamente
+		
 		get_render_info();
-		if(vinfo.yoffset!=fb_lastbuffersaved) {
-		  restore_background(fb_lastbuffersaved);
-		  save_background();
-		  switch(osd_item) {
-			  case OSD_VOLUME:
-				  draw_icon();
-				  break;
-			  case OSD_BRIGHTNESS:
-				  draw_icon();
-				  break;
-		  }
+		
+		// Detecta si cambió el buffer (nuevo frame)
+		if((int)vinfo.yoffset != last_yoffset) {
+			last_yoffset = (int)vinfo.yoffset;
+			
+			// Espera a que termine el blit del overlay (si existe)
+			usleep(1000); // pequeña espera para asegurar que overlay terminó
+			
+			// Dibuja el icono directamente en el buffer actual
+			draw_icon_at_current_buffer();
 		}
-		  
+		
+		// Detecta si cambió el valor del volumen o brillo
+		int value_changed = 0;
+		if(osd_item == OSD_VOLUME && osd_volume != last_volume) {
+			value_changed = 1;
+			last_volume = osd_volume;
+		} else if(osd_item == OSD_BRIGHTNESS && osd_brightness != last_brightness) {
+			value_changed = 1;
+			last_brightness = osd_brightness;
+		}
+		
+		// Si cambió el valor, reinicia el timer
+		if(value_changed) {
+			gettimeofday(&osd_timer, NULL);
+		}
+		
 		gettimeofday(&now, NULL);
-		elapsed=(now.tv_sec - osd_timer.tv_sec) * 1000.0f + (now.tv_usec - osd_timer.tv_usec) / 1000.0f;	// millisecs from last loop
-	} while(elapsed<3000);	// show icon 3 seconds
-
-	restore_fb();
+		elapsed = (now.tv_sec - osd_timer.tv_sec) * 1000.0f + 
+		          (now.tv_usec - osd_timer.tv_usec) / 1000.0f;
+	} while(elapsed < 3000); // Mantiene visible 3 segundos
+	
+	// Al finalizar, RESTAURA el fondo guardado en todos los buffers
+	restore_background_all_buffers();
+	
 	close_framebuffer();
-	fb_lastbuffersaved=-1;
-	osd_item=OSD_NONE;
-	osd_running=0;
+	fb_lastbuffersaved = -1;
+	osd_item = OSD_NONE;
+	osd_running = 0;
+	
 	return 0;
 }
 
 // Create the osd thread or update showing time
 void osd_show(int item) {
-	osd_item=item;
+	osd_item = item;
 	if(!osd_running) {
 		pthread_create(&thread_id, NULL, osd_thread, NULL);
 		pthread_setschedprio(thread_id, 1);	// priority = 1
