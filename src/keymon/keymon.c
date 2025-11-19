@@ -1596,11 +1596,11 @@ int main (int argc, char *argv[]) {
 
                 if (mmModel) {
                     if (isProcessRunning("retroarch")) {
-                        system("echo MM_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown -r");
+                        system("echo MM_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     } else if (isProcessRunning("simplemenu") != 1) {
-                        system("echo MM; touch /tmp/shutdowning; sync; sleep 3; shutdown -r");
+                        system("echo MM; touch /tmp/shutdowning; sync; sleep 3; shutdown");
                     } else {
-                        system("echo MM_in_SM; touch /tmp/shutdowning; pkill -TERM simplemenu; sync; sleep 3; shutdown -r");
+                        system("echo MM_in_SM; touch /tmp/shutdowning; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     }
                 } else {
                     if (isProcessRunning("retroarch")) {

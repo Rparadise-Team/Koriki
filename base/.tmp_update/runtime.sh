@@ -728,6 +728,9 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^custom_viewport_height = "480"$|custom_viewport_height = "560"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
+	
+	sed -i 's|^audio_latency = "64"$|audio_latency = "32"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh "${SDCARD_PATH}"/.simplemenu/apps/Ftp
@@ -764,6 +767,9 @@ else
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 		sync
 	fi
+	
+	sed -i 's|^audio_latency = "32"$|audio_latency = "64"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+	
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh
 		sync
@@ -986,11 +992,56 @@ if [ -f "${SDCARD_PATH}"/App/Clock/time.txt ]; then
 else
 	touch "${SDCARD_PATH}"/App/Clock/time.txt
 	hwclock -w
-	date -s "2025-09-01 10:00:00"
+	date -s "2025-11-01 10:00:00"
 	localtime=$(date +"%Y-%m-%d %T")
 	echo "$localtime" > "${SDCARD_PATH}"/App/Clock/time.txt
 fi
 
+# Winner/summer time
+CLOCK_DIR="${SDCARD_PATH}/App/Clock"
+TZFILE="${CLOCK_DIR}/timezone.txt"
+DSTFILE="${CLOCK_DIR}/dst_state"
+
+if [ ! -f "$TZFILE" ]; then
+	touch "$TZFILE"
+	echo +0 > "$TZFILE"
+fi
+
+if [ ! -f "$DSTFILE" ]; then
+	touch "$DSTFILE"
+	echo 0 > "$DSTFILE"
+fi
+
+BASE_TZ=`cat "$TZFILE" | tr -d '+'`
+CURRENT_DST=`cat "$DSTFILE"`
+TODAY=$(date +%m%d)
+
+if [ $TODAY -ge 0325 ] && [ $TODAY -le 1028 ]; then
+	NEW_DST=1
+else
+	NEW_DST=0
+fi
+
+if [ "$NEW_DST" != "$CURRENT_DST" ]; then
+	
+	echo $NEW_DST > "$DSTFILE"
+	
+	if [ $NEW_DST -eq 1 ]; then
+		BASE_TZ_NUM=$((BASE_TZ_NUM + 1))
+	else
+		BASE_TZ_NUM=$((BASE_TZ_NUM - 1))
+	fi
+	
+	if [ $BASE_TZ_NUM -gt 0 ]; then
+		echo "+${BASE_TZ_NUM}" > "$TZFILE"
+	elif [ $BASE_TZ_NUM -eq 0 ]; then
+		echo "+0" > "$TZFILE"
+	else
+		echo "${BASE_TZ_NUM}" > "$TZFILE"
+	fi
+fi
+
+# time zone
 if [ -f "${SDCARD_PATH}"/App/Clock/timezone.txt ]; then
 	timezone=`cat "${SDCARD_PATH}"/App/Clock/timezone.txt`
 	export TZ=UTC$((-1*timezone))
