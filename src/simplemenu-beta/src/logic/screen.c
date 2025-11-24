@@ -1534,7 +1534,7 @@ void setupHelpScreen(int page) {
 			values[7]="Scroll";
 			
 		    options[8]="Press B";
-			values[8]="Fuction";
+			values[8]="Function";
 			
 			hints[0] = "PAGE 1/2 - PRESS B TO RETURN";
 			break;
