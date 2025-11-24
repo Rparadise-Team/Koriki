@@ -16,6 +16,9 @@
 #define SYSTEM_SETTINGS 12
 #if defined MIYOOMINI
 #define SCREEN_SETTINGS 13
+#define SEARCHING_ROMS 14
+#else
+#define SEARCHING_ROMS 13
 #endif
 
 #include <pthread.h>
@@ -67,6 +70,7 @@ extern SDL_TimerID picModeHideLogoTimer;
 extern SDL_TimerID hideHeartTimer;
 extern SDL_TimerID batteryTimer;
 extern SDL_TimerID wifiTimer;
+extern SDL_TimerID activeRefreshTimer;
 
 typedef struct thread_picture {
 	  SDL_Surface* display;
@@ -423,6 +427,7 @@ extern int BTN_L1;
 extern int BTN_R1;
 extern int BTN_L2;
 extern int BTN_R2;
+extern int BTN_MENU;
 
 #if defined TARGET_OD || defined TARGET_OD_BETA
 extern Shake_Device *device;

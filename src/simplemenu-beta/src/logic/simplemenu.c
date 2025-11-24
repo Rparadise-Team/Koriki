@@ -21,7 +21,7 @@
 
 
 void initializeGlobals() {
-	running=1;
+        running=1;
 	currentSectionNumber=0;
 	gamesInPage=0;
 	CURRENT_SECTION.totalPages=0;
@@ -165,18 +165,53 @@ void initialSetup2() {
 	contrastValue = getCurrentSystemValue("contrast");
 	gammaValue = loadConfiguration3();
 	#endif
-	brightnessValue = getCurrentBrightness();
-	maxBrightnessValue = getMaxBrightness();
+        brightnessValue = getCurrentBrightness();
+        maxBrightnessValue = getMaxBrightness();
+}
+
+int isSettingsState(int state) {
+        switch (state) {
+                case SETTINGS_SCREEN:
+                case APPEARANCE_SETTINGS:
+                case SYSTEM_SETTINGS:
+                case HELP_SCREEN_1:
+                case HELP_SCREEN_2:
+#if defined MIYOOMINI
+                case SCREEN_SETTINGS:
+#endif
+                        return 1;
+                default:
+                        return 0;
+        }
+}
+
+static int canToggleSearchWindow() {
+        return !isSettingsState(currentState) && currentState != SHUTTING_DOWN && currentState != AFTER_RUNNING_LAUNCH_AT_BOOT && currentState != LOADING;
 }
 
 void processEvents() {
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		if(event.type==getKeyDown()){
-			if (!isSuspended) {
-				switch (currentState) {
-					case BROWSING_GAME_LIST:
-						previousState=BROWSING_GAME_LIST;
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+                if(event.type==getKeyDown()){
+                        if (!isSuspended) {
+                                SDLKey keyPressed = event.key.keysym.sym;
+				if (canToggleSearchWindow() && keyPressed==(SDLKey)BTN_L1) {
+					if (currentState==SEARCHING_ROMS) {
+						closeSearchWindow();
+					} else {
+						openSearchWindow();
+					}
+					resetScreenOffTimer();
+					continue;
+				}
+                                if (currentState==SEARCHING_ROMS) {
+                                        handleSearchInput(keyPressed);
+                                        resetScreenOffTimer();
+                                        continue;
+                                }
+                                switch (currentState) {
+                                        case BROWSING_GAME_LIST:
+                                                previousState=BROWSING_GAME_LIST;
 						performAction(CURRENT_SECTION.currentGameNode);
 						refreshName=0;
 						break;
@@ -328,13 +363,13 @@ void processEvents() {
 	const int GAME_FPS=60;
 	const int FRAME_DURATION_IN_MILLISECONDS = 1000/GAME_FPS;
 	Uint32 start_time;
-	updateScreen(CURRENT_SECTION.currentGameNode);
-	refreshScreen();
-	startBatteryTimer();
-	startWifiTimer();
-	while(running) {
-		start_time=SDL_GetTicks();
-		processEvents();
+updateScreen(CURRENT_SECTION.currentGameNode);
+refreshScreen();
+startBatteryTimer();
+startWifiTimer();
+while(running) {
+                start_time=SDL_GetTicks();
+                processEvents();
 		if(refreshRequest) {
 			updateScreen(CURRENT_SECTION.currentGameNode);
 			refreshRequest=0;

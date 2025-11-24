@@ -624,6 +624,24 @@ void performGroupChoosingAction() {
 		currentState=SETTINGS_SCREEN;
 		return;
 	}
+	#if defined MIYOOMINI
+    if ((!alternateControls&&keys[BTN_UP])) {
+		if(activeGroup>0) {
+			activeGroup--;
+		} else {
+			activeGroup=sectionGroupCounter-1;
+		}
+		return;
+	}
+	if ((!alternateControls&&keys[BTN_DOWN])) {
+		if(activeGroup<sectionGroupCounter-1) {
+			activeGroup++;
+		} else {
+			activeGroup=0;
+		}
+		return;
+	}
+	#else
 	if ((!alternateControls&&keys[BTN_UP])||(alternateControls&&keys[BTN_L1])) {
 		if(activeGroup>0) {
 			activeGroup--;
@@ -640,6 +658,8 @@ void performGroupChoosingAction() {
 		}
 		return;
 	}
+	#endif
+	
 	if (keys[BTN_A]) {
 //		int preFavs = favoritesSectionNumber;
 		if (beforeTryingToSwitchGroup!=activeGroup) {

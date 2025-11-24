@@ -987,15 +987,22 @@ void loadConfig() {
 		BTN_START = atoifgl(value);
 	}
 
-	value = ini_get(config, "CONTROLS", "SELECT");
-	if (value) {
-		BTN_SELECT = atoifgl(value);
-	}
+        value = ini_get(config, "CONTROLS", "SELECT");
+        if (value) {
+                BTN_SELECT = atoifgl(value);
+        }
 
-	value = ini_get(config, "CONTROLS", "R");
-	if (value) {
-		BTN_R = atoifgl(value);
-	}
+        value = ini_get(config, "CONTROLS", "R");
+        if (value) {
+                BTN_R = atoifgl(value);
+        }
+
+        value = ini_get(config, "CONTROLS", "MENU");
+        if (value) {
+                BTN_MENU = atoifgl(value);
+        } else {
+                BTN_MENU = BTN_SELECT;
+        }
 
 	ini_free(config);
 	logMessage("INFO","loadConfig","Config loaded");

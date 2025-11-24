@@ -11,6 +11,8 @@
 #include "opk.h"
 
 #include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <errno.h>
 #if defined(TARGET_NPG) || defined(TARGET_OD) || defined TARGET_OD_BETA
 #include <linux/vt.h>
 #endif
@@ -191,16 +193,17 @@ void generateError(char *pErrorMessage, int pThereIsACriticalError) {
 
 void quit() {
 	saveLastState();
-	saveFavorites();
-	clearTimer();
-	clearPicModeHideLogoTimer();
-	clearPicModeHideMenuTimer();
-	clearBatteryTimer();
-	clearWifiTimer();
-	if (musicEnabled) {
-		stopmusic();
-	}
-	freeResources();
+        saveFavorites();
+        clearTimer();
+        clearPicModeHideLogoTimer();
+        clearPicModeHideMenuTimer();
+        clearBatteryTimer();
+        clearActiveRefreshTimer();
+        clearWifiTimer();
+        if (musicEnabled) {
+                stopmusic();
+        }
+        freeResources();
 	if (shutDownEnabled) {
 #ifdef TARGET_PC
 		exit(0);
@@ -713,44 +716,42 @@ void mergeSort(struct Node **headRef) {
 }
 
 void loadFavoritesSectionGameList() {
-	int gameInPage = 0;
-	int page = 0;
-	logMessage("ERROR", "loadFavoritesSectionGameList", "Setting total pages");
-	FAVORITES_SECTION.totalPages=0;
+int gameInPage = 0;
+logMessage("ERROR", "loadFavoritesSectionGameList", "Setting total pages");
+FAVORITES_SECTION.totalPages=0;
 	FAVORITES_SECTION.gameCount=0;
 	FAVORITES_SECTION.initialized=0;
 	cleanListForSection(&FAVORITES_SECTION);
-	for (int i = 0; i < favoritesSize; i++) {
-		if (gameInPage == ITEMS_PER_PAGE) {
-			if (i != favoritesSize) {
-				page++;
-				gameInPage = 0;
-				logMessage("ERROR", "loadFavoritesSectionGameList",
-						"Increasing total pages");
-				FAVORITES_SECTION.totalPages++;
-			}
-		}
+for (int i = 0; i < favoritesSize; i++) {
+int size = strlen(favorites[i].name)+1;
+int aliasSize = strlen(favorites[i].alias)+1;
+int dirSize = strlen(favorites[i].filesDirectory)+1;
 
-		int size = strlen(favorites[i].name)+1;
-		int aliasSize = strlen(favorites[i].alias)+1;
-
-		struct Rom *rom = malloc(sizeof(struct Rom));
-		rom->name=malloc(size);
-		rom->alias=malloc(aliasSize);
-		rom->directory=malloc(1);
-		strcpy(rom->alias, favorites[i].alias);
-		strcpy(rom->name, favorites[i].name);
-		rom->isConsoleApp = favorites[i].isConsoleApp;
-		loadRomPreferences(rom);
-		InsertAtTailInSection(&FAVORITES_SECTION, rom);
-		gameInPage++;
-		FAVORITES_SECTION.gameCount++;
-	}
-	FAVORITES_SECTION.tail=GetNthNode(FAVORITES_SECTION.gameCount-1);
-	if (favoritesSize > 0 && currentSectionNumber == favoritesSectionNumber) {
-		scrollToGame(FAVORITES_SECTION.realCurrentGameNumber);
-	}
-	CURRENT_SECTION.initialized=1;
+struct Rom *rom = malloc(sizeof(struct Rom));
+rom->name=malloc(size);
+rom->alias=malloc(aliasSize);
+rom->directory=malloc(dirSize);
+strcpy(rom->alias, favorites[i].alias);
+strcpy(rom->name, favorites[i].name);
+strcpy(rom->directory, favorites[i].filesDirectory);
+rom->isConsoleApp = favorites[i].isConsoleApp;
+loadRomPreferences(rom);
+InsertAtTailInSection(&FAVORITES_SECTION, rom);
+gameInPage++;
+FAVORITES_SECTION.gameCount++;
+}
+FAVORITES_SECTION.tail=GetNthNode(FAVORITES_SECTION.gameCount-1);
+if (FAVORITES_SECTION.gameCount > 0) {
+int pages = FAVORITES_SECTION.gameCount / ITEMS_PER_PAGE;
+if (FAVORITES_SECTION.gameCount % ITEMS_PER_PAGE == 0) {
+pages--;
+}
+FAVORITES_SECTION.totalPages = pages;
+}
+if (favoritesSize > 0 && currentSectionNumber == favoritesSectionNumber) {
+scrollToGame(FAVORITES_SECTION.realCurrentGameNumber);
+}
+CURRENT_SECTION.initialized=1;
 }
 
 int scanDirectory(char *directory, char *files[], int i) {
@@ -1088,10 +1089,11 @@ char* readline(FILE *fp, char *buffer) {
 }
 
 void loadGameList(int refresh) {
-	logMessage("INFO", "loadGameList", CURRENT_SECTION.sectionName);
-	int loadedFiles=0;
-	logMessage("INFO","loadGameList","Should we skip this?");
-	FILE *fp=NULL;
+        logMessage("INFO", "loadGameList", CURRENT_SECTION.sectionName);
+        int loadedFiles=0;
+        logMessage("INFO","loadGameList","Should we skip this?");
+        FILE *fp=NULL;
+        char sectionCacheName[PATH_MAX];
 	if (CURRENT_SECTION.initialized==0||refresh) {
 		logMessage("INFO","loadGameList","No, loading game list");
 		if(getLaunchAtBoot()==NULL) {
@@ -1110,19 +1112,22 @@ void loadGameList(int refresh) {
 		char *dirs[10];
 		char *ptr=NULL;
 
-		char sectionCacheName[PATH_MAX];
-
-		if (refresh) {
-			cleanListForSection(&CURRENT_SECTION);
-			logMessage("INFO","loadGameList","Cleaned section list");
-		}
-		if (useCache==1) {
-			if (refresh) {
-				remove(sectionCacheName);
-			}
-			snprintf(sectionCacheName,sizeof(sectionCacheName),"%s/.simplemenu/tmp/%s.tmp",getenv("HOME"),CURRENT_SECTION.sectionName);
-			fp = fopen(sectionCacheName,"r");
-			if (fp!=NULL) {
+                if (refresh) {
+                        cleanListForSection(&CURRENT_SECTION);
+                        logMessage("INFO","loadGameList","Cleaned section list");
+                }
+                if (useCache==1) {
+                        char cacheDir[PATH_MAX];
+                        snprintf(cacheDir,sizeof(cacheDir),"%s/.simplemenu/tmp",getenv("HOME"));
+                        if (mkdir(cacheDir, 0755) == -1 && errno != EEXIST) {
+                                logMessage("ERROR","loadGameList","Unable to create cache folder");
+                        }
+                        snprintf(sectionCacheName,sizeof(sectionCacheName),"%s/%s.tmp",cacheDir,CURRENT_SECTION.sectionName);
+                        if (refresh) {
+                                remove(sectionCacheName);
+                        }
+                        fp = fopen(sectionCacheName,"r");
+                        if (fp!=NULL) {
 				logMessage("INFO","loadGameList","Using cache file");
 				char currentline[2000];
 				while (fgets(currentline, sizeof(currentline), fp) != NULL) {
@@ -1347,14 +1352,16 @@ void loadGameList(int refresh) {
 				fprintf(fp,"%s;%s;%s\n",rom->alias, rom->directory, rom->name);
 			}
 		}
-		CURRENT_SECTION.tail=GetNthNode(CURRENT_SECTION.gameCount-1);
-		scrollToGame(CURRENT_SECTION.realCurrentGameNumber);
-		if (fp!=NULL) {
-			fclose(fp);
-		}
-	}
-	logMessage("INFO","loadGameList","Finished");
-	loading=0;
+                CURRENT_SECTION.tail=GetNthNode(CURRENT_SECTION.gameCount-1);
+                scrollToGame(CURRENT_SECTION.realCurrentGameNumber);
+                if (fp!=NULL) {
+                        fclose(fp);
+                }
+
+        }
+        searchInvalidateIndex();
+        logMessage("INFO","loadGameList","Finished");
+        loading=0;
 }
 
 int countGamesInPage() {

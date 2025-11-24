@@ -56,6 +56,7 @@ SDL_TimerID picModeHideLogoTimer;
 SDL_TimerID hideHeartTimer;
 SDL_TimerID batteryTimer;
 SDL_TimerID wifiTimer;
+SDL_TimerID activeRefreshTimer;
 
 typedef struct thread_picture {
 	  SDL_Surface* display;
@@ -407,6 +408,7 @@ int BTN_L1;
 int BTN_R1;
 int BTN_L2;
 int BTN_R2;
+int BTN_MENU;
 
 #if defined TARGET_OD || defined TARGET_OD_BETA
  Shake_Device *device;
