@@ -1053,14 +1053,20 @@ void performSystemSettingsChoosingAction() {
 				}
 				if (mmModel) {
 					char command [128];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && rm /tmp/audioserver_on && sync");
-					system(command);
+					char command2 [100];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.min && rm -f /tmp/audio* && sync");
+					snprintf(command2, sizeof(command2), "/mnt/SDCARD/Koriki/bin/freemma > NUL");
 					unsetenv("LD_PRELOAD");
+					system(command);
+					system(command2);
 				} else {
 					char command [128];
-					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm /tmp/audioserver_on && sync");
-					system(command);
+					char command2 [100];
+					snprintf(command, sizeof(command), "killall audioserver && killall audioserver.plu && rm -f /tmp/audio* && sync");
+					snprintf(command2, sizeof(command2), "/mnt/SDCARD/Koriki/bin/freemma > NUL");
 					unsetenv("LD_PRELOAD");
+					system(command);
+					system(command2);
 				}
 				if (musicEnabled) {
 					startmusic();
