@@ -1509,7 +1509,7 @@ void setupHelpScreen(int page) {
 			values[0]="Confirm";
 
 			options[1]="B";
-			values[1]="Back/Function key";
+			values[1]="Back";
 
 			options[2]="X";
 			values[2]="Mark favorite";
@@ -1523,18 +1523,19 @@ void setupHelpScreen(int page) {
 			options[4]="R1";
 #endif
 			values[4]="Fullscreen mode";
+			
+			options[5]="L1";
+		    values[5]="Open Search screen";
 
-			options[5]="Select";
-			values[5]="Game options";
+			options[6]="Select";
+			values[6]="Game options";
 
-			options[6]="Up/Down/Left/Right";
-			values[6]="Scroll";
-
-			options[7]="B+Left/Right";
-			values[7]="Previous/Next letter";
-
-			options[8]="B+Up/Down";
-			values[8]="Quick switch";
+			options[7]="Up/Down/Left/Right";
+			values[7]="Scroll";
+			
+		    options[8]="Press B";
+			values[8]="Function";
+			
 			hints[0] = "PAGE 1/2 - PRESS B TO RETURN";
 			break;
 		case 2:
@@ -1543,6 +1544,13 @@ void setupHelpScreen(int page) {
 
 			options[1] = "B+X";
 			values[1] = "Delete game";
+			
+			options[2]="B+Left/Right";
+			values[2]="Previous/Next letter";
+
+			options[3]="B+Up/Down";
+			values[3]="Quick switch";
+			
 			hints[0] = "PAGE 2/2 - PRESS B TO RETURN";
 			break;
 	}
@@ -3332,5 +3340,4 @@ void freeResources() {
 #endif
 	SDL_Quit();
 }
-
 
