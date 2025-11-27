@@ -107,14 +107,14 @@ void update_config(int mode) {
         if (strlen(cfg.modes[mode][i].key) && strlen(cfg.modes[mode][i].value)) {
             const char *value = cfg.modes[mode][i].value;
 
-            // Detecta variantes MM/MMv4 (solo AspectRatio y Fullscreen)
+            // Detecta variantes MM/MMv4
             char val_copy[256];
             strcpy(val_copy, value);
             char *normal = strtok(val_copy, "|");
             char *v4 = strtok(NULL, "|");
 
             const char *final_value = normal;
-            if (v4 && miyoov4 && mode != 1)
+            if (v4 && miyoov4)
                 final_value = v4;
 
             fprintf(file, "%s = \"%s\"\n", cfg.modes[mode][i].key, final_value);
