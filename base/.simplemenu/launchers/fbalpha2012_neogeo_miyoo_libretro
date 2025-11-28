@@ -1,57 +1,18 @@
 #!/bin/sh
 
 runsvr=`/customer/app/jsonval audiofix`
-audio_driver=""
-RA_CONFIG="/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg"
-
-if [ -f "$RA_CONFIG" ]; then
-    audio_driver=$(grep -E "^audio_driver\s*=\s*\"audioio\"" "$RA_CONFIG")
-fi
-
-if [ ! -n "$audio_driver" ] ; then
-if [ "$runsvr" != "0" ] ; then
-	FILE=/customer/app/axp_test
-	
-	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
-		unset LD_PRELOAD
-	fi
-	
-    if [ -f "$FILE" ]; then
-        killall audioserver
-		killall audioserver.plu
-		FILE2=/tmp/audioserver_on
-		if [ -f "$FILE2" ]; then
-			rm /tmp/audioserver_on
-			/mnt/SDCARD/Koriki/bin/freemma > NUL
-		fi
-    else
-        killall audioserver
-		killall audioserver.min
-		FILE2=/tmp/audioserver_on
-		if [ -f "$FILE2" ]; then
-			rm /tmp/audioserver_on
-			/mnt/SDCARD/Koriki/bin/freemma > NUL
-		fi
-    fi
-fi
-fi
-
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
+RA_CONFIG=/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg
 
-if [ -n "$audio_driver" ] && [ "$runsvr" != "0" ] ; then
+if [ "$runsvr" != "0" ]; then
+    sed -i 's/^video_vsync = "false"/video_vsync = "true"/' "$RA_CONFIG"
+else
+    sed -i 's/^video_vsync = "true"/video_vsync = "false"/' "$RA_CONFIG"
+fi
+
+if [ "$runsvr" != "0" ] ; then
 LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_neogeo_miyoo_libretro.so "$1"
 else
 nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/fbalpha2012_neogeo_miyoo_libretro.so "$1"
-fi
-
-if [ ! -n "$audio_driver" ] ; then
-runsvr=`/customer/app/jsonval audiofix`
-if [ "$runsvr" != "0" ] ; then
-	touch /tmp/audioserver_on
-	/mnt/SDCARD/Koriki/bin/audioserver &
-	if [ -f /mnt/SDCARD/Koriki/lib/libpadsp.so ]; then
-		export LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so
-	fi
-fi
 fi

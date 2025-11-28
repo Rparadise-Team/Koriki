@@ -262,6 +262,10 @@ runifnecessary() {
 
 reset_settings() {
 	if [ -f "${SDCARD_PATH}/.reset_settings" ]; then
+	
+		cp ${SYSTEM_PATH}/assets/retroarch.cfg ${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg
+		sync
+	
 		if [ "$MODEL" == "MM" ]; then
 			if [ -f "/appconfigs/system.json.old" ]; then
 				if [ "$SUBMODEL" == "MMv4" ]; then

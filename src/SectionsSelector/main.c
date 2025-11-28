@@ -30,7 +30,7 @@
 #define BUTTON_RIGHT SDLK_RIGHT
 #define BUTTON_LEFT SDLK_LEFT
 
-#define NUM_IMAGES 3
+#define NUM_IMAGES 2
 
 #define SECTIONS "/mnt/SDCARD/.simplemenu/section_groups"
 #define SCRIPTS "/mnt/SDCARD/.simplemenu/scripts"
@@ -129,19 +129,6 @@ int main(int argc, char* argv[]) {
 					} else if (event.key.keysym.sym == BUTTON_A) {
 						switch (current_image) {
 							case 0:
-								 //DEFAULT
-								copy_directory(DEFAULT, SECTIONS);
-								copy_directory(DEFAULT_SCRIPTS, SCRIPTS);
-								system("rm /mnt/SDCARD/.simplemenu/last_state.sav");
-								system("rm -f /mnt/SDCARD/.simplemenu/*_section");
-								system("touch /mnt/SDCARD/.simplemenu/default_section");
-								sync();
-								SDL_BlitSurface(rect_surface, NULL, screen, &rect_pos);
-								SDL_BlitSurface(text_surface, NULL, screen, &text_pos);
-								SDL_Flip(screen);
-								SDL_Delay(3000);
-								break;
-							case 1:
 								 //ALPHABETIC
 								copy_directory(ALPHABETIC, SECTIONS);
 								copy_directory(ALPHABETIC_SCRIPTS, SCRIPTS);
@@ -154,7 +141,7 @@ int main(int argc, char* argv[]) {
 								SDL_Flip(screen);
 								SDL_Delay(3000);
 								break;
-							case 2:
+							case 1:
 								 //SYSTEMS
 								copy_directory(SYSTEMS, SECTIONS);
 								copy_directory(SYSTEMS_SCRIPTS, SCRIPTS);

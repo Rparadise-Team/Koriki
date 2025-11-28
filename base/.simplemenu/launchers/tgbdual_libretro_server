@@ -33,8 +33,10 @@ for file in "$destination_dir"/*; do
         fi
     done
 
+runsvr=`/customer/app/jsonval audiofix`
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
+RA_CONFIG=/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg
 
 file_name=$(basename "$1")
 
@@ -43,7 +45,11 @@ client_file="/mnt/SDCARD/Roms/GB/client-$file_name"
 cp "$1" "$client_file"
 sync
 
-runsvr=`/customer/app/jsonval audiofix`
+if [ "$runsvr" != "0" ]; then
+    sed -i 's/^video_vsync = "false"/video_vsync = "true"/' "$RA_CONFIG"
+else
+    sed -i 's/^video_vsync = "true"/video_vsync = "false"/' "$RA_CONFIG"
+fi
 
 if [ "$runsvr" != "0" ] ; then
 LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/tgbdual_libretro.so --subsystem "gb_link_2p" "$1" "$client_file"

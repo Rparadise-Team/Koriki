@@ -1,8 +1,8 @@
 #!/bin/sh
+runsvr=`/customer/app/jsonval audiofix`
 cd /mnt/SDCARD/RetroArch/
 HOME=/mnt/SDCARD/RetroArch/
-
-runsvr=`/customer/app/jsonval audiofix`
+RA_CONFIG=/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg
 
 destination_dir="/mnt/SDCARD/Saves/RA_saves/TGB Dual"
 gambatte_dir="/mnt/SDCARD/Saves/RA_saves/Gambatte"
@@ -17,6 +17,12 @@ fi
 if [ -f "$gambatte_dir"/"$game_name".rtc ]; then
 	cp "$gambatte_dir"/"$game_name".rtc "$destination_dir"/"$game_name".rtc
 	sync
+fi
+
+if [ "$runsvr" != "0" ]; then
+    sed -i 's/^video_vsync = "false"/video_vsync = "true"/' "$RA_CONFIG"
+else
+    sed -i 's/^video_vsync = "true"/video_vsync = "false"/' "$RA_CONFIG"
 fi
 
 if [ "$runsvr" != "0" ] ; then

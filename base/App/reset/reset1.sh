@@ -34,6 +34,9 @@ else
 fi
 
 reset_settings() {
+		cp ${SYSTEM_PATH}/assets/retroarch.cfg $SDCARD_PATH/RetroArch/.retroarch/retroarch.cfg
+		sync
+
         if [ $MODEL = "MM" ]; then
 		    if [ -f /appconfigs/system.json.old ]; then
 			cp ${SYSTEM_PATH}/assets/system-v4-stock.json $SETTINGS_FILE

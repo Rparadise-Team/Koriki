@@ -7,15 +7,30 @@ HOME=/mnt/SDCARD/RetroArch/
 for file in /mnt/SDCARD/Saves/RA_saves/gpSP/*.sav; do
     if [ -e "$file" ]; then
         cp "$file" "${file%.sav}.srm"
+		sync
     fi
 done
 
 rm /mnt/SDCARD/Saves/RA_saves/gpSP/*.sav
 
 runsvr=`/customer/app/jsonval audiofix`
+RA_CONFIG=/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg
+
+AUDIO_DRIVER=$(grep "^audio_driver" "$RA_CONFIG" | cut -d'"' -f2)
+
+sed -i 's/^audio_driver = ".*"/audio_driver = "audioio"/' "$RA_CONFIG"
+
+if [ "$runsvr" != "0" ]; then
+    sed -i 's/^video_vsync = "false"/video_vsync = "true"/' "$RA_CONFIG"
+else
+    sed -i 's/^video_vsync = "true"/video_vsync = "false"/' "$RA_CONFIG"
+fi
 
 if [ "$runsvr" != "0" ] ; then
 LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
 else
 nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/gpsp_plus_libretro.so "$1"
 fi
+
+sed -i "s/^audio_driver = \"audioio\"/audio_driver = \"$AUDIO_DRIVER\"/" "$RA_CONFIG"
+sync
