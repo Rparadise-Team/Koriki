@@ -1,35 +1,82 @@
 #!/bin/bash
 
 set -euo pipefail
+shopt -s nullglob
 
-indice_extendido=".index-extended"
-indice=".index"
+# Paths
+script_dir="$(cd -- "$(dirname "$0")" && pwd)"
+repo_root="$(cd -- "$script_dir/.." && pwd)"
+index_file="$script_dir/.index"
+extended_index_file="$script_dir/.index-extended"
+index_html="$repo_root/index.html"
 
-for file in ./*.so; do
-    if [[ -f "$file" ]]; then
-        nombre_archivo=$(basename "$file" .so)
-        fecha_actual=$(date +%Y-%m-%d)
-        nombre_zip="${nombre_archivo}.so.zip"
+# Ensure index files exist without wiping their current contents
+touch "$index_file" "$extended_index_file"
 
-        # Comprimir solo el archivo .so en un archivo zip
-        zip "$nombre_zip" "$nombre_archivo.so" "$nombre_archivo.info"
+# Helper to update .index with a core name
+add_to_index() {
+    local core_zip="$1"
+    # Remove existing occurrences then append and sort uniquely
+    grep -Fv "${core_zip}" "$index_file" | sort -u >"$index_file.tmp"
+    echo "$core_zip" >>"$index_file.tmp"
+    sort -u "$index_file.tmp" >"$index_file"
+    rm -f "$index_file.tmp"
+}
 
-        # Calcular CRC32 del archivo zip
-        comprobacion=$(crc32 "$nombre_zip")
+# Helper to update .index-extended with date, crc and name
+add_to_extended_index() {
+    local entry_name="$1"
+    local entry_date="$2"
+    local entry_crc="$3"
+    local line="${entry_date} ${entry_crc} ${entry_name}"
 
-        # Generar el nombre para el archivo de índice
-        indice_nuevo="${fecha_actual} ${comprobacion} ${nombre_zip}"
+    grep -Fv " ${entry_name}" "$extended_index_file" >"$extended_index_file.tmp"
+    echo "$line" >>"$extended_index_file.tmp"
+    # Sort by filename (third column) for predictable output
+    sort -k3,3 "$extended_index_file.tmp" >"$extended_index_file"
+    rm -f "$extended_index_file.tmp"
+}
 
-        # Actualizar índices
-        sed -i "s/^.*$nombre_zip.*$/$indice_nuevo/" "$indice_extendido"
-		if ! grep -q "$nombre_zip" "$indice"; then
-        sed -i "/$nombre_zip/d" "$indice"
-        echo "$nombre_zip" >> "$indice"
-		fi
+# Compress and index each .so core present in the folder
+pushd "$script_dir" >/dev/null
+for so_file in *.so; do
+    [[ -e "$so_file" ]] || break
 
-        # Eliminar archivo .so original
-        rm "$file"
+    base_name="${so_file%.so}"
+    zip_name="${base_name}.so.zip"
 
-        echo "Archivo $nombre_archivo.so comprimido e indexado como $indice_nuevo"
-    fi
+    # Build the zip with only the .so at the root (no directory paths, no .info)
+    zip -q -9 "$zip_name" "$so_file"
+
+    crc_value="$(crc32 "$zip_name")"
+    today="$(date +%Y-%m-%d)"
+
+    add_to_index "$zip_name"
+    add_to_extended_index "$zip_name" "$today" "$crc_value"
+
+    rm -f "$so_file"
+    echo "Core ${base_name}.so comprimido e indexado."
 done
+popd >/dev/null
+
+# Regenerate index.html based on the refreshed .index
+{
+    printf '<html>\n <body>\n'
+
+    # Static downloads at the repo root
+    static_files=(info.zip overlays.zip)
+    for static_file in "${static_files[@]}"; do
+        printf '<li><a href="%s">\n%s\n</a></li>\n' "$static_file" "$static_file"
+    done
+
+    # Skip static entries if they were accidentally added to .index
+    while IFS= read -r core_entry || [[ -n "$core_entry" ]]; do
+        [[ -n "$core_entry" ]] || continue
+        for static_file in "${static_files[@]}"; do
+            [[ "$core_entry" == "$static_file" ]] && continue 2
+        done
+        printf '<li><a href="armhf/%s">\n%s\n</a></li>\n' "$core_entry" "$core_entry"
+    done <"$index_file"
+
+    printf ' </body>\n</html>\n'
+} >"$index_html"
