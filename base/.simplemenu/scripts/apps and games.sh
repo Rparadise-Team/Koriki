@@ -2,7 +2,7 @@ consoles="/mnt/SDCARD/.simplemenu/section_groups/apps and games.ini"
 
 cat > ${consoles} <<EOF
 [CONSOLES]
-consoleList = AMIGA,AMSTRAD CPC,APPS,ARDUINO,ATARI 2600,ATARI 5200,ATARI 7800,ATARI LYNX,ATARI ST,COMMODORE 64,CPS1,CPS2,CPS3,DAPHNE,DOOM,DOS,FDS,FINALBURN ALPHA,FINALBURN NEO,GAME & WATCH,GAME BOY,GAME BOY ADVANCE,GAME BOY COLOR,GAME GEAR,GAMES,INTELLIVISION,MAME,MASTER SYSTEM,MSU-1,MSU-MD,MSX,NES,NEO GEO,NEO GEO CD,NEO GEO POCKET,NINTENDO DS,ODYSSEY2,OPENBOR,OVERLAYS,PC98,PC ENGINE,PC ENGINE CD,PICO-8,PLAYSTATION,POKEMON MINI,QUAKE,SCUMMVM,SGB,SEGA 32X,SEGA CD,SEGA GENESIS,SEGA SG-1000,SNES,SUPERVISION,TIC-80,VIRTUAL BOY,WOLF3D,WONDERSWAN,X68000,ZX SPECTRUM
+consoleList = APPS,GAMES,OVERLAYS,AMIGA,AMSTRAD CPC,ATARI ST,COMMODORE 64,MSX,X68000,DOS,PC98,ZX SPECTRUM,SCUMMVM,OPENBOR,PICO-8,TIC-80,DOOM,QUAKE,WOLF3D,CPS1,CPS2,CPS3,NEO GEO,MAME,FINALBURN ALPHA,FINALBURN NEO,DAPHNE,ARDUINO,ATARI LYNX,GAME & WATCH,GAME BOY,GAME BOY COLOR,GAME BOY ADVANCE,NINTENDO DS,GAME GEAR,NEO GEO POCKET,POKEMON MINI,SUPERVISION,WONDERSWAN,ATARI 2600,ATARI 5200,ATARI 7800,INTELLIVISION,ODYSSEY2,SEGA SG-1000,MASTER SYSTEM,NES,FDS,NEO GEO CD,PC ENGINE,PC ENGINE CD,PLAYSTATION,SEGA GENESIS,MSU-MD,SEGA 32X,SEGA CD,SNES,MSU-1,SGB,VIRTUAL BOY
 
 [AMIGA]
 execs = /mnt/SDCARD/.simplemenu/launchers/puae_libretro,/mnt/SDCARD/.simplemenu/launchers/uae4arm_libretro,/mnt/SDCARD/.simplemenu/launchers/puae2021_libretro
@@ -54,6 +54,11 @@ romExts = .a78,.rom,.zip,.7z
 execs = /mnt/SDCARD/.simplemenu/launchers/vice_x64_libretro
 romDirs = /mnt/SDCARD/Roms/C64/
 romExts = .crt,.d64,.t64,.bin,.g64,.7z,.zip
+
+[ODYSSEY2]
+execs = /mnt/SDCARD/.simplemenu/launchers/o2em_libretro
+romDirs = /mnt/SDCARD/Roms/ODYSSEY2/
+romExts = .zip,.bin
 
 [CPS1]
 execs = /mnt/SDCARD/.simplemenu/launchers/fbalpha2012_cps1_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbalpha_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_miyoo_libretro,/mnt/SDCARD/.simplemenu/launchers/fbneo_standalone
@@ -129,6 +134,12 @@ romDirs = /mnt/SDCARD/Roms/GBA/
 romExts = .gba,.zip,.7z
 scaling = 1
 
+[NINTENDO DS]
+execs = /mnt/SDCARD/.simplemenu/launchers/drastic_standalone
+romDirs = /mnt/SDCARD/Roms/NDS/
+romExts = .nds,.7z,.zip,.rar
+scaling = 1
+
 [GAME GEAR]
 execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone,/mnt/SDCARD/.simplemenu/launchers/picodrive_netplay_libretro
 romDirs = /mnt/SDCARD/Roms/GG/
@@ -152,7 +163,7 @@ romExts = .zip
 aliasFile = /mnt/SDCARD/.simplemenu/alias.txt
 
 [MASTER SYSTEM]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone,/mnt/SDCARD/.simplemenu/launchers/picodrive_netplay_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone,/mnt/SDCARD/.simplemenu/launchers/picodrive_netplay_libretro,/mnt/SDCARD/.simplemenu/launchers/smsplus_libretro
 romDirs = /mnt/SDCARD/Roms/MS/
 romExts = .zip,.sms,.7z
 
@@ -173,19 +184,13 @@ romDirs = /mnt/SDCARD/Roms/NGP/
 romExts = .ngp,.ngc,.ngpc,.npc,.zip,.7z
 scaling = 1
 
-[NINTENDO DS]
-execs = /mnt/SDCARD/.simplemenu/launchers/drastic_standalone
-romDirs = /mnt/SDCARD/Roms/NDS/
-romExts = .nds,.7z,.zip,.rar
-scaling = 1
-
 [NES]
 execs = /mnt/SDCARD/.simplemenu/launchers/fceumm_libretro,/mnt/SDCARD/.simplemenu/launchers/nestopia_libretro,/mnt/SDCARD/.simplemenu/launchers/nestopia_miyoo_libretro
 romDirs = /mnt/SDCARD/Roms/FC/
 romExts = .nes,.zip,.7z
 
 [MSU-1]
-execs = /mnt/SDCARD/.simplemenu/launchers/msu1_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/msu1_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro
 romDirs = /mnt/SDCARD/Roms/MSU1/
 romExts = .smc,.sfc,.zip,.7z
 aliasFile = /mnt/SDCARD/.simplemenu/alias_MSU-1.txt
@@ -200,11 +205,6 @@ aliasFile = /mnt/SDCARD/.simplemenu/alias_MSU-MD.txt
 execs = /mnt/SDCARD/.simplemenu/launchers/bluemsx_libretro,/mnt/SDCARD/.simplemenu/launchers/fmsx_libretro
 romDirs = /mnt/SDCARD/Roms/MSX/
 romExts = .rom,.ri,.mx1,.mx2,.col,.dsk,.cas,.sg,.sc,.m3u,.zip,.7z
-
-[ODYSSEY2]
-execs = /mnt/SDCARD/.simplemenu/launchers/o2em_libretro
-romDirs = /mnt/SDCARD/Roms/ODYSSEY2/
-romExts = .zip,.bin
 
 [OPENBOR]
 execs = /mnt/SDCARD/.simplemenu/launchers/openbor_standalone

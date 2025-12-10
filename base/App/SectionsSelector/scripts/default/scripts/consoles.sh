@@ -20,7 +20,7 @@ romDirs = /mnt/SDCARD/Roms/SFC/
 romExts = .smc,.sfc,.zip,.7z
 
 [MSU-1]
-execs = /mnt/SDCARD/.simplemenu/launchers/msu1_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/msu1_libretro,/mnt/SDCARD/.simplemenu/launchers/snes9x_libretro
 romDirs = /mnt/SDCARD/Roms/MSU1/
 romExts = .smc,.sfc,.zip,.7z
 aliasFile = /mnt/SDCARD/.simplemenu/alias_MSU-1.txt
@@ -41,7 +41,7 @@ romDirs = /mnt/SDCARD/Roms/SEGASGONE/
 romExts = .zip,.sg,.7z
 
 [MASTER SYSTEM]
-execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone,/mnt/SDCARD/.simplemenu/launchers/picodrive_netplay_libretro
+execs = /mnt/SDCARD/.simplemenu/launchers/picodrive_libretro,/mnt/SDCARD/.simplemenu/launchers/genesis_plus_gx_libretro,/mnt/SDCARD/.simplemenu/launchers/gearsystem_libretro,/mnt/SDCARD/.simplemenu/launchers/picodrive_standalone,/mnt/SDCARD/.simplemenu/launchers/picodrive_netplay_libretro,/mnt/SDCARD/.simplemenu/launchers/smsplus_libretro
 romDirs = /mnt/SDCARD/Roms/MS/
 romExts = .zip,.sms,.7z
 
