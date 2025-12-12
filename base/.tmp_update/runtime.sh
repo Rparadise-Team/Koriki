@@ -279,7 +279,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/default_section
+			touch "${SDCARD_PATH}"/.simplemenu/systems_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown
@@ -292,7 +292,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/default_section
+			touch "${SDCARD_PATH}"/.simplemenu/systems_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown -r
