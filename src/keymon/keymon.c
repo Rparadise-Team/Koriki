@@ -854,7 +854,7 @@ static void updateHeadphoneState(HeadphoneState new_state)
         osd_show(OSD_VOLUME);
     }
     else if (new_state == HP_STATE_DISCONNECTED) {
-		int hv = loadHeadphoneVol();
+		int hv = loadVol();
         saveHeadphoneVol(hv);
 
         int spk = loadSpeakerVol();
