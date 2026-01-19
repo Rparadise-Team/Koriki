@@ -279,7 +279,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/systems_section
+			touch "${SDCARD_PATH}"/.simplemenu/default_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown
@@ -292,7 +292,7 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/systems_section
+			touch "${SDCARD_PATH}"/.simplemenu/default_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown -r
@@ -880,37 +880,25 @@ if [ -d "/mnt/SDCARD/Roms/FBN" ]; then
 	mv "/mnt/SDCARD/Roms/FBN" "/mnt/SDCARD/Roms/FBNEO"
 fi
 
+# Si existe fuse, renombrar en dos pasos (FAT32)
+FUSED="/mnt/SDCARD/RetroArch/.retroarch/config"
+if [ -d "$FUSED/fuse" ]; then
+    mv "$FUSED/fuse" "$FUSED/fuset" && mv "$FUSED/fuset" "$FUSED/Fuse"
+fi
+
 # Detect if networks app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
-	if [ -f "${SDCARD_PATH}/.simplemenu/default_section" ]; then
-    	ACTIVE="default"
-	elif [ -f "${SDCARD_PATH}/.simplemenu/alphabetic_section" ]; then
+	if [ -f "${SDCARD_PATH}/.simplemenu/alphabetic_section" ]; then
     	ACTIVE="alphabetic"
 	elif [ -f "${SDCARD_PATH}/.simplemenu/systems_section" ]; then
     	ACTIVE="systems"
 	else
-    	ACTIVE="default"
+    	ACTIVE="alphabetic"
 	fi
 
 	LAST="${SDCARD_PATH}/.simplemenu/last_state.sav"
 	
 	case "$ACTIVE" in
-
-    default)
-        sed -i '
-        s/^1;1;0;14;14;/1;1;0;12;12;/
-        s/^1;1;1;6;14;/1;1;1;4;12;/
-        s/^1;1;1;2;14;/1;1;1;0;12;/
-        s/^1;1;1;1;14;/1;1;1;0;12;/
-        s/^1;1;1;0;14;/1;1;1;0;12;/
-
-        s/^0;1;0;14;14;/0;1;0;12;12;/
-        s/^0;1;1;6;14;/0;1;1;4;12;/
-        s/^0;1;1;2;14;/0;1;1;0;12;/
-        s/^0;1;1;1;14;/0;1;1;0;12;/
-        s/^0;1;1;0;14;/0;1;1;0;12;/
-        ' "$LAST"
-    ;;
 
     alphabetic)
         sed -i '
@@ -1065,6 +1053,12 @@ fi
 if [ ! -f "/appconfigs/keyscraper.txt" ]; then
    touch /appconfigs/keyscraper.txt
    echo uhdsjndoujahfjdnfgjdfunsaofugasufaslonf > /appconfigs/keyscraper.txt
+fi
+
+#usb audio driver
+
+if [ "$SUBMODEL" == "MMFLIP" ]; then
+	insmod "${SDCARD_PATH}"/snd-usb-audio.ko
 fi
 
 # Launch SimpleMenu
