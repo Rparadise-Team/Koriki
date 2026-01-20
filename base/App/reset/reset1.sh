@@ -34,7 +34,7 @@ else
 fi
 
 reset_settings() {
-		cp ${SYSTEM_PATH}/assets/retroarch.cfg $SDCARD_PATH/RetroArch/.retroarch/retroarch.cfg
+		cp ${SYSTEM_PATH}/assets/retroarch.cfg ${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg
 		sync
 
         if [ $MODEL = "MM" ]; then
@@ -43,6 +43,7 @@ reset_settings() {
 			else
 			cp ${SYSTEM_PATH}/assets/system-stock.json $SETTINGS_FILE
 			fi
+			sed -i 's|^audio_latency = "64"$|audio_latency = "32"|' "${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg"
             sync
 			shutdown
             sleep 10s
@@ -50,6 +51,7 @@ reset_settings() {
         
 		if [ $MODEL = "MMv4" ]; then
 			cp ${SYSTEM_PATH}/assets/system-v4-stock.json $SETTINGS_FILE
+			sed -i 's|^audio_latency = "64"$|audio_latency = "32"|' "${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg"
 			sync
 			shutdown
             sleep 10s
@@ -57,6 +59,7 @@ reset_settings() {
 		
 		if [ $MODEL = "MMP" ]; then
             cp ${SYSTEM_PATH}/assets/system.mmp-stock.json $SETTINGS_FILE
+			sed -i 's|^audio_latency = "32"$|audio_latency = "64"|' "${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg"
             sync
             shutdown -r
             sleep 10s
@@ -64,6 +67,7 @@ reset_settings() {
 		
 		if [ $MODEL = "MMF" ]; then
             cp ${SYSTEM_PATH}/assets/system.mmf-stock.json $SETTINGS_FILE
+			sed -i 's|^audio_latency = "32"$|audio_latency = "64"|' "${SDCARD_PATH}/RetroArch/.retroarch/retroarch.cfg"
             sync
             shutdown -r
             sleep 10s

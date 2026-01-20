@@ -129,10 +129,11 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.json "$SETTINGS_FILE"
 	fi
 	if [ "$MODEL" == "MMP" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
-	fi
-	if [ "$MODEL" == "MMFLIP" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+		if [ "$SUBMODEL" == "MMFLIP" ]; then
+			cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+		else
+			cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+		fi
 	fi
 fi
 
@@ -279,7 +280,8 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/default_section
+			rm "${SDCARD_PATH}"/.simplemenu/*_section
+			touch "${SDCARD_PATH}"/.simplemenu/systems_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown
@@ -292,7 +294,8 @@ reset_settings() {
 			fi
 
 			cp "${SYSTEM_PATH}"/assets/last_state.sav "${SDCARD_PATH}"/.simplemenu/last_state.sav
-			touch "${SDCARD_PATH}"/.simplemenu/default_section
+			rm "${SDCARD_PATH}"/.simplemenu/*_section
+			touch "${SDCARD_PATH}"/.simplemenu/systems_section
 			rm "${SDCARD_PATH}"/.reset_settings
 			sync
 			shutdown -r
@@ -575,13 +578,11 @@ dir_scaffolding
 # fix if the settings files is missing
 if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
-		sync
-		shutdown -r
-		sleep 5
-	fi
-	if [ "$SUBMODEL" == "MMFLIP" ]; then
+		if [ "$SUBMODEL" == "MMFLIP" ]; then
 		cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+		else
+		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+		fi
 		sync
 		shutdown -r
 		sleep 5
@@ -893,7 +894,7 @@ if [ "$MODEL" == "MM" ]; then
 	elif [ -f "${SDCARD_PATH}/.simplemenu/systems_section" ]; then
     	ACTIVE="systems"
 	else
-    	ACTIVE="alphabetic"
+    	ACTIVE="systems"
 	fi
 
 	LAST="${SDCARD_PATH}/.simplemenu/last_state.sav"
@@ -1053,12 +1054,6 @@ fi
 if [ ! -f "/appconfigs/keyscraper.txt" ]; then
    touch /appconfigs/keyscraper.txt
    echo uhdsjndoujahfjdnfgjdfunsaofugasufaslonf > /appconfigs/keyscraper.txt
-fi
-
-#usb audio driver
-
-if [ "$SUBMODEL" == "MMFLIP" ]; then
-	insmod "${SDCARD_PATH}"/snd-usb-audio.ko
 fi
 
 # Launch SimpleMenu
