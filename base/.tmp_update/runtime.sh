@@ -579,9 +579,9 @@ dir_scaffolding
 if [ ! -f "$SETTINGS_FILE" ]; then
 	if [ "$MODEL" == "MMP" ]; then
 		if [ "$SUBMODEL" == "MMFLIP" ]; then
-		cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system.mmf.json "$SETTINGS_FILE"
 		else
-		cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
+			cp "${SYSTEM_PATH}"/assets/system.mmp.json "$SETTINGS_FILE"
 		fi
 		sync
 		shutdown -r
@@ -882,9 +882,31 @@ if [ -d "/mnt/SDCARD/Roms/FBN" ]; then
 fi
 
 # Si existe fuse, renombrar en dos pasos (FAT32)
-FUSED="/mnt/SDCARD/RetroArch/.retroarch/config"
+FUSEA="/mnt/SDCARD/Cheats"
+FUSEB="/mnt/SDCARD/Saves/RA_saves"
+FUSEC="/mnt/SDCARD/Saves/RA_states"
+FUSED="/mnt/SDCARD/RetroArch/.retroarch/config/remaps"
+FUSEE="/mnt/SDCARD/RetroArch/.retroarch/config"
+
+if [ -d "$FUSEA/fuse" ]; then
+    mv "$FUSEA/fuse" "$FUSEA/fuset" && mv "$FUSEA/fuset" "$FUSEA/Fuse"
+	sync
+fi
+if [ -d "$FUSEB/fuse" ]; then
+    mv "$FUSEB/fuse" "$FUSEB/fuset" && mv "$FUSEB/fuset" "$FUSEB/Fuse"
+	sync
+fi
+if [ -d "$FUSEC/fuse" ]; then
+    mv "$FUSEC/fuse" "$FUSEC/fuset" && mv "$FUSEC/fuset" "$FUSEC/Fuse"
+	sync
+fi
 if [ -d "$FUSED/fuse" ]; then
     mv "$FUSED/fuse" "$FUSED/fuset" && mv "$FUSED/fuset" "$FUSED/Fuse"
+	sync
+fi
+if [ -d "$FUSEE/fuse" ]; then
+    mv "$FUSEE/fuse" "$FUSEE/fuset" && mv "$FUSEE/fuset" "$FUSEE/Fuse"
+	sync
 fi
 
 # Detect if networks app was the last app and erese this from SM if is the model MM.
