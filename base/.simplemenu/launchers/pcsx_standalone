@@ -183,7 +183,7 @@ fi
 
 echo "Ejecutando: ./pcsx -cdfile \"$ACTUAL_FILE\""
 cd /mnt/SDCARD/App/pcsx
-echo "$ACTUAL_FILE" ./.pcsx/lastcdimg.txt
+echo "$ACTUAL_FILE" > ./.pcsx/lastcdimg.txt
 ./pcsx -cdfile "$ACTUAL_FILE"
 
 sync
