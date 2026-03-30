@@ -42,7 +42,7 @@
 2025-12-10 0096d6f2 fbalpha2012_neogeo_libretro.so.zip
 2025-12-10 1e2122c5 fbalpha2012_neogeo_miyoo_libretro.so.zip
 2025-12-10 90cf12f8 fbalpha_libretro.so.zip
-2025-12-10 7ed3900e fbneo_libretro.so.zip
+2026-03-30 afdfb293 fbneo_libretro.so.zip
 2025-12-10 c889700b fbneo_miyoo_libretro.so.zip
 2025-12-10 2ca76f5b fceumm_libretro.so.zip
 2025-12-10 253864ab fixgb_libretro.so.zip
@@ -60,6 +60,7 @@
 2025-12-10 2530d702 genesis_plus_gx_libretro.so.zip
 2025-12-10 d6d7650d genesis_plus_gx_mod_libretro.so.zip
 2025-12-10 f2e15a26 genesis_plus_gx_wide_libretro.so.zip
+2026-03-30 8ad24358 geolith_libretro.so.zip
 2025-12-10 fa2f7fe8 gme_libretro.so.zip
 2025-12-10 4021f613 gong_libretro.so.zip
 2025-12-10 d1dc26cb gpsp_libretro.so.zip
