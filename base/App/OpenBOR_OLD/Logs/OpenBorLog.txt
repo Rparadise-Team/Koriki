@@ -1,0 +1,617 @@
+Total Ram: 105807872 Bytes
+ Free Ram: 16338944 Bytes
+ Used Ram: 4564480 Bytes
+
+debug:nativeWidth, nativeHeight, bpp, Hz  0, 0, 0, 0
+OpenBoR v3.0 Build 6391, Compile Date: Feb 27 2026
+
+Game Selected: /mnt/SDCARD/Roms/OPENBOR/Dragones & Mazmorras.pak
+
+FileCaching System Init......	Enabled
+Initializing video............
+Reading video settings from 'data/video.txt'.
+
+Colordepth is depreciated. All modules are displayed with a 32bit color screen.
+
+Initialized video.............	320x240 (Mode: 0)
+
+Loading menu.txt.............	Done!
+Loading fonts................	1 2 3 4 6 Done!
+Timer init...................	Done!
+Initialize Sound..............	
+Loading sprites..............	Done!
+Loading level order..........	Done!
+Loading model constants......	Done!
+Loading script settings......	Done!
+Loading scripts..............	Done!
+Loading models...............
+
+Cacheing 'Flash' from data/chars/misc/flash.txt
+Cacheing 'FlashHank' from data/chars/misc/flashHank.txt
+Cacheing 'Flashbob' from data/chars/misc/flashbob.txt
+Cacheing 'FlashFire' from data/chars/misc/flashFire.txt
+Cacheing 'FlashGelo' from data/chars/misc/flashGelo.txt
+Cacheing 'Block' from data/chars/misc/Block.txt
+Cacheing 'portal' from data/chars/misc/portal.txt
+Cacheing 'portal8mapas' from data/chars/misc/portal8mapas.txt
+Cacheing 'troca' from data/chars/misc/troca.txt
+Cacheing 'poeira' from data/chars/misc/poeira.txt
+Cacheing 'stomp' from data/chars/misc/stomp.txt
+Cacheing 'rocha' from data/chars/misc/rocha.txt
+Cacheing 'box0' from data/chars/misc/box0.txt
+Cacheing 'box1' from data/chars/misc/box1.txt
+Cacheing 'box2' from data/chars/misc/box2.txt
+Cacheing 'box3' from data/chars/misc/box3.txt
+Cacheing 'box4' from data/chars/misc/box4.txt
+Cacheing 'box5' from data/chars/misc/box5.txt
+Cacheing 'box6' from data/chars/misc/box6.txt
+Cacheing 'bau' from data/chars/misc/bau.txt
+Cacheing 'lamp' from data/chars/misc/lamp.txt
+Cacheing 'mana1' from data/chars/misc/mana1.txt
+Cacheing 'mana2' from data/chars/misc/mana2.txt
+Cacheing 'life1' from data/chars/misc/life1.txt
+Cacheing 'life2' from data/chars/misc/life2.txt
+Cacheing 'life3' from data/chars/misc/life3.txt
+Cacheing 'life4' from data/chars/misc/life4.txt
+Cacheing 'life5' from data/chars/misc/life5.txt
+Cacheing '1up' from data/chars/misc/1up.txt
+Cacheing '2up' from data/chars/misc/2up.txt
+Cacheing 'gema' from data/chars/misc/gema.txt
+Cacheing 'gold1' from data/chars/misc/gold1.txt
+Cacheing 'gold2' from data/chars/misc/gold2.txt
+Cacheing 'gold3' from data/chars/misc/gold3.txt
+Cacheing 'gold4' from data/chars/misc/gold4.txt
+Cacheing 'mapa' from data/chars/misc/mapa.txt
+Cacheing 'mapa2' from data/chars/misc/mapa2.txt
+Cacheing 'levelGet' from data/chars/misc/levelGet.txt
+Cacheing 'levelGetLamp' from data/chars/misc/levelGetLamp.txt
+Cacheing 'saida0' from data/chars/misc/saida0.txt
+Cacheing 'saida1' from data/chars/misc/saida1.txt
+Cacheing 'saidaLoop' from data/chars/misc/saidaLoop.txt
+Cacheing 'saidaFinal' from data/chars/misc/saidaFinal.txt
+Cacheing 'gnomos' from data/chars/misc/gnomos.txt
+Cacheing 'ursos' from data/chars/misc/ursos.txt
+Cacheing 'kane' from data/chars/misc/kane.txt
+Cacheing 'SHeart' from data/chars/misc/SHeart.txt
+Cacheing 'pessoa1' from data/chars/misc/pessoa1.txt
+Cacheing 'pessoa2' from data/chars/misc/pessoa2.txt
+Cacheing 'pessoa3' from data/chars/misc/pessoa3.txt
+Cacheing 'pessoa4' from data/chars/misc/pessoa4.txt
+Cacheing 'pessoaSOL' from data/chars/misc/pessoaSOL.txt
+Cacheing 'pessoaVinga' from data/chars/misc/pessoaVinga.txt
+Cacheing 'pessoaVinga2' from data/chars/misc/pessoaVinga2.txt
+Cacheing 'pessoaVarla' from data/chars/misc/pessoaVarla.txt
+Cacheing 'pessoaAnao' from data/chars/misc/pessoaAnao.txt
+Cacheing 'velho' from data/chars/misc/velho.txt
+Cacheing 'link' from data/chars/misc/link.txt
+Cacheing 'vend0' from data/chars/misc/vend0.txt
+Cacheing 'vend0b' from data/chars/misc/vend0b.txt
+Cacheing 'vend1' from data/chars/misc/vend1.txt
+Cacheing 'vend2' from data/chars/misc/vend2.txt
+Cacheing 'vend3' from data/chars/misc/vend3.txt
+Cacheing 'cava1' from data/chars/misc/cava1.txt
+Cacheing 'lebre' from data/chars/misc/lebre.txt
+Cacheing 'Prefeito' from data/chars/misc/Prefeito.txt
+Cacheing 'vaca' from data/chars/misc/vaca.txt
+Cacheing 'mesa' from data/chars/misc/mesa.txt
+Cacheing 'Fogueira' from data/chars/misc/Fogueira.txt
+Cacheing 'mastro1' from data/chars/misc/mastro1.txt
+Cacheing 'mastro2' from data/chars/misc/mastro2.txt
+Cacheing 'mina1' from data/chars/misc/mina1.txt
+Cacheing 'plata1' from data/chars/misc/plata1.txt
+Cacheing 'plataParede' from data/chars/misc/plataParede.txt
+Cacheing 'contador' from data/chars/misc/contador.txt
+Cacheing 'contadorBoss' from data/chars/misc/contadorBoss.txt
+Cacheing 'contadorBossCO' from data/chars/misc/contadorBossCO.txt
+Cacheing 'contadorRatos' from data/chars/misc/contadorRatos.txt
+Cacheing 'contadorRatosCO' from data/chars/misc/contadorRatosCO.txt
+Cacheing 'dragBack22' from data/chars/misc/dragBack22.txt
+Cacheing 'dragBack33' from data/chars/misc/dragBack33.txt
+Cacheing 'dragBack44' from data/chars/misc/dragBack44.txt
+Cacheing 'dragInva' from data/chars/misc/dragInva.txt
+Cacheing 'text01' from data/chars/misc/text01.txt
+Cacheing 'text02' from data/chars/misc/text02.txt
+Cacheing 'text03' from data/chars/misc/text03.txt
+Cacheing 'text04' from data/chars/misc/text04.txt
+Cacheing 'text05' from data/chars/misc/text05.txt
+Cacheing 'text06' from data/chars/misc/text06.txt
+Cacheing 'text07' from data/chars/misc/text07.txt
+Cacheing 'textGOOD' from data/chars/misc/textGOOD.txt
+Cacheing 'textBAD' from data/chars/misc/textBAD.txt
+Cacheing 'textMap1' from data/chars/misc/textMap1.txt
+Cacheing 'textMap2' from data/chars/misc/textMap2.txt
+Cacheing 'textMap3' from data/chars/misc/textMap3.txt
+Cacheing 'textMap4' from data/chars/misc/textMap4.txt
+Cacheing 'textMap5' from data/chars/misc/textMap5.txt
+Cacheing 'textMap6' from data/chars/misc/textMap6.txt
+Cacheing 'textMap7' from data/chars/misc/textMap7.txt
+Cacheing 'textMap8' from data/chars/misc/textMap8.txt
+Cacheing 'vingaMerlin' from data/chars/misc/vingaMerlin.txt
+Cacheing 'finalEric' from data/chars/misc/finalEric.txt
+Cacheing 'finalSheila' from data/chars/misc/finalSheila.txt
+Cacheing 'finalPresto' from data/chars/misc/finalPresto.txt
+Cacheing 'finalBobby' from data/chars/misc/finalBobby.txt
+Cacheing 'finalDiana' from data/chars/misc/finalDiana.txt
+Cacheing 'levelMap' from data/chars/misc/levelMap.txt
+Cacheing 'levelMax' from data/chars/player/levelMax.txt
+Cacheing 'levelUp' from data/chars/player/levelUp.txt
+Cacheing 'levelHank' from data/chars/player/levelHank.txt
+Cacheing 'levelBobby' from data/chars/player/levelBobby.txt
+Cacheing 'levelEric' from data/chars/player/levelEric.txt
+Cacheing 'levelDiana' from data/chars/player/levelDiana.txt
+Cacheing 'levelSheila' from data/chars/player/levelSheila.txt
+Cacheing 'levelPresto' from data/chars/player/levelPresto.txt
+Cacheing 'levelWarduke' from data/chars/player/levelWarduke.txt
+Cacheing 'levelStrong' from data/chars/player/levelStrong.txt
+Cacheing 'levelMiner' from data/chars/player/levelMiner.txt
+Cacheing 'levelVinga' from data/chars/player/levelVinga.txt
+Cacheing 'Story' from data/chars/player/Hank_.txt
+Cacheing 'Sheila_' from data/chars/player/Sheila_.txt
+Cacheing 'Sheila_inv' from data/chars/player/Sheila_inv.txt
+Cacheing 'Presto_' from data/chars/player/Presto_.txt
+Cacheing 'Presto_2' from data/chars/player/Presto_2.txt
+Cacheing 'Bobby_' from data/chars/player/Bobby_.txt
+Cacheing 'Eric_' from data/chars/player/Eric_.txt
+Cacheing 'Diana_' from data/chars/player/Diana_.txt
+Cacheing 'Warduke_' from data/chars/player/Warduke_.txt
+Cacheing 'Uni_' from data/chars/player/Uni_.txt
+Cacheing 'Sir_' from data/chars/player/Sir_.txt
+Cacheing 'Strongheart_' from data/chars/player/Strongheart_.txt
+Cacheing 'Miner_' from data/chars/player/Miner_.txt
+Cacheing 'Hank' from data/chars/player/Hank.txt
+Cacheing 'Sheila' from data/chars/player/Sheila.txt
+Cacheing 'Sheilainv' from data/chars/player/Sheilainv.txt
+Cacheing 'Presto' from data/chars/player/Presto.txt
+Cacheing 'Bobby' from data/chars/player/Bobby.txt
+Cacheing 'Eric' from data/chars/player/Eric.txt
+Cacheing 'Diana' from data/chars/player/Diana.txt
+Cacheing 'Warduke' from data/chars/player/Warduke.txt
+Cacheing 'Venger' from data/chars/player/Venger.txt
+Cacheing 'Strongheart' from data/chars/player/Strongheart.txt
+Cacheing 'Bruenor' from data/chars/player/Bruenor.txt
+Cacheing 'UniNPC' from data/chars/player/UniNPC.txt
+Cacheing 'UniE' from data/chars/player/UniE.txt
+Cacheing 'Guarda1' from data/chars/Orcs/Guarda1.txt
+Cacheing 'Guarda2' from data/chars/Orcs/Guarda2.txt
+Cacheing 'mestre' from data/chars/misc/mestre.txt
+Cacheing 'mestre2' from data/chars/misc/mestre2.txt
+Cacheing 'mestreInicial' from data/chars/misc/mestreInicial.txt
+Cacheing 'mestreFinal' from data/chars/misc/mestreFinal.txt
+Cacheing 'Unicorno' from data/chars/Orcs/Unicorno.txt
+Cacheing 'Unicorno2' from data/chars/Orcs/Unicorno2.txt
+Cacheing 'ArthurNPC' from data/chars/Troll/ArthurNPC.txt
+Cacheing 'CavLVL1' from data/chars/Vinga/CavLVL1.txt
+Cacheing 'CavLVL2' from data/chars/Vinga/CavLVL2.txt
+Cacheing 'CavLVL3' from data/chars/Vinga/CavLVL3.txt
+Cacheing 'CavLVL4' from data/chars/Vinga/CavLVL4.txt
+Cacheing 'rat' from data/chars/Orcs/rat.txt
+Cacheing 'Lobo' from data/chars/Orcs/Lobo.txt
+Cacheing 'LoboBig' from data/chars/Orcs/LoboBig.txt
+Cacheing 'GuardaE1' from data/chars/Orcs/GuardaE1.txt
+Cacheing 'GuardaE2' from data/chars/Orcs/GuardaE2.txt
+Cacheing 'OrcBoss' from data/chars/Orcs/OrcBoss.txt
+Cacheing 'OrcBossCO' from data/chars/Orcs/OrcBossCO.txt
+Cacheing 'Orc1' from data/chars/Orcs/Orc1.txt
+Cacheing 'OrcNPC' from data/chars/Orcs/OrcNPC.txt
+Cacheing 'Orc1j' from data/chars/Orcs/Orc1j.txt
+Cacheing 'Orc1z' from data/chars/Orcs/Orc1z.txt
+Cacheing 'Orc1z2' from data/chars/Orcs/Orc1z2.txt
+Cacheing 'Orc2' from data/chars/Orcs/Orc2.txt
+Cacheing 'Orc3' from data/chars/Orcs/Orc3.txt
+Cacheing 'OrcEvil' from data/chars/Orcs/OrcEvil.txt
+Cacheing 'Harpia' from data/chars/Orcs/Harpia.txt
+Cacheing 'Werewolf' from data/chars/Orcs/Werewolf.txt
+Cacheing 'Werewolf2' from data/chars/Orcs/Werewolf2.txt
+Cacheing 'cav1' from data/chars/Orcs/cav1.txt
+Cacheing 'cav2' from data/chars/Orcs/cav2.txt
+Cacheing 'cavV' from data/chars/Orcs/cavV.txt
+Cacheing 'Lizard1' from data/chars/Orcs/Lizard1.txt
+Cacheing 'Lizard2' from data/chars/Orcs/Lizard2.txt
+Cacheing 'Knight' from data/chars/Orcs/Knight.txt
+Cacheing 'Pedro' from data/chars/Orcs/Pedro.txt
+Cacheing 'Soldado' from data/chars/Orcs/Soldado.txt
+Cacheing 'Soldadorun' from data/chars/Orcs/Soldadorun.txt
+Cacheing 'DragaoMini' from data/chars/Orcs/DragaoMini.txt
+Cacheing 'Armor' from data/chars/Orcs/Armor.txt
+Cacheing 'Kelek' from data/chars/Troll/Kelek.txt
+Cacheing 'KelekCO' from data/chars/Troll/KelekCO.txt
+Cacheing 'KelekNPC' from data/chars/Troll/KelekNPC.txt
+Cacheing 'Arthur' from data/chars/Troll/Arthur.txt
+Cacheing 'DekionE' from data/chars/Troll/DekionE.txt
+Cacheing 'DekionCO' from data/chars/Troll/DekionCO.txt
+Cacheing 'WardukeBoss' from data/chars/Troll/WardukeBoss.txt
+Cacheing 'WardukeNPC' from data/chars/Troll/WardukeNPC.txt
+Cacheing 'Cyclops' from data/chars/Troll/Cyclops.txt
+Cacheing 'CyclopsCO' from data/chars/Troll/CyclopsCO.txt
+Cacheing 'Harpy' from data/chars/Troll/Harpy.txt
+Cacheing 'HarpyCO' from data/chars/Troll/HarpyCO.txt
+Cacheing 'Elfa' from data/chars/Troll/Elfa.txt
+Cacheing 'Dragao' from data/chars/Troll/Dragao.txt
+Cacheing 'DragaoCO' from data/chars/Troll/DragaoCO.txt
+Cacheing 'BoneDragao' from data/chars/Troll/BoneDragao.txt
+Cacheing 'Manti' from data/chars/Troll/Manti.txt
+Cacheing 'MantiCO' from data/chars/Troll/MantiCO.txt
+Cacheing 'Troll1' from data/chars/Troll/Troll1.txt
+Cacheing 'Troll2' from data/chars/Troll/Troll2.txt
+Cacheing 'Troll2CO' from data/chars/Troll/Troll2CO.txt
+Cacheing 'Behold' from data/chars/Troll/Behold.txt
+Cacheing 'BeholdCO' from data/chars/Troll/BeholdCO.txt
+Cacheing 'BeholdNPC' from data/chars/Troll/BeholdNPC.txt
+Cacheing 'ReiEsqueleto' from data/chars/Troll/ReiEsqueleto.txt
+Cacheing 'ReiEsqueletoCO' from data/chars/Troll/ReiEsqueletoCO.txt
+Cacheing 'Gigante' from data/chars/Troll/Gigante.txt
+Cacheing 'LizKing' from data/chars/Troll/LizKing.txt
+Cacheing 'LizKingCO' from data/chars/Troll/LizKingCO.txt
+Cacheing 'Vingador' from data/chars/BOSS/Vingador.txt
+Cacheing 'VingadorFundo' from data/chars/BOSS/VingadorFundo.txt
+Cacheing 'merlin' from data/chars/BOSS/merlin.txt
+Cacheing 'merlinCO' from data/chars/BOSS/merlinCO.txt
+Cacheing 'merlinClone' from data/chars/BOSS/merlinClone.txt
+Cacheing 'tiaBody' from data/chars/BOSS/tiaBody.txt
+Cacheing 'tiaBodyCO' from data/chars/BOSS/tiaBodyCO.txt
+Cacheing 'tiaHead' from data/chars/BOSS/tiaHead.txt
+Cacheing 'tiaCorpo' from data/chars/BOSS/tiaCorpo.txt
+Cacheing 'VingadorTiro' from data/chars/BOSS/VingadorTiro.txt
+Cacheing 'lancaE' from data/chars/Orcs/lancaE.txt
+Cacheing 'lancaEP' from data/chars/Orcs/lancaEP.txt
+Cacheing 'FlechaE' from data/chars/Orcs/FlechaE.txt
+Cacheing 'FlechaEP' from data/chars/Orcs/FlechaEP.txt
+Cacheing 'PedraE' from data/chars/Orcs/PedraE.txt
+Cacheing 'PedraEP' from data/chars/Orcs/PedraEP.txt
+Cacheing 'BeholdTiro01' from data/chars/Troll/BeholdTiro01.txt
+Cacheing 'BeholdTiro02' from data/chars/Troll/BeholdTiro02.txt
+Cacheing 'BeholdTiro03' from data/chars/Troll/BeholdTiro03.txt
+Cacheing 'DragaoTiro01' from data/chars/Troll/DragaoTiro01.txt
+Cacheing 'KelekTiro' from data/chars/Troll/KelekTiro.txt
+Cacheing 'VingaTiro1' from data/chars/Vinga/VingaTiro1.txt
+Cacheing 'VingaTiro2' from data/chars/Vinga/VingaTiro2.txt
+Cacheing 'MinerTiro' from data/chars/Miner/MinerTiro.txt
+Cacheing 'Mina' from data/chars/Miner/Mina.txt
+Cacheing 'HolyTiro' from data/chars/player/HolyTiro.txt
+Cacheing 'WardukeTiro' from data/chars/player/WardukeTiro.txt
+Cacheing 'FlechaA' from data/chars/hank/FlechaA.txt
+Cacheing 'FlechaA2' from data/chars/hank/FlechaA2.txt
+Cacheing 'FlechaA3' from data/chars/hank/FlechaA3.txt
+Cacheing 'FlechaA4' from data/chars/hank/FlechaA4.txt
+Cacheing 'FlechaT' from data/chars/hank/FlechaT.txt
+Cacheing 'FlechaCima' from data/chars/hank/FlechaCima.txt
+Cacheing 'PrestoTiro01' from data/chars/Presto/PrestoTiro01.txt
+Cacheing 'PrestoTiro02' from data/chars/Presto/PrestoTiro02.txt
+Cacheing 'PrestoTiro03' from data/chars/Presto/PrestoTiro03.txt
+Cacheing 'PrestoTiro04' from data/chars/Presto/PrestoTiro04.txt
+Cacheing 'PrestoTiro05' from data/chars/Presto/PrestoTiro05.txt
+Cacheing 'PrestoTiroA1' from data/chars/Presto/PrestoTiroA1.txt
+Cacheing 'PrestoTiroA2' from data/chars/Presto/PrestoTiroA2.txt
+Cacheing 'PrestoTiroA3' from data/chars/Presto/PrestoTiroA3.txt
+Cacheing 'PrestoTiroVerde' from data/chars/Presto/PrestoTiroVerde.txt
+Cacheing 'PrestoTiroVerdeE' from data/chars/Presto/PrestoTiroVerdeE.txt
+Cacheing 'PrestoHyper' from data/chars/Presto/PrestoHyper.txt
+Cacheing 'Cura1' from data/chars/Strong/Cura1.txt
+Cacheing 'Cura2' from data/chars/Strong/Cura2.txt
+Cacheing 'Cura3' from data/chars/Strong/Cura3.txt
+Cacheing 'Cura4' from data/chars/Strong/Cura4.txt
+Cacheing 'Cura5' from data/chars/Strong/Cura5.txt
+
+Loaded 'Flash' from data/chars/misc/flash.txt 
+Loaded 'Flashhank' from data/chars/misc/flashHank.txt 
+Loaded 'Flashbob' from data/chars/misc/flashbob.txt 
+Loaded 'FlashFire' from data/chars/misc/flashFire.txt 
+Loaded 'Flashgelo' from data/chars/misc/flashGelo.txt 
+Loaded 'Block' from data/chars/misc/Block.txt 
+Loaded 'portal' from data/chars/misc/portal.txt 
+Loaded 'portal8mapas' from data/chars/misc/portal8mapas.txt 
+Loaded 'troca' from data/chars/misc/troca.txt 
+Loaded 'poeira' from data/chars/misc/poeira.txt 
+Loaded 'levelMap' from data/chars/misc/levelMap.txt 
+Loaded 'levelMax' from data/chars/player/levelMax.txt 
+Loaded 'levelUp' from data/chars/player/levelUp.txt 
+Loaded 'levelHank' from data/chars/player/levelHank.txt 
+Loaded 'levelBobby' from data/chars/player/levelBobby.txt 
+Loaded 'levelEric' from data/chars/player/levelEric.txt 
+Loaded 'levelDiana' from data/chars/player/levelDiana.txt 
+Loaded 'levelSheila' from data/chars/player/levelSheila.txt 
+Loaded 'levelPresto' from data/chars/player/levelPresto.txt 
+Loaded 'LevelWarduke' from data/chars/player/levelWarduke.txt 
+Loaded 'LevelStrong' from data/chars/player/levelStrong.txt 
+Loaded 'LevelMiner' from data/chars/player/levelMiner.txt 
+Loaded 'LevelVinga' from data/chars/player/levelVinga.txt 
+Loaded 'Story' from data/chars/player/Hank_.txt 
+Loaded 'FlechaA' from data/chars/hank/FlechaA.txt 
+sound_load_sample can't load sample from file 'data/chars/player/flechahit.wav'!
+Loaded 'FlechaA2' from data/chars/hank/FlechaA2.txt 
+sound_load_sample can't load sample from file 'data/chars/player/flechahit.wav'!
+Loaded 'FlechaA3' from data/chars/hank/FlechaA3.txt 
+sound_load_sample can't load sample from file 'data/chars/player/flechahit.wav'!
+Loaded 'FlechaA4' from data/chars/hank/FlechaA4.txt 
+sound_load_sample can't load sample from file 'data/chars/player/flechahit.wav'!
+Loaded 'FlechaT' from data/chars/hank/FlechaT.txt 
+sound_load_sample can't load sample from file 'data/chars/player/flechahit.wav'!
+Loaded 'FlechaCima' from data/chars/hank/FlechaCima.txt 
+Loaded 'Sheila_' from data/chars/player/Sheila_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/SheilaDie.wav'!
+Loaded 'Sheila_inv' from data/chars/player/Sheila_inv.txt 
+sound_load_sample can't load sample from file 'data/chars/player/punch3.wav'!
+sound_load_sample can't load sample from file 'data/chars/player/punch3.wav'!
+Loaded 'Presto_' from data/chars/player/Presto_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/PrestoDie.wav'!
+Loaded 'PrestoTiro01' from data/chars/Presto/PrestoTiro01.txt 
+Loaded 'PrestoTiro02' from data/chars/Presto/PrestoTiro02.txt 
+Loaded 'PrestoTiro03' from data/chars/Presto/PrestoTiro03.txt 
+Loaded 'PrestoTiro04' from data/chars/Presto/PrestoTiro04.txt 
+Loaded 'PrestoTiro05' from data/chars/Presto/PrestoTiro05.txt 
+Loaded 'PrestoTiroVerde' from data/chars/Presto/PrestoTiroVerde.txt 
+Loaded 'PrestoTiroA1' from data/chars/Presto/PrestoTiroA1.txt 
+Loaded 'PrestoTiroA2' from data/chars/Presto/PrestoTiroA2.txt 
+Loaded 'PrestoTiroA3' from data/chars/Presto/PrestoTiroA3.txt 
+Loaded 'PrestoHyper' from data/chars/Presto/PrestoHyper.txt 
+sound_load_sample can't load sample from file 'data/sounds/punch1.wav'!
+Loaded 'Presto_2' from data/chars/player/Presto_2.txt 
+Loaded 'Bobby_' from data/chars/player/Bobby_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/BobbyDie.wav'!
+Loaded 'stomp' from data/chars/misc/stomp.txt 
+Loaded 'Eric_' from data/chars/player/Eric_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/EricDie.wav'!
+Loaded 'PedraEP' from data/chars/Orcs/PedraEP.txt 
+Loaded 'LancaEP' from data/chars/Orcs/lancaEP.txt 
+Loaded 'FlechaEP' from data/chars/Orcs/FlechaEP.txt 
+Loaded 'Diana_' from data/chars/player/Diana_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/DianaDie.wav'!
+Loaded 'Warduke_' from data/chars/player/Warduke_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/WardukeDie.wav'!
+Loaded 'WardukeTiro' from data/chars/player/WardukeTiro.txt 
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+Loaded 'Uni_' from data/chars/player/Uni_.txt 
+Loaded 'Sir_' from data/chars/player/Sir_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/SirDie.wav'!
+Loaded 'Strongheart_' from data/chars/player/Strongheart_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/StrongDie.wav'!
+Loaded 'HolyTiro' from data/chars/player/HolyTiro.txt 
+Loaded 'Cura1' from data/chars/Strong/Cura1.txt 
+Loaded 'Cura2' from data/chars/Strong/Cura2.txt 
+Loaded 'Cura3' from data/chars/Strong/Cura3.txt 
+Loaded 'Cura4' from data/chars/Strong/Cura4.txt 
+Loaded 'Cura5' from data/chars/Strong/Cura5.txt 
+sound_load_sample can't load sample from file 'data/sounds/heal.wav'!
+Loaded 'Miner_' from data/chars/player/Miner_.txt 
+sound_load_sample can't load sample from file 'data/chars/player/BruenorDie.wav'!
+Loaded 'Mina' from data/chars/Miner/Mina.txt 
+Loaded 'MinerTiro' from data/chars/Miner/MinerTiro.txt 
+Loaded 'Hank' from data/chars/player/Hank.txt 
+sound_load_sample can't load sample from file 'data/chars/player/HankDie.wav'!
+Loaded 'Sheila' from data/chars/player/Sheila.txt 
+sound_load_sample can't load sample from file 'data/chars/player/SheilaDie.wav'!
+Loaded 'Sheilainv' from data/chars/player/Sheilainv.txt 
+sound_load_sample can't load sample from file 'data/chars/player/punch3.wav'!
+sound_load_sample can't load sample from file 'data/chars/player/punch3.wav'!
+Loaded 'Presto' from data/chars/player/Presto.txt 
+sound_load_sample can't load sample from file 'data/sounds/punch1.wav'!
+Loaded 'Bobby' from data/chars/player/Bobby.txt 
+sound_load_sample can't load sample from file 'data/chars/player/BobbyDie.wav'!
+Loaded 'Eric' from data/chars/player/Eric.txt 
+sound_load_sample can't load sample from file 'data/chars/player/EricDie.wav'!
+Loaded 'Diana' from data/chars/player/Diana.txt 
+sound_load_sample can't load sample from file 'data/chars/player/DianaDie.wav'!
+Loaded 'Warduke' from data/chars/player/Warduke.txt 
+sound_load_sample can't load sample from file 'data/chars/player/WardukeDie.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+sound_load_sample can't load sample from file 'data/sounds/run.wav'!
+Loaded 'Venger' from data/chars/player/Venger.txt 
+sound_load_sample can't load sample from file 'data/chars/player/VengerDie.wav'!
+Loaded 'cavLVL1' from data/chars/Vinga/CavLVL1.txt 
+Loaded 'LancaE' from data/chars/Orcs/lancaE.txt 
+Loaded 'cavLVL2' from data/chars/Vinga/CavLVL2.txt 
+Loaded 'cavLVL3' from data/chars/Vinga/CavLVL3.txt 
+Loaded 'cavLVL4' from data/chars/Vinga/CavLVL4.txt 
+Loaded 'VingaTiro1' from data/chars/Vinga/VingaTiro1.txt 
+Loaded 'VingaTiro2' from data/chars/Vinga/VingaTiro2.txt 
+Loaded 'Strongheart' from data/chars/player/Strongheart.txt 
+sound_load_sample can't load sample from file 'data/chars/player/StrongDie.wav'!
+sound_load_sample can't load sample from file 'data/sounds/heal.wav'!
+Loaded 'Bruenor' from data/chars/player/Bruenor.txt 
+sound_load_sample can't load sample from file 'data/chars/player/BruenorDie.wav'!
+
+Loading models...............	Done!
+Object engine init...........	Done!
+Input init...................	
+1 joystick(s) found!
+UNKNOWN - 2 axes, 14 buttons, 0 hat(s)
+Done!
+Create blending tables.......	Done!
+Save settings so far........	Done!
+
+
+Level Loading:   'data/levels/tutorial.txt'
+Total Ram: 105807872 Bytes
+ Free Ram: 1957888 Bytes
+ Used Ram: 12550656 Bytes
+
+Loaded 'mestreinicial' from data/chars/misc/mestreInicial.txt 
+Loaded 'gnomos' from data/chars/misc/gnomos.txt 
+Loaded 'text01' from data/chars/misc/text01.txt 
+Loaded 'prefeito' from data/chars/misc/Prefeito.txt 
+Loaded 'box1' from data/chars/misc/box1.txt 
+Loaded 'levelGet' from data/chars/misc/levelGet.txt 
+Loaded 'guarda1' from data/chars/Orcs/Guarda1.txt 
+Loaded 'guarda2' from data/chars/Orcs/Guarda2.txt 
+Loaded 'lebre' from data/chars/misc/lebre.txt 
+Command 'flip1' not understood in file 'data/levels/tutorial.txt'!
+Loaded 'dragInva' from data/chars/misc/dragInva.txt 
+Loaded 'dragBack22' from data/chars/misc/dragBack22.txt 
+Loaded 'dragBack33' from data/chars/misc/dragBack33.txt 
+Loaded 'dragBack44' from data/chars/misc/dragBack44.txt 
+Loaded 'text02' from data/chars/misc/text02.txt 
+Loaded 'Soldado' from data/chars/Orcs/Soldado.txt 
+Loaded 'pedro' from data/chars/Orcs/Pedro.txt 
+Loaded 'PedraE' from data/chars/Orcs/PedraE.txt 
+Loaded 'life2' from data/chars/misc/life2.txt 
+Loaded 'life3' from data/chars/misc/life3.txt 
+Loaded 'box4' from data/chars/misc/box4.txt 
+Loaded 'mana1' from data/chars/misc/mana1.txt 
+Loaded 'dragaomini' from data/chars/Orcs/DragaoMini.txt 
+Loaded 'BeholdTiro01' from data/chars/Troll/BeholdTiro01.txt 
+Loaded 'saida0' from data/chars/misc/saida0.txt 
+
+Level Loaded:    'data/levels/tutorial.txt'
+Total Ram: 105807872 Bytes
+ Free Ram: 1949696 Bytes
+ Used Ram: 13034496 Bytes
+Total sprites mapped: 935
+
+Level Unloading: 'data/levels/tutorial.txt'
+Total Ram: 105807872 Bytes
+ Free Ram: 3039232 Bytes
+ Used Ram: 13072896 Bytes
+
+RAM Status:
+Total Ram: 105807872 Bytes
+ Free Ram: 3407872 Bytes
+ Used Ram: 13018624 Bytes
+
+
+************ Shutting Down ************
+
+OpenBOR v3.0 Build 6391, Compile Date: Feb 27 2026
+Presented by the OpenBOR Team.
+www.chronocrash.com
+OpenBOR is the open source continuation of Beats of Rage by Senile Team.
+
+Special thanks to SEGA and SNK.
+
+Total Ram: 105807872 Bytes
+ Free Ram: 3317760 Bytes
+ Used Ram: 13018624 Bytes
+
+Release level data...........
+Done!
+
+Release graphics data........	Done!
+Release game data............
+
+Unload 'Flash' ............Done.
+Unload 'Flashhank' ............Done.
+Unload 'Flashbob' ............Done.
+Unload 'FlashFire' ............Done.
+Unload 'Flashgelo' ............Done.
+Unload 'Block' ............Done.
+Unload 'portal' ............Done.
+Unload 'portal8mapas' ............Done.
+Unload 'troca' ............Done.
+Unload 'poeira' ............Done.
+Unload 'levelMap' ............Done.
+Unload 'levelMax' ............Done.
+Unload 'levelUp' ............Done.
+Unload 'levelHank' ............Done.
+Unload 'levelBobby' ............Done.
+Unload 'levelEric' ............Done.
+Unload 'levelDiana' ............Done.
+Unload 'levelSheila' ............Done.
+Unload 'levelPresto' ............Done.
+Unload 'LevelWarduke' ............Done.
+Unload 'LevelStrong' ............Done.
+Unload 'LevelMiner' ............Done.
+Unload 'LevelVinga' ............Done.
+Unload 'Story' ............Done.
+Unload 'FlechaA' ............Done.
+Unload 'FlechaA2' ............Done.
+Unload 'FlechaA3' ............Done.
+Unload 'FlechaA4' ............Done.
+Unload 'FlechaT' ............Done.
+Unload 'FlechaCima' ............Done.
+Unload 'Sheila_' ............Done.
+Unload 'Sheila_inv' ............Done.
+Unload 'Presto_' ............Done.
+Unload 'PrestoTiro01' ............Done.
+Unload 'PrestoTiro02' ............Done.
+Unload 'PrestoTiro03' ............Done.
+Unload 'PrestoTiro04' ............Done.
+Unload 'PrestoTiro05' ............Done.
+Unload 'PrestoTiroVerde' ............Done.
+Unload 'PrestoTiroA1' ............Done.
+Unload 'PrestoTiroA2' ............Done.
+Unload 'PrestoTiroA3' ............Done.
+Unload 'PrestoHyper' ............Done.
+Unload 'Presto_2' ............Done.
+Unload 'Bobby_' ............Done.
+Unload 'stomp' ............Done.
+Unload 'Eric_' ............Done.
+Unload 'PedraEP' ............Done.
+Unload 'LancaEP' ............Done.
+Unload 'FlechaEP' ............Done.
+Unload 'Diana_' ............Done.
+Unload 'Warduke_' ............Done.
+Unload 'WardukeTiro' ............Done.
+Unload 'Uni_' ............Done.
+Unload 'Sir_' ............Done.
+Unload 'Strongheart_' ............Done.
+Unload 'HolyTiro' ............Done.
+Unload 'Cura1' ............Done.
+Unload 'Cura2' ............Done.
+Unload 'Cura3' ............Done.
+Unload 'Cura4' ............Done.
+Unload 'Cura5' ............Done.
+Unload 'Miner_' ............Done.
+Unload 'Mina' ............Done.
+Unload 'MinerTiro' ............Done.
+Unload 'Hank' ............Done.
+Unload 'Sheila' ............Done.
+Unload 'Sheilainv' ............Done.
+Unload 'Presto' ............Done.
+Unload 'Bobby' ............Done.
+Unload 'Eric' ............Done.
+Unload 'Diana' ............Done.
+Unload 'Warduke' ............Done.
+Unload 'Venger' ............Done.
+Unload 'CavLVL1' ............Done.
+Unload 'LancaE' ............Done.
+Unload 'CavLVL2' ............Done.
+Unload 'CavLVL3' ............Done.
+Unload 'CavLVL4' ............Done.
+Unload 'VingaTiro1' ............Done.
+Unload 'VingaTiro2' ............Done.
+Unload 'Strongheart' ............Done.
+Unload 'Bruenor' ............Done.
+Unload 'MestreInicial' ............Done.
+Unload 'gnomos' ............Done.
+Unload 'text01' ............Done.
+Unload 'Prefeito' ............Done.
+Unload 'Box1' ............Done.
+Unload 'LevelGet' ............Done.
+Unload 'Guarda1' ............Done.
+Unload 'Guarda2' ............Done.
+Unload 'lebre' ............Done.
+Unload 'dragInva' ............Done.
+Unload 'dragBack22' ............Done.
+Unload 'dragBack33' ............Done.
+Unload 'dragBack44' ............Done.
+Unload 'text02' ............Done.
+Unload 'Soldado' ............Done.
+Unload 'Pedro' ............Done.
+Unload 'PedraE' ............Done.
+Unload 'Life2' ............Done.
+Unload 'Life3' ............Done.
+Unload 'Box4' ............Done.
+Unload 'mana1' ............Done.
+Unload 'DragaoMini' ............Done.
+Unload 'BeholdTiro01' ............Done.
+Unload 'saida0' ............Done.
+
+Release game data............	Done!
+Release timer................	Done!
+Release input hardware.......	Done!
+Release sound system.........	Done!
+Release FileCaching System...	Done!
+
+**************** Done *****************
+
+OpenBOR v3.0 Build 6391, Compile Date: Feb 27 2026
+Presented by the OpenBOR Team.
+www.chronocrash.com
+OpenBOR is the open source continuation of Beats of Rage by Senile Team.
+
+Special thanks to SEGA and SNK.
+

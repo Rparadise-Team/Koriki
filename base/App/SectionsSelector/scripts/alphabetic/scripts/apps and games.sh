@@ -207,7 +207,7 @@ romDirs = /mnt/SDCARD/Roms/ODYSSEY2/
 romExts = .zip,.bin
 
 [OPENBOR]
-execs = /mnt/SDCARD/.simplemenu/launchers/openbor_standalone
+execs = /mnt/SDCARD/.simplemenu/launchers/openbor_standalone_plus,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone_old,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone_lns
 romDirs = /mnt/SDCARD/Roms/OPENBOR/
 romExts = .pak
 

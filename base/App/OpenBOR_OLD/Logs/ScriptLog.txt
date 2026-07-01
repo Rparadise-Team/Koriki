@@ -1,0 +1,5136 @@
+
+#### animationscript function main #####
+# data/chars/misc/levelMap.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==19)
+    {
+
+		void self = getlocalvar("self");
+ 		int myMap = getglobalvar("vMap");
+        	if(frame==0){
+  		if (myMap == 1){performattack(self, openborconstant("ANI_FOLLOW1"));}
+  		if (myMap == 2){performattack(self, openborconstant("ANI_FOLLOW2"));}
+  		if (myMap == 3){performattack(self, openborconstant("ANI_FOLLOW3"));}
+  		if (myMap == 4){performattack(self, openborconstant("ANI_FOLLOW4"));}
+  		if (myMap == 5){performattack(self, openborconstant("ANI_FOLLOW5"));}
+  		if (myMap == 6){performattack(self, openborconstant("ANI_FOLLOW6"));}
+  		if (myMap == 7){performattack(self, openborconstant("ANI_FOLLOW7"));}
+  		if (myMap == 8){performattack(self, openborconstant("ANI_FOLLOW8"));}
+  		if (myMap >= 9){performattack(self, openborconstant("ANI_FOLLOW9"));}
+                }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/hank/FlechaT.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==38)
+    {
+        if(frame==0)
+        {
+            velo001(20, 0, -15);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/hank/FlechaCima.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==39)
+    {
+        if(frame==0)
+        {
+            velo001(0, 0, 12);
+        }
+        if(frame==1)
+        {
+            velo001(0, 0, 12);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Hank_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==41)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==42)
+    {
+        if(frame==2)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==46)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelHank", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==47)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelHank", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==49)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==51)
+    {
+        if(frame==3)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==4)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==5)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==7)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==8)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==9)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==11)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==12)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==13)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==13)
+        {
+            toss("FlechaT", 60, 198, 2);
+        }
+        if(frame==14)
+        {
+            toss("FlechaT", 70, 200, 15);
+        }
+        if(frame==15)
+        {
+            toss("FlechaT", 90, 204, 0);
+        }
+        if(frame==16)
+        {
+            toss("FlechaT", 90, 208, 0);
+        }
+        if(frame==17)
+        {
+            toss("FlechaT", 70, 210, -15);
+        }
+        if(frame==18)
+        {
+            toss("FlechaT", 110, 198, 2);
+        }
+        if(frame==19)
+        {
+            toss("FlechaT", 116, 200, 15);
+        }
+        if(frame==20)
+        {
+            toss("FlechaT", 120, 204, 0);
+        }
+        if(frame==21)
+        {
+            toss("FlechaT", 130, 208, 0);
+        }
+        if(frame==22)
+        {
+            toss("FlechaT", 140, 210, -15);
+        }
+        if(frame==23)
+        {
+            toss("FlechaT", 230, 208, 15);
+        }
+        if(frame==24)
+        {
+            toss("FlechaT", 240, 210, -15);
+        }
+        return;
+    }
+    if(animhandle==52)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa2", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==53)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa2", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==54)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa3", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==55)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa4", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==56)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==57)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==58)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vHank");
+		if (myVar==1 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if (myVar==2 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if (myVar==3 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+  		if (myVar==4 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+	        if(frame==3)
+        {
+            shoot("Flechaa", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==59)
+    {
+        if(frame==2)
+        {
+            shoot("Flechaa2", 15, 45, 1);
+        }
+        return;
+    }
+    if(animhandle==60)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vHank");
+ 		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vHank", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==61)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vHank");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Hank______Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Hank______Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Hank______Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Hank______Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Hank______Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==66)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vHank");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Hank______Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Hank______Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Hank______Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Hank______Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Hank______Level__1");
+	  }
+	}
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Sheila_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==74)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==75)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==77)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==80)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==11)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==81)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==13)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==82)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==15)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==83)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==17)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==84)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==85)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==86)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+		if (myVar==1 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if (myVar==2 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if (myVar==3 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+		if (myVar==4 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+	        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==9)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==88)
+    {
+        if(frame==0)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==89)
+    {
+        if(frame==0)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==1)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==90)
+    {
+        if(frame==0)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==91)
+    {
+        if(frame==0)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==92)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                               }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vSheila", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==93)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Sheila____Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Sheila____Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Sheila____Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Sheila____Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Sheila____Level__1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Sheila_inv.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==100)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==104)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==105)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==106)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==107)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==109)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==111)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                               }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vSheila", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==112)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Presto/PrestoTiroA1.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==125)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==5)
+        {
+            velo001(0, 0, 0);
+        }
+        if(frame==7)
+        {
+            velo001(1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Presto_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==134)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==135)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==137)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==139)
+    {
+        if(frame==1)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==5)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==9)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==13)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        return;
+    }
+    if(animhandle==140)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%6;
+       	       if(r==-5){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+      	       if(r==5){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==141)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro04", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==142)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro04", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==143)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%4;
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiroVerde", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==144)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==145)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==146)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if (myVar==1 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial10"));
+   	}
+	if (myVar==2 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial11"));
+   	}
+	if (myVar==3 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial12"));
+   	}
+ 	if (myVar==4 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial13"));
+   	}
+	if(frame==4)
+	{
+       	       int r = rand()%6;
+       	       if(r==-5){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+      	       if(r==5){}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==147)
+    {
+
+	if(frame==3)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){shoot("PrestoTiroA3", 15, 25, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 20, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 20, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 20, 0);}
+      	       if(r==0){shoot("PrestoTiro04", 10, 5, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 5, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 5, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 5, 0);}
+      	       if(r==4){shoot("PrestoTiroA3", 15, 25, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==148)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vPresto");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vPresto", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==149)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if (frame == 0){
+	if (myVar!=NULL()){
+     	changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Presto__Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Presto__Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Presto__Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Presto__Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Presto__Level__1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Presto_2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==161)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==162)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==164)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==165)
+    {
+        if(frame==1)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==5)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==9)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==13)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        return;
+    }
+    if(animhandle==166)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%6;
+       	       if(r==-5){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+      	       if(r==5){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==167)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==168)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==169)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%4;
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==172)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if(frame==4)
+	{
+       	       int r = rand()%2;
+       	       if(r==-1){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==0){spawn01("PrestoTiroA1", 20, 6, 0);}
+      	       if(r==1){shoot("PrestoTiroA2", 20, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==173)
+    {
+
+	if(frame==3)
+	{
+
+      	       shoot("PrestoTiroA3", 15, 25, 0);
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==174)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vPresto");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vPresto", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==175)
+    {
+
+	void self = getlocalvar("self");
+	if (frame == 0){
+	changeentityproperty(self, "name", "Presto__Level__MAX");
+	 }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Bobby_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==184)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==189)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelBobby", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==190)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelBobby", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==192)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==194)
+    {
+        if(frame==9)
+        {
+            spawn01("stomp", 35, 0, -1);
+        }
+        if(frame==10)
+        {
+            spawn01("stomp", 105, 0, -1);
+        }
+        if(frame==11)
+        {
+            spawn01("stomp", 175, 0, -1);
+        }
+        if(frame==12)
+        {
+            spawn01("stomp", 245, 0, -1);
+        }
+        return;
+    }
+    if(animhandle==199)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==200)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==201)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vBobby");
+		if (myVar==1 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if (myVar==2 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if (myVar==3 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+		if (myVar==4 && frame == 0){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+	        return;
+    }
+    if(animhandle==203)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vBobby");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vBobby", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==204)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vBobby");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+          changeentityproperty(self, "map", myVar);
+	  if (myVar==1){changeentityproperty(self, "name", "Bobby____Level__2");}
+	  if (myVar==2){changeentityproperty(self, "name", "Bobby____Level__3");}
+	  if (myVar==3){changeentityproperty(self, "name", "Bobby____Level__4");}
+ 	  if (myVar==4){changeentityproperty(self, "name", "Bobby____Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Bobby____Level__1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Eric_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==215)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==216)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==218)
+    {
+        if(frame==0)
+        {
+            velo001(-2, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==219)
+    {
+        if(frame==0)
+        {
+            velo001(-3, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==220)
+    {
+        if(frame==0)
+        {
+            velo001(-4, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==221)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiroVerde", 20, 10, 1);
+        }
+        return;
+    }
+    if(animhandle==222)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("FlechaEP", 20, 43, 1);
+        }
+        return;
+    }
+    if(animhandle==223)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiro03", 20, 10, 1);
+        }
+        return;
+    }
+    if(animhandle==224)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("LancaEP", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==225)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PedraEP", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==226)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiro01", 20, 35, 1);
+        }
+        return;
+    }
+    if(animhandle==229)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelEric", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==230)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelEric", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==232)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==234)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==235)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==236)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==5)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==238)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vEric");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vEric", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==239)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vEric");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+            if (myVar==1){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.85, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.90, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.95, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__2");
+	    }
+            if (myVar==2){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.70, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.75, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.80, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__3");
+	    }
+            if (myVar==3){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.55, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.60, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.65, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__4");
+	    }
+            if (myVar==4){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.45, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.50, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.55, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__MAX");
+	    }
+	    }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Eric________Level__1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Diana_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==248)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==6)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==252)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelDiana", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==253)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelDiana", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==256)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==258)
+    {
+
+    	if (frame==2){
+    	       void self = getlocalvar("self");
+               performattack(self, openborconstant("ANI_FOLLOW3"));
+        }
+	        return;
+    }
+    if(animhandle==259)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==260)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==264)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vDiana");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vDiana", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==265)
+    {
+
+	void self = getlocalvar("self");
+	float myVar = getglobalvar("vDiana");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+     	    changeentityproperty(self, "map", myVar);
+	    if (myVar==1){
+	    changeentityproperty(self, "speed", 1.9);
+	    changeentityproperty(self, "name", "Diana_____Level__2");}
+	    if (myVar==2){
+	    changeentityproperty(self, "speed", 2.1);
+	    changeentityproperty(self, "name", "Diana_____Level__3");}
+	    if (myVar==3){
+	    changeentityproperty(self, "speed", 2.3);
+	    changeentityproperty(self, "name", "Diana_____Level__4");}
+	    if (myVar==4){
+	    changeentityproperty(self, "speed", 2.5);
+	    changeentityproperty(self, "name", "Diana_____Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "speed", 1.7);
+	    changeentityproperty(self, "name", "Diana_____Level__1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Warduke_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==275)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if ((myVar==2 || myVar==3 ||myVar==4) && frame == 0){
+	performattack(self, openborconstant("ANI_follow3"));
+   	}
+	        return;
+    }
+    if(animhandle==277)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==280)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelWarduke", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==281)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelWarduke", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==284)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==286)
+    {
+        if(frame==3)
+        {
+            velo001(4, 0, 0);
+        }
+        if(frame==10)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==288)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoTiro02", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==289)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoTiro04", 65, 6, 1);
+        }
+        return;
+    }
+    if(animhandle==290)
+    {
+        if(frame==9)
+        {
+            shoot("WardukeTiro", 60, 22, 1);
+        }
+        return;
+    }
+    if(animhandle==291)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoHyper", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==294)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if (myVar==1 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial10"));
+   	}
+	if (myVar==2 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial11"));
+   	}
+	if (myVar==3 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial12"));
+   	}
+ 	if (myVar==4 && frame == 0){
+	performattack(self, openborconstant("ANI_freespecial13"));
+   	}
+	        if(frame==9)
+        {
+            shoot("PrestoTiro01", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==295)
+    {
+
+	void self = getlocalvar("self");
+	if (frame <= 1 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial9"));
+	}
+	if (frame == 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial8"));
+	}
+	if (frame > 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_jumpland"));
+	}
+	        return;
+    }
+    if(animhandle==296)
+    {
+
+	void self = getlocalvar("self");
+	if (frame <= 1 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial9"));
+	}
+	if (frame == 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial8"));
+	}
+	if (frame > 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_jumpland"));
+	}
+	        return;
+    }
+    if(animhandle==299)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vWarduke");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vWarduke", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==300)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if (frame == 0){
+	if (myVar!=NULL()){
+     	changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Warduke__Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Warduke__Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Warduke__Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Warduke__Level___MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Warduke__Level___1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Uni_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==308)
+    {
+
+	if(frame==0)	
+	{	
+	int	SFX1 = loadsample("data/chars/player/uni1.wav");
+	int	SFX2 = loadsample("data/chars/player/uni2.wav");
+	int	SFX3 = loadsample("data/chars/player/uni3.wav");
+	int	SFX4 = loadsample("data/chars/player/uni4.wav");
+	int	SFX5 = loadsample("data/chars/player/uni5.wav");
+	int	SFX6 = loadsample("data/chars/player/uni6.wav");
+	int	SFX7 = loadsample("data/chars/player/uni7.wav");
+	int	s = rand()%4;
+	if(s==-3){playsample(SFX1,	0, 120, 120, 100, 0);}
+	if(s==-2){playsample(SFX2,	0, 120, 120, 100, 0);}
+	if(s==-1){playsample(SFX3,	0, 120, 120, 100, 0);}
+	if(s==0){playsample(SFX4,	0, 120, 120, 100, 0);}
+	if(s==1){playsample(SFX5,	0, 120, 120, 100, 0);}
+	if(s==2){playsample(SFX6,	0, 120, 120, 100, 0);}
+	if(s==3){playsample(SFX7,	0, 120, 120, 100, 0);}
+	}	
+	        if(frame==1)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==312)
+    {
+        if(frame==5)
+        {
+            velo001(50, 0, 0);
+        }
+        if(frame==6)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==313)
+    {
+
+	void self = getlocalvar("self");
+	if (frame == 0){
+	    changeentityproperty(self, "name", "Uni");
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Sir_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==321)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==327)
+    {
+
+	void self = getlocalvar("self");
+	if (frame == 0){
+	    changeentityproperty(self, "name", "Sir_John");
+	}
+	        return;
+    }
+    if(animhandle==330)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Strongheart_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==341)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==345)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelStrong", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==346)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelStrong", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==348)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==350)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if(frame == 8){
+	if (myVar==NULL()){
+         spawn01("cura1", 60, 33, 0);
+   	}
+	if (myVar==1){
+         spawn01("cura2", 60, 33, 0);
+   	}
+	if (myVar==2){
+         spawn01("cura3", 60, 1, 0);
+   	}
+	if (myVar==3){
+         spawn01("cura4", 60, 1, 0);
+   	}
+	if (myVar==4){
+         spawn01("cura5", 60, 1, 0);
+   	}
+   	}
+	        return;
+    }
+    if(animhandle==353)
+    {
+        if(frame==9)
+        {
+            shoot("HolyTiro", 37, 43, 1);
+        }
+        return;
+    }
+    if(animhandle==355)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vStrong");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<4){
+		  setglobalvar("vStrong", myVar + 1);
+  		   if (myVar==3){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==356)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if (frame == 0){
+	if (myVar!=NULL()){
+     	changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Strongheart_Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Strongheart_Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Strongheart_Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Strongheart_Level___MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Strongheart_Level___1");
+	  }
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Miner/Mina.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==365)
+    {
+
+	if (frame==8){
+    	       void self = getlocalvar("self");
+    	       killentity(self);
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Miner_.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==372)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==377)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+        changeentityproperty(self, "maxhealth", 360 + 20*myVar);
+        changeentityproperty(self, "health", 900);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==378)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+        changeentityproperty(self, "maxhealth", 360 + 20*myVar);
+        changeentityproperty(self, "health", 900);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==380)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==385)
+    {
+        if(frame==6)
+        {
+            toss("MinerTiro", 15, 35, 1);
+        }
+        return;
+    }
+    if(animhandle==387)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vMiner");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vMiner", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==388)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+	if (frame == 0){
+	if (myVar!=NULL()){
+     	changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Bruenor__Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Bruenor__Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Bruenor__Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Bruenor__Level___5");}
+	if (myVar==5){changeentityproperty(self, "name", "Bruenor__Level___6");}
+	if (myVar==6){changeentityproperty(self, "name", "Bruenor__Level___7");}
+	if (myVar==7){changeentityproperty(self, "name", "Bruenor__Level___8");}
+	if (myVar==8){changeentityproperty(self, "name", "Bruenor__Level___9");}
+	if (myVar==9){changeentityproperty(self, "name", "Bruenor__Level___MAX");}
+	}else{
+	changeentityproperty(self, "map", 0);
+	changeentityproperty(self, "name", "Bruenor__Level___1");
+	}
+	}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Hank.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==397)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==398)
+    {
+        if(frame==2)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==402)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vHank");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==403)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelHank", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==405)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==407)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelHank", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==408)
+    {
+        if(frame==3)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==4)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==5)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==7)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==8)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==9)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==11)
+        {
+            spawn01("FlechaCima", 10, 17, 0);
+        }
+        if(frame==12)
+        {
+            spawn01("FlechaCima", 7, 17, 0);
+        }
+        if(frame==13)
+        {
+            spawn01("FlechaCima", 13, 17, 0);
+        }
+        if(frame==13)
+        {
+            toss("FlechaT", 60, 198, 2);
+        }
+        if(frame==14)
+        {
+            toss("FlechaT", 70, 200, 15);
+        }
+        if(frame==15)
+        {
+            toss("FlechaT", 90, 204, 0);
+        }
+        if(frame==16)
+        {
+            toss("FlechaT", 90, 208, 0);
+        }
+        if(frame==17)
+        {
+            toss("FlechaT", 70, 210, -15);
+        }
+        if(frame==18)
+        {
+            toss("FlechaT", 110, 198, 2);
+        }
+        if(frame==19)
+        {
+            toss("FlechaT", 116, 200, 15);
+        }
+        if(frame==20)
+        {
+            toss("FlechaT", 120, 204, 0);
+        }
+        if(frame==21)
+        {
+            toss("FlechaT", 130, 208, 0);
+        }
+        if(frame==22)
+        {
+            toss("FlechaT", 140, 210, -15);
+        }
+        if(frame==23)
+        {
+            toss("FlechaT", 230, 208, 15);
+        }
+        if(frame==24)
+        {
+            toss("FlechaT", 240, 210, -15);
+        }
+        return;
+    }
+    if(animhandle==409)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa2", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==410)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa2", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==411)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa3", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==412)
+    {
+        if(frame==3)
+        {
+            shoot("Flechaa4", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==415)
+    {
+
+	if (frame == 0){
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vHank");
+		if ((myVar==2)||(myVar==3)){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if ((myVar==4)||(myVar==5)){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if ((myVar==6) || (myVar==7)|| (myVar==8)){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+  		if (myVar>=9){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+ 	}
+	        if(frame==3)
+        {
+            shoot("Flechaa", 15, 40, 1);
+        }
+        return;
+    }
+    if(animhandle==416)
+    {
+        if(frame==2)
+        {
+            shoot("Flechaa2", 15, 45, 1);
+        }
+        return;
+    }
+    if(animhandle==417)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vHank");
+ 		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vHank", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==418)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vHank");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Hank______Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Hank______Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Hank______Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Hank______Level__5");}
+	if (myVar==5){changeentityproperty(self, "name", "Hank______Level__6");}
+	if (myVar==6){changeentityproperty(self, "name", "Hank______Level__7");}
+	if (myVar==7){changeentityproperty(self, "name", "Hank______Level__8");}
+	if (myVar==8){changeentityproperty(self, "name", "Hank______Level__9");}
+	if (myVar==9){changeentityproperty(self, "name", "Hank______Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "name", "Hank______Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==423)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vHank");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Sheila.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==432)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==433)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==435)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==437)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==439)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==11)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==440)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==13)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==441)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==15)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==442)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==17)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==445)
+    {
+
+	if (frame == 0){
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+		if ((myVar==2)||(myVar==3)){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if ((myVar==4)||(myVar==5)){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if ((myVar==6) || (myVar==7)|| (myVar==8)){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+		if (myVar>=9){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+	}
+	        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==9)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==447)
+    {
+        if(frame==0)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==448)
+    {
+        if(frame==0)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==1)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==449)
+    {
+        if(frame==0)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==450)
+    {
+        if(frame==0)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==451)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                               }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vSheila", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==452)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Sheila____Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Sheila____Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Sheila____Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Sheila____Level__5");}
+	if (myVar==5){changeentityproperty(self, "name", "Sheila____Level__6");}
+	if (myVar==6){changeentityproperty(self, "name", "Sheila____Level__7");}
+	if (myVar==7){changeentityproperty(self, "name", "Sheila____Level__8");}
+	if (myVar==8){changeentityproperty(self, "name", "Sheila____Level__9");}
+	if (myVar==9){changeentityproperty(self, "name", "Sheila____Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "name", "Sheila____Level__1");
+	  }
+	}
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+	        return;
+    }
+    if(animhandle==457)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if(frame==0){
+	if (myVar == NULL()){changeentityproperty(self, "maxhealth", 240);}
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+	if(getentityproperty(self, "health")==0){
+        changeentityproperty(self, "health", 240);
+        }
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Sheilainv.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==461)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==465)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==466)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==467)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==469)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==471)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vSheila");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vSheila", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==472)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vSheila");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+	        return;
+    }
+    if(animhandle==475)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelSheila", 0, 70, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Presto.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==485)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==486)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==488)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==490)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelPresto", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==491)
+    {
+        if(frame==1)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==5)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==9)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        if(frame==13)
+        {
+            shoot("PrestoHyper", 10, 45, 1);
+        }
+        return;
+    }
+    if(animhandle==492)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%6;
+       	       if(r==-5){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+      	       if(r==5){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==493)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro04", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==494)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro04", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiro02", 15, 15, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==495)
+    {
+
+	if(frame==4)
+	{
+       	       int r = rand()%4;
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiroVerde", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiroVerde", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 0, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==498)
+    {
+
+	if (frame == 0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if ((myVar==2)||(myVar==3)){
+	performattack(self, openborconstant("ANI_freespecial10"));
+   	}
+	if ((myVar==4)||(myVar==5)){
+	performattack(self, openborconstant("ANI_freespecial11"));
+   	}
+	if ((myVar==6) || (myVar==7)|| (myVar==8)){
+	performattack(self, openborconstant("ANI_freespecial12"));
+   	}
+ 	if (myVar>=9){
+	performattack(self, openborconstant("ANI_freespecial13"));
+   	}
+        }
+	if(frame==4)
+	{
+       	       int r = rand()%6;
+       	       if(r==-5){shoot("PrestoTiroA3", 20, 15, 0);}
+       	       if(r==-4){spawn01("PrestoTiroA1", 20, 6, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 15, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 15, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 15, 0);}
+      	       if(r==0){shoot("PrestoTiro05", 15, 0, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 0, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==3){shoot("PrestoTiro03", 10, 0, 0);}
+      	       if(r==4){shoot("PrestoTiroA2", 20, 0, 0);}
+      	       if(r==5){}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==499)
+    {
+
+	if(frame==3)
+	{
+       	       int r = rand()%5;
+       	       if(r==-4){shoot("PrestoTiroA3", 15, 25, 0);}
+       	       if(r==-3){shoot("PrestoTiro01", 15, 20, 0);}
+       	       if(r==-2){shoot("PrestoTiro01", 15, 20, 0);}
+      	       if(r==-1){shoot("PrestoTiro02", 15, 20, 0);}
+      	       if(r==0){shoot("PrestoTiro04", 10, 5, 0);}
+      	       if(r==1){shoot("PrestoTiro03", 10, 5, 0);}
+ 	       if(r==2){shoot("PrestoTiro03", 10, 5, 0);}
+      	       if(r==3){shoot("PrestoTiro04", 10, 5, 0);}
+      	       if(r==4){shoot("PrestoTiroA3", 15, 25, 0);}
+               int SFX1 = loadsample("data/chars/player/magic1.wav");
+	       int SFX2 = loadsample("data/chars/player/magic2.wav");
+	       int SFX3 = loadsample("data/chars/player/magic3.wav");
+       	       int s = rand()%2;
+      	       if(s==-1){playsample(SFX1, 0, 120, 120, 100, 0);}
+      	       if(s==0){playsample(SFX2, 0, 120, 120, 100, 0);}
+      	       if(s==1){playsample(SFX3, 0, 120, 120, 100, 0);}
+        }
+	        return;
+    }
+    if(animhandle==500)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vPresto");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vPresto", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==501)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if (frame == 0){
+	if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Presto__Level__2");}
+	if (myVar==2){changeentityproperty(self, "name", "Presto__Level__3");}
+	if (myVar==3){changeentityproperty(self, "name", "Presto__Level__4");}
+	if (myVar==4){changeentityproperty(self, "name", "Presto__Level__5");}
+	if (myVar==5){changeentityproperty(self, "name", "Presto__Level__6");}
+	if (myVar==6){changeentityproperty(self, "name", "Presto__Level__7");}
+	if (myVar==7){changeentityproperty(self, "name", "Presto__Level__8");}
+	if (myVar==8){changeentityproperty(self, "name", "Presto__Level__9");}
+	if (myVar==9){changeentityproperty(self, "name", "Presto__Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "name", "Presto__Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==506)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vPresto");
+	if(frame==0){
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Bobby.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==511)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==516)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vBobby");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==517)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelBobby", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==519)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==521)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelBobby", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==522)
+    {
+        if(frame==9)
+        {
+            spawn01("stomp", 35, 0, -1);
+        }
+        if(frame==10)
+        {
+            spawn01("stomp", 105, 0, -1);
+        }
+        if(frame==11)
+        {
+            spawn01("stomp", 175, 0, -1);
+        }
+        if(frame==12)
+        {
+            spawn01("stomp", 245, 0, -1);
+        }
+        return;
+    }
+    if(animhandle==527)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==528)
+    {
+        if(frame==0)
+        {
+            spawnbind("troca", 0, 1, 1);
+        }
+        return;
+    }
+    if(animhandle==529)
+    {
+
+	if (frame == 0){
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vBobby");
+		if ((myVar==2)||(myVar==3)){
+		performattack(self, openborconstant("ANI_freespecial10"));
+ 	   	}
+		if ((myVar==4)||(myVar==5)){
+		performattack(self, openborconstant("ANI_freespecial11"));
+ 	   	}
+		if ((myVar==6) || (myVar==7)|| (myVar==8)){
+		performattack(self, openborconstant("ANI_freespecial12"));
+ 	   	}
+		if (myVar>=9){
+		performattack(self, openborconstant("ANI_freespecial13"));
+ 	   	}
+   	   	}
+	        return;
+    }
+    if(animhandle==531)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vBobby");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vBobby", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==532)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vBobby");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+	  if (myVar==1){changeentityproperty(self, "name", "Bobby____Level__2");}
+	  if (myVar==2){changeentityproperty(self, "name", "Bobby____Level__3");}
+	  if (myVar==3){changeentityproperty(self, "name", "Bobby____Level__4");}
+ 	  if (myVar==4){changeentityproperty(self, "name", "Bobby____Level__5");}
+	  if (myVar==5){changeentityproperty(self, "name", "Bobby____Level__6");}
+	  if (myVar==6){changeentityproperty(self, "name", "Bobby____Level__7");}
+	  if (myVar==7){changeentityproperty(self, "name", "Bobby____Level__8");}
+ 	  if (myVar==8){changeentityproperty(self, "name", "Bobby____Level__9");}
+ 	  if (myVar==9){changeentityproperty(self, "name", "Bobby____Level__MAX");}
+
+	  }else{
+	    changeentityproperty(self, "name", "Bobby____Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==537)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vBobby");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Eric.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==542)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==543)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==545)
+    {
+        if(frame==0)
+        {
+            velo001(-2, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==546)
+    {
+        if(frame==0)
+        {
+            velo001(-3, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==547)
+    {
+        if(frame==0)
+        {
+            velo001(-4, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==548)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiroVerde", 20, 10, 1);
+        }
+        return;
+    }
+    if(animhandle==549)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("FlechaEP", 20, 43, 1);
+        }
+        return;
+    }
+    if(animhandle==550)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiro03", 20, 10, 1);
+        }
+        return;
+    }
+    if(animhandle==551)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("LancaEP", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==552)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PedraEP", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==553)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        if(frame==0)
+        {
+            shoot("PrestoTiro01", 20, 35, 1);
+        }
+        return;
+    }
+    if(animhandle==556)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vEric");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==557)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelEric", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==559)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==561)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelEric", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==564)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==4)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==5)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==566)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vEric");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vEric", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==567)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vEric");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+            if (myVar==1){
+   	    changeentityproperty(self, "name", "Eric________Level__2");
+	    }
+            if (myVar==2){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.85, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.90, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.95, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__3");
+	    }
+            if (myVar==3){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.85, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.90, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.95, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__4");
+	    }
+            if (myVar==4){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.70, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.75, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.80, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__5");
+	    }
+            if (myVar==5){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.70, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.75, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.80, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__6");
+	    }
+            if (myVar==6){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.55, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.60, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.65, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__7");
+	    }
+            if (myVar==7){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.55, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.60, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.65, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__8");
+	    }
+            if (myVar==8){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.55, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.60, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.65, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__9");
+	    }
+            if (myVar>=9){
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL"), 0.45, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL2"), 0.50, 0, 1);
+	    changeentityproperty(self, "defense", openborconstant("ATK_NORMAL3"), 0.55, 0, 1);
+   	    changeentityproperty(self, "name", "Eric________Level__MAX");
+	    }
+	    }else{
+	    changeentityproperty(self, "name", "Eric________Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==572)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vEric");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Diana.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==578)
+    {
+        if(frame==3)
+        {
+            velo001(2, 0, 0);
+        }
+        if(frame==6)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==582)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vDiana");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==583)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelDiana", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==586)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==588)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelDiana", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==589)
+    {
+
+    	if (frame==2){
+    	       void self = getlocalvar("self");
+               performattack(self, openborconstant("ANI_FOLLOW3"));
+        }
+	        return;
+    }
+    if(animhandle==595)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vDiana");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vDiana", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==596)
+    {
+
+	void self = getlocalvar("self");
+	float myVar = getglobalvar("vDiana");
+	if (frame == 0){
+	  if (myVar!=NULL()){
+  	    if (myVar==1){
+	    changeentityproperty(self, "speed", 1.7);
+	    changeentityproperty(self, "name", "Diana_____Level__2");}
+	    if (myVar==2){
+	    changeentityproperty(self, "speed", 1.9);
+	    changeentityproperty(self, "name", "Diana_____Level__3");}
+	    if (myVar==3){
+	    changeentityproperty(self, "speed", 1.9);
+	    changeentityproperty(self, "name", "Diana_____Level__4");}
+	    if (myVar==4){
+	    changeentityproperty(self, "speed", 2.1);
+	    changeentityproperty(self, "name", "Diana_____Level__5");}
+	    if (myVar==5){
+	    changeentityproperty(self, "speed", 2.1);
+	    changeentityproperty(self, "name", "Diana_____Level__6");}
+	    if (myVar==6){
+	    changeentityproperty(self, "speed", 2.3);
+	    changeentityproperty(self, "name", "Diana_____Level__7");}
+	    if (myVar==7){
+	    changeentityproperty(self, "speed", 2.3);
+	    changeentityproperty(self, "name", "Diana_____Level__8");}
+	    if (myVar==8){
+	    changeentityproperty(self, "speed", 2.3);
+	    changeentityproperty(self, "name", "Diana_____Level__9");}
+	    if (myVar==9){
+	    changeentityproperty(self, "speed", 2.5);
+	    changeentityproperty(self, "name", "Diana_____Level__MAX");}
+	  }else{
+	    changeentityproperty(self, "speed", 1.7);
+	    changeentityproperty(self, "name", "Diana_____Level__1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==601)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vDiana");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Warduke.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==607)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if ((myVar>=4) && frame == 0){
+	performattack(self, openborconstant("ANI_follow3"));
+   	}
+	        return;
+    }
+    if(animhandle==609)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==612)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==613)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelWarduke", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==616)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==618)
+    {
+        if(frame==3)
+        {
+            velo001(4, 0, 0);
+        }
+        if(frame==10)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==619)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelWarduke", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==621)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoTiro02", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==622)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoTiro04", 65, 6, 1);
+        }
+        return;
+    }
+    if(animhandle==623)
+    {
+        if(frame==9)
+        {
+            shoot("WardukeTiro", 60, 22, 1);
+        }
+        return;
+    }
+    if(animhandle==624)
+    {
+        if(frame==9)
+        {
+            shoot("PrestoHyper", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==627)
+    {
+
+	if (frame == 0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if ((myVar==2)||(myVar==3)){
+	performattack(self, openborconstant("ANI_freespecial10"));
+   	}
+	if ((myVar==4)||(myVar==5)){
+	performattack(self, openborconstant("ANI_freespecial11"));
+   	}
+	if ((myVar==6) || (myVar==7)|| (myVar==8)){
+	performattack(self, openborconstant("ANI_freespecial12"));
+   	}
+ 	if (myVar>=9){
+	performattack(self, openborconstant("ANI_freespecial13"));
+   	}
+    	}
+	        if(frame==9)
+        {
+            shoot("PrestoTiro01", 60, 30, 1);
+        }
+        return;
+    }
+    if(animhandle==628)
+    {
+
+	void self = getlocalvar("self");
+	if (frame <= 1 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial9"));
+	}
+	if (frame == 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial8"));
+	}
+	if (frame > 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_jumpland"));
+	}
+	        return;
+    }
+    if(animhandle==629)
+    {
+
+	void self = getlocalvar("self");
+	if (frame <= 1 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial9"));
+	}
+	if (frame == 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_freespecial8"));
+	}
+	if (frame > 3 && getentityproperty(self, "y")==0){
+           performattack(self, openborconstant("ANI_jumpland"));
+	}
+	        return;
+    }
+    if(animhandle==632)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vWarduke");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vWarduke", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==633)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if (frame == 0){
+	if (myVar!=NULL()){
+     	changeentityproperty(self, "map", myVar);
+	if (myVar==1){changeentityproperty(self, "name", "Warduke__Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Warduke__Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Warduke__Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Warduke__Level___5");}
+	if (myVar==5){changeentityproperty(self, "name", "Warduke__Level___6");}
+	if (myVar==6){changeentityproperty(self, "name", "Warduke__Level___7");}
+	if (myVar==7){changeentityproperty(self, "name", "Warduke__Level___8");}
+	if (myVar==8){changeentityproperty(self, "name", "Warduke__Level___9");}
+	if (myVar==9){changeentityproperty(self, "name", "Warduke__Level___MAX");}
+	  }else{
+	    changeentityproperty(self, "map", 0);
+	    changeentityproperty(self, "name", "Warduke__Level___1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==638)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vWarduke");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Vinga/CavLVL1.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==644)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==651)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Vinga/CavLVL2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==656)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==663)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Vinga/CavLVL3.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==668)
+    {
+        if(frame==5)
+        {
+            shoot("LancaEP", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==669)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==676)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Vinga/CavLVL4.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==681)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==688)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Venger.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==696)
+    {
+        if(frame==0)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==3)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==701)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vVinga");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==702)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelVinga", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==704)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==706)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelVinga", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==707)
+    {
+
+	if(frame==5){
+		int myVar = getglobalvar("vVinga");
+		if(myVar==NULL() || (myVar==1) ){
+                 spawn01("cavLVL1", 32, 0, 0);
+               }
+  		if((myVar==2)||(myVar==3)){
+                 spawn01("cavLVL2", 32, 0, 0);
+               }
+  		if((myVar==4)||(myVar==5)){
+                 spawn01("cavLVL3", 32, 0, 0);
+               }
+  		if((myVar==6) || (myVar==7)|| (myVar==8)){
+                 spawn01("cavLVL3", 32, 0, 0);
+                 spawn01("cavLVL3", -32, 0, 0);
+               }
+  		if(myVar>=9){
+                 spawn01("cavLVL3", 62, 0, 0);
+                 spawn01("cavLVL4", 32, 0, 0);
+                 spawn01("cavLVL3", -32, 0, 0);
+               }
+        }
+	        return;
+    }
+    if(animhandle==710)
+    {
+
+	if(frame==9){
+ 	        void self = getlocalvar("self");
+		int Map = getentityproperty(self, "map");
+		if((Map>=5)){
+                 shoot("VingaTiro2", 0, 11, 0);
+               }else{
+                 shoot("VingaTiro1", 0, 11, 0);
+               }
+        }
+	        return;
+    }
+    if(animhandle==711)
+    {
+
+	if(frame==5){
+ 	        void self = getlocalvar("self");
+		int Map = getentityproperty(self, "map");
+		if((Map>=5)){
+                 shoot("VingaTiro2", 0, 11, 0);
+               }else{
+                 shoot("VingaTiro1", 0, 11, 0);
+               }
+        }
+	        return;
+    }
+    if(animhandle==712)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vVinga");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vVinga", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==713)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vVinga");
+	if (frame == 0){
+	if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Venger___Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Venger___Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Venger___Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Venger___Level___5");}
+	if (myVar==5){changeentityproperty(self, "name", "Venger___Level___6");}
+	if (myVar==6){changeentityproperty(self, "name", "Venger___Level___7");}
+	if (myVar==7){changeentityproperty(self, "name", "Venger___Level___8");}
+	if (myVar==8){changeentityproperty(self, "name", "Venger___Level___9");}
+	if (myVar==9){changeentityproperty(self, "name", "Venger___Level___MAX");}
+	}else{
+	changeentityproperty(self, "name", "Venger___Level___1");
+	}
+	}
+	        return;
+    }
+    if(animhandle==718)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vVinga");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Strongheart.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==723)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==728)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if (myVar == 1){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar == 8){changeentityproperty(self, "maxhealth", 360);}
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==729)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelStrong", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==731)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==733)
+    {
+        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelStrong", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==734)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if(frame == 8){
+	if (myVar==NULL()||(myVar==1)){
+         spawn01("cura1", 60, 33, 0);
+   	}
+	if ((myVar==2)||(myVar==3)){
+         spawn01("cura2", 60, 33, 0);
+   	}
+	if ((myVar==4)||(myVar==5)){
+         spawn01("cura3", 60, 1, 0);
+   	}
+	if ((myVar==6) || (myVar==7)|| (myVar==8)){
+         spawn01("cura4", 60, 1, 0);
+   	}
+	if (myVar>=9){
+         spawn01("cura5", 60, 1, 0);
+   	}
+   	}
+	        return;
+    }
+    if(animhandle==737)
+    {
+        if(frame==9)
+        {
+            shoot("HolyTiro", 37, 43, 1);
+        }
+        return;
+    }
+    if(animhandle==739)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vStrong");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vStrong", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+		    if (myVar==0 || myVar==2 || myVar==4 || myVar==6 || myVar==7){
+                      performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }else {
+                      performattack(self, openborconstant("ANI_FOLLOW9"));
+		  }
+                  }
+                }
+	        return;
+    }
+    if(animhandle==740)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if (frame == 0){
+	if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Strongheart_Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Strongheart_Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Strongheart_Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Strongheart_Level___5");}
+	if (myVar==5){changeentityproperty(self, "name", "Strongheart_Level___6");}
+	if (myVar==6){changeentityproperty(self, "name", "Strongheart_Level___7");}
+	if (myVar==7){changeentityproperty(self, "name", "Strongheart_Level___8");}
+	if (myVar==8){changeentityproperty(self, "name", "Strongheart_Level___9");}
+	if (myVar==9){changeentityproperty(self, "name", "Strongheart_Level___MAX");}
+	  }else{
+	    changeentityproperty(self, "name", "Strongheart_Level___1");
+	  }
+	}
+	        return;
+    }
+    if(animhandle==745)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vStrong");
+	if(frame==0){
+	if (myVar == 1 || myVar == 2){changeentityproperty(self, "maxhealth", 260);}
+  	if (myVar == 3 || myVar == 4){changeentityproperty(self, "maxhealth", 280);}
+  	if (myVar == 5 || myVar == 6){changeentityproperty(self, "maxhealth", 300);}
+  	if (myVar == 7){changeentityproperty(self, "maxhealth", 320);}
+  	if (myVar >= 8){changeentityproperty(self, "maxhealth", 360);}
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/player/Bruenor.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==750)
+    {
+        if(frame==1)
+        {
+            velo001(1, 0, 0);
+        }
+        if(frame==2)
+        {
+            velo001(0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==755)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+        changeentityproperty(self, "maxhealth", 240 + 25*myVar);
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelUP", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==756)
+    {
+
+	if(frame==0){
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+        changeentityproperty(self, "maxhealth", 480);
+        changeentityproperty(self, "health", 500);
+        }
+	        if(frame==0)
+        {
+            spawnbind("levelMax", 0, 85, 0);
+        }
+        if(frame==0)
+        {
+            spawnbind("levelMiner", 0, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==758)
+    {
+        if(frame==0)
+        {
+            spawn01("levelMap", 20, 70, 0);
+        }
+        return;
+    }
+    if(animhandle==760)
+    {
+        if(frame==4)
+        {
+            spawn01("Mina", 2, 0, 1);
+        }
+        return;
+    }
+    if(animhandle==763)
+    {
+        if(frame==6)
+        {
+            toss("MinerTiro", 15, 35, 1);
+        }
+        return;
+    }
+    if(animhandle==765)
+    {
+
+		void self = getlocalvar("self");
+		int myVar = getglobalvar("vMiner");
+  		int myMap = getglobalvar("vMap");
+        	if(frame==1 && openborvariant("current_branch")=="mapa"){
+                if (myMap==NULL()){ myMap = 0;}
+	        setglobalvar("vMap", myMap + 1);
+                performattack(self, openborconstant("ANI_FOLLOW5"));
+                }
+                if (myVar==NULL()){ myVar = 0;}
+  		if (frame == 1 && myVar<9){
+		  setglobalvar("vMiner", myVar + 1);
+  		   if (myVar==8){
+                  performattack(self, openborconstant("ANI_FOLLOW2"));
+                  }else{
+                  performattack(self, openborconstant("ANI_FOLLOW1"));
+                  }
+                }
+	        return;
+    }
+    if(animhandle==766)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+	if (frame == 0){
+	if (myVar!=NULL()){
+	if (myVar==1){changeentityproperty(self, "name", "Bruenor__Level___2");}
+	if (myVar==2){changeentityproperty(self, "name", "Bruenor__Level___3");}
+	if (myVar==3){changeentityproperty(self, "name", "Bruenor__Level___4");}
+	if (myVar==4){changeentityproperty(self, "name", "Bruenor__Level___5");}
+	if (myVar==5){changeentityproperty(self, "name", "Bruenor__Level___6");}
+	if (myVar==6){changeentityproperty(self, "name", "Bruenor__Level___7");}
+	if (myVar==7){changeentityproperty(self, "name", "Bruenor__Level___8");}
+	if (myVar==8){changeentityproperty(self, "name", "Bruenor__Level___9");}
+	if (myVar==9){changeentityproperty(self, "name", "Bruenor__Level___MAX");}
+	}else{
+	changeentityproperty(self, "name", "Bruenor__Level___1");
+	}
+	}
+	        return;
+    }
+    if(animhandle==771)
+    {
+
+	void self = getlocalvar("self");
+	int myVar = getglobalvar("vMiner");
+	if(frame==0){
+	 if(myVar >= 9){
+	  changeentityproperty(self, "maxhealth", 480);
+         }else{
+          changeentityproperty(self, "maxhealth", 240 + 25*myVar);
+         }
+        }
+       	if(frame==0 && openborvariant("current_branch")=="dorme"){
+        performattack(self, openborconstant("ANI_FOLLOW4"));
+        }
+       	if(frame==0 && openborvariant("current_branch")=="final"){
+        performattack(self, openborconstant("ANI_FOLLOW6"));
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/mestreInicial.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==776)
+    {
+
+	if(frame==0){
+		     setglobalvar("vHank", NULL());
+		     setglobalvar("vPresto", NULL());
+		     setglobalvar("vEric", NULL());
+		     setglobalvar("vDiana", NULL());
+		     setglobalvar("vSheila", NULL());
+		     setglobalvar("vBobby", NULL());
+ 		     setglobalvar("vWarduke", NULL());
+ 		     setglobalvar("vStrong", NULL());
+ 		     setglobalvar("vMiner", NULL());
+ 		     setglobalvar("vVinga", NULL());
+		     }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/Prefeito.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==781)
+    {
+
+	if(frame==0){
+	     	     setglobalvar("vMap", NULL());
+		     }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Orcs/Guarda1.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==786)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==790)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Orcs/Guarda2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==795)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==799)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/dragInva.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==808)
+    {
+
+       	if(frame == 1){
+    	 int r = rand()%3;
+               if(r==-2){spawn01("dragBack44", -100, 120, 0);}
+               if(r==-1){spawn01("dragBack44", -100, 110, 0);}
+     	       if(r==0){spawn01("dragBack33", -100, 100, 0);}
+      	       if(r==1){spawn01("dragBack22", -100, 80, 0);}
+               if(r==2){spawn01("dragBack22", -100, 70, 0);}
+        }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Orcs/Soldado.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==811)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==815)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Orcs/Pedro.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==820)
+    {
+        if(frame==1)
+        {
+            shoot("PedraE", 20, 37, 1);
+        }
+        return;
+    }
+    if(animhandle==821)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==825)
+    {
+        if(frame==0)
+        {
+            velo001(-1, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Orcs/DragaoMini.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==835)
+    {
+        if(frame==1)
+        {
+            shoot("BeholdTiro01", 40, 35, 1);
+        }
+        return;
+    }
+
+}

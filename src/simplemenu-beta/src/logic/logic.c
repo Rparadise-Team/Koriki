@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+
 #include <ctype.h>
 #include <dirent.h>
 #include <limits.h>

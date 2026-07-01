@@ -36,5 +36,7 @@ int loadConfiguration3();
 void saveConfiguration3(int level);
 void loadConfiguration4();
 void saveConfiguration4();
+int loadConfiguration5();
+void saveConfiguration5(int tapeValue);
 void Gamma(int Blue, int Green, int Red);
 #endif

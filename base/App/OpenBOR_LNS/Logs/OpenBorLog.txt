@@ -1,0 +1,200 @@
+Total Ram: 105807872 Bytes
+ Free Ram: 19599360 Bytes
+ Used Ram: 4565504 Bytes
+
+debug:nativeWidth, nativeHeight, bpp, Hz  0, 0, 0, 0
+OpenBoR v3.0 Build 6330 LNS v0.10g Compile Date: Feb 27 2026
+
+Game Selected: /mnt/SDCARD/Roms/OPENBOR/Final Fight - Gold - Champion Edition.pak
+
+FileCaching System Init......	Enabled
+Initializing video............
+Reading video settings from 'data/video.txt'.
+
+Colordepth is depreciated. All modules are displayed with a 32bit color screen.
+
+Initialized video.............	480x272 (Mode: 1)
+
+Loading menu.txt.............	Done!
+Loading fonts................	1 2 3 4 Done!
+Timer init...................	Done!
+Initialize Sound..............	Done!
+Loading sprites..............	Done!
+Loading level order..........	Done!
+Loading model constants......	Done!
+Loading script settings......	Done!
+Loading scripts..............	Done!
+Loading models...............
+
+Cacheing 'Flash' from data/chars/misc/flash/flash.txt
+Cacheing 'Blood' from data/chars/misc/flash/blood.txt
+Cacheing 'Guard' from data/chars/misc/flash/guard.txt
+Cacheing 'Fei' from data/chars/fei/fei.txt
+Cacheing 'Guile' from data/chars/guile/guile.txt
+Cacheing 'Guilpr' from data/chars/guile/guilpr.txt
+Cacheing 'Guilprh' from data/chars/guile/guilprh.txt
+Cacheing 'Blanka' from data/chars/blanka/blanka.txt
+Cacheing 'Ken' from data/chars/ken/ken.txt
+Cacheing 'Kenpr' from data/chars/ken/kenpr.txt
+Cacheing 'Kenprh' from data/chars/ken/kenprh.txt
+Cacheing 'Cody' from data/chars/cody/cody.txt
+Cacheing 'Guy' from data/chars/guy/guy.txt
+Cacheing 'Haggar' from data/chars/haggar/haggar.txt
+Cacheing 'Carlos' from data/chars/carlos/carlos.txt
+Cacheing 'Maki' from data/chars/maki/maki.txt
+Cacheing 'Makipr' from data/chars/maki/makipr.txt
+Cacheing 'Makiprh' from data/chars/maki/makiprh.txt
+Cacheing 'Makipr2' from data/chars/maki/makipr2.txt
+Cacheing 'Dean' from data/chars/dean/dean.txt
+Cacheing 'deanpr' from data/chars/dean/deanpr.txt
+Cacheing 'Lucia' from data/chars/lucia/lucia.txt
+Cacheing 'Dust' from data/chars/misc/dust/dust.txt
+Cacheing 'Dust2' from data/chars/misc/dust/dust2.txt
+Cacheing 'Bret' from data/chars/bret/bret.txt
+Cacheing 'Dug' from data/chars/dug/dug.txt
+Cacheing 'Jake' from data/chars/jake/jake.txt
+Cacheing 'Simons' from data/chars/simons/simons.txt
+Cacheing 'Jay' from data/chars/jay/jay.txt
+Cacheing 'Two_p' from data/chars/two_p/two_p.txt
+Cacheing 'Axl' from data/chars/axl/axl.txt
+Cacheing 'Slash' from data/chars/slash/slash.txt
+Cacheing 'Poison' from data/chars/poison/poison.txt
+Cacheing 'Gory' from data/chars/gory/gory.txt
+Cacheing 'Wong' from data/chars/wong/wong.txt
+Cacheing 'Bill' from data/chars/bill/bill.txt
+Cacheing 'Holly' from data/chars/holly/holly.txt
+Cacheing 'hknife' from data/chars/holly/hknife.txt
+Cacheing 'Elgado' from data/chars/elgado/elgado.txt
+Cacheing 'Wood' from data/chars/wood/wood.txt
+Cacheing 'Wmolo' from data/chars/wood/wmolo.txt
+Cacheing 'Andore' from data/chars/andore/andore.txt
+Cacheing 'Elic' from data/chars/elic/elic.txt
+Cacheing 'Elias' from data/chars/elias/elias.txt
+Cacheing 'Eliot' from data/chars/eliot/eliot.txt
+Cacheing 'Leon' from data/chars/leon/leon.txt
+Cacheing 'Mic' from data/chars/mic/mic.txt
+Cacheing 'Mark' from data/chars/mark/mark.txt
+Cacheing 'Bull' from data/chars/bull/bull.txt
+Cacheing 'Elijah' from data/chars/elijah/elijah.txt
+Cacheing 'Schot' from data/chars/schot/schot.txt
+Cacheing 'Jack' from data/chars/jack/jack.txt
+Cacheing 'Jony' from data/chars/jony/jony.txt
+Cacheing 'Atlus' from data/chars/atlus/atlus.txt
+Cacheing 'Damnd2' from data/chars/damnd/damnd2.txt
+Cacheing 'Damnd' from data/chars/damnd/damnd.txt
+Cacheing 'Sodom' from data/chars/sodom/sodom.txt
+Cacheing 'Sodpr' from data/chars/sodom/sodpr.txt
+Cacheing 'Sodprh' from data/chars/sodom/sodprh.txt
+Cacheing 'Edi' from data/chars/edi/edi.txt
+Cacheing 'Abigail' from data/chars/abigail/abigail.txt
+Cacheing 'Rolent' from data/chars/rolent/rolent.txt
+Cacheing 'Rgran' from data/chars/rolent/rgran.txt
+Cacheing 'Wonwon' from data/chars/wonwon/wonwon.txt
+Cacheing 'Freddie' from data/chars/freddie/freddie.txt
+Cacheing 'Bratken' from data/chars/bratken/bratken.txt
+Cacheing 'Phil' from data/chars/phil/phil.txt
+Cacheing 'Retu' from data/chars/retu/retu.txt
+Cacheing 'Balrog' from data/chars/balrog/balrog.txt
+Cacheing 'Vega' from data/chars/vega/vega.txt
+Cacheing 'Sagat' from data/chars/sagat/sagat.txt
+Cacheing 'Sagpr' from data/chars/sagat/sagpr.txt
+Cacheing 'Sagprh' from data/chars/sagat/sagprh.txt
+Cacheing 'Bison' from data/chars/bison/bison.txt
+Cacheing 'mantle' from data/chars/bison/mantle.txt
+Cacheing 'Barrel' from data/chars/misc/items/barrel.txt
+Cacheing 'Drum' from data/chars/misc/items/drum.txt
+Cacheing 'Box' from data/chars/misc/items/box.txt
+Cacheing 'Phone' from data/chars/misc/items/phone.txt
+Cacheing 'Surf' from data/chars/misc/items/surf.txt
+Cacheing 'Tires' from data/chars/misc/items/tires.txt
+Cacheing 'Trash' from data/chars/misc/items/trash.txt
+Cacheing 'Roll' from data/chars/misc/items/roll.txt
+Cacheing 'Coin' from data/chars/misc/money/coin.txt
+Cacheing 'Hammer' from data/chars/misc/money/hammer.txt
+Cacheing 'glas' from data/chars/misc/money/glas.txt
+Cacheing 'radio' from data/chars/misc/money/radio.txt
+Cacheing 'dollar' from data/chars/misc/money/dollar.txt
+Cacheing 'ring' from data/chars/misc/money/ring.txt
+Cacheing 'jewel' from data/chars/misc/money/jewel.txt
+Cacheing 'bag' from data/chars/misc/money/bag.txt
+Cacheing 'gold' from data/chars/misc/money/gold.txt
+Cacheing 'Gum' from data/chars/misc/food/gum.txt
+Cacheing 'Coke' from data/chars/misc/food/coke.txt
+Cacheing 'Apple' from data/chars/misc/food/apple.txt
+Cacheing 'Grape' from data/chars/misc/food/grape.txt
+Cacheing 'Banana' from data/chars/misc/food/banana.txt
+Cacheing 'Hamb' from data/chars/misc/food/hamb.txt
+Cacheing 'Pasta' from data/chars/misc/food/pasta.txt
+Cacheing 'Pizza' from data/chars/misc/food/pizza.txt
+Cacheing 'Meat' from data/chars/misc/food/meat.txt
+Cacheing 'ftrap' from data/chars/misc/ftrap/ftrap.txt
+Cacheing '1up' from data/chars/misc/1up/1up.txt
+Cacheing 'super' from data/chars/misc/super/super.txt
+Cacheing 'stage01' from data/scenes/intro/stage01/stage01.txt
+Cacheing 'stage02' from data/scenes/intro/stage02/stage02.txt
+Cacheing 'stage03' from data/scenes/intro/stage03/stage03.txt
+Cacheing 'stage04' from data/scenes/intro/stage04/stage04.txt
+Cacheing 'stage05' from data/scenes/intro/stage05/stage05.txt
+Cacheing 'bonus' from data/scenes/intro/bonus/bonus.txt
+Cacheing 'dial01' from data/scenes/dial/dial01.txt
+Cacheing 'dial02' from data/scenes/dial/dial02.txt
+Cacheing 'dial03' from data/scenes/dial/dial03.txt
+Cacheing 'dial04' from data/scenes/dial/dial04.txt
+Cacheing 'dial05' from data/scenes/dial/dial05.txt
+Cacheing 'dial06' from data/scenes/dial/dial06.txt
+Cacheing 'dial07' from data/scenes/dial/dial07.txt
+Cacheing 'dial08' from data/scenes/dial/dial08.txt
+Cacheing 'dial09' from data/scenes/dial/dial09.txt
+Cacheing 'dial10' from data/scenes/dial/dial10.txt
+Cacheing 'dial11' from data/scenes/dial/dial11.txt
+Cacheing 'dial12' from data/scenes/dial/dial12.txt
+Cacheing 'dial13' from data/scenes/dial/dial13.txt
+Cacheing 'dial14' from data/scenes/dial/dial14.txt
+Cacheing 'go01' from data/chars/misc/go/go01.txt
+Cacheing 'go02' from data/chars/misc/go/go02.txt
+Cacheing 'go03' from data/chars/misc/go/go03.txt
+Cacheing 'go03_2' from data/chars/misc/go/go03_2.txt
+Cacheing 'go04' from data/chars/misc/go/go04.txt
+Cacheing 'go05' from data/chars/misc/go/go05.txt
+Cacheing 'go05_2' from data/chars/misc/go/go05_2.txt
+Cacheing 'car01' from data/chars/misc/car/car01.txt
+Cacheing 'car02' from data/chars/misc/car/car02.txt
+Cacheing 'car03' from data/chars/misc/car/car03.txt
+Cacheing 'glass' from data/chars/misc/glass/glass.txt
+Cacheing 'rain' from data/chars/misc/rain/rain.txt
+
+
+Loading models...............	Done!
+Object engine init...........	Done!
+Input init...................	
+1 joystick(s) found!
+MMiyoo Joystick - 2 axes, 14 buttons, 0 hat(s)
+Done!
+Create blending tables.......	Done!
+Save settings so far........	Done!
+
+
+
+********** An Error Occurred **********
+*            Shutting Down            *
+
+Fatal: can't find any player models!Total Ram: 105807872 Bytes
+ Free Ram: 9695232 Bytes
+ Used Ram: 10154496 Bytes
+
+Release level data...........
+Done!
+
+Release graphics data........	Done!
+Release game data............
+
+
+Release game data............	Done!
+Release timer................	Done!
+Release input hardware.......	Done!
+Release sound system.........	Done!
+Release FileCaching System...	Done!
+
+**************** Done *****************
+
+Fatal: can't find any player models!

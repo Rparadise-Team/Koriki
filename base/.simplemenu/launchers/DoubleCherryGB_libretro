@@ -20,16 +20,11 @@ if [ -f "$gambatte_dir"/"$game_name".rtc ]; then
 	sync
 fi
 
-if [ "$runsvr" != "0" ]; then
-    sed -i 's/^video_vsync = "false"/video_vsync = "true"/' "$RA_CONFIG"
-else
-    sed -i 's/^video_vsync = "true"/video_vsync = "false"/' "$RA_CONFIG"
-fi
 
 if [ "$runsvr" != "0" ] ; then
-LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
+LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
 else
-nice -n -20  /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
+/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/DoubleCherryGB_libretro.so "$1"
 fi
 
 cp "$destination_dir"/"$game_name".srm "$gambatte_dir"/"$game_name".srm

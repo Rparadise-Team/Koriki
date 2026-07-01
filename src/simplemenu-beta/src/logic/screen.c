@@ -1748,6 +1748,28 @@ void setupSystemSettings() {
 		sprintf(values[7],"%s","always on");
 	}
 	hints[7] = "SECONDS UNTIL THE SCREEN TURNS OFF";
+	
+	options[8] = "Power option ";
+	if (tapeValue==0) {
+		values[8] = "Pause (Not-OFF)";
+		hints[8] = "PAUSE THE MIYOOMINI (SLEEP MODE)";
+	} else if (tapeValue==1){
+		values[8] = "Pause (Not-Lid)";
+		hints[8] = "PAUSE MM AND DISABLE THE LID SENSOR";
+	} else if (tapeValue==2){
+		values[8] = "AutoOFF (save)";
+		hints[8] = "IN 10MIN AND AUTOLOAD THE LAST GAME";
+	} else if (tapeValue==3){
+		values[8] = "AutoOFF (Save/Not-Lid)";
+		hints[8] = "IN 10MIN AND AUTOLOAD THE LAST GAME";
+	} else if (tapeValue==4){
+		values[8] = "AutoOFF (Not-Save)";
+		hints[8] = "IN 10MIN AND NOT SAVE THE LAST GAME";
+	} else if (tapeValue==5){
+		values[8] = "AutoOFF (Not-Save/Not-Lid)";
+		hints[8] = "IN 10MIN AND NOT SAVE THE LAST GAME";
+	}
+	
 #endif
 }
 

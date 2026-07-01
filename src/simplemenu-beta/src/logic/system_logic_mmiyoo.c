@@ -509,6 +509,26 @@ void loadConfiguration4() {
 	}
 }
 
+void saveConfiguration5(int tapeValue) {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "w");
+    if (configFile != NULL) {
+        fprintf(configFile, "%d\n", tapeValue);
+        fclose(configFile);
+    }
+}
+
+int loadConfiguration5() {
+    FILE *configFile = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "r");
+	if (configFile != NULL) {
+        fscanf(configFile, "%d", &tapeValue);
+        fclose(configFile);
+    } else {
+        tapeValue = 0;
+    }
+	
+    return tapeValue;
+}
+
 void turnScreenOnOrOff(int state) {
     const char *path1 = "/proc/mi_modules/fb/mi_fb0";
 	const char *path2 = "/sys/class/pwm/pwmchip0/pwm0/enable";
@@ -819,7 +839,15 @@ int getCurrentWifi() {
 void setBrightness(int value) {
     FILE *f = fopen("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", "w");
     if (f!=NULL) {
-        fprintf(f, "%d", value * 10);
+		if (value == 0) {
+			if (access("/customer/app/axp_test", F_OK) != 0 && access("/tmp/new_res_available", F_OK) != 0) {
+				fprintf(f, "%d", value + 6);
+			} else {
+				fprintf(f, "%d", value + 3);
+			}
+		} else {
+        	fprintf(f, "%d", value * 10);
+		}
         fclose(f);
     }
 }

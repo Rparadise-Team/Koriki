@@ -79,6 +79,11 @@ get_screen_resolution() {
 
 fbset -g 640 480 640 960 32
 
+sv=`cat /proc/sys/vm/swappiness`
+
+# 60 by default
+echo 10 > /proc/sys/vm/swappiness
+
 volume=$(getvolume)
 setvolume &
 set_snd_level "${volume}" &
@@ -86,10 +91,17 @@ set_snd_level "${volume}" &
 HOME=/mnt/SDCARD/App/Gmu
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./lib
 export LD_PRELOAD=./lib/libSDL-1.2.so.0
+export SDL_AUDIODRIVER=miao
+
 SDL_NOMOUSE=1 ./gmu.bin -c gmu.miyoo.conf &> log.txt
 sync
+
+unset LD_LIBRARY_PATH
 unset LD_PRELOAD
+unset SDL_AUDIODRIVER
+
 echo ondemand > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 sync
 
+echo $sv > /proc/sys/vm/swappiness
 get_screen_resolution

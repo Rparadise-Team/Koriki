@@ -1,109 +1,1601 @@
 do_connect: could not connect to socket
 connect: No such file or directory
+ _MI_AO_OpenVqeLib: success
+ _MI_AO_OpenSrcLib: success
+ _MI_AO_OpenG711Lib: success
+ _MI_AO_OpenG726Lib: success
 [src/libmpg123/id3.c:482] error: No comment text / valid description?
  _MI_AO_OpenVqeLib: success
  _MI_AO_OpenSrcLib: success
  _MI_AO_OpenG711Lib: success
  _MI_AO_OpenG726Lib: success
-1970-01-01 02:01:53 gmu: Detected device: Miyoo Mini
-1970-01-01 02:01:53 gmu: Base directory: /mnt/SDCARD/App/Gmu
-1970-01-01 02:01:53 gmu: System config directory: /mnt/SDCARD/App/Gmu
-1970-01-01 02:01:53 gmu: Loading configuration gmu.miyoo.conf...
-1970-01-01 02:01:53 reader: Cache size: 512 kB
-1970-01-01 02:01:53 reader: Cache prebuffer size: 256 kB
-1970-01-01 02:01:53 decloader: 9 decoders found.
-1970-01-01 02:01:53 decloader: Loading flac.so was successful.
-1970-01-01 02:01:53 decloader: FLAC_decoder: Name: FLAC decoder v0.6
-1970-01-01 02:01:53 decloader: FLAC_decoder: File extensions: .flac
-1970-01-01 02:01:53 decloader: /mnt/SDCARD/App/Gmu/decoders//gme.so: undefined symbol: gmu_register_decoder
-1970-01-01 02:01:53 decloader: Loading gme.so was unsuccessful.
-1970-01-01 02:01:53 decloader: Loading modplug.so was successful.
-1970-01-01 02:01:53 decloader: modplug_module_decoder: Name: ModPlug module decoder v0.8
-1970-01-01 02:01:53 decloader: modplug_module_decoder: File extensions: .mod;.xm;.it;.669;.s3m;.amf;.ams;.dbm;.dmf;.dsm;.far;.mdl;.med;.mtm;.okt;.ptm;.stm;.ult;.umx;.mt2;.psm;.mid;.midi
-1970-01-01 02:01:53 decloader: Loading mpg123.so was successful.
-1970-01-01 02:01:53 decloader: mpg123_decoder: Name: mpg123 MPEG decoder v1.0
-1970-01-01 02:01:53 decloader: mpg123_decoder: File extensions: .mp3;.mp2;.mp1
-1970-01-01 02:01:53 decloader: Loading openmpt.so was successful.
-1970-01-01 02:01:53 decloader: openmpt_module_decoder: Name: OpenMPT module decoder v0.1
-1970-01-01 02:01:53 decloader: openmpt_module_decoder: File extensions: .mod;.s3m;.xm;.it;.mptm;.stm;.nst;.m15;.stk;.wow;.ult;.669;.mtm;.med;.far;.mdl;.ams;.dsm;.amf;.okt;.dmf;.ptm;.psm;.mt2;.dbm;.digi;.imf;.j2b;.gdm;.umx;.plm;.mo3;.xpk;.ppm;.mmcmp
-1970-01-01 02:01:53 decloader: Loading opus.so was successful.
-1970-01-01 02:01:53 decloader: opus_decoder: Name: Ogg Opus decoder v0.1
-1970-01-01 02:01:53 decloader: opus_decoder: File extensions: .opus
-1970-01-01 02:01:53 decloader: Loading speex.so was successful.
-1970-01-01 02:01:53 decloader: speex_decoder: Name: Speex decoder v0.1
-1970-01-01 02:01:53 decloader: speex_decoder: File extensions: .spx
-1970-01-01 02:01:53 decloader: Loading vorbis.so was successful.
-1970-01-01 02:01:53 decloader: vorbis_decoder: Name: Tremor Vorbis decoder v1.1
-1970-01-01 02:01:53 decloader: vorbis_decoder: File extensions: .ogg;.oga
-1970-01-01 02:01:53 decloader: Loading wavpack.so was successful.
-1970-01-01 02:01:53 decloader: wavpack_decoder: Name: WavPack decoder v0.3
-1970-01-01 02:01:53 decloader: wavpack_decoder: File extensions: .wv;.wvc
-1970-01-01 02:01:53 gmu: Loading playlist from '/mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u'.
-1970-01-01 02:01:53 m3u: Extended playlist found.
-1970-01-01 02:01:53 gmu: Playlist length: 7 items
+2026-03-05 02:31:01 gmu: Detected device: Miyoo Mini
+2026-03-05 02:31:01 gmu: Base directory: /mnt/SDCARD/App/Gmu
+2026-03-05 02:31:01 gmu: System config directory: /mnt/SDCARD/App/Gmu
+2026-03-05 02:31:01 gmu: Loading configuration gmu.miyoo.conf...
+2026-03-05 02:31:01 reader: Cache size: 512 kB
+2026-03-05 02:31:01 reader: Cache prebuffer size: 256 kB
+2026-03-05 02:31:01 decloader: 10 decoders found.
+2026-03-05 02:31:01 decloader: Loading flac.so was successful.
+2026-03-05 02:31:01 decloader: FLAC_decoder: Name: FLAC decoder v0.6
+2026-03-05 02:31:01 decloader: FLAC_decoder: File extensions: .flac
+2026-03-05 02:31:01 decloader: Loading gme.so was successful.
+2026-03-05 02:31:01 decloader: gme_decoder: Name: Game Music Emu decoder v0.3
+2026-03-05 02:31:01 decloader: gme_decoder: File extensions: .nsf;.nsfe;.spc;.rsn;.ay;.gym;.hes;.gbs;.kss;.vgm;.vgz;.sap
+2026-03-05 02:31:01 decloader: Loading gsf.so was successful.
+2026-03-05 02:31:01 decloader: gsf_decoder: Name: PlayGSF Decoder (ARM32)
+2026-03-05 02:31:01 decloader: gsf_decoder: File extensions: .gsf;.minigsf
+2026-03-05 02:31:01 decloader: Loading modplug.so was successful.
+2026-03-05 02:31:01 decloader: modplug_module_decoder: Name: ModPlug module decoder v0.8
+2026-03-05 02:31:01 decloader: modplug_module_decoder: File extensions: .mod;.xm;.it;.669;.s3m;.amf;.ams;.dbm;.dmf;.dsm;.far;.mdl;.med;.mtm;.okt;.ptm;.stm;.ult;.umx;.mt2;.psm;.mid;.midi
+2026-03-05 02:31:01 decloader: Loading mpg123.so was successful.
+2026-03-05 02:31:01 decloader: mpg123_decoder: Name: mpg123 MPEG decoder v1.0
+2026-03-05 02:31:01 decloader: mpg123_decoder: File extensions: .mp3;.mp2;.mp1
+2026-03-05 02:31:01 decloader: Loading openmpt.so was successful.
+2026-03-05 02:31:01 decloader: openmpt_module_decoder: Name: OpenMPT module decoder v0.1
+2026-03-05 02:31:01 decloader: openmpt_module_decoder: File extensions: .mod;.s3m;.xm;.it;.mptm;.stm;.nst;.m15;.stk;.wow;.ult;.669;.mtm;.med;.far;.mdl;.ams;.dsm;.amf;.okt;.dmf;.ptm;.psm;.mt2;.dbm;.digi;.imf;.j2b;.gdm;.umx;.plm;.mo3;.xpk;.ppm;.mmcmp
+2026-03-05 02:31:01 decloader: Loading opus.so was successful.
+2026-03-05 02:31:01 decloader: opus_decoder: Name: Ogg Opus decoder v0.1
+2026-03-05 02:31:01 decloader: opus_decoder: File extensions: .opus
+2026-03-05 02:31:01 decloader: Loading speex.so was successful.
+2026-03-05 02:31:01 decloader: speex_decoder: Name: Speex decoder v0.1
+2026-03-05 02:31:01 decloader: speex_decoder: File extensions: .spx
+2026-03-05 02:31:01 decloader: Loading vorbis.so was successful.
+2026-03-05 02:31:01 decloader: vorbis_decoder: Name: Tremor Vorbis decoder v1.1
+2026-03-05 02:31:01 decloader: vorbis_decoder: File extensions: .ogg;.oga
+2026-03-05 02:31:01 decloader: Loading wavpack.so was successful.
+2026-03-05 02:31:01 decloader: wavpack_decoder: Name: WavPack decoder v0.3
+2026-03-05 02:31:01 decloader: wavpack_decoder: File extensions: .wv;.wvc
+2026-03-05 02:31:01 gmu: Loading playlist from '/mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u'.
+2026-03-05 02:31:01 m3u: Extended playlist found.
+2026-03-05 02:31:01 gmu: Playlist length: 9 items
 create miao audio device...
 created miao audio device!
-1970-01-01 02:01:53 feloader: 4 frontends found.
-1970-01-01 02:01:53 feloader: Loading gmuhttp.so was successful.
-1970-01-01 02:01:53 feloader: web_frontend: Name: Gmu HTTP server frontend v0.1
-1970-01-01 02:01:53 feloader: Loading lirc.so was successful.
-1970-01-01 02:01:53 feloader: lirc_frontend: Name: Gmu LIRC Remote Control Frontend v0.1
-1970-01-01 02:01:53 logbot: Logging has been disabled.
-1970-01-01 02:01:53 feloader: Loading log.so was unsuccessful.
-1970-01-01 02:01:53 inputconfig: Initializing. Loading /mnt/SDCARD/App/Gmu/gmuinput.miyoo.conf
-1970-01-01 02:01:53 inputconfig: Init done.
-1970-01-01 02:01:53 httpd: Starting server on port 4680.
-1970-01-01 02:01:53 httpd: Listening on ALL available interfaces.
-1970-01-01 02:01:53 httpd: Webserver root directory: /mnt/SDCARD/App/Gmu
-1970-01-01 02:01:53 sdl_frontend: Available screen real estate: 640 x 480 pixels @ 32 bpp
-1970-01-01 02:01:53 sdl_frontend: SDL-Video init done.
-1970-01-01 02:01:53 sdl_frontend: Display surface initialized.
-1970-01-01 02:01:53 feloader: Loading sdl.so was successful.
-1970-01-01 02:01:53 feloader: SDL_frontend: Name: Gmu SDL frontend v0.9
-1970-01-01 02:01:53 keymap: Key map "/mnt/SDCARD/App/Gmu/miyoo.keymap" loaded successfully.
-1970-01-01 02:01:53 skin: Modern theme file format found.
-1970-01-01 02:01:53 fileplayer: File player thread initialized.
-1970-01-01 02:01:53 skin: skin: Skin data loaded successfully.
-1970-01-01 02:01:58 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3... (skip current: 1)
-1970-01-01 02:01:58 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
-1970-01-01 02:01:58 decloader: Matching decoder for mp3: mpg123_decoder
-1970-01-01 02:01:58 fileplayer: Selected decoder: mpg123_decoder
-1970-01-01 02:01:58 reader: Opening file /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3.
-1970-01-01 02:01:58 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
-1970-01-01 02:01:58 id3: ID3v2.3.0 detected!
-1970-01-01 02:01:58 id3: COMM charset: ISO-8859-1
-1970-01-01 02:01:58 id3: PRIV charset: unknown
-1970-01-01 02:01:58 id3: TALB charset: ISO-8859-1
-1970-01-01 02:01:58 id3: TYER charset: ISO-8859-1
-1970-01-01 02:01:58 id3: TCON charset: ISO-8859-1
-1970-01-01 02:01:58 id3: PRIV charset: unknown
-1970-01-01 02:01:58 id3: PRIV charset: unknown
-1970-01-01 02:01:58 id3: APIC charset: ISO-8859-1
-1970-01-01 02:01:58 mpg123: Opening stream...
-1970-01-01 02:01:58 mpg123: Found stream with 2 channels and 44100 Hz.
-1970-01-01 02:01:58 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 320000 bps, 139 seconds
-1970-01-01 02:01:58 audio: Opening audio device...
+2026-03-05 02:31:01 feloader: 4 frontends found.
+2026-03-05 02:31:01 feloader: Loading gmuhttp.so was successful.
+2026-03-05 02:31:01 feloader: web_frontend: Name: Gmu HTTP server frontend v0.1
+2026-03-05 02:31:01 httpd: Starting server on port 4680.
+2026-03-05 02:31:01 httpd: Listening on ALL available interfaces.
+2026-03-05 02:31:01 httpd: Webserver root directory: /mnt/SDCARD/App/Gmu
+2026-03-05 02:31:01 feloader: Loading lirc.so was successful.
+2026-03-05 02:31:01 feloader: lirc_frontend: Name: Gmu LIRC Remote Control Frontend v0.1
+2026-03-05 02:31:01 logbot: Logging has been disabled.
+2026-03-05 02:31:01 feloader: Loading log.so was unsuccessful.
+2026-03-05 02:31:01 inputconfig: Initializing. Loading /mnt/SDCARD/App/Gmu/gmuinput.miyoo.conf
+2026-03-05 02:31:01 inputconfig: Init done.
+2026-03-05 02:31:02 sdl_frontend: Available screen real estate: 640 x 480 pixels @ 32 bpp
+2026-03-05 02:31:02 sdl_frontend: SDL-Video init done.
+2026-03-05 02:31:02 sdl_frontend: Display surface initialized.
+2026-03-05 02:31:02 feloader: Loading sdl.so was successful.
+2026-03-05 02:31:02 feloader: SDL_frontend: Name: Gmu SDL frontend v0.9
+2026-03-05 02:31:02 fileplayer: File player thread initialized.
+2026-03-05 02:31:02 keymap: Key map "/mnt/SDCARD/App/Gmu/miyoo.keymap" loaded successfully.
+2026-03-05 02:31:02 skin: Modern theme file format found.
+2026-03-05 02:31:02 skin: skin: Skin data loaded successfully.
+2026-03-05 02:31:08 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:31:10 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf... (skip current: 1)
+2026-03-05 02:31:10 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf...
+2026-03-05 02:31:10 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:31:10 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:31:10 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf.
+2026-03-05 02:31:10 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 111 seconds
+2026-03-05 02:31:10 audio: Opening audio device...
 open miao audio
 buffer size: 8192
-1970-01-01 02:01:58 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
-1970-01-01 02:01:58 gmu: Track info:
+2026-03-05 02:31:10 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+2026-03-05 02:31:10 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Lucky Slots
+	Album : Golden Sun
+2026-03-05 02:33:03 fileplayer: Playback stopped: 1
+2026-03-05 02:33:03 fileplayer: Trying to play http://stream.animeradio.de/animeradio.mp3... (skip current: 0)
+2026-03-05 02:33:03 fileplayer: Playing http://stream.animeradio.de/animeradio.mp3...
+2026-03-05 02:33:03 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:33:03 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:33:03 reader: Opening connection to host stream.animeradio.de on port 80. Reading from /animeradio.mp3.
+2026-03-05 02:33:03 reader: getaddrinfo: System error
+2026-03-05 02:33:03 mpg123: Opening http://stream.animeradio.de/animeradio.mp3...
+2026-03-05 02:33:03 mpg123: ERROR: Could not open stream/file.
+2026-03-05 02:33:03 mpg123: Problem with stream.
+2026-03-05 02:33:03 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3... (skip current: 0)
+close miao audio
+2026-03-05 02:33:03 audio: Device closed.
+2026-03-05 02:33:03 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
+2026-03-05 02:33:03 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:33:03 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:33:03 reader: Opening file /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3.
+2026-03-05 02:33:03 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/Devil in Wonderland.mp3...
+2026-03-05 02:33:03 id3: ID3v2.3.0 detected!
+2026-03-05 02:33:03 id3: COMM charset: ISO-8859-1
+2026-03-05 02:33:03 id3: PRIV charset: unknown
+2026-03-05 02:33:03 id3: TALB charset: ISO-8859-1
+2026-03-05 02:33:03 id3: TYER charset: ISO-8859-1
+2026-03-05 02:33:03 id3: TCON charset: ISO-8859-1
+2026-03-05 02:33:03 id3: PRIV charset: unknown
+2026-03-05 02:33:03 id3: PRIV charset: unknown
+2026-03-05 02:33:03 id3: APIC charset: ISO-8859-1
+2026-03-05 02:33:03 mpg123: Opening stream...
+2026-03-05 02:33:03 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 02:33:03 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 320000 bps, 139 seconds
+2026-03-05 02:33:03 audio: Opening audio device...
+create miao audio device...
+created miao audio device!
+open miao audio
+buffer size: 8192
+2026-03-05 02:33:03 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+2026-03-05 02:33:03 gmu: Track info:
 	Artist: 
 	Title : Devil in Wonderland.mp3
 	Album : Cytus OST
-1970-01-01 02:01:58 coverimg: Loading cover image of type image/jpeg from song meta data (tag)...
-1970-01-01 02:01:58 coverimg: Loading image from memory...
-1970-01-01 02:01:58 coverimg: Loaded and resized cover image successfully.
-1970-01-01 02:02:20 gmu: Shutting down...
-1970-01-01 02:02:20 sdl_frontend: Saving settings...
-1970-01-01 02:02:21 gmu: Unloading frontends...
-1970-01-01 02:02:21 lirc_frontend: All done.
-1970-01-01 02:02:21 sdl_frontend: All done.
-1970-01-01 02:02:21 gmu: Unloading frontends done.
-1970-01-01 02:02:21 fileplayer: Playback stopped: 0
+2026-03-05 02:33:03 coverimg: Loading cover image of type image/jpeg from song meta data (tag)...
+2026-03-05 02:33:03 coverimg: Loading image from memory...
+2026-03-05 02:33:03 coverimg: Loaded and resized cover image successfully.
+2026-03-05 02:35:22 mpg123: Got no data from reader :(
+2026-03-05 02:35:23 fileplayer: Playback stopped: 1
+2026-03-05 02:35:23 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/The Moon Theme.mp3... (skip current: 0)
+2026-03-05 02:35:23 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/The Moon Theme.mp3...
+2026-03-05 02:35:23 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:35:23 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:35:23 reader: Opening file /mnt/SDCARD/App/Musicselector/music/The Moon Theme.mp3.
+2026-03-05 02:35:23 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/The Moon Theme.mp3...
+2026-03-05 02:35:23 id3: ID3v2.3.0 detected!
+2026-03-05 02:35:23 id3: COMM charset: ISO-8859-1
+2026-03-05 02:35:23 id3: TIT2 charset: ISO-8859-1
+2026-03-05 02:35:23 id3: TPE1 charset: ISO-8859-1
+2026-03-05 02:35:23 mpg123: Opening stream...
+2026-03-05 02:35:23 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 02:35:23 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 192000 bps, 92 seconds
+2026-03-05 02:35:23 audio: Using already opened audio device with the same settings...
+2026-03-05 02:35:23 gmu: Track info:
+	Artist: Yoshihiro Sakaguchi
+	Title : The Moon Theme
+	Album : 
+2026-03-05 02:36:00 playlist: Recursive directory add thread created.
+2026-03-05 02:36:00 dirparser: Parsing '/mnt/SDCARD/Media/GBA/Golden Sun'...
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 decloader: Matching decoder for MINIGSF: gsf_decoder
+2026-03-05 02:36:00 dirparser: Done parsing /mnt/SDCARD/Media/GBA/Golden Sun.
+2026-03-05 02:36:00 playlist: Recursive directory add thread finished.
+2026-03-05 02:36:13 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf... (skip current: 1)
+2026-03-05 02:36:13 fileplayer: Playback stopped: 0
+2026-03-05 02:36:13 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf...
+2026-03-05 02:36:13 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:36:13 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:36:13 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf.
+2026-03-05 02:36:13 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 111 seconds
+2026-03-05 02:36:13 audio: Using already opened audio device with the same settings...
+2026-03-05 02:36:13 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Lucky Slots
+	Album : Golden Sun
+2026-03-05 02:38:07 fileplayer: Playback stopped: 1
+2026-03-05 02:38:07 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf... (skip current: 0)
+2026-03-05 02:38:07 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf...
+2026-03-05 02:38:07 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:38:07 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:38:07 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf.
+2026-03-05 02:38:07 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:38:07 audio: Using already opened audio device with the same settings...
+2026-03-05 02:38:07 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Main Theme
+	Album : Golden Sun
+2026-03-05 02:39:18 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf... (skip current: 1)
+2026-03-05 02:39:18 fileplayer: Playback stopped: 0
+2026-03-05 02:39:18 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf...
+2026-03-05 02:39:18 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:39:18 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:39:18 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf.
+2026-03-05 02:39:18 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:39:18 audio: Using already opened audio device with the same settings...
+2026-03-05 02:39:18 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Main Menu
+	Album : Golden Sun
+2026-03-05 02:39:23 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/04 Lighthouse Theme.minigsf... (skip current: 1)
+ _MI_AO_OpenVqeLib: success
+ _MI_AO_OpenSrcLib: success
+ _MI_AO_OpenG711Lib: success
+ _MI_AO_OpenG726Lib: success
+ _MI_AO_OpenVqeLib: success
+ _MI_AO_OpenSrcLib: success
+ _MI_AO_OpenG711Lib: success
+ _MI_AO_OpenG726Lib: success
+2026-03-05 02:39:23 fileplayer: Playback stopped: 0
+2026-03-05 02:39:23 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/04 Lighthouse Theme.minigsf...
+2026-03-05 02:39:23 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:39:23 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:39:23 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/04 Lighthouse Theme.minigsf.
+2026-03-05 02:39:23 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 158 seconds
+2026-03-05 02:39:23 audio: Using already opened audio device with the same settings...
+2026-03-05 02:39:23 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lighthouse Theme
+	Album : Golden Sun
+2026-03-05 02:39:25 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/05 The Title Screen.minigsf... (skip current: 1)
+2026-03-05 02:39:25 fileplayer: Playback stopped: 0
+2026-03-05 02:39:25 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/05 The Title Screen.minigsf...
+2026-03-05 02:39:25 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:39:25 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:39:25 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/05 The Title Screen.minigsf.
+2026-03-05 02:39:25 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 126 seconds
+2026-03-05 02:39:25 audio: Using already opened audio device with the same settings...
+2026-03-05 02:39:25 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Title Screen
+	Album : Golden Sun
+2026-03-05 02:39:46 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/06 Suspense.minigsf... (skip current: 1)
+2026-03-05 02:39:46 fileplayer: Playback stopped: 0
+2026-03-05 02:39:46 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/06 Suspense.minigsf...
+2026-03-05 02:39:46 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:39:46 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:39:46 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/06 Suspense.minigsf.
+2026-03-05 02:39:46 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 114 seconds
+2026-03-05 02:39:46 audio: Using already opened audio device with the same settings...
+2026-03-05 02:39:46 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Suspense
+	Album : Golden Sun
+2026-03-05 02:39:54 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/07 Trial Road.minigsf... (skip current: 1)
+2026-03-05 02:39:54 fileplayer: Playback stopped: 0
+2026-03-05 02:39:54 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/07 Trial Road.minigsf...
+2026-03-05 02:39:54 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:39:54 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:39:54 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/07 Trial Road.minigsf.
+2026-03-05 02:39:54 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 88 seconds
+2026-03-05 02:39:54 audio: Using already opened audio device with the same settings...
+2026-03-05 02:39:54 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Trial Road
+	Album : Golden Sun
+2026-03-05 02:40:15 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf... (skip current: 1)
+2026-03-05 02:40:15 fileplayer: Playback stopped: 0
+2026-03-05 02:40:15 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf...
+2026-03-05 02:40:15 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:40:15 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:40:15 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf.
+2026-03-05 02:40:15 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 25 seconds
+2026-03-05 02:40:15 audio: Using already opened audio device with the same settings...
+2026-03-05 02:40:15 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Fanfare
+	Album : Golden Sun
+2026-03-05 02:40:25 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/09 Game Over (Variation).minigsf... (skip current: 1)
+2026-03-05 02:40:25 fileplayer: Playback stopped: 0
+2026-03-05 02:40:25 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/09 Game Over (Variation).minigsf...
+2026-03-05 02:40:25 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:40:25 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:40:25 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/09 Game Over (Variation).minigsf.
+2026-03-05 02:40:25 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 70 seconds
+2026-03-05 02:40:25 audio: Using already opened audio device with the same settings...
+2026-03-05 02:40:25 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Game Over (Variation)
+	Album : Golden Sun
+2026-03-05 02:41:36 fileplayer: Playback stopped: 1
+2026-03-05 02:41:36 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/10 Ivan's Theme.minigsf... (skip current: 0)
 close miao audio
-1970-01-01 02:02:21 audio: Device closed.
-1970-01-01 02:02:21 gmu: Saving playlist...
-1970-01-01 02:02:21 gmu: Playlist file: /mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u
-1970-01-01 02:02:21 gmu: Saving settings...
-1970-01-01 02:02:21 gmu: Unloading decoders...
-1970-01-01 02:02:21 gmu: Shutdown complete.
+2026-03-05 02:41:36 audio: Device closed.
+2026-03-05 02:41:36 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/10 Ivan's Theme.minigsf...
+2026-03-05 02:41:36 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:41:36 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:41:36 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/10 Ivan's Theme.minigsf.
+2026-03-05 02:41:36 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 185 seconds
+2026-03-05 02:41:36 audio: Opening audio device...
+create miao audio device...
+created miao audio device!
+open miao audio
+buffer size: 8192
+2026-03-05 02:41:36 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+2026-03-05 02:41:36 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Ivan's Theme
+	Album : Golden Sun
+2026-03-05 02:44:43 fileplayer: Playback stopped: 1
+2026-03-05 02:44:43 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf... (skip current: 0)
+2026-03-05 02:44:43 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf...
+2026-03-05 02:44:43 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:44:43 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:44:43 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf.
+2026-03-05 02:44:43 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 119 seconds
+2026-03-05 02:44:43 audio: Using already opened audio device with the same settings...
+2026-03-05 02:44:43 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Villain Theme
+	Album : Golden Sun
+2026-03-05 02:46:43 fileplayer: Playback stopped: 1
+2026-03-05 02:46:43 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/12 Prox In Trouble.minigsf... (skip current: 0)
+close miao audio
+2026-03-05 02:46:43 audio: Device closed.
+2026-03-05 02:46:43 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/12 Prox In Trouble.minigsf...
+2026-03-05 02:46:43 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:46:43 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:46:43 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/12 Prox In Trouble.minigsf.
+2026-03-05 02:46:44 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:46:44 audio: Opening audio device...
+create miao audio device...
+created miao audio device!
+open miao audio
+buffer size: 8192
+2026-03-05 02:46:44 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+2026-03-05 02:46:44 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Prox In Trouble
+	Album : Golden Sun
+2026-03-05 02:49:36 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/13 Lighting The Beacons.minigsf... (skip current: 1)
+2026-03-05 02:49:36 fileplayer: Playback stopped: 0
+2026-03-05 02:49:36 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/13 Lighting The Beacons.minigsf...
+2026-03-05 02:49:36 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:36 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:36 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/13 Lighting The Beacons.minigsf.
+2026-03-05 02:49:36 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 108 seconds
+2026-03-05 02:49:36 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:36 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lighting The Beacons
+	Album : Golden Sun
+2026-03-05 02:49:36 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/14 Doom Dragon Slain.minigsf... (skip current: 1)
+2026-03-05 02:49:36 fileplayer: Playback stopped: 0
+2026-03-05 02:49:37 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/14 Doom Dragon Slain.minigsf...
+2026-03-05 02:49:37 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:37 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:37 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/14 Doom Dragon Slain.minigsf.
+2026-03-05 02:49:37 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 16 seconds
+2026-03-05 02:49:37 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:37 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Doom Dragon Slain
+	Album : Golden Sun
+2026-03-05 02:49:37 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf... (skip current: 1)
+2026-03-05 02:49:37 fileplayer: Playback stopped: 0
+2026-03-05 02:49:37 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf...
+2026-03-05 02:49:37 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:37 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:37 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf.
+2026-03-05 02:49:37 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 139 seconds
+2026-03-05 02:49:37 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:37 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Golden Sun Rises
+	Album : Golden Sun
+2026-03-05 02:49:37 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf... (skip current: 1)
+2026-03-05 02:49:37 fileplayer: Playback stopped: 0
+2026-03-05 02:49:37 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf...
+2026-03-05 02:49:37 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:37 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:37 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf.
+2026-03-05 02:49:38 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 189 seconds
+2026-03-05 02:49:38 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:38 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lighting the Mars Beacon
+	Album : Golden Sun
+2026-03-05 02:49:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf... (skip current: 1)
+2026-03-05 02:49:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/18 Vale and Vault.minigsf... (skip current: 1)
+2026-03-05 02:49:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf... (skip current: 1)
+2026-03-05 02:49:38 fileplayer: Playback stopped: 0
+2026-03-05 02:49:38 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf...
+2026-03-05 02:49:38 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:38 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:38 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf.
+2026-03-05 02:49:38 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 159 seconds
+2026-03-05 02:49:38 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:38 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : City Theme
+	Album : Golden Sun
+2026-03-05 02:49:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf... (skip current: 1)
+2026-03-05 02:49:39 fileplayer: Playback stopped: 0
+2026-03-05 02:49:39 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf...
+2026-03-05 02:49:39 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:39 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:39 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf.
+2026-03-05 02:49:39 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 183 seconds
+2026-03-05 02:49:39 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf... (skip current: 1)
+2026-03-05 02:49:39 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:39 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sad Town
+	Album : Golden Sun
+2026-03-05 02:49:39 fileplayer: Playback stopped: 0
+2026-03-05 02:49:39 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf...
+2026-03-05 02:49:39 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:39 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:39 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf.
+2026-03-05 02:49:39 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 140 seconds
+2026-03-05 02:49:39 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:39 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Castle
+	Album : Golden Sun
+2026-03-05 02:49:41 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf... (skip current: 1)
+2026-03-05 02:49:41 fileplayer: Playback stopped: 0
+2026-03-05 02:49:41 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf...
+2026-03-05 02:49:41 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:41 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:41 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf.
+2026-03-05 02:49:41 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 183 seconds
+2026-03-05 02:49:41 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:41 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sad Town
+	Album : Golden Sun
+2026-03-05 02:49:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf... (skip current: 1)
+2026-03-05 02:49:42 fileplayer: Playback stopped: 0
+2026-03-05 02:49:42 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf...
+2026-03-05 02:49:42 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:42 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:42 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf.
+2026-03-05 02:49:42 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 159 seconds
+2026-03-05 02:49:42 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:42 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : City Theme
+	Album : Golden Sun
+2026-03-05 02:49:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/18 Vale and Vault.minigsf... (skip current: 1)
+2026-03-05 02:49:42 fileplayer: Playback stopped: 0
+2026-03-05 02:49:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf... (skip current: 1)
+2026-03-05 02:49:42 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf...
+2026-03-05 02:49:42 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:42 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:42 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf.
+2026-03-05 02:49:42 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 12 seconds
+2026-03-05 02:49:42 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:42 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Golden Sun Sets...
+	Album : Golden Sun
+2026-03-05 02:49:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf... (skip current: 1)
+2026-03-05 02:49:43 fileplayer: Playback stopped: 0
+2026-03-05 02:49:43 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf...
+2026-03-05 02:49:43 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:43 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:43 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf.
+2026-03-05 02:49:43 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 189 seconds
+2026-03-05 02:49:43 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:43 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lighting the Mars Beacon
+	Album : Golden Sun
+2026-03-05 02:49:44 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf... (skip current: 1)
+2026-03-05 02:49:44 fileplayer: Playback stopped: 0
+2026-03-05 02:49:44 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf...
+2026-03-05 02:49:44 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:44 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:44 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf.
+2026-03-05 02:49:44 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 139 seconds
+2026-03-05 02:49:44 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:44 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Golden Sun Rises
+	Album : Golden Sun
+2026-03-05 02:49:46 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf... (skip current: 1)
+2026-03-05 02:49:46 fileplayer: Playback stopped: 0
+2026-03-05 02:49:46 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf...
+2026-03-05 02:49:46 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:46 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:46 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/16 Lighting the Mars Beacon.minigsf.
+2026-03-05 02:49:46 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 189 seconds
+2026-03-05 02:49:46 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:46 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lighting the Mars Beacon
+	Album : Golden Sun
+2026-03-05 02:49:48 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf... (skip current: 1)
+2026-03-05 02:49:48 fileplayer: Playback stopped: 0
+2026-03-05 02:49:48 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf...
+2026-03-05 02:49:48 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:48 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:48 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/17 Golden Sun Sets....minigsf.
+2026-03-05 02:49:48 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 12 seconds
+2026-03-05 02:49:48 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:48 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Golden Sun Sets...
+	Album : Golden Sun
+2026-03-05 02:49:53 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/18 Vale and Vault.minigsf... (skip current: 1)
+2026-03-05 02:49:53 fileplayer: Playback stopped: 0
+2026-03-05 02:49:53 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/18 Vale and Vault.minigsf...
+2026-03-05 02:49:53 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:53 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:53 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/18 Vale and Vault.minigsf.
+2026-03-05 02:49:53 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 180 seconds
+2026-03-05 02:49:53 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:53 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Vale and Vault
+	Album : Golden Sun
+2026-03-05 02:49:55 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf... (skip current: 1)
+2026-03-05 02:49:55 fileplayer: Playback stopped: 0
+2026-03-05 02:49:55 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf...
+2026-03-05 02:49:55 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:49:55 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:49:55 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/19 City Theme.minigsf.
+2026-03-05 02:49:55 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 159 seconds
+2026-03-05 02:49:55 audio: Using already opened audio device with the same settings...
+2026-03-05 02:49:55 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : City Theme
+	Album : Golden Sun
+2026-03-05 02:50:09 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf... (skip current: 1)
+2026-03-05 02:50:09 fileplayer: Playback stopped: 0
+2026-03-05 02:50:09 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf...
+2026-03-05 02:50:09 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:09 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:09 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/20 Sad Town.minigsf.
+2026-03-05 02:50:09 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 183 seconds
+2026-03-05 02:50:09 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:09 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sad Town
+	Album : Golden Sun
+2026-03-05 02:50:27 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf... (skip current: 1)
+2026-03-05 02:50:27 fileplayer: Playback stopped: 0
+2026-03-05 02:50:27 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf...
+2026-03-05 02:50:27 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:27 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:27 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/21 Castle.minigsf.
+2026-03-05 02:50:27 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 140 seconds
+2026-03-05 02:50:27 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:27 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Castle
+	Album : Golden Sun
+2026-03-05 02:50:28 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/22 Flooded Altin.minigsf... (skip current: 1)
+2026-03-05 02:50:28 fileplayer: Playback stopped: 0
+2026-03-05 02:50:28 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/22 Flooded Altin.minigsf...
+2026-03-05 02:50:28 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:28 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:28 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/22 Flooded Altin.minigsf.
+2026-03-05 02:50:29 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 195 seconds
+2026-03-05 02:50:29 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:29 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Flooded Altin
+	Album : Golden Sun
+2026-03-05 02:50:29 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/23 Lama Temple.minigsf... (skip current: 1)
+2026-03-05 02:50:29 fileplayer: Playback stopped: 0
+2026-03-05 02:50:30 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/23 Lama Temple.minigsf...
+2026-03-05 02:50:30 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:30 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:30 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/23 Lama Temple.minigsf.
+2026-03-05 02:50:30 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 160 seconds
+2026-03-05 02:50:30 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:30 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lama Temple
+	Album : Golden Sun
+2026-03-05 02:50:31 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/24 Kalay Celebrations.minigsf... (skip current: 1)
+2026-03-05 02:50:31 fileplayer: Playback stopped: 0
+2026-03-05 02:50:31 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/24 Kalay Celebrations.minigsf...
+2026-03-05 02:50:31 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:31 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:31 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/24 Kalay Celebrations.minigsf.
+2026-03-05 02:50:31 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 152 seconds
+2026-03-05 02:50:31 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:31 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Kalay Celebrations
+	Album : Golden Sun
+2026-03-05 02:50:33 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/25 Colosso 1.minigsf... (skip current: 1)
+2026-03-05 02:50:33 fileplayer: Playback stopped: 0
+2026-03-05 02:50:33 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/25 Colosso 1.minigsf...
+2026-03-05 02:50:33 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:33 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:33 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/25 Colosso 1.minigsf.
+2026-03-05 02:50:33 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:50:33 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:33 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Colosso 1
+	Album : Golden Sun
+2026-03-05 02:50:35 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/26 Colosso 2.minigsf... (skip current: 1)
+2026-03-05 02:50:35 fileplayer: Playback stopped: 0
+2026-03-05 02:50:35 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/26 Colosso 2.minigsf...
+2026-03-05 02:50:35 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:35 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:35 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/26 Colosso 2.minigsf.
+2026-03-05 02:50:35 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 127 seconds
+2026-03-05 02:50:35 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:35 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Colosso 2
+	Album : Golden Sun
+2026-03-05 02:50:36 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf... (skip current: 1)
+2026-03-05 02:50:36 fileplayer: Playback stopped: 0
+2026-03-05 02:50:36 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf...
+2026-03-05 02:50:36 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:36 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:36 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf.
+2026-03-05 02:50:36 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 115 seconds
+2026-03-05 02:50:36 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:36 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi
+	Album : Golden Sun
+2026-03-05 02:50:37 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf... (skip current: 1)
+2026-03-05 02:50:37 fileplayer: Playback stopped: 0
+2026-03-05 02:50:38 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf...
+2026-03-05 02:50:38 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:38 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:38 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf.
+2026-03-05 02:50:38 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 148 seconds
+2026-03-05 02:50:38 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:38 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Sanctums
+	Album : Golden Sun
+2026-03-05 02:50:39 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf... (skip current: 1)
+2026-03-05 02:50:39 fileplayer: Playback stopped: 0
+2026-03-05 02:50:39 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf...
+2026-03-05 02:50:39 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:39 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:39 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf.
+2026-03-05 02:50:39 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 175 seconds
+2026-03-05 02:50:39 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:39 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Contigo
+	Album : Golden Sun
+2026-03-05 02:50:40 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf... (skip current: 1)
+2026-03-05 02:50:40 fileplayer: Playback stopped: 0
+2026-03-05 02:50:41 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf...
+2026-03-05 02:50:41 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:41 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:41 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf.
+2026-03-05 02:50:41 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 194 seconds
+2026-03-05 02:50:41 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:41 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sol Sanctum
+	Album : Golden Sun
+2026-03-05 02:50:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf... (skip current: 1)
+2026-03-05 02:50:42 fileplayer: Playback stopped: 0
+2026-03-05 02:50:42 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf...
+2026-03-05 02:50:42 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:42 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:42 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf.
+2026-03-05 02:50:42 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 207 seconds
+2026-03-05 02:50:42 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:42 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lunpa's Hideout
+	Album : Golden Sun
+2026-03-05 02:50:43 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf... (skip current: 1)
+2026-03-05 02:50:43 fileplayer: Playback stopped: 0
+2026-03-05 02:50:43 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf...
+2026-03-05 02:50:43 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:43 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:43 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf.
+2026-03-05 02:50:43 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 193 seconds
+2026-03-05 02:50:43 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:43 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Cave Theme
+	Album : Golden Sun
+2026-03-05 02:50:45 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf... (skip current: 1)
+2026-03-05 02:50:45 fileplayer: Playback stopped: 0
+2026-03-05 02:50:45 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf...
+2026-03-05 02:50:45 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:45 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:45 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf.
+2026-03-05 02:50:45 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 179 seconds
+2026-03-05 02:50:45 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:45 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Deserts
+	Album : Golden Sun
+2026-03-05 02:50:46 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf... (skip current: 1)
+2026-03-05 02:50:46 fileplayer: Playback stopped: 0
+2026-03-05 02:50:47 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf...
+2026-03-05 02:50:47 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:47 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:47 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf.
+2026-03-05 02:50:47 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:50:47 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:47 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Imil
+	Album : Golden Sun
+2026-03-05 02:50:48 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf... (skip current: 1)
+2026-03-05 02:50:48 fileplayer: Playback stopped: 0
+2026-03-05 02:50:48 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's L _MI_AO_OpenVqeLib: success
+ _MI_AO_OpenSrcLib: success
+ _MI_AO_OpenG711Lib: success
+ _MI_AO_OpenG726Lib: success
+ighthouse.minigsf...
+2026-03-05 02:50:48 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:48 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:48 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf.
+2026-03-05 02:50:48 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 165 seconds
+2026-03-05 02:50:48 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:48 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Lighthouse
+	Album : Golden Sun
+2026-03-05 02:50:50 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf... (skip current: 1)
+2026-03-05 02:50:50 fileplayer: Playback stopped: 0
+2026-03-05 02:50:50 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf...
+2026-03-05 02:50:50 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:50 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:50 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf.
+2026-03-05 02:50:50 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:50:50 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:50 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tunnel Ruins
+	Album : Golden Sun
+2026-03-05 02:50:51 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:50:51 fileplayer: Playback stopped: 0
+2026-03-05 02:50:51 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:50:51 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:51 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:51 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:50:51 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:50:51 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:51 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:50:53 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:50:53 fileplayer: Playback stopped: 0
+2026-03-05 02:50:53 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:50:53 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:50:53 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:50:53 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:50:53 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:50:53 audio: Using already opened audio device with the same settings...
+2026-03-05 02:50:53 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:51:31 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:51:31 fileplayer: Playback stopped: 0
+2026-03-05 02:51:31 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:51:31 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:51:31 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:51:31 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:51:31 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:51:31 audio: Using already opened audio device with the same settings...
+2026-03-05 02:51:31 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:51:32 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:51:32 fileplayer: Playback stopped: 0
+2026-03-05 02:51:32 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:51:32 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:51:32 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:51:32 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:51:32 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:51:32 audio: Using already opened audio device with the same settings...
+2026-03-05 02:51:32 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:51:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:51:38 fileplayer: Playback stopped: 0
+2026-03-05 02:51:38 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:51:38 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:51:38 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:51:38 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:51:38 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:51:38 audio: Using already opened audio device with the same settings...
+2026-03-05 02:51:38 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:51:44 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:51:44 fileplayer: Playback stopped: 0
+2026-03-05 02:51:44 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:51:44 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:51:44 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:51:44 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:51:44 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:51:44 audio: Using already opened audio device with the same settings...
+2026-03-05 02:51:44 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:54:03 fileplayer: Playback stopped: 1
+2026-03-05 02:54:03 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf... (skip current: 0)
+close miao audio
+2026-03-05 02:54:03 audio: Device closed.
+2026-03-05 02:54:04 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf...
+2026-03-05 02:54:04 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:54:04 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:54:04 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf.
+2026-03-05 02:54:04 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 182 seconds
+2026-03-05 02:54:04 audio: Opening audio device...
+create miao audio device...
+created miao audio device!
+open miao audio
+buffer size: 8192
+2026-03-05 02:54:04 audio: Device opened with 44100 Hz, 2 channels and sample buffer w/ 2048 samples.
+2026-03-05 02:54:04 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : World Map
+	Album : Golden Sun
+2026-03-05 02:56:24 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:56:24 fileplayer: Playback stopped: 0
+2026-03-05 02:56:25 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:56:25 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:25 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:25 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:56:25 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:56:25 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:25 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:56:26 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:56:26 fileplayer: Playback stopped: 0
+2026-03-05 02:56:26 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:56:26 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:26 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:26 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:56:26 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:56:26 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:26 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:56:28 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf... (skip current: 1)
+2026-03-05 02:56:28 fileplayer: Playback stopped: 0
+2026-03-05 02:56:28 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf...
+2026-03-05 02:56:28 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:28 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:28 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf.
+2026-03-05 02:56:28 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:56:28 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:28 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tunnel Ruins
+	Album : Golden Sun
+2026-03-05 02:56:30 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf... (skip current: 1)
+2026-03-05 02:56:30 fileplayer: Playback stopped: 0
+2026-03-05 02:56:30 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf...
+2026-03-05 02:56:30 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:30 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:30 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf.
+2026-03-05 02:56:30 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 165 seconds
+2026-03-05 02:56:30 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:30 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Lighthouse
+	Album : Golden Sun
+2026-03-05 02:56:31 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf... (skip current: 1)
+2026-03-05 02:56:31 fileplayer: Playback stopped: 0
+2026-03-05 02:56:32 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf...
+2026-03-05 02:56:32 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:32 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:32 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf.
+2026-03-05 02:56:32 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:56:32 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:32 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Imil
+	Album : Golden Sun
+2026-03-05 02:56:33 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf... (skip current: 1)
+2026-03-05 02:56:33 fileplayer: Playback stopped: 0
+2026-03-05 02:56:33 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf...
+2026-03-05 02:56:33 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:33 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:33 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf.
+2026-03-05 02:56:33 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 179 seconds
+2026-03-05 02:56:33 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:33 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Deserts
+	Album : Golden Sun
+2026-03-05 02:56:34 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf... (skip current: 1)
+2026-03-05 02:56:34 fileplayer: Playback stopped: 0
+2026-03-05 02:56:34 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf...
+2026-03-05 02:56:34 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:34 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:34 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf.
+2026-03-05 02:56:34 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 193 seconds
+2026-03-05 02:56:34 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:34 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Cave Theme
+	Album : Golden Sun
+2026-03-05 02:56:36 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf... (skip current: 1)
+2026-03-05 02:56:36 fileplayer: Playback stopped: 0
+2026-03-05 02:56:36 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf...
+2026-03-05 02:56:36 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:36 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:36 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf.
+2026-03-05 02:56:36 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 207 seconds
+2026-03-05 02:56:36 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:36 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Lunpa's Hideout
+	Album : Golden Sun
+2026-03-05 02:56:37 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf... (skip current: 1)
+2026-03-05 02:56:37 fileplayer: Playback stopped: 0
+2026-03-05 02:56:37 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf...
+2026-03-05 02:56:37 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:37 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:37 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf.
+2026-03-05 02:56:37 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 194 seconds
+2026-03-05 02:56:37 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:37 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sol Sanctum
+	Album : Golden Sun
+2026-03-05 02:56:39 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf... (skip current: 1)
+2026-03-05 02:56:39 fileplayer: Playback stopped: 0
+2026-03-05 02:56:39 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf...
+2026-03-05 02:56:39 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:39 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:39 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf.
+2026-03-05 02:56:39 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 175 seconds
+2026-03-05 02:56:39 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:39 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Contigo
+	Album : Golden Sun
+2026-03-05 02:56:40 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf... (skip current: 1)
+2026-03-05 02:56:40 fileplayer: Playback stopped: 0
+2026-03-05 02:56:40 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf...
+2026-03-05 02:56:40 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:40 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:40 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf.
+2026-03-05 02:56:40 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 194 seconds
+2026-03-05 02:56:40 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:40 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sol Sanctum
+	Album : Golden Sun
+2026-03-05 02:56:40 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf... (skip current: 1)
+2026-03-05 02:56:41 fileplayer: Playback stopped: 0
+2026-03-05 02:56:41 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf...
+2026-03-05 02:56:41 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:41 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:41 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf.
+2026-03-05 02:56:41 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf... (skip current: 1)
+2026-03-05 02:56:41 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf...
+2026-03-05 02:56:41 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:41 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:41 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf.
+2026-03-05 02:56:41 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 193 seconds
+2026-03-05 02:56:41 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:41 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Cave Theme
+	Album : Golden Sun
+2026-03-05 02:56:41 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf... (skip current: 1)
+2026-03-05 02:56:41 fileplayer: Playback stopped: 0
+2026-03-05 02:56:41 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf...
+2026-03-05 02:56:41 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:41 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:41 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf.
+2026-03-05 02:56:41 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 179 seconds
+2026-03-05 02:56:41 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:41 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Deserts
+	Album : Golden Sun
+2026-03-05 02:56:42 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf... (skip current: 1)
+2026-03-05 02:56:42 fileplayer: Playback stopped: 0
+2026-03-05 02:56:42 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf...
+2026-03-05 02:56:42 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:42 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:42 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf.
+2026-03-05 02:56:42 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:56:42 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:42 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Imil
+	Album : Golden Sun
+2026-03-05 02:56:44 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf... (skip current: 1)
+2026-03-05 02:56:44 fileplayer: Playback stopped: 0
+2026-03-05 02:56:44 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf...
+2026-03-05 02:56:44 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:44 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:44 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf.
+2026-03-05 02:56:44 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 165 seconds
+2026-03-05 02:56:44 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:44 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Lighthouse
+	Album : Golden Sun
+2026-03-05 02:56:45 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf... (skip current: 1)
+2026-03-05 02:56:45 fileplayer: Playback stopped: 0
+2026-03-05 02:56:46 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf...
+2026-03-05 02:56:46 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:46 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:46 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf.
+2026-03-05 02:56:46 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:56:46 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:46 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tunnel Ruins
+	Album : Golden Sun
+2026-03-05 02:56:47 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:56:47 fileplayer: Playback stopped: 0
+2026-03-05 02:56:47 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:56:47 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:47 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:47 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:56:47 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:56:47 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:47 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:56:48 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:56:48 fileplayer: Playback stopped: 0
+2026-03-05 02:56:48 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:56:48 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:56:48 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:56:48 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:56:48 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:56:48 audio: Using already opened audio device with the same settings...
+2026-03-05 02:56:48 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:57:28 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf... (skip current: 1)
+2026-03-05 02:57:28 fileplayer: Playback stopped: 0
+2026-03-05 02:57:28 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf...
+2026-03-05 02:57:28 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:28 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:28 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf.
+2026-03-05 02:57:28 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 182 seconds
+2026-03-05 02:57:28 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:28 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : World Map
+	Album : Golden Sun
+2026-03-05 02:57:29 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:57:29 fileplayer: Playback stopped: 0
+2026-03-05 02:57:29 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:57:29 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:29 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:29 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:57:29 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:57:29 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:29 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:57:31 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:57:31 fileplayer: Playback stopped: 0
+2026-03-05 02:57:31 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:57:31 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:31 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:31 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:57:31 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:57:31 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:31 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:57:34 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:57:34 fileplayer: Playback stopped: 0
+2026-03-05 02:57:34 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:57:34 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:34 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:34 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:57:34 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:57:34 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:34 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:57:35 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf... (skip current: 1)
+2026-03-05 02:57:35 fileplayer: Playback stopped: 0
+2026-03-05 02:57:35 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf...
+2026-03-05 02:57:35 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:35 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:35 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf.
+2026-03-05 02:57:36 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 182 seconds
+2026-03-05 02:57:36 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:36 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : World Map
+	Album : Golden Sun
+2026-03-05 02:57:43 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/40 Venus Lighthouse.minigsf... (skip current: 1)
+2026-03-05 02:57:43 fileplayer: Playback stopped: 0
+2026-03-05 02:57:44 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/40 Venus Lighthouse.minigsf...
+2026-03-05 02:57:44 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:44 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:44 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/40 Venus Lighthouse.minigsf.
+2026-03-05 02:57:44 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 175 seconds
+2026-03-05 02:57:44 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:44 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Venus Lighthouse
+	Album : Golden Sun
+2026-03-05 02:57:49 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf... (skip current: 1)
+2026-03-05 02:57:49 fileplayer: Playback stopped: 0
+2026-03-05 02:57:49 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf...
+2026-03-05 02:57:49 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:49 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:49 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/39 World Map.minigsf.
+2026-03-05 02:57:49 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 182 seconds
+2026-03-05 02:57:49 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:49 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : World Map
+	Album : Golden Sun
+2026-03-05 02:57:49 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf... (skip current: 1)
+2026-03-05 02:57:49 fileplayer: Playback stopped: 0
+2026-03-05 02:57:49 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf...
+2026-03-05 02:57:49 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:49 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:49 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/38 Tolbi Bound Ship.minigsf.
+2026-03-05 02:57:50 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 138 seconds
+2026-03-05 02:57:50 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:50 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi Bound Ship
+	Album : Golden Sun
+2026-03-05 02:57:50 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf... (skip current: 1)
+2026-03-05 02:57:50 fileplayer: Playback stopped: 0
+2026-03-05 02:57:50 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf...
+2026-03-05 02:57:50 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:50 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:50 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/37 Babi's Theme.minigsf.
+2026-03-05 02:57:50 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 121 seconds
+2026-03-05 02:57:50 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:50 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Theme
+	Album : Golden Sun
+2026-03-05 02:57:51 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf... (skip current: 1)
+2026-03-05 02:57:51 fileplayer: Playback stopped: 0
+2026-03-05 02:57:51 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf...
+2026-03-05 02:57:51 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:51 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:51 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/36 Tunnel Ruins.minigsf.
+2026-03-05 02:57:51 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:57:51 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:51 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tunnel Ruins
+	Album : Golden Sun
+2026-03-05 02:57:53 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf... (skip current: 1)
+2026-03-05 02:57:53 fileplayer: Playback stopped: 0
+2026-03-05 02:57:53 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf...
+2026-03-05 02:57:53 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:53 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:53 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/35 Babi's Lighthouse.minigsf.
+2026-03-05 02:57:53 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 165 seconds
+2026-03-05 02:57:53 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:53 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Babi's Lighthouse
+	Album : Golden Sun
+2026-03-05 02:57:55 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf... (skip current: 1)
+2026-03-05 02:57:55 fileplayer: Playback stopped: 0
+2026-03-05 02:57:55 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf...
+2026-03-05 02:57:55 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:55 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:55 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf.
+2026-03-05 02:57:55 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:57:55 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:55 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Imil
+	Album : Golden Sun
+2026-03-05 02:57:56 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf... (skip current: 1)
+2026-03-05 02:57:56 fileplayer: Playback stopped: 0
+2026-03-05 02:57:57 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf...
+2026-03-05 02:57:57 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:57 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:57 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf.
+2026-03-05 02:57:57 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 179 seconds
+2026-03-05 02:57:57 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:57 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Deserts
+	Album : Golden Sun
+2026-03-05 02:57:57 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/32 Cave Theme.minigsf... (skip current: 1)
+2026-03-05 02:57:57 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/31 Lunpa's Hideout.minigsf... (skip current: 1)
+2026-03-05 02:57:57 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf... (skip current: 1)
+2026-03-05 02:57:57 fileplayer: Playback stopped: 0
+2026-03-05 02:57:57 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf...
+2026-03-05 02:57:57 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:57 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:57 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf.
+2026-03-05 02:57:57 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf... (skip current: 1)
+2026-03-05 02:57:57 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf...
+2026-03-05 02:57:57 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:57 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:57 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf.
+2026-03-05 02:57:58 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf... (skip current: 1)
+2026-03-05 02:57:58 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf...
+2026-03-05 02:57:58 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:58 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:58 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf.
+2026-03-05 02:57:58 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 148 seconds
+2026-03-05 02:57:58 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:58 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Sanctums
+	Album : Golden Sun
+2026-03-05 02:57:58 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf... (skip current: 1)
+2026-03-05 02:57:58 fileplayer: Playback stopped: 0
+2026-03-05 02:57:59 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf...
+2026-03-05 02:57:59 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:57:59 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:57:59 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/27 Tolbi.minigsf.
+2026-03-05 02:57:59 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 115 seconds
+2026-03-05 02:57:59 audio: Using already opened audio device with the same settings...
+2026-03-05 02:57:59 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Tolbi
+	Album : Golden Sun
+2026-03-05 02:58:13 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/retro music.mp3... (skip current: 1)
+2026-03-05 02:58:13 fileplayer: Playback stopped: 0
+2026-03-05 02:58:13 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 02:58:13 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:58:13 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:58:13 reader: Opening file /mnt/SDCARD/App/Musicselector/music/retro music.mp3.
+2026-03-05 02:58:13 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 02:58:13 mpg123: Opening stream...
+2026-03-05 02:58:13 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 02:58:13 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 128000 bps, 113 seconds
+2026-03-05 02:58:13 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:13 gmu: Track info:
+	Artist: 
+	Title : retro music.mp3
+	Album : 
+2026-03-05 02:58:20 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/VampireKiller.mp3... (skip current: 1)
+2026-03-05 02:58:20 fileplayer: Playback stopped: 0
+2026-03-05 02:58:21 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/VampireKiller.mp3...
+2026-03-05 02:58:21 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:58:21 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:58:21 reader: Opening file /mnt/SDCARD/App/Musicselector/music/VampireKiller.mp3.
+2026-03-05 02:58:21 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/VampireKiller.mp3...
+2026-03-05 02:58:21 mpg123: Opening stream...
+2026-03-05 02:58:21 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 02:58:21 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 224000 bps, 191 seconds
+2026-03-05 02:58:21 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:21 gmu: Track info:
+	Artist: 
+	Title : VampireKiller.mp3
+	Album : 
+2026-03-05 02:58:26 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/retro music.mp3... (skip current: 1)
+2026-03-05 02:58:26 fileplayer: Playback stopped: 0
+2026-03-05 02:58:26 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 02:58:26 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 02:58:26 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 02:58:26 reader: Opening file /mnt/SDCARD/App/Musicselector/music/retro music.mp3.
+2026-03-05 02:58:26 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 02:58:26 mpg123: Opening stream...
+2026-03-05 02:58:26 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 02:58:26 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 128000 bps, 113 seconds
+2026-03-05 02:58:26 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:26 gmu: Track info:
+	Artist: 
+	Title : retro music.mp3
+	Album : 
+2026-03-05 02:58:26 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf... (skip current: 1)
+2026-03-05 02:58:26 fileplayer: Playback stopped: 0
+2026-03-05 02:58:27 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf...
+2026-03-05 02:58:27 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:27 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:27 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf.
+2026-03-05 02:58:27 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 111 seconds
+2026-03-05 02:58:27 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:27 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Lucky Slots
+	Album : Golden Sun
+2026-03-05 02:58:31 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf... (skip current: 1)
+2026-03-05 02:58:31 fileplayer: Playback stopped: 0
+2026-03-05 02:58:31 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf...
+2026-03-05 02:58:31 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:31 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:31 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/02 Main Theme.minigsf.
+2026-03-05 02:58:31 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:58:31 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:31 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Main Theme
+	Album : Golden Sun
+2026-03-05 02:58:40 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf... (skip current: 1)
+2026-03-05 02:58:40 fileplayer: Playback stopped: 0
+2026-03-05 02:58:40 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf...
+2026-03-05 02:58:40 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:40 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:40 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf.
+2026-03-05 02:58:40 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:58:40 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:41 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Main Menu
+	Album : Golden Sun
+2026-03-05 02:58:54 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/52 Unknown Jingle 7.minigsf... (skip current: 1)
+2026-03-05 02:58:54 fileplayer: Playback stopped: 0
+2026-03-05 02:58:54 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/52 Unknown Jingle 7.minigsf...
+2026-03-05 02:58:54 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:54 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:54 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/52 Unknown Jingle 7.minigsf.
+2026-03-05 02:58:54 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 6 seconds
+2026-03-05 02:58:54 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:54 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Unknown Jingle 7
+	Album : Golden Sun
+2026-03-05 02:58:56 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf... (skip current: 1)
+2026-03-05 02:58:56 fileplayer: Playback stopped: 0
+2026-03-05 02:58:56 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf...
+2026-03-05 02:58:56 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:56 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:56 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/03 Main Menu.minigsf.
+2026-03-05 02:58:56 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 184 seconds
+2026-03-05 02:58:56 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:56 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Main Menu
+	Album : Golden Sun
+2026-03-05 02:58:59 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf... (skip current: 1)
+2026-03-05 02:58:59 fileplayer: Playback stopped: 0
+2026-03-05 02:58:59 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf...
+2026-03-05 02:58:59 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:58:59 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:58:59 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/08 Fanfare.minigsf.
+2026-03-05 02:58:59 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 25 seconds
+2026-03-05 02:58:59 audio: Using already opened audio device with the same settings...
+2026-03-05 02:58:59 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Fanfare
+	Album : Golden Sun
+2026-03-05 02:59:01 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/53 Unknown Jingle 8.minigsf... (skip current: 1)
+2026-03-05 02:59:01 fileplayer: Playback stopped: 0
+2026-03-05 02:59:01 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/53 Unknown Jingle 8.minigsf...
+2026-03-05 02:59:01 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:59:01 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:59:01 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/53 Unknown Jingle 8.minigsf.
+2026-03-05 02:59:01 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 4 seconds
+2026-03-05 02:59:01 audio: Using already opened audio device with the same settings...
+2026-03-05 02:59:01 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Unknown Jingle 8
+	Album : Golden Sun
+2026-03-05 02:59:07 fileplayer: Playback stopped: 1
+2026-03-05 02:59:07 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf... (skip current: 0)
+2026-03-05 02:59:07 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf...
+2026-03-05 02:59:07 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 02:59:07 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 02:59:07 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/34 Imil.minigsf.
+2026-03-05 02:59:07 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 155 seconds
+2026-03-05 02:59:07 audio: Using already opened audio device with the same settings...
+2026-03-05 02:59:07 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Imil
+	Album : Golden Sun
+2026-03-05 03:00:33 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/51 Unknown Jingle 6.minigsf... (skip current: 1)
+2026-03-05 03:00:33 fileplayer: Playback stopped: 0
+2026-03-05 03:00:33 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/51 Unknown Jingle 6.minigsf...
+2026-03-05 03:00:33 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:00:33 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:00:33 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/51 Unknown Jingle 6.minigsf.
+2026-03-05 03:00:33 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 3 seconds
+2026-03-05 03:00:33 audio: Using already opened audio device with the same settings...
+2026-03-05 03:00:33 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Unknown Jingle 6
+	Album : Golden Sun
+2026-03-05 03:00:38 fileplayer: Playback stopped: 1
+2026-03-05 03:00:38 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf... (skip current: 0)
+2026-03-05 03:00:38 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf...
+2026-03-05 03:00:38 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:00:38 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:00:38 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/33 Deserts.minigsf.
+2026-03-05 03:00:38 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 179 seconds
+2026-03-05 03:00:38 audio: Using already opened audio device with the same settings...
+2026-03-05 03:00:38 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Deserts
+	Album : Golden Sun
+2026-03-05 03:01:06 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf... (skip current: 1)
+2026-03-05 03:01:06 fileplayer: Playback stopped: 0
+2026-03-05 03:01:06 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf...
+2026-03-05 03:01:06 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:01:06 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:01:06 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/11 Villain Theme.minigsf.
+2026-03-05 03:01:06 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 119 seconds
+2026-03-05 03:01:06 audio: Using already opened audio device with the same settings...
+2026-03-05 03:01:06 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Villain Theme
+	Album : Golden Sun
+2026-03-05 03:02:14 fileplayer: Trying to play /mnt/SDCARD/App/Musicselector/music/retro music.mp3... (skip current: 1)
+2026-03-05 03:02:14 fileplayer: Playback stopped: 0
+2026-03-05 03:02:14 fileplayer: Playing /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 03:02:14 decloader: Matching decoder for mp3: mpg123_decoder
+2026-03-05 03:02:14 fileplayer: Selected decoder: mpg123_decoder
+2026-03-05 03:02:14 reader: Opening file /mnt/SDCARD/App/Musicselector/music/retro music.mp3.
+2026-03-05 03:02:14 mpg123: Opening /mnt/SDCARD/App/Musicselector/music/retro music.mp3...
+2026-03-05 03:02:14 mpg123: Opening stream...
+2026-03-05 03:02:14 mpg123: Found stream with 2 channels and 44100 Hz.
+2026-03-05 03:02:14 fileplayer: Found MPEG Audio stream w/ 2 channel(s), 44100 Hz, 128000 bps, 113 seconds
+2026-03-05 03:02:14 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:14 gmu: Track info:
+	Artist: 
+	Title : retro music.mp3
+	Album : 
+2026-03-05 03:02:15 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/55 Unknown Jingle 10.minigsf... (skip current: 1)
+2026-03-05 03:02:15 fileplayer: Playback stopped: 0
+2026-03-05 03:02:16 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/55 Unknown Jingle 10.minigsf...
+2026-03-05 03:02:16 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:16 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:16 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/55 Unknown Jingle 10.minigsf.
+2026-03-05 03:02:16 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 3 seconds
+2026-03-05 03:02:16 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:16 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Unknown Jingle 10
+	Album : Golden Sun
+2026-03-05 03:02:19 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/50 Unknown Jingle 5.minigsf... (skip current: 1)
+2026-03-05 03:02:19 fileplayer: Playback stopped: 0
+2026-03-05 03:02:19 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/50 Unknown Jingle 5.minigsf...
+2026-03-05 03:02:19 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:19 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:19 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/50 Unknown Jingle 5.minigsf.
+2026-03-05 03:02:19 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 4 seconds
+2026-03-05 03:02:19 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:19 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Unknown Jingle 5
+	Album : Golden Sun
+2026-03-05 03:02:21 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf... (skip current: 1)
+2026-03-05 03:02:21 fileplayer: Playback stopped: 0
+2026-03-05 03:02:21 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf...
+2026-03-05 03:02:21 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:21 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:21 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/01 The Lucky Slots.minigsf.
+2026-03-05 03:02:21 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 111 seconds
+2026-03-05 03:02:21 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:21 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Lucky Slots
+	Album : Golden Sun
+2026-03-05 03:02:27 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/42 Battle with Saturos.minigsf... (skip current: 1)
+2026-03-05 03:02:27 fileplayer: Playback stopped: 0
+2026-03-05 03:02:27 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/42 Battle with Saturos.minigsf...
+2026-03-05 03:02:27 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:27 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:27 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/42 Battle with Saturos.minigsf.
+2026-03-05 03:02:27 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 183 seconds
+2026-03-05 03:02:27 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:27 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Battle with Saturos
+	Album : Golden Sun
+2026-03-05 03:02:30 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf... (skip current: 1)
+2026-03-05 03:02:30 fileplayer: Playback stopped: 0
+2026-03-05 03:02:30 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf...
+2026-03-05 03:02:30 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:30 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:30 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/15 Golden Sun Rises.minigsf.
+2026-03-05 03:02:30 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 139 seconds
+2026-03-05 03:02:30 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:30 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Golden Sun Rises
+	Album : Golden Sun
+2026-03-05 03:02:32 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf... (skip current: 1)
+2026-03-05 03:02:32 fileplayer: Playback stopped: 0
+2026-03-05 03:02:32 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf...
+2026-03-05 03:02:32 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:32 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:32 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/29 Contigo.minigsf.
+2026-03-05 03:02:33 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 175 seconds
+2026-03-05 03:02:33 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:33 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Contigo
+	Album : Golden Sun
+2026-03-05 03:02:35 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf... (skip current: 1)
+2026-03-05 03:02:35 fileplayer: Playback stopped: 0
+2026-03-05 03:02:35 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf...
+2026-03-05 03:02:35 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:35 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:35 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/28 The Sanctums.minigsf.
+2026-03-05 03:02:35 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 148 seconds
+2026-03-05 03:02:35 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:35 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : The Sanctums
+	Album : Golden Sun
+2026-03-05 03:02:46 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf... (skip current: 1)
+2026-03-05 03:02:46 fileplayer: Playback stopped: 0
+2026-03-05 03:02:46 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf...
+2026-03-05 03:02:46 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:46 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:46 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/30 Sol Sanctum.minigsf.
+2026-03-05 03:02:46 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 194 seconds
+2026-03-05 03:02:46 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:46 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Sol Sanctum
+	Album : Golden Sun
+2026-03-05 03:02:48 fileplayer: Trying to play /mnt/SDCARD/Media/GBA/Golden Sun/44 Saturos and Menardi Battle.minigsf... (skip current: 1)
+2026-03-05 03:02:48 fileplayer: Playback stopped: 0
+2026-03-05 03:02:48 fileplayer: Playing /mnt/SDCARD/Media/GBA/Golden Sun/44 Saturos and Menardi Battle.minigsf...
+2026-03-05 03:02:48 decloader: Matching decoder for minigsf: gsf_decoder
+2026-03-05 03:02:48 fileplayer: Selected decoder: gsf_decoder
+2026-03-05 03:02:48 reader: Opening file /mnt/SDCARD/Media/GBA/Golden Sun/44 Saturos and Menardi Battle.minigsf.
+2026-03-05 03:02:48 fileplayer: Found  stream w/ 2 channel(s), 44100 Hz, 0 bps, 188 seconds
+2026-03-05 03:02:48 audio: Using already opened audio device with the same settings...
+2026-03-05 03:02:48 gmu: Track info:
+	Artist: Motoi Sakuraba
+	Title : Saturos and Menardi Battle
+	Album : Golden Sun
+2026-03-05 03:05:22 gmu: Shutting down...
+2026-03-05 03:05:22 sdl_frontend: Saving settings...
+2026-03-05 03:05:22 gmu: Unloading frontends...
+2026-03-05 03:05:22 lirc_frontend: All done.
+2026-03-05 03:05:22 sdl_frontend: All done.
+2026-03-05 03:05:22 gmu: Unloading frontends done.
+2026-03-05 03:05:22 fileplayer: Playback stopped: 0
+close miao audio
+2026-03-05 03:05:22 audio: Device closed.
+2026-03-05 03:05:22 gmu: Saving playlist...
+2026-03-05 03:05:22 gmu: Playlist file: /mnt/SDCARD/App/Gmu/.local/share/gmu/playlist.m3u
+2026-03-05 03:05:22 gmu: Saving settings...
+2026-03-05 03:05:22 gmu: Unloading decoders...
+2026-03-05 03:05:22 gmu: Shutdown complete.

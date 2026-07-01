@@ -45,6 +45,7 @@ void initializeGlobals() {
 	if (!mmModel) {
 		loadConfiguration4();
     }
+	loadConfiguration5();
     #endif
 }
 
@@ -164,9 +165,10 @@ void initialSetup2() {
 	saturationValue = getCurrentSystemValue("saturation");
 	contrastValue = getCurrentSystemValue("contrast");
 	gammaValue = loadConfiguration3();
+	tapeValue = loadConfiguration5();
 	#endif
-        brightnessValue = getCurrentBrightness();
-        maxBrightnessValue = getMaxBrightness();
+    brightnessValue = getCurrentBrightness();
+    maxBrightnessValue = getMaxBrightness();
 }
 
 int isSettingsState(int state) {

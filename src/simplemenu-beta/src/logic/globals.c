@@ -107,6 +107,7 @@ int GAMMA_OPTION;
 int NUM_SCREEN_OPTIONS;
 int COLOR_MAX_VALUE;
 int GAMMA_MAX_VALUE;
+int TAPE_OPTION;
 #endif
 int VOLUME_OPTION;
 int BRIGHTNESS_OPTION;
@@ -155,6 +156,7 @@ int mmModel;
 int loadingScreenEnabled;
 int musicEnabled;
 int wifiEnabled;
+int tapeValue;
 #endif
 pthread_t myThread;
 

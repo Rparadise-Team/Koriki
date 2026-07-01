@@ -1,0 +1,4291 @@
+
+#### animationscript function main #####
+# data/chars/misc/go/goarmma.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==2)
+    {
+	
+		void vSelf = getlocalvar("self");	
+		 if(frame==0){
+      if(getsaveinfo(0, "times_completed") + getsaveinfo(1, "times_completed") + getsaveinfo(2, "times_completed") + getsaveinfo(3, "times_completed") + getsaveinfo(4, "times_completed") >= 13){
+				 changeentityproperty(vSelf, "animation", openborconstant("ANI_FOLLOW1"));
+				
+			}
+    }
+        return;
+    }
+    if(animhandle==3)
+    {
+	
+				int id;
+				
+		 if(frame==0){
+      if(getsaveinfo(0, "times_completed") + getsaveinfo(1, "times_completed") + getsaveinfo(2, "times_completed") + getsaveinfo(3, "times_completed") + getsaveinfo(4, "times_completed")  >= 13){
+        id = loadsample("data/sounds/evil-laugh.wav", 1);
+				playsample(id, 0, 120, 120, 100, 0);
+				
+			}
+    }
+				
+    if(frame==18){
+      if(getsaveinfo(0, "times_completed") + getsaveinfo(1, "times_completed") + getsaveinfo(2, "times_completed") + getsaveinfo(3, "times_completed") + getsaveinfo(4, "times_completed") >= 13){
+      	unloadsample(id);
+      	setglobalvar("difficulty", 5);
+        jumptobranch("GOARMMA",1);
+      }
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/go/goar.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==9)
+    {
+	
+    if(frame==17){
+    		setglobalvar("difficulty", 0);
+        jumptobranch("GOAR",1);
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/go/goarh.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==15)
+    {
+	
+    if(frame==17){
+      setglobalvar("difficulty", 1);
+            	jumptobranch("GOARH",1);
+
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/go/goaruh.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==21)
+    {
+	
+    if(frame==17){
+     setglobalvar("difficulty", 2);
+      	jumptobranch("GOARUH",1);
+			
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/go/goarujh.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==27)
+    {
+	
+    if(frame==17){
+     setglobalvar("difficulty", 3);
+      	jumptobranch("GOARUJH",1);
+			
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/go/goarmm.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==33)
+    {
+	
+    if(frame==17){
+      setglobalvar("difficulty", 4);
+      	jumptobranch("GOARMM",1);
+			
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/dmnd/dmnd.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==80)
+    {
+
+	   void P1 = getplayerproperty(0, "entity");
+	   void P2 = getplayerproperty(1, "entity");
+	   void P3 = getplayerproperty(2, "entity");
+	   void P4 = getplayerproperty(3, "entity");
+	   void self = getlocalvar("self");
+			if (frame < 409){ 			
+				if (disparopulsado()) { updateframe(self, 409); }
+			}
+	   
+	   if(frame==409){
+	    		changeentityproperty(P1, "animation", openborconstant("ANI_special"));
+	    		changeentityproperty(P2, "animation", openborconstant("ANI_special"));
+	    		changeentityproperty(P3, "animation", openborconstant("ANI_special"));
+	    		changeentityproperty(P4, "animation", openborconstant("ANI_special"));
+	   }
+            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/wlad/wlad1h.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==82)
+    {
+
+	void self = getlocalvar("self");			//Caller.
+	int id;
+	int times_completed; 
+	times_completed = getsaveinfo(0, "times_completed") + getsaveinfo(1, "times_completed") + getsaveinfo(2, "times_completed") + getsaveinfo(3, "times_completed") + getsaveinfo(4, "times_completed");
+	
+	if(frame==0 && times_completed >= 13){
+			id = loadsample("data/sounds/evil-laugh.wav", 1);
+			playsample(id, 0, 120, 120, 100, 0);
+	    spawn03("go_arcade_ladh", 26, 0, 225, 1);
+	    }
+	if(frame==22){    
+	    changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW10"));
+	    }
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/money/coina.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==91)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==2){
+	      	killentity(self);
+	    }    
+	         if(frame==0)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            coinaspawn(0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/money/hammera.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==92)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==2){
+	      	killentity(self);
+	    }    
+	         if(frame==0)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            hammeraspawn(0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/bret/bretl.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==111)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==113)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==116)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==118)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==120)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==123)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==124)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==140)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==141)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/jay/jay.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==160)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==162)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==165)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==167)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==169)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==172)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==173)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==189)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==190)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/jake/jake.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==198)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==210)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==212)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==215)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==217)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==219)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==222)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==223)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==239)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==240)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/dug/dug.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==259)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==261)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==264)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==266)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==268)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==271)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==272)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==288)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==289)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/bret/bret4.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==309)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==311)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==314)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==316)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==318)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==321)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==322)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==338)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==339)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/dug/dug4.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==358)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==360)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==363)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==365)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==367)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==370)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==371)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==387)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==388)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/jake/jake4.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==396)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==408)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==410)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==413)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==415)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==417)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==420)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==421)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==437)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==438)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/simons/simons.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==446)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==458)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==460)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==463)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==465)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==467)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==470)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==471)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==487)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==488)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/two_p/two_p.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==507)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==509)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==512)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==514)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==516)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==519)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==520)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==536)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==537)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/dummy/killdummy.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==538)
+    {
+
+    void self = getlocalvar("self");			//Caller.
+
+    if(frame==1){
+      char Name = getentityproperty(self,"name");
+      void vEntity;                                       //Target entity placeholder.
+      int  iEntity;                                       //Entity enumeration holder.
+      char iName;                                         //Entity Name.
+      int  iMax      = openborvariant("ent_max");         //Entity count.
+
+      //Enumerate and loop through entity collection.
+      for(iEntity=0; iEntity<iMax; iEntity++){
+        vEntity = getentity(iEntity);                 //Get target entity from current loop.
+        iName   = getentityproperty(vEntity, "name"); //Get target type.
+
+        //Same alias but different entity?
+        if(iName == Name && vEntity != self){
+          killentity(vEntity);
+        }
+      }
+    }
+    if(frame==2){
+      killentity(self);
+    }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/jay/jay_2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==541)
+    {
+
+			void vEntity;				//Controlador de la entidad
+	    int  iEntity;				//Contador de entidad
+	    int  iMax = openborvariant("ent_max");	//Máximo de entidades presentes en el escenario
+	    void self = getlocalvar("self");
+	    int distx = 0;
+	     if(frame==0){
+   }
+	   if(frame==1){
+	   	for(iEntity=0; iEntity<iMax; iEntity++){
+					vEntity = getentity(iEntity);                 //Obtenemos la referencia a la entidad
+					if (getentityproperty(vEntity,"type") == openborconstant ("TYPE_PLAYER")) {
+							distx = getentityproperty(vEntity,"x")-getentityproperty(self,"x");
+							if (distx<0){
+								distx *= -1;
+							}
+							if (distx < 150) { 
+							changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1")); 
+							}
+				 }
+	   	}
+	   }
+	        return;
+    }
+    if(animhandle==558)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==560)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==563)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==565)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==567)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==570)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==571)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==587)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==588)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/jake/jake_2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==591)
+    {
+
+			void vEntity;				//Controlador de la entidad
+	    int  iEntity;				//Contador de entidad
+	    int  iMax = openborvariant("ent_max");	//Máximo de entidades presentes en el escenario
+	    void self = getlocalvar("self");
+	    int distx = 0;
+	     if(frame==0){
+   }
+	   if(frame==1){
+	   	for(iEntity=0; iEntity<iMax; iEntity++){
+					vEntity = getentity(iEntity);                 //Obtenemos la referencia a la entidad
+					if (getentityproperty(vEntity,"type") == openborconstant ("TYPE_PLAYER")) {
+							distx = getentityproperty(vEntity,"x")-getentityproperty(self,"x");
+							if (distx<0){
+								distx *= -1;
+							}
+							if (distx < 150) { 
+							changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1")); 
+							}
+				 }
+	   	}
+	   }
+	        return;
+    }
+    if(animhandle==597)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==609)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==611)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==614)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==616)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==618)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==621)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==622)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==638)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==639)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/food/guma.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==642)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==2){
+	      	killentity(self);
+	    }    
+	         if(frame==0)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            borraitemduplicado();
+        }
+        if(frame==1)
+        {
+            gumaspawn(0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/axl/axl.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==662)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==664)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==667)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==669)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==671)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==674)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==675)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==691)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+    if(animhandle==692)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/slash/slash.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==712)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==714)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==717)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==719)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==721)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==724)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==725)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==741)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+    if(animhandle==742)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/holly/holly.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==748)
+    {
+        if(frame==26)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==749)
+    {
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==13)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==17)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==19)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==753)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==755)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==757)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==759)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==760)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==762)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==764)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==795)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==796)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/holly/holly_2.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==799)
+    {
+        if(frame==26)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==800)
+    {
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==13)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==17)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==19)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==804)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==806)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==808)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==810)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==811)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==813)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==815)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==831)
+    {
+        if(frame==48)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==846)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==847)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/enemies/bull/bull_3.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==850)
+    {
+        if(frame==1)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==866)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==868)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==871)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==873)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL33"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==875)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==878)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==879)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+				 changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	    }
+	    
+	            return;
+    }
+    if(animhandle==895)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+    if(animhandle==896)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     }
+	    
+            return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/players/cody/ruffian/ruffian.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==903)
+    {
+		
+    void self = getlocalvar("self");
+    if(frame==0){
+    setdrawmethod(self, 1, 512, 512, 0, 0, 0, 0, -1);
+   }
+		        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/players/cody/cknife/cknife.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==907)
+    {
+  
+ if (frame == 1){
+ 	  void self = getlocalvar("self");
+    changeentityproperty(self, "nextforcedirection", 0, 2);
+  }
+          return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/players/cody/cody.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==911)
+    {
+
+		void self = getlocalvar("self");
+		int player_index;
+		player_index = getentityproperty(self , "playerindex");
+		if (frame == 0){ 
+		setglobalvar("pparry" + player_index, 1);
+			if(getentityproperty(self,"mp") < 20){
+      	  changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW9"));
+      	}
+		}
+		if(frame == 1) {
+		setglobalvar("pparry" + player_index, 0);	
+		}
+			        if(frame==2)
+        {
+            submp(20);
+        }
+        return;
+    }
+    if(animhandle==912)
+    {
+        if(frame==0)
+        {
+            subhealthkill(5);
+        }
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "blocking", 0);
+        }
+        return;
+    }
+    if(animhandle==913)
+    {
+
+		void self = getlocalvar("self");
+		int hp, max_hp;
+		hp = getentityproperty(self, "health"); 
+		max_hp = getentityproperty(self, "maxhealth");
+		if (frame == 0 && (hp * 95 / max_hp < 25) ){ 
+		subhealth(-3);
+		}
+		if(frame >= 1 && frame < 999) {
+			if (readKey("atk")||readKey("j")) { changeState("RUNATTACK"); }
+		}
+			        if(frame==0)
+        {
+            submp(-20);
+        }
+        if(frame==0)
+        {
+            puntosparry();
+        }
+        if(frame==0)
+        {
+            projectile(1, "dust02a", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==916)
+    {
+
+		if(frame == 0) {
+			if (readKey("d")) { changeState("GRABBACKWARD"); }
+			else if (readKey("u")) { changeState("GRABFORWARD"); }
+		}
+		        return;
+    }
+    if(animhandle==919)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==920)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==922)
+    {
+
+	   void self = getlocalvar("self");
+	   
+	   if(frame==0){
+	     if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL3"));
+	     } 
+	   }
+	    
+            return;
+    }
+    if(animhandle==928)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     else if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL28"));
+	     }
+	    }
+	            return;
+    }
+    if(animhandle==929)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     
+	    }
+	            return;
+    }
+    if(animhandle==930)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	     		if(getentityproperty(self,"jugglepoints") > 0){
+	       	changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    		} 
+	    		else { 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    		} 
+	    	}		
+	   }  
+         return;
+    }
+    if(animhandle==932)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	     		if(getentityproperty(self,"jugglepoints") > 0){
+	       	changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    		} 
+	    		else { 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    		} 
+	    	}		
+	   }  
+         return;
+    }
+    if(animhandle==934)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     else if(getentityproperty(self,"jugglepoints") <= 0){
+	     changeentityproperty(self, "animation", openborconstant("ANI_FALL23"));
+	     }
+	   } 
+            return;
+    }
+    if(animhandle==935)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==937)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==939)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	   } 
+             return;
+    }
+    if(animhandle==940)
+    {
+
+	   void self = getlocalvar("self");
+	   
+	   if(frame==0){
+	     if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL3"));
+	     } 
+	   }
+	    
+            return;
+    }
+    if(animhandle==947)
+    {
+        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==948)
+    {
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "drop", 0);
+        }
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "falling", 0);
+        }
+        if(frame==25)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==949)
+    {
+        if(frame==5)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "tornado", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==950)
+    {
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==951)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==10)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==12)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==14)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==16)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==18)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==952)
+    {
+        if(frame==0)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==1)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "ruffian", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==953)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "cknife", 45, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==955)
+    {
+
+		if(frame >= 1 && frame < 25) {
+			if (!readKey("atk")) { changeState("FOLLOW2"); }
+		}
+	        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==1)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==13)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==17)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==21)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==25)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==25)
+        {
+            anichange("ANI_FOLLOW2");
+        }
+        return;
+    }
+    if(animhandle==956)
+    {
+        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==41)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==41)
+        {
+            dasher(0.5, 0, 0);
+        }
+        if(frame==49)
+        {
+            dasher(0, 0, 0);
+        }
+        if(frame==58)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==957)
+    {
+        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==16)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==31)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==36)
+        {
+            projectile(1, "aire", 0, -1, 0);
+        }
+        if(frame==38)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==958)
+    {
+        if(frame==0)
+        {
+            velSet(retrieveXvel(), NULL(), NULL());
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==959)
+    {
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==960)
+    {
+	
+    void self = getlocalvar("self");
+				if(frame==0)  {
+						changeentityproperty(self, "aiflag", "jumping", 0);
+     		}
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(2, 20, -35, 0, 1);
+        }
+        if(frame==0)
+        {
+            screenBound(57, 0, 0, 0, 1);
+        }
+        if(frame==1)
+        {
+            position(6, 10, -70, 0, 1);
+        }
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==2)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==2)
+        {
+            spawn01("flash", 8, -5, 10);
+        }
+        if(frame==2)
+        {
+            position(6, 10, -76, 0, 1);
+        }
+        if(frame==3)
+        {
+            position(7, 25, 1, 0, 1);
+        }
+        if(frame==3)
+        {
+            depost(0);
+        }
+        if(frame==3)
+        {
+            throw(12, 3, 0.8, 3.25, 0, 1);
+        }
+        if(frame==3)
+        {
+            clearL();
+        }
+        if(frame==4)
+        {
+            anichange("ANI_FOLLOW5");
+        }
+        return;
+    }
+    if(animhandle==961)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==966)
+    {
+
+	
+    void self = getlocalvar("self");
+    void target = getentityproperty(self, "opponent");
+    void x, y, z;
+    x= getentityproperty(self, "x") - getentityproperty(target, "x");
+  	if (x < 0){
+  	x *= -1;
+  	}
+  	y= getentityproperty(self, "y") - getentityproperty(target, "y");
+  	if (y < 0){
+  	y *= -1;
+  	}
+  	z= getentityproperty(self, "z") - getentityproperty(target, "z");
+  	if (z < 0){
+  	z *= -1;
+  	}
+    if (frame==0){
+				if(((getentityproperty(target, "type") != openborconstant("TYPE_enemy") || getentityproperty(target, "aiflag", "falling") || getentityproperty(target, "nodrop") == 2) && openborvariant("current_stage")!=11) || getentityproperty(target, "health")<=0 || x>125 || y>25 || z>25)  {
+						changeentityproperty(self, "animation", openborconstant("ANI_ATTACK9"));
+     		}
+    }
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, 1, 1, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, 1, -11, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==967)
+    {
+        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, 1, 1, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, 1, -11, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==968)
+    {
+
+	
+    void self = getlocalvar("self");
+    void target = getentityproperty(self, "opponent");
+    void x, y, z;
+    x= getentityproperty(self, "x") - getentityproperty(target, "x");
+  	if (x < 0){
+  	x *= -1;
+  	}
+  	y= getentityproperty(self, "y") - getentityproperty(target, "y");
+  	if (y < 0){
+  	y *= -1;
+  	}
+  	z= getentityproperty(self, "z") - getentityproperty(target, "z");
+  	if (z < 0){
+  	z *= -1;
+  	}
+    if (frame==0){
+				if(((getentityproperty(target, "type") != openborconstant("TYPE_enemy") || getentityproperty(target, "aiflag", "falling") || getentityproperty(target, "nodrop") == 2) && openborvariant("current_stage")!=11) || getentityproperty(target, "health")<=0 || x>125 || y>25 || z>25)  {
+						changeentityproperty(self, "animation", openborconstant("ANI_ATTACK9"));
+     		}
+    }
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, 1, 1, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, 1, -11, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==969)
+    {
+        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, 1, 1, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, 1, -11, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==970)
+    {
+
+	
+    void self = getlocalvar("self");
+				if(getentityproperty(self, "health")<=0)  {
+						damageentity(self, self, 100, 1, 1);
+     		}
+	        return;
+    }
+    if(animhandle==971)
+    {
+        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==972)
+    {
+	
+    void self = getlocalvar("self");
+     		if(frame==0)  {
+						changeentityproperty(self, "aiflag", "jumping", 1);
+						changeentityproperty(self, "takeaction", "common_jump");
+     		}
+	        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==973)
+    {
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==974)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==975)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==976)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==977)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==978)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==987)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==17)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==989)
+    {
+        if(frame==4)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==11)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==990)
+    {
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==992)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==993)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==15)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/players/cody/codya/magias/cknifea.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1016)
+    {
+  
+ if (frame == 1){
+ 	  void self = getlocalvar("self");
+    changeentityproperty(self, "nextforcedirection", 0, 2);
+  }
+          return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/players/cody/codya/codya.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1017)
+    {
+
+		void self = getlocalvar("self");
+		int player_index;
+		player_index = getentityproperty(self , "playerindex");
+		if (frame == 0){ 
+		setglobalvar("pparry" + player_index, 1);
+			if(getentityproperty(self,"mp") < 20){
+      	  changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW9"));
+      	}
+		}
+		if(frame == 1) {
+		setglobalvar("pparry" + player_index, 0);	
+		}
+			        if(frame==2)
+        {
+            submp(20);
+        }
+        return;
+    }
+    if(animhandle==1018)
+    {
+        if(frame==0)
+        {
+            subhealthkill(5);
+        }
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "blocking", 0);
+        }
+        return;
+    }
+    if(animhandle==1019)
+    {
+
+		void self = getlocalvar("self");
+		int hp, max_hp;
+		hp = getentityproperty(self, "health"); 
+		max_hp = getentityproperty(self, "maxhealth");
+		if (frame == 0 && (hp * 95 / max_hp < 25) ){ 
+		subhealth(-3);
+		}
+		if(frame >= 1 && frame < 999) {
+			if (readKey("atk")||readKey("j")) { changeState("RUNATTACK"); }
+		}
+			        if(frame==0)
+        {
+            submp(-20);
+        }
+        if(frame==0)
+        {
+            puntosparry();
+        }
+        if(frame==0)
+        {
+            projectile(1, "dust02a", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1022)
+    {
+
+		if(frame == 0) {
+			if (readKey("d")) { changeState("GRABBACKWARD"); }
+			else if (readKey("u")) { changeState("GRABFORWARD"); }
+		}
+		        return;
+    }
+    if(animhandle==1025)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1026)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1028)
+    {
+
+	   void self = getlocalvar("self");
+	   
+	   if(frame==0){
+	     if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL3"));
+	     } 
+	   }
+	    
+            return;
+    }
+    if(animhandle==1034)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     else if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL28"));
+	     }
+	    }
+	            return;
+    }
+    if(animhandle==1035)
+    {
+
+	   void self = getlocalvar("self");
+	    if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death18", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     
+	    }
+	            return;
+    }
+    if(animhandle==1036)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	     		if(getentityproperty(self,"jugglepoints") > 0){
+	       	changeentityproperty(self, "animation", openborconstant("ANI_FALL20"));
+	    		} 
+	    		else { 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    		} 
+	    	}		
+	   }  
+         return;
+    }
+    if(animhandle==1038)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	     		if(getentityproperty(self,"jugglepoints") > 0){
+	       	changeentityproperty(self, "animation", openborconstant("ANI_FALL40"));
+	    		} 
+	    		else { 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    		} 
+	    	}		
+	   }  
+         return;
+    }
+    if(animhandle==1040)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	     else if(getentityproperty(self,"jugglepoints") <= 0){
+	     changeentityproperty(self, "animation", openborconstant("ANI_FALL23"));
+	     }
+	   } 
+            return;
+    }
+    if(animhandle==1041)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL30"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==1043)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") > 0){ 	     
+	       changeentityproperty(self, "animation", openborconstant("ANI_FALL50"));
+	    } 
+	   }  
+            return;
+    }
+    if(animhandle==1045)
+    {
+
+	   void self = getlocalvar("self");
+	   if(frame==0){
+	     if(getentityproperty(self,"health") <= 0){ 
+	    	spawnbind("death13", 0, 0, 0);
+	    	spawn01("exp2", 0, 0, 0);
+	    	changeentityproperty(self, "animation", openborconstant("ANI_FALL19"));
+	     }
+	   } 
+             return;
+    }
+    if(animhandle==1046)
+    {
+
+	   void self = getlocalvar("self");
+	   
+	   if(frame==0){
+	     if(getentityproperty(self,"jugglepoints") <= 0){ 
+	    		changeentityproperty(self, "animation", openborconstant("ANI_FALL3"));
+	     } 
+	   }
+	    
+            return;
+    }
+    if(animhandle==1053)
+    {
+        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1054)
+    {
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "drop", 0);
+        }
+        if(frame==0)
+        {
+            changeentityproperty(getlocalvar("self"), "aiflag", "falling", 0);
+        }
+        if(frame==27)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1055)
+    {
+        if(frame==5)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "tornadoa", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1056)
+    {
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1057)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==10)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==12)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==14)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==16)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==18)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1058)
+    {
+        if(frame==0)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==1)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "ruffian", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1059)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "cknifea", 30, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1061)
+    {
+
+		if(frame >= 1 && frame < 25) {
+			if (!readKey("atk")) { changeState("FOLLOW2"); }
+		}
+	        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==2)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==10)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==14)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==18)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==22)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==26)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==26)
+        {
+            anichange("ANI_FOLLOW2");
+        }
+        return;
+    }
+    if(animhandle==1062)
+    {
+        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==53)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==53)
+        {
+            dasher(0.5, 0, 0);
+        }
+        if(frame==61)
+        {
+            dasher(0, 0, 0);
+        }
+        if(frame==70)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1063)
+    {
+        if(frame==0)
+        {
+            shadow(20, 20, 60, 6, 2, 50, 50, 50);
+        }
+        if(frame==1)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==9)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==16)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==31)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==36)
+        {
+            projectile(1, "aire", 0, -1, 0);
+        }
+        if(frame==38)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1064)
+    {
+        if(frame==0)
+        {
+            velSet(retrieveXvel(), NULL(), NULL());
+        }
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1065)
+    {
+        if(frame==4)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1066)
+    {
+	
+    void self = getlocalvar("self");
+				if(frame==0)  {
+						changeentityproperty(self, "aiflag", "jumping", 0);
+     		}
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(2, 5, -30, 0, 1);
+        }
+        if(frame==0)
+        {
+            screenBound(57, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(6, 5, -58, 0, 1);
+        }
+        if(frame==3)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "quake", 0, 0, 0);
+        }
+        if(frame==3)
+        {
+            spawn01("flash", 8, -5, 10);
+        }
+        if(frame==3)
+        {
+            position(6, 5, -76, 0, 1);
+        }
+        if(frame==4)
+        {
+            position(7, 25, 1, 0, 1);
+        }
+        if(frame==4)
+        {
+            depost(0);
+        }
+        if(frame==4)
+        {
+            throw(12, 3, 0.8, 3.25, 0, 1);
+        }
+        if(frame==4)
+        {
+            clearL();
+        }
+        if(frame==5)
+        {
+            anichange("ANI_FOLLOW5");
+        }
+        return;
+    }
+    if(animhandle==1067)
+    {
+        if(frame==5)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1072)
+    {
+
+	
+    void self = getlocalvar("self");
+    void target = getentityproperty(self, "opponent");
+    void x, y, z;
+    x= getentityproperty(self, "x") - getentityproperty(target, "x");
+  	if (x < 0){
+  	x *= -1;
+  	}
+  	y= getentityproperty(self, "y") - getentityproperty(target, "y");
+  	if (y < 0){
+  	y *= -1;
+  	}
+  	z= getentityproperty(self, "z") - getentityproperty(target, "z");
+  	if (z < 0){
+  	z *= -1;
+  	}
+    if (frame==0){
+				if(((getentityproperty(target, "type") != openborconstant("TYPE_enemy") || getentityproperty(target, "aiflag", "falling") || getentityproperty(target, "nodrop") == 2) && openborvariant("current_stage")!=11) || getentityproperty(target, "health")<=0 || x>125 || y>25 || z>25)  {
+						changeentityproperty(self, "animation", openborconstant("ANI_ATTACK9"));
+     		}
+    }
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, -30, 5, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, -21, 20, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==1073)
+    {
+        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, -30, 5, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, -21, 20, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==1074)
+    {
+
+	
+    void self = getlocalvar("self");
+    void target = getentityproperty(self, "opponent");
+    void x, y, z;
+    x= getentityproperty(self, "x") - getentityproperty(target, "x");
+  	if (x < 0){
+  	x *= -1;
+  	}
+  	y= getentityproperty(self, "y") - getentityproperty(target, "y");
+  	if (y < 0){
+  	y *= -1;
+  	}
+  	z= getentityproperty(self, "z") - getentityproperty(target, "z");
+  	if (z < 0){
+  	z *= -1;
+  	}
+    if (frame==0){
+				if(((getentityproperty(target, "type") != openborconstant("TYPE_enemy") || getentityproperty(target, "aiflag", "falling") || getentityproperty(target, "nodrop") == 2) && openborvariant("current_stage")!=11) || getentityproperty(target, "health")<=0 || x>125 || y>25 || z>25)  {
+						changeentityproperty(self, "animation", openborconstant("ANI_ATTACK9"));
+     		}
+    }
+	        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, -30, 5, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, -21, 20, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==1075)
+    {
+        if(frame==0)
+        {
+            slamstart();
+        }
+        if(frame==0)
+        {
+            position(0, -30, 5, 0, -1);
+        }
+        if(frame==1)
+        {
+            position(1, -21, 20, 0, -1);
+        }
+        if(frame==1)
+        {
+            screenBound(62, 0, 0, 0, 1);
+        }
+        if(frame==2)
+        {
+            position(1, 51, 1, 0, 1);
+        }
+        if(frame==2)
+        {
+            depost(0);
+        }
+        if(frame==2)
+        {
+            throw(10, 3, 2.5, 2.5, 0, 1);
+        }
+        if(frame==2)
+        {
+            clearL();
+        }
+        return;
+    }
+    if(animhandle==1076)
+    {
+
+	
+    void self = getlocalvar("self");
+				if(getentityproperty(self, "health")<=0)  {
+						damageentity(self, self, 100, 1, 1);
+     		}
+	        return;
+    }
+    if(animhandle==1077)
+    {
+        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1078)
+    {
+	
+    void self = getlocalvar("self");
+     		if(frame==0)  {
+						changeentityproperty(self, "aiflag", "jumping", 1);
+						changeentityproperty(self, "takeaction", "common_jump");
+     		}
+	        if(frame==0)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1079)
+    {
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1080)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1081)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1082)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1083)
+    {
+        if(frame==0)
+        {
+            depost(0);
+        }
+        if(frame==0)
+        {
+            throw(0, 3, 1.25, 2, 0, 1);
+        }
+        if(frame==0)
+        {
+            clearL();
+        }
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1084)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1093)
+    {
+        if(frame==2)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==20)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1095)
+    {
+        if(frame==4)
+        {
+            projectile(1, "dust02", 0, 0, 0);
+        }
+        if(frame==11)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==1096)
+    {
+        if(frame==1)
+        {
+            storeXvel();
+        }
+        return;
+    }
+    if(animhandle==1098)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==1099)
+    {
+        if(frame==0)
+        {
+            projectile(1, "dust01", 0, 0, 0);
+        }
+        if(frame==18)
+        {
+            projectile(1, "dust03", 0, 0, 0);
+        }
+        return;
+    }
+
+}

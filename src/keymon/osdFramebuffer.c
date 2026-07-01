@@ -218,7 +218,7 @@ int get_icon_cutoff() {
 		case OSD_VOLUME:
 			return osd_volume*OSD_ICON_HEIGHT/69;	// volume values are between 0-69
 		case OSD_BRIGHTNESS:
-			return osd_brightness*OSD_ICON_HEIGHT/10;	// bright values are between 1-10
+			return osd_brightness*OSD_ICON_HEIGHT/10;	// bright values are between 0-10
 		default:
 			return 0;
 	}

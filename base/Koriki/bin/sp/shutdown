@@ -34,6 +34,23 @@ if [ "$0" = "/tmp/_shutdown" ]; then
         exit 1
     fi
 	
+	CURRENT_VOL=$(/customer/app/jsonval vol)
+	
+	if [ -d "/sys/devices/soc0/soc/soc:hall-mh248" ]; then
+		if [ -f "/sys/class/gpio/gpio45/value" ]; then
+			HP_STATE=$(cat /sys/class/gpio/gpio45/value)
+			if [ "$HP_STATE" = "0" ]; then
+				echo "$CURRENT_VOL" > /appconfigs/headvol
+			else
+				echo "$CURRENT_VOL" > /appconfigs/spkvol
+			fi
+		fi
+	else
+		echo "$CURRENT_VOL" > /appconfigs/spkvol
+	fi
+	
+	sync
+	
 	killall -15 retroarch
 	sleep 1
 	killall -15 simplemenu
@@ -74,7 +91,11 @@ if [ "$0" = "/tmp/_shutdown" ]; then
 	
     echo 48 > /sys/class/gpio/export
     echo out > /sys/class/gpio/gpio48/direction
-    sleep 0.5 
+	sleep 0.1
+    echo 1 > /sys/class/gpio/gpio48/value
+	sleep 0.2
+    echo 0 > /sys/class/gpio/gpio48/value
+    sleep 0.1
     echo 1 > /sys/class/gpio/gpio48/value
 	
 	if [ "$1" = "-r" ]; then

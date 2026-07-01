@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <poll.h>
 #include <SDL/SDL.h>
 #include "cJSON.h"
 #include <json-c/json.h>
@@ -43,7 +44,7 @@
 #define GOVSAVE     "/mnt/SDCARD/.simplemenu/governor.sav"
 #define SPEEDSAVE   "/mnt/SDCARD/.simplemenu/speed.sav"
 #define BRIMAX      10
-#define BRIMIN      1
+#define BRIMIN      0
 
 #define RELEASED    0
 #define PRESSED     1
@@ -89,7 +90,6 @@ static HeadphoneState hp_state = HP_STATE_UNKNOWN;
 
 static const char *cached_settings_file = NULL;
 
-/* --------- prototipo para evitar el error de iconvol en updateHeadphoneState --------- */
 static int iconvol(void);
 
 /* ------------------------------------------------------------------------- */
@@ -896,7 +896,15 @@ void modifyBrightness(int inc) {
 
     int fd = open("/sys/class/pwm/pwmchip0/pwm0/duty_cycle", O_WRONLY);
     if (fd >= 0) {
-        dprintf(fd, "%d", brightness * 10);
+		if ( brightness == 0 ) {
+			if (!file_exists("/customer/app/axp_test") && !file_exists("/tmp/new_res_available")) {
+				dprintf(fd, "%d", brightness + 6);
+			} else {
+				dprintf(fd, "%d", brightness + 3);
+			}
+		} else {
+        	dprintf(fd, "%d", brightness * 10);
+		}
         osd_brightness = brightness;
         close(fd);
     }
@@ -1169,9 +1177,9 @@ void killRetroArch() {
                 usleep(2000000);
                 if (kill(retroarch_pid, 0) == 0) {
                     kill(retroarch_pid, SIGKILL);
-                    usleep(2000000);
+                    usleep(1000000);
                     if (isProcessRunning("simplemenu")){
-                        system("pkill -TERM simplemenu");
+                        system("pkill -INT simplemenu");
                     }
                 }
             }
@@ -1262,6 +1270,12 @@ void setcpu_optimized(int cpu) {
                 set_cpugovernor_optimized(USERSPACE);
                 set_cpuclock(600000);
                 break;
+				
+			case 4:
+                current_cpu_freq = 400000;
+                set_cpugovernor_optimized(POWERSAVE);
+                set_cpuclock(400000);
+                break;
 
             default:
                 break;
@@ -1276,7 +1290,7 @@ void setcpu_optimized(int cpu) {
 /* ------------------------------------------------------------------------- */
 
 int main (int argc, char *argv[]) {
-    input_fd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
+    input_fd = open("/dev/input/event0", O_RDONLY);
     mmModel = access("/customer/app/axp_test", F_OK);
 
     const char *hallvalue_path = "/sys/devices/soc0/soc/soc:hall-mh248/hallvalue";
@@ -1284,10 +1298,28 @@ int main (int argc, char *argv[]) {
 
     initializeSettingsFile();
     loadSettingsCache();
-
-    /* Estado inicial de auriculares (sin disparar acciones extra) */
+	
+   /* Estado inicial de auriculares (sin disparar acciones extra) */
     int hp_init = detect_headphones();
-    osd_headphones_connected = 0;
+	
+	if (access("/sys/devices/soc0/soc/soc:hall-mh248", F_OK) == 0) {
+        int head = open("/sys/class/gpio/gpio45/value", O_RDONLY);
+        char headmode;
+
+        if (head >= 0) {
+            read(head, &headmode, 1);
+            close(head);
+        }
+
+        if (headmode == '0') {
+            osd_headphones_connected = 1;
+        } else {
+            osd_headphones_connected = 0;
+        }
+    } else {
+        osd_headphones_connected = 0;
+    }
+	
     hp_state = hp_init ? HP_STATE_CONNECTED : HP_STATE_DISCONNECTED;
 
     getVolume();
@@ -1299,6 +1331,8 @@ int main (int argc, char *argv[]) {
 
     int volume = sc.vol;
     int sleep = 0;
+	time_t sleep_start_time = 0; 
+	int active_tape_mode = 0;
 
     register uint32_t val;
     register uint32_t menu_pressed = 0;
@@ -1310,11 +1344,22 @@ int main (int argc, char *argv[]) {
     int repeat_power = 0;
     int shutdown = 0;
     int close = 0;
+	int is_music_playing = 0;
+	int cpu_set_mode = 0;
     uint32_t repeat = 0;
     ssize_t n;
 
+    struct pollfd pfd = { .fd = input_fd, .events = POLLIN };
+
     while (1) {
-        n = read(input_fd, &ev, sizeof(ev));
+        int poll_timeout = (sleep == 1 && is_music_playing == 1) ? 1000 : 500;
+        int poll_ret = poll(&pfd, 1, poll_timeout);
+
+        if (poll_ret > 0 && (pfd.revents & POLLIN)) {
+            n = read(input_fd, &ev, sizeof(ev));
+        } else {
+            n = 0;
+        }
 
         if (n == sizeof(ev)) {
             val = ev.value;
@@ -1327,43 +1372,87 @@ int main (int argc, char *argv[]) {
                         power_pressed = val;
                     } else if (val == RELEASED && power_pressed) {
                         if (isKeytesterRunning() == 0) {
-                            if (sleep == 0) {
+							int tapeValue = 0;
+                			FILE *ft = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "r");
+                			if (ft) {
+                    			fscanf(ft, "%d", &tapeValue);
+                    			fclose(ft);
+                			} else {
+                    			ft = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "w");
+                    			if (ft) {
+                        			fprintf(ft, "%d\n", tapeValue);
+                        			fclose(ft);
+                    			}
+                			}
+
+							if (sleep == 0) {
+								
+								active_tape_mode = tapeValue;
+								system("touch /mnt/SDCARD/.simplemenu/sleep; sync");
+                        
+                        		if (tapeValue == 2 || tapeValue == 3) {
+                            		sleep_start_time = time(NULL);
+									system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"true\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            		system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        		} else if (tapeValue == 4 || tapeValue == 5) {
+                            		sleep_start_time = time(NULL);
+									system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            		system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        		} else {
+                            		sleep_start_time = 0;
+									system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            		system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        		}
+								
                                 display_setScreen(0);
 
                                 wifi_was_enabled_before_sleep = isWifiEnabled();
-
-                                if (isGMERunning() == 1 || isGMURunning() == 1) {
-                                    setmute(0);
-                                } else {
-                                    setmute(1);
-                                }
+								
+								if (is_music_playing == 0) {
+									if (isGMERunning() == 1 || isGMURunning() == 1) {
+                                    	setmute(0);
+										if (cpu_set_mode == 0) {
+											setcpu_optimized(2);
+										}
+										is_music_playing = 1;
+                                	} else {
+                                    	setmute(1);
+										is_music_playing = 0;
+                                	}
+								}
 
                                 sethibernate(1);
                                 if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
                                     wifiOff();
                                 }
 
-                                if (isGMERunning() == 1 || isGMURunning() == 1) {
-                                    setcpu_optimized(2);
-                                } else if (isRetroarchRunning() == 1) {
-                                    setcpu_optimized(1);
-                                } else if (isDrasticRunning() == 1) {
-                                    setcpu_optimized(3);
-                                } else if (isPcsxRunning() == 1) {
-                                    setcpu_optimized(3);
-                                } else if (isFBNeoRunning() == 1) {
-                                    setcpu_optimized(3);
-                                } else if (isPico8Running() == 1) {
-                                    setcpu_optimized(3);
-                                } else {
-                                    setcpu_optimized(1);
-                                }
+								if (is_music_playing == 0) {
+									if (cpu_set_mode == 0) {
+                            			if (isRetroarchRunning() == 1) {
+                                			setcpu_optimized(1);
+                            			} else if (isDrasticRunning() == 1) {
+                                			setcpu_optimized(3);
+                            			} else if (isPcsxRunning() == 1) {
+                                			setcpu_optimized(3);
+                            			} else if (isFBNeoRunning() == 1) {
+                                			setcpu_optimized(3);
+                            			} else if (isPico8Running() == 1) {
+                                			setcpu_optimized(3);
+                            			} else {
+                                			setcpu_optimized(1);
+                            			}
+									}
+                        		}
 
                                 power_pressed = 0;
                                 repeat_power = 0;
                                 sleep = 1;
+								cpu_set_mode = 1;
 
                             } else if (sleep == 1 && close == 0) {
+								active_tape_mode = 0;
+								system("rm /mnt/SDCARD/.simplemenu/sleep; sync");
+                        		sleep_start_time = 0;
                                 setmute(0);
                                 sethibernate(0);
                                 setcpu_optimized(0);
@@ -1371,7 +1460,7 @@ int main (int argc, char *argv[]) {
                                     wifiOn();
                                     wifiReconnectIfNeeded();
                                 }
-                                if (!isGMERunning() || !isGMURunning()) {
+                                if (!isGMERunning() && !isGMURunning()) {
                                     getVolume();
                                 }
 
@@ -1379,6 +1468,8 @@ int main (int argc, char *argv[]) {
                                 power_pressed = 0;
                                 repeat_power = 0;
                                 sleep = 0;
+								is_music_playing = 0;
+								cpu_set_mode = 0;
                             }
                         }
                     } else if (val == REPEAT) {
@@ -1596,7 +1687,7 @@ int main (int argc, char *argv[]) {
 
                 if (mmModel) {
                     if (isProcessRunning("retroarch")) {
-                        system("echo MM_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MM_in_RA; touch /tmp/shutdowning; pkill -INT retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     } else if (isProcessRunning("simplemenu") != 1) {
                         system("echo MM; touch /tmp/shutdowning; sync; sleep 3; shutdown");
                     } else {
@@ -1604,7 +1695,7 @@ int main (int argc, char *argv[]) {
                     }
                 } else {
                     if (isProcessRunning("retroarch")) {
-                        system("echo MMP_in_RA; touch /tmp/shutdowning; pkill -TERM retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
+                        system("echo MMP_in_RA; touch /tmp/shutdowning; pkill -INT retroarch; sleep 2; pkill -TERM simplemenu; sync; sleep 3; shutdown");
                     } else if (isProcessRunning("simplemenu") != 1) {
                         system("echo MMP; sync; touch /tmp/shutdowning; sleep 3; shutdown");
                     } else {
@@ -1623,73 +1714,153 @@ int main (int argc, char *argv[]) {
             else
                 updateHeadphoneState(HP_STATE_DISCONNECTED);
         }
-
-        if (!file_exists("/tmp/shutdowning")) {
+		
+		if (!file_exists("/tmp/shutdowning")) {
             int hv = read_hallvalue(hallvalue_path);
             if (hv != -1 && hv != last_hallvalue) {
                 last_hallvalue = hv;
-                if (hv == 1 && sleep == 1) {
-                    setmute(0);
-                    sethibernate(0);
-                    setcpu_optimized(0);
-                    if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
-                        wifiOn();
-                        wifiReconnectIfNeeded();
+
+                int tapeValue = 0;
+                FILE *ft = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "r");
+                if (ft) {
+                    fscanf(ft, "%d", &tapeValue);
+                    fclose(ft);
+                } else {
+                    ft = fopen("/mnt/SDCARD/.simplemenu/tape.sav", "w");
+                    if (ft) {
+                        fprintf(ft, "%d\n", tapeValue);
+                        fclose(ft);
                     }
-                    if (!isGMERunning() || !isGMURunning()) {
-                        getVolume();
-                    }
+                }
 
-                    display_setScreen(1);
-                    power_pressed = 0;
-                    repeat_power = 0;
-                    sleep = 0;
-                    close = 0;
-                } else if (hv == 0 && sleep == 0) {
-                    display_setScreen(0);
-
-                    wifi_was_enabled_before_sleep = isWifiEnabled();
-
-                    if (isGMERunning() == 1 || isGMURunning() == 1) {
+                if (tapeValue != 1  && tapeValue != 3 && tapeValue != 5) {
+                    if (hv == 1 && sleep == 1) {
+                        active_tape_mode = 0;
+                        sleep_start_time = 0;
+						system("rm /mnt/SDCARD/.simplemenu/sleep; sync");
+                        
                         setmute(0);
-                    } else {
-                        setmute(1);
-                    }
+                        sethibernate(0);
+                        setcpu_optimized(0);
+                        if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+                            wifiOn();
+                            wifiReconnectIfNeeded();
+                        }
+                        if (!isGMERunning() && !isGMURunning()) {
+                            getVolume();
+                        }
 
-                    sethibernate(1);
-                    if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
-                        wifiOff();
-                    }
-                    if (isGMERunning() == 1 || isGMURunning() == 1) {
-                        setcpu_optimized(2);
-                    } else if (isRetroarchRunning() == 1) {
-                        setcpu_optimized(1);
-                    } else if (isDrasticRunning() == 1) {
-                        setcpu_optimized(3);
-                    } else if (isPcsxRunning() == 1) {
-                        setcpu_optimized(3);
-                    } else if (isFBNeoRunning() == 1) {
-                        setcpu_optimized(3);
-                    } else if (isPico8Running() == 1) {
-                        setcpu_optimized(3);
-                    } else {
-                        setcpu_optimized(1);
-                    }
+                        display_setScreen(1);
+                        power_pressed = 0;
+                        repeat_power = 0;
+                        sleep = 0;
+                        close = 0;
+						is_music_playing = 0;
+						cpu_set_mode = 0;
+                    } else if (hv == 0 && sleep == 0) {
+                        active_tape_mode = tapeValue;
+						system("touch /mnt/SDCARD/.simplemenu/sleep; sync");
+                        
+                        if (tapeValue == 2) {
+                            sleep_start_time = time(NULL);
+							system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"true\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        } else if (tapeValue == 4) {
+                            sleep_start_time = time(NULL);
+							system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        } else {
+                            sleep_start_time = 0;
+							system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                            system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+                        }
 
-                    sleep = 1;
-                    close = 1;
+                        display_setScreen(0);
+
+                        wifi_was_enabled_before_sleep = isWifiEnabled();
+
+                        if (is_music_playing == 0) {
+							if (isGMERunning() == 1 || isGMURunning() == 1) {
+                            	setmute(0);
+								if (cpu_set_mode == 0) {
+									setcpu_optimized(2);
+								}
+								is_music_playing = 1;
+                            } else {
+                                setmute(1);
+								is_music_playing = 0;
+                            }
+						}
+						
+                        sethibernate(1);
+                        if (!mmModel && wifi_was_enabled_before_sleep && !isGMURunning()) {
+                            wifiOff();
+                        }
+						
+                        if (is_music_playing == 0) {
+							if (cpu_set_mode == 0) {
+                            	if (isRetroarchRunning() == 1) {
+                                	setcpu_optimized(4);
+                            	} else if (isDrasticRunning() == 1) {
+                                	setcpu_optimized(3);
+                            	} else if (isPcsxRunning() == 1) {
+                                	setcpu_optimized(3);
+                            	} else if (isFBNeoRunning() == 1) {
+                                	setcpu_optimized(3);
+                            	} else if (isPico8Running() == 1) {
+                                	setcpu_optimized(3);
+                            	} else {
+                                	setcpu_optimized(4);
+                            	}
+							}
+                        }
+
+                        sleep = 1;
+                        close = 1;
+						cpu_set_mode = 1;
+                    }
                 }
             }
         }
 
-        if (sleep == 1) {
-            if (isGMERunning() || isGMURunning()) {
-                usleep(50000);
-            } else {
-                usleep(1000000);
+        if (sleep == 1 && (active_tape_mode >= 2 && active_tape_mode <= 5) && sleep_start_time != 0) {
+            if (is_music_playing == 0) {
+                if (time(NULL) - sleep_start_time >= 600) {
+				
+				sethibernate(0);
+				setcpu_optimized(0);
+
+                unlink("/mnt/SDCARD/.simplemenu/NUL");
+                unlink("/mnt/SDCARD/.simplemenu/apps/NUL");
+                unlink("/mnt/SDCARD/.simplemenu/launchers/NUL");
+                system("date -u +\"%Y-%m-%d %H:%M:%S\" > /mnt/SDCARD/App/Clock/time.txt");
+
+				FILE *file;
+        		if ((file = fopen("/proc/mi_modules/fb/mi_fb0", "w"))) {
+            			fprintf(file, "GUI_SHOW 0 on\n");
+            			fclose(file);
+        		}
+
+        		if ((file = fopen("/sys/class/gpio/gpio4/value", "w"))) {
+            		fprintf(file, "1\n");
+            		fclose(file);
+        		}
+
+        		if ((file = fopen("/sys/class/gpio/unexport", "w"))) {
+            		fprintf(file, "4\n");
+            		fclose(file);
+        		}
+
+        		if ((file = fopen("/sys/class/pwm/pwmchip0/pwm0/enable", "w"))) {
+            		fprintf(file, "1\n");
+            		fclose(file);
+        		}
+
+        		usleep(20000);
+        		stopOrContinueProcesses(1);
+                system("echo MIYOOMINI_in_RA; touch /tmp/shutdowning; pkill -CONT retroarch; sleep 0.5; pkill -INT retroarch; sleep 0.5; sync; shutdown");
+				}
             }
-        } else {
-            usleep(50000);
         }
     }
 

@@ -207,7 +207,7 @@ romDirs = /mnt/SDCARD/Roms/MSX/
 romExts = .rom,.ri,.mx1,.mx2,.col,.dsk,.cas,.sg,.sc,.m3u,.zip,.7z
 
 [OPENBOR]
-execs = /mnt/SDCARD/.simplemenu/launchers/openbor_standalone
+execs = /mnt/SDCARD/.simplemenu/launchers/openbor_standalone_plus,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone_old,/mnt/SDCARD/.simplemenu/launchers/openbor_standalone_lns
 romDirs = /mnt/SDCARD/Roms/OPENBOR/
 romExts = .pak
 

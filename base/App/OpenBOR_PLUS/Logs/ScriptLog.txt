@@ -1,0 +1,2777 @@
+
+#### animationscript function main #####
+# data/chars/fighter/fighter.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==9)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==18)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==19)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==20)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==33)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==68)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==70)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+20);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==74)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==75)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==27)
+        {
+            projectile(1, "fpill", 40, 0, 0);
+        }
+        if(frame==28)
+        {
+            projectile(1, "fpill", 70, 0, 0);
+        }
+        if(frame==29)
+        {
+            projectile(1, "fpill", 100, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/misc/ibarr/ibarr1.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==142)
+    {
+        if(frame==4)
+        {
+            projectile(1, "ibarr2", 0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/wizard/wizard.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==81)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==98)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==99)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==100)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==22)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==111)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==141)
+    {
+        if(frame==38)
+        {
+            projectile(1, "ibarr1", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==146)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==150)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==155)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+60);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==159)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+70);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==164)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<153000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+90);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/cleric/cleric.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==188)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==196)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==197)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==198)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==209)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==244)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+		
+		else if(frame == 9){
+		void vSelf = getlocalvar("self");
+		int   iHP = getentityproperty(vSelf, "health");
+		changeentityproperty(vSelf, "health", iHP + 10);
+		}
+
+        return;
+    }
+    if(animhandle==245)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+	int castx = getentityproperty(self, "x");
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<10000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+		
+		else if(frame == 10){
+			for (i=0; i<=3;i++){
+				ip = getplayerproperty(i, "entity");
+				rng = getentityproperty(ip, "x")-castx;
+				if ((rng >0)&&(rng<100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+				if ((rng<0)&&(rng>-100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+			}
+		}
+
+        return;
+    }
+    if(animhandle==246)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<36000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==247)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+60);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==26)
+        {
+            projectile(1, "earth3", -10, 0, 0);
+        }
+        if(frame==27)
+        {
+            projectile(1, "earth3", 23, 10, 0);
+        }
+        if(frame==28)
+        {
+            projectile(1, "earth3", 56, -10, 0);
+        }
+        if(frame==29)
+        {
+            projectile(1, "earth3", 89, 0, 0);
+        }
+        if(frame==30)
+        {
+            projectile(1, "earth3", 123, 10, 0);
+        }
+        if(frame==31)
+        {
+            projectile(1, "earth3", 156, -10, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/thief/thief.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==254)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==271)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==272)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==273)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==287)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==318)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+25);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==323)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+35);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==324)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+45);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==326)
+    {
+        if(frame==9)
+        {
+            projectile(1, "invis", 0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/paladin/paladin.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==329)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==338)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==339)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==340)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==351)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==386)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<21000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+
+		else if(frame == 10){
+			for (i=0; i<=3;i++){
+				ip = getplayerproperty(i, "entity");
+				rng = getentityproperty(ip, "x")-castx;
+				if ((rng >0)&&(rng<100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+				if ((rng<0)&&(rng>-100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+			}
+		}
+	        return;
+    }
+    if(animhandle==387)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+
+		else if(frame == 9){
+		void vSelf = getlocalvar("self");
+		int   iHP = getentityproperty(vSelf, "health");
+		
+		changeentityproperty(vSelf, "health", iHP + 10);
+		}
+        return;
+    }
+    if(animhandle==388)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<6000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==389)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<78000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+60);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==27)
+        {
+            projectile(1, "lightn", 40, 0, 0);
+        }
+        if(frame==28)
+        {
+            projectile(1, "lightn", 70, 20, 0);
+        }
+        if(frame==29)
+        {
+            projectile(1, "lightn", 100, -20, 0);
+        }
+        if(frame==30)
+        {
+            projectile(1, "lightn", 130, 10, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/barbar/barbar.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==398)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==408)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==409)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==410)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==421)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==451)
+    {
+        if(frame==46)
+        {
+            projectile(1, "tornado3", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==455)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+25);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==460)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+35);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==461)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+45);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==8)
+        {
+            projectile(1, "spdup", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==463)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+55);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/bard/bard.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==468)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==477)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==478)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==479)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==490)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==521)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==9)
+        {
+            projectile(1, "invis", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==522)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==527)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+	int castx = getentityproperty(self, "x");
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+		
+		else if(frame == 10){
+			for (i=0; i<=3;i++){
+				ip = getplayerproperty(i, "entity");
+				rng = getentityproperty(ip, "x")-castx;
+				if ((rng >0)&&(rng<100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+				if ((rng<0)&&(rng>-100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+			}
+		}
+
+        return;
+    }
+    if(animhandle==528)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+60);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+		
+		else if(frame == 9){
+		void vSelf = getlocalvar("self");
+		int   iHP = getentityproperty(vSelf, "health");
+		changeentityproperty(vSelf, "health", iHP + 10);
+		}
+
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/dwarf/dwarf.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==531)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==541)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==542)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==543)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==554)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==584)
+    {
+        if(frame==0)
+        {
+            projectile(1, "boulder", 35, 5, 0);
+        }
+        if(frame==38)
+        {
+            projectile(1, "boulder", -35, -5, 0);
+        }
+        if(frame==39)
+        {
+            projectile(1, "boulder", 20, 15, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "boulder", -20, -15, 0);
+        }
+        return;
+    }
+    if(animhandle==588)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+25);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==589)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+35);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==593)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+45);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==594)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<91000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+55);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==25)
+        {
+            projectile(1, "boulder2", 40, 0, 0);
+        }
+        if(frame==27)
+        {
+            projectile(1, "boulder2", 60, -10, 0);
+        }
+        if(frame==28)
+        {
+            projectile(1, "boulder2", 80, 10, 0);
+        }
+        if(frame==29)
+        {
+            projectile(1, "boulder2", 100, -5, 0);
+        }
+        if(frame==30)
+        {
+            projectile(1, "boulder2", 120, 5, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/elf/elf.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==600)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==617)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==618)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==619)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==22)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==630)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==661)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==37)
+        {
+            projectile(1, "mm", 40, 0, 0);
+        }
+        if(frame==53)
+        {
+            projectile(1, "mm", 40, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==666)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==667)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==680)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<105000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+60);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/arthur/arthur.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==683)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==692)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==693)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==694)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==705)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==735)
+    {
+        if(frame==4)
+        {
+            projectile(1, "merlin", 25, 5, 0);
+        }
+        if(frame==39)
+        {
+            projectile(1, "flame", 50, 5, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "flame", -30, 0, 0);
+        }
+        if(frame==41)
+        {
+            projectile(1, "flame", 30, -15, 0);
+        }
+        if(frame==42)
+        {
+            projectile(1, "flame", -20, 10, 0);
+        }
+        if(frame==43)
+        {
+            projectile(1, "flame", 20, 25, 0);
+        }
+        if(frame==44)
+        {
+            projectile(1, "flame", 70, -10, 0);
+        }
+        return;
+    }
+    if(animhandle==744)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==745)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==749)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==0)
+        {
+            projectile(1, "merlin", 40, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "fire", 80, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "fire", 120, -5, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "fire", 160, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "fire", 200, 5, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "fire", 240, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "fire", 280, -5, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/lancelot/lancelot.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==756)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==765)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==766)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==767)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==778)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==808)
+    {
+        if(frame==4)
+        {
+            projectile(1, "merlin", 25, 5, 0);
+        }
+        if(frame==39)
+        {
+            projectile(1, "spark", 50, 5, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "spark", -30, 0, 0);
+        }
+        if(frame==41)
+        {
+            projectile(1, "spark", 30, -15, 0);
+        }
+        if(frame==42)
+        {
+            projectile(1, "spark", -20, 10, 0);
+        }
+        if(frame==43)
+        {
+            projectile(1, "spark", 20, 25, 0);
+        }
+        if(frame==44)
+        {
+            projectile(1, "spark", 70, -10, 0);
+        }
+        return;
+    }
+    if(animhandle==813)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==814)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==815)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==0)
+        {
+            projectile(1, "merlin", 40, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "light", 80, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "light", 120, -5, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "light", 160, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "light", 200, 5, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "light", 240, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "light", 280, -5, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/perceval/perceval.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==822)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==831)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==832)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==833)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==844)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==874)
+    {
+        if(frame==4)
+        {
+            projectile(1, "merlin", 25, 5, 0);
+        }
+        if(frame==39)
+        {
+            projectile(1, "shake", 50, 5, 0);
+        }
+        if(frame==40)
+        {
+            projectile(1, "shake", -30, 0, 0);
+        }
+        if(frame==41)
+        {
+            projectile(1, "shake", 30, -15, 0);
+        }
+        if(frame==42)
+        {
+            projectile(1, "shake", -20, 10, 0);
+        }
+        if(frame==43)
+        {
+            projectile(1, "shake", 20, 25, 0);
+        }
+        if(frame==44)
+        {
+            projectile(1, "shake", 70, -10, 0);
+        }
+        return;
+    }
+    if(animhandle==879)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==880)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==881)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+50);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        if(frame==0)
+        {
+            projectile(1, "merlin", 40, 0, 0);
+        }
+        if(frame==3)
+        {
+            projectile(1, "quake", 80, 0, 0);
+        }
+        if(frame==4)
+        {
+            projectile(1, "quake", 120, -5, 0);
+        }
+        if(frame==5)
+        {
+            projectile(1, "quake", 160, 0, 0);
+        }
+        if(frame==6)
+        {
+            projectile(1, "quake", 200, 5, 0);
+        }
+        if(frame==7)
+        {
+            projectile(1, "quake", 240, 0, 0);
+        }
+        if(frame==8)
+        {
+            projectile(1, "quake", 280, -5, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/mordred/mordred.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==888)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==897)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==898)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==899)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==908)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==939)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+35);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==943)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<10000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+25);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==944)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<105000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+55);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/knight/knight.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==950)
+    {
+        if(frame==0)
+        {
+            setLevel();
+        }
+        return;
+    }
+    if(animhandle==959)
+    {
+        if(frame==1)
+        {
+            performattack(getlocalvar("self"), openborconstant("ANI_FOLLOW1"));
+        }
+        return;
+    }
+    if(animhandle==960)
+    {
+        if(frame==0)
+        {
+            projectile(1, "fatigue", 0, 0, 0);
+        }
+        return;
+    }
+    if(animhandle==961)
+    {
+        if(frame==0)
+        {
+            projectile(1, "block", 0, 0, 0);
+        }
+        if(frame==27)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==972)
+    {
+        if(frame==0)
+        {
+            projectile(1, "recover", 0, 0, 0);
+        }
+        if(frame==4)
+        {
+            pblock();
+        }
+        return;
+    }
+    if(animhandle==1003)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<3000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+20);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==1004)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+30);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==1005)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+40);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/fighter/horse/hfigh.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1034)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/wizard/horse/hwiza.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1047)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/cleric/horse/hcler.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1058)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/dwarf/horse/hdwar.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1067)
+    {
+
+if(frame==1){
+    void self = getlocalvar("self");
+
+    changeentityproperty(self, "mp", 999999); //Max MP bar
+    changeentityproperty(self, "health", 999999); //Max HP bar
+}
+        return;
+    }
+    if(animhandle==1069)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/elf/horse/helff.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1078)
+    {
+
+if(frame==1){
+    void self = getlocalvar("self");
+
+    changeentityproperty(self, "mp", 999999); //Max MP bar
+    changeentityproperty(self, "health", 999999); //Max HP bar
+}
+        return;
+    }
+    if(animhandle==1080)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/paladin/horse/hpala.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1091)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/barbar/horse/hbarb.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1102)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/bard/horse/hbard.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1113)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/thief/horse/hthie.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1124)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/arthur/horse/harth.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1135)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/lancelot/horse/hlanc.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1146)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/perceval/horse/hperc.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1157)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/mordred/horse/hmord.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1168)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/knight/horse/hknig.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1179)
+    {
+
+    void self = getlocalvar("self");
+	int iPIndex = getentityproperty(self,"playerindex"); //Get player index
+	void p1 = playerkeys(iPIndex, 0, "moveleft");
+				
+        if ((p1)&&(frame == 0)&&(getentityproperty(self, "direction")==1)){
+                changeentityproperty(self, "animation", openborconstant("ANI_ATTACK2"));
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/barbar/speedup.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1365)
+    {
+        if(frame==8)
+        {
+            projectile(1, "normal", 0, 0, 0);
+        }
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/bard/invi.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1412)
+    {
+
+		int iHP=0;
+		int i;
+		void ip;
+		int rng;
+		void self = getlocalvar("self");
+		int castx = getentityproperty(self, "x");
+		if(frame == 10){
+			for (i=0; i<=3;i++){
+				ip = getplayerproperty(i, "entity");
+				rng = getentityproperty(ip, "x")-castx;
+				if ((rng >0)&&(rng<100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+				if ((rng<0)&&(rng>-100)){ 
+					iHP = getentityproperty(ip, "health");
+					changeentityproperty(ip, "health", iHP + 10);
+				}
+			}
+		}
+	        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/thief/tnvi.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1458)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<1000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+25);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==1459)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<15000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+35);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+    if(animhandle==1460)
+    {
+
+     int iHP=0;
+     int i;
+     void ip;
+     int rng;
+     void self = getlocalvar("self");
+     int mp;
+     int castx;
+	int PIndex = getentityproperty(self,"playerindex"); // Get player's index
+    int score = getplayerproperty(PIndex,"score");
+
+		if(frame==0 && score<45000)
+		{
+        mp = getentityproperty(self, "mp");
+        changeentityproperty(self, "mp", mp+45);
+        performattack(self, openborconstant ("ANI_FOLLOW2"));
+		}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/chars/Misc/numflash/numflash.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1465)
+    {
+
+{
+dasher(0,0.3,0);
+}
+        return;
+    }
+
+}
+
+#### animationscript function main #####
+# data/scenes/intro/intro.txt
+########################################
+void main()
+{
+    int frame = getlocalvar("frame");
+    int animhandle = getlocalvar("animhandle");
+    if(animhandle==1542)
+    {
+        if(frame==0)
+        {
+            dasher(0, 0.15, 0);
+        }
+        if(frame==1)
+        {
+            dasher(0, 0, 0);
+        }
+        return;
+    }
+
+}

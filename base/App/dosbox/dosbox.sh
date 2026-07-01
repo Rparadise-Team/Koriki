@@ -12,10 +12,24 @@ getvolume() {
   echo $volume
 }
 
-setbrightness () {
-  bright=$(/customer/app/jsonval brightness)
-  brightness=$(($bright*10))
-  echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+setbrightness() {
+    bright=$(/customer/app/jsonval brightness)
+	
+	if [ ! -f /customer/app/axp_test ] && [ ! -f /tmp/new_res_available ]; then
+		SUBMODEL="MM"
+	fi
+	
+	if [ $bright == 0 ]; then
+		if [ "$SUBMODEL" == "MM" ]; then
+			brightness=$(($bright+6))
+		else
+			brightness=$(($bright+3))
+		fi
+	else
+		brightness=$(($bright*10))
+	fi
+	
+    echo $brightness > /sys/class/pwm/pwmchip0/pwm0/duty_cycle
 }
 
 set_snd_level() {

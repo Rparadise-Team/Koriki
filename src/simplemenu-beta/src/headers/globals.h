@@ -121,6 +121,7 @@ extern int GAMMA_OPTION;
 extern int NUM_SCREEN_OPTIONS;
 extern int COLOR_MAX_VALUE;
 extern int GAMMA_MAX_VALUE;
+extern int TAPE_OPTION;
 #endif
 extern int VOLUME_OPTION;
 extern int BRIGHTNESS_OPTION;
@@ -170,6 +171,7 @@ extern int gammaValue;
 extern int saturationValue;
 extern int contrastValue;
 extern int mmModel;
+extern int tapeValue;
 #endif
 extern pthread_t myThread;
 

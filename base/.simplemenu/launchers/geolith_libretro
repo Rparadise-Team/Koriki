@@ -1,0 +1,13 @@
+#!/bin/sh
+
+runsvr=`/customer/app/jsonval audiofix`
+cd /mnt/SDCARD/RetroArch/
+HOME=/mnt/SDCARD/RetroArch/
+RA_CONFIG=/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg
+
+
+if [ "$runsvr" != "0" ] ; then
+LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/geolith_libretro.so "$1"
+else
+/mnt/SDCARD/RetroArch/retroarch -v -L /mnt/SDCARD/RetroArch/.retroarch/cores/geolith_libretro.so "$1"
+fi

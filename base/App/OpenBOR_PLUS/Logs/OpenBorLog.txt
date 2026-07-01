@@ -1,0 +1,1458 @@
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:    33484800 Bytes (    31 MB )
+ Used Ram:     4557312 Bytes (     4 MB )
+
+debug:nativeWidth, nativeHeight, bpp, Hz  0, 0, 0, 0
+OpenBoR v4.0 Build 0000 (commit hash: 0000000), Compile Date: Feb 27 2026
+
+Game Selected: /mnt/SDCARD/Roms/OPENBOR/Dungeons & Dragons - Knights & Dragons Endless Quest.pak
+
+FileCaching System Init.......	Enabled
+Initializing video............
+Reading video settings from 'data/video.txt'.
+
+Colordepth is depreciated. All modules are displayed with a 32bit color screen.
+
+Initialized video............	480x272 (Mode: 1)
+
+Timer init...................	Done!
+Initialize Sound.............	
+Loading fonts................	1 2 3 4 Done!
+Loading sprites..............	Done!
+Loading level order..........	Done!
+Loading model constants......	Done!
+Loading script settings......	Done!
+Loading scripts..............	Done!
+Loading models...............
+
+Cacheing 'Levelup' from data/chars/Misc/levelup/levelup.txt
+Cacheing 'fighter' from data/chars/fighter/fighter.txt
+Cacheing 'wizard' from data/chars/wizard/wizard.txt
+Cacheing 'cleric' from data/chars/cleric/cleric.txt
+Cacheing 'thief' from data/chars/thief/thief.txt
+Cacheing 'paladin' from data/chars/paladin/paladin.txt
+Cacheing 'Barbarian' from data/chars/barbar/barbar.txt
+Cacheing 'Bard' from data/chars/bard/bard.txt
+Cacheing 'dwarf' from data/chars/dwarf/dwarf.txt
+Cacheing 'elf' from data/chars/elf/elf.txt
+Cacheing 'arthur' from data/chars/arthur/arthur.txt
+Cacheing 'lancelot' from data/chars/lancelot/lancelot.txt
+Cacheing 'perceval' from data/chars/perceval/perceval.txt
+Cacheing 'mordred' from data/chars/mordred/mordred.txt
+Cacheing 'knight' from data/chars/knight/knight.txt
+Cacheing 'travel' from data/chars/travel/travel.txt
+Cacheing 'travel2' from data/chars/travel/travel2.txt
+Cacheing 'hfigh' from data/chars/fighter/horse/hfigh.txt
+Cacheing 'hwiza' from data/chars/wizard/horse/hwiza.txt
+Cacheing 'hcler' from data/chars/cleric/horse/hcler.txt
+Cacheing 'hdwar' from data/chars/dwarf/horse/hdwar.txt
+Cacheing 'helff' from data/chars/elf/horse/helff.txt
+Cacheing 'hpala' from data/chars/paladin/horse/hpala.txt
+Cacheing 'hbarb' from data/chars/barbar/horse/hbarb.txt
+Cacheing 'hbard' from data/chars/bard/horse/hbard.txt
+Cacheing 'hthie' from data/chars/thief/horse/hthie.txt
+Cacheing 'harth' from data/chars/arthur/horse/harth.txt
+Cacheing 'hlanc' from data/chars/lancelot/horse/hlanc.txt
+Cacheing 'hperc' from data/chars/perceval/horse/hperc.txt
+Cacheing 'hmord' from data/chars/mordred/horse/hmord.txt
+Cacheing 'hknig' from data/chars/knight/horse/hknig.txt
+Cacheing 'figh2' from data/chars/fighter/figh2.txt
+Cacheing 'wiza2' from data/chars/wizard/wiza2.txt
+Cacheing 'cler2' from data/chars/cleric/cler2.txt
+Cacheing 'thie2' from data/chars/thief/thie2.txt
+Cacheing 'pala2' from data/chars/paladin/pala2.txt
+Cacheing 'Barb2' from data/chars/barbar/barb2.txt
+Cacheing 'Bard2' from data/chars/bard/bard2.txt
+Cacheing 'dwar2' from data/chars/dwarf/dwar2.txt
+Cacheing 'elf3' from data/chars/elf/elf3.txt
+Cacheing 'arth2' from data/chars/arthur/arth2.txt
+Cacheing 'lanc2' from data/chars/lancelot/lanc2.txt
+Cacheing 'perc2' from data/chars/perceval/perc2.txt
+Cacheing 'mord2' from data/chars/mordred/mord2.txt
+Cacheing 'knig2' from data/chars/knight/knig2.txt
+Cacheing 'bomb' from data/chars/misc/bomb/bomb.txt
+Cacheing 'bomb2' from data/chars/misc/bomb/bomb2.txt
+Cacheing 'ma1' from data/chars/misc/magic/ma1.txt
+Cacheing 'ma1hit' from data/chars/misc/magic/ma1hit.txt
+Cacheing 'ma3' from data/chars/misc/magic/ma3.txt
+Cacheing 'ma4' from data/chars/misc/magic/ma4.txt
+Cacheing 'ma5' from data/chars/misc/magic/ma5.txt
+Cacheing 'ma6' from data/chars/misc/magic/ma6.txt
+Cacheing 'ma11' from data/chars/misc/magic/ma11.txt
+Cacheing 'ma41' from data/chars/misc/magic/ma41.txt
+Cacheing 'ma51' from data/chars/misc/magic/ma51.txt
+Cacheing 'istorm' from data/chars/misc/istorm/istorm.txt
+Cacheing 'istorm2' from data/chars/misc/istorm/istorm2.txt
+Cacheing 'ibarr1' from data/chars/misc/ibarr/ibarr1.txt
+Cacheing 'ibarr2' from data/chars/misc/ibarr/ibarr2.txt
+Cacheing 'fball' from data/chars/misc/fball/fball.txt
+Cacheing 'fball2' from data/chars/misc/fball/fball2.txt
+Cacheing 'lbolt' from data/chars/misc/lbolt/lbolt.txt
+Cacheing 'lball' from data/chars/misc/lball/lball.txt
+Cacheing 'lball2' from data/chars/misc/lball/lball2.txt
+Cacheing 'tornado' from data/chars/misc/tornado/tornado.txt
+Cacheing 'tornado2' from data/chars/misc/tornado/tornado2.txt
+Cacheing 'tornado3' from data/chars/misc/tornado/tornado3.txt
+Cacheing 'Hold' from data/chars/misc/hold/hold.txt
+Cacheing 'Holy' from data/chars/misc/holy/holy.txt
+Cacheing 'axe' from data/chars/misc/axe/axe.txt
+Cacheing 'arr01' from data/chars/misc/arrows/arr01.txt
+Cacheing 'arr02' from data/chars/misc/arrows/arr02.txt
+Cacheing 'arr03' from data/chars/misc/arrows/arr03.txt
+Cacheing 'arr04' from data/chars/misc/arrows/arr04.txt
+Cacheing 'arr05' from data/chars/misc/arrows/arr05.txt
+Cacheing 'arr06' from data/chars/misc/arrows/arr06.txt
+Cacheing 'mm' from data/chars/misc/mm/mm.txt
+Cacheing 'mm2' from data/chars/misc/mm/mm2.txt
+Cacheing 'mm3' from data/chars/misc/mm/mm3.txt
+Cacheing 'mmhit' from data/chars/misc/mm/mmhit.txt
+Cacheing 'elf2' from data/chars/elf/elf2.txt
+Cacheing 'Hquake' from data/chars/misc/hquake/hquake.txt
+Cacheing 'hurr' from data/chars/misc/hurr/hurr.txt
+Cacheing 'hurr2' from data/chars/misc/hurr/hurr2.txt
+Cacheing 'speedup' from data/chars/barbar/speedup.txt
+Cacheing 'invi' from data/chars/bard/invi.txt
+Cacheing 'tnvi' from data/chars/thief/tnvi.txt
+Cacheing 'sonic01' from data/chars/misc/sonic/sonic01.txt
+Cacheing 'slash' from data/chars/misc/slash/slash.txt
+Cacheing 'slash2' from data/chars/misc/slash/slash2.txt
+Cacheing 'merlin' from data/chars/misc/merlin/merlin.txt
+Cacheing 'flame' from data/chars/misc/merlin/flame.txt
+Cacheing 'eflame' from data/chars/misc/merlin/eflame.txt
+Cacheing 'spark' from data/chars/misc/merlin/spark.txt
+Cacheing 'shake' from data/chars/misc/merlin/shake.txt
+Cacheing 'eshake' from data/chars/misc/merlin/eshake.txt
+Cacheing 'fire' from data/chars/misc/merlin/fire.txt
+Cacheing 'efire' from data/chars/misc/merlin/efire.txt
+Cacheing 'light' from data/chars/misc/merlin/light.txt
+Cacheing 'elight' from data/chars/misc/merlin/elight.txt
+Cacheing 'quake' from data/chars/misc/merlin/quake.txt
+Cacheing 'equake' from data/chars/misc/merlin/equake.txt
+Cacheing 'wave' from data/chars/misc/wave/wave.txt
+Cacheing 'hroll' from data/chars/misc/hroll/hroll.txt
+Cacheing 'knife01' from data/chars/misc/knife/knife01.txt
+Cacheing 'knife02' from data/chars/misc/knife/knife02.txt
+Cacheing 'knife03' from data/chars/misc/knife/knife03.txt
+Cacheing 'knife04' from data/chars/misc/knife/knife04.txt
+Cacheing 'knife05' from data/chars/misc/knife/knife05.txt
+Cacheing 'bag01' from data/chars/misc/bag/bag01.txt
+Cacheing 'spear' from data/chars/misc/spear/spear.txt
+Cacheing 'scythe' from data/chars/misc/scythe/scythe.txt
+Cacheing 'boulder' from data/chars/misc/boulder/boulder.txt
+Cacheing 'boulder2' from data/chars/misc/boulder/boulder2.txt
+Cacheing 'rock' from data/chars/misc/rock/rock.txt
+Cacheing 'stone' from data/chars/misc/stone/stone.txt
+Cacheing 'stone2' from data/chars/misc/stone2/stone2.txt
+Cacheing 'thorn' from data/chars/misc/thorn/thorn.txt
+Cacheing 'ice1' from data/chars/misc/breath/ice1.txt
+Cacheing 'acid1' from data/chars/misc/breath/acid1.txt
+Cacheing 'gas1' from data/chars/misc/breath/gas1.txt
+Cacheing 'light1' from data/chars/misc/breath/light1.txt
+Cacheing 'fire1' from data/chars/misc/breath/fire1.txt
+Cacheing 'blast' from data/chars/misc/ray/blast.txt
+Cacheing 'freeze' from data/chars/misc/ray/freeze.txt
+Cacheing 'pol' from data/chars/misc/ray/pol.txt
+Cacheing 'rev' from data/chars/misc/ray/rev.txt
+Cacheing 'ms01' from data/chars/misc/ms/ms01.txt
+Cacheing 'ms02' from data/chars/misc/ms/ms02.txt
+Cacheing 'ms03' from data/chars/misc/ms/ms03.txt
+Cacheing 'ms04' from data/chars/misc/ms/ms04.txt
+Cacheing 'ms05' from data/chars/misc/ms/ms05.txt
+Cacheing 'ms06' from data/chars/misc/ms/ms06.txt
+Cacheing 'ms07' from data/chars/misc/ms/ms07.txt
+Cacheing 'ms11' from data/chars/misc/ms/ms11.txt
+Cacheing 'ms12' from data/chars/misc/ms/ms12.txt
+Cacheing 'ms13' from data/chars/misc/ms/ms13.txt
+Cacheing 'ms14' from data/chars/misc/ms/ms14.txt
+Cacheing 'ms15' from data/chars/misc/ms/ms15.txt
+Cacheing 'ms16' from data/chars/misc/ms/ms16.txt
+Cacheing 'ms17' from data/chars/misc/ms/ms17.txt
+Cacheing 'msdeath' from data/chars/misc/ms/msdeath.txt
+Cacheing 'lichms' from data/chars/lich/lichms.txt
+Cacheing 'sorcms' from data/chars/sorc/sorcms.txt
+Cacheing 'lightn' from data/chars/misc/lightn/lightn.txt
+Cacheing 'fpill' from data/chars/misc/fpill/fpill.txt
+Cacheing 'orc' from data/chars/orc/orc.txt
+Cacheing 'goblin' from data/chars/goblin/goblin.txt
+Cacheing 'orcking2' from data/chars/orcking/orcking2.txt
+Cacheing 'worc' from data/chars/orc/wolf/worc.txt
+Cacheing 'bugbear' from data/chars/bugbear/bugbear.txt
+Cacheing 'wbug' from data/chars/bugbear/wolf/wbug.txt
+Cacheing 'orog' from data/chars/orog/orog.txt
+Cacheing 'soldier' from data/chars/soldier/soldier.txt
+Cacheing 'wight' from data/chars/wight/wight.txt
+Cacheing 'hob' from data/chars/hob/hob.txt
+Cacheing 'whob' from data/chars/hob/wolf/whob.txt
+Cacheing 'thug' from data/chars/thug/thug.txt
+Cacheing 'delf1' from data/chars/delf1/delf1.txt
+Cacheing 'delf2' from data/chars/delf2/delf2.txt
+Cacheing 'lizman1' from data/chars/lizman1/lizman1.txt
+Cacheing 'lizman2' from data/chars/lizman2/lizman2.txt
+Cacheing 'skeleton' from data/chars/skeleton/skeleton.txt
+Cacheing 'mummy' from data/chars/mummy/mummy.txt
+Cacheing 'mummy2' from data/chars/mummy/mummy2.txt
+Cacheing 'imp' from data/chars/imp/imp.txt
+Cacheing 'harpy' from data/chars/harpy/harpy.txt
+Cacheing 'wolven' from data/chars/wolven/wolven.txt
+Cacheing 'sahua' from data/chars/sahua/sahua.txt
+Cacheing 'slime' from data/chars/slime/slime.txt
+Cacheing 'wraith' from data/chars/wraith/wraith.txt
+Cacheing 'mimic' from data/chars/mimic/mimic.txt
+Cacheing 'beetle' from data/chars/beetle/beetle.txt
+Cacheing 'scorp' from data/chars/scorp/scorp.txt
+Cacheing 'owlb' from data/chars/owlb/owlb.txt
+Cacheing 'hound' from data/chars/hound/hound.txt
+Cacheing 'worg' from data/chars/worg/worg.txt
+Cacheing 'ecleric' from data/chars/ecleric/ecleric.txt
+Cacheing 'ecleric3' from data/chars/ecleric/ecleric3.txt
+Cacheing 'bydra' from data/chars/hydra/bydra.txt
+Cacheing 'hydra1' from data/chars/hydra/hydra1.txt
+Cacheing 'wyvern2' from data/chars/wyvern/wyvern2.txt
+Cacheing 'raptor' from data/chars/raptor/raptor.txt
+Cacheing 'tricer' from data/chars/tricer/tricer.txt
+Cacheing 'ptero' from data/chars/ptero/ptero.txt
+Cacheing 'rex' from data/chars/rex/rex.txt
+Cacheing 'troll2' from data/chars/troll/troll2.txt
+Cacheing 'zlord2' from data/chars/zlord/zlord2.txt
+Cacheing 'orcking' from data/chars/orcking/orcking.txt
+Cacheing 'wight2' from data/chars/wight/wight2.txt
+Cacheing 'hound2' from data/chars/hound/hound2.txt
+Cacheing 'worg2' from data/chars/worg/worg2.txt
+Cacheing 'ecleric2' from data/chars/ecleric/ecleric2.txt
+Cacheing 'wraith2' from data/chars/wraith/wraith2.txt
+Cacheing 'minot' from data/chars/minot/minot.txt
+Cacheing 'minot2' from data/chars/minot/minot2.txt
+Cacheing 'wyvern' from data/chars/wyvern/wyvern.txt
+Cacheing 'hydra2' from data/chars/hydra/hydra2.txt
+Cacheing 'dknight' from data/chars/dknight/dknight.txt
+Cacheing 'lizking' from data/chars/lizking/lizking.txt
+Cacheing 'igolem' from data/chars/igolem/igolem.txt
+Cacheing 'oni' from data/chars/oni/oni.txt
+Cacheing 'ogre' from data/chars/ogre/ogre.txt
+Cacheing 'troll' from data/chars/troll/troll.txt
+Cacheing 'manti' from data/chars/manti/manti.txt
+Cacheing 'chimera' from data/chars/chimera/chimera.txt
+Cacheing 'vampire' from data/chars/vampire/vampire.txt
+Cacheing 'rex2' from data/chars/rex/rex2.txt
+Cacheing 'arlon' from data/chars/arlon/arlon.txt
+Cacheing 'zlord' from data/chars/zlord/zlord.txt
+Cacheing 'dbeast' from data/chars/dbeast/dbeast.txt
+Cacheing 'dbeasts' from data/chars/dbeast/dbeasts.txt
+Cacheing 'behold' from data/chars/behold/behold.txt
+Cacheing 'lich' from data/chars/lich/lich.txt
+Cacheing 'sorc' from data/chars/sorc/sorc.txt
+Cacheing 'drags1' from data/chars/drags/drags1.txt
+Cacheing 'drags2' from data/chars/drags/drags2.txt
+Cacheing 'drags3' from data/chars/drags/drags3.txt
+Cacheing 'drags4' from data/chars/drags/drags4.txt
+Cacheing 'drags5' from data/chars/drags/drags5.txt
+Cacheing 'dragy1' from data/chars/dragy/dragy1.txt
+Cacheing 'dragy2' from data/chars/dragy/dragy2.txt
+Cacheing 'dragy3' from data/chars/dragy/dragy3.txt
+Cacheing 'dragy4' from data/chars/dragy/dragy4.txt
+Cacheing 'dragy5' from data/chars/dragy/dragy5.txt
+Cacheing 'draga1' from data/chars/draga/draga1.txt
+Cacheing 'draga2' from data/chars/draga/draga2.txt
+Cacheing 'draga3' from data/chars/draga/draga3.txt
+Cacheing 'draga4' from data/chars/draga/draga4.txt
+Cacheing 'draga5' from data/chars/draga/draga5.txt
+Cacheing 'dragaa1' from data/chars/draga/dragaa1.txt
+Cacheing 'dragaa2' from data/chars/draga/dragaa2.txt
+Cacheing 'dragaa3' from data/chars/draga/dragaa3.txt
+Cacheing 'dragaa4' from data/chars/draga/dragaa4.txt
+Cacheing 'dragaa5' from data/chars/draga/dragaa5.txt
+Cacheing 'dragab1' from data/chars/draga/dragab1.txt
+Cacheing 'dragab2' from data/chars/draga/dragab2.txt
+Cacheing 'dragab3' from data/chars/draga/dragab3.txt
+Cacheing 'dragab4' from data/chars/draga/dragab4.txt
+Cacheing 'dragab5' from data/chars/draga/dragab5.txt
+Cacheing 'wyrmr' from data/chars/wyrmr/wyrmr.txt
+Cacheing 'rbody' from data/chars/wyrmr/rbody.txt
+Cacheing 'rarmr' from data/chars/wyrmr/rarmr.txt
+Cacheing 'rarml' from data/chars/wyrmr/rarml.txt
+Cacheing 'wyrmn' from data/chars/wyrmn/wyrmn.txt
+Cacheing 'nbody' from data/chars/wyrmn/nbody.txt
+Cacheing 'narmr' from data/chars/wyrmn/narmr.txt
+Cacheing 'narml' from data/chars/wyrmn/narml.txt
+Cacheing 'trap1' from data/chars/misc/trap1/trap1.txt
+Cacheing 'trap6' from data/chars/misc/trap1/trap6.txt
+Cacheing 'trap2' from data/chars/misc/trap2/trap2.txt
+Cacheing 'trap7' from data/chars/misc/trap2/trap7.txt
+Cacheing 'trap3' from data/chars/misc/trap3/trap3.txt
+Cacheing 'trap8' from data/chars/misc/trap3/trap8.txt
+Cacheing 'trap4' from data/chars/misc/trap4/trap4.txt
+Cacheing 'trap9' from data/chars/misc/trap4/trap9.txt
+Cacheing 'trap5' from data/chars/misc/trap5/trap5.txt
+Cacheing 'trunk' from data/chars/misc/trunk/trunk.txt
+Cacheing 'Flash01' from data/chars/misc/flash01/flash01.txt
+Cacheing 'Flash11' from data/chars/misc/flash01/flash11.txt
+Cacheing 'Flash21' from data/chars/misc/flash01/flash21.txt
+Cacheing 'Blood01' from data/chars/misc/Blood01/Blood01.txt
+Cacheing 'Blood11' from data/chars/misc/Blood01/Blood11.txt
+Cacheing 'Blood21' from data/chars/misc/Blood01/Blood21.txt
+Cacheing 'block' from data/chars/misc/block/block.txt
+Cacheing 'tavern' from data/chars/misc/tavern/tavern.txt
+Cacheing 'guild' from data/chars/misc/guild/guild.txt
+Cacheing 'fatigue' from data/chars/misc/fatigue/fatigue.txt
+Cacheing 'invis' from data/chars/misc/invis/invis.txt
+Cacheing 'spdup' from data/chars/misc/spdup/spdup.txt
+Cacheing 'normal' from data/chars/misc/normal/normal.txt
+Cacheing 'run' from data/chars/misc/run/run.txt
+Cacheing 'recover' from data/chars/misc/recover/recover.txt
+Cacheing 'numflash' from data/chars/Misc/numflash/numflash.txt
+Cacheing 'Guard01' from data/chars/misc/guard01/guard01.txt
+Cacheing 'Dust01' from data/chars/misc/dust01/dust01.txt
+Cacheing 'Dust02' from data/chars/misc/dust02/dust02.txt
+Cacheing 'Dust03' from data/chars/misc/dust03/dust03.txt
+Cacheing 'Dust03h' from data/chars/misc/dust03/dust03h.txt
+Cacheing 'Dust04' from data/chars/misc/dust04/dust04.txt
+Cacheing 'blaze' from data/chars/misc/blaze/blaze.txt
+Cacheing 'casket1' from data/chars/misc/chests/casket1.txt
+Cacheing 'casket2' from data/chars/misc/chests/casket2.txt
+Cacheing 'casket3' from data/chars/misc/chests/casket3.txt
+Cacheing 'crate' from data/chars/misc/chests/crate.txt
+Cacheing 'barrel' from data/chars/misc/chests/barrel.txt
+Cacheing 'jar1' from data/chars/misc/chests/jar1.txt
+Cacheing 'jar2' from data/chars/misc/chests/jar2.txt
+Cacheing 'corpse' from data/chars/misc/chests/corpse.txt
+Cacheing 'sign' from data/chars/misc/sign/sign.txt
+Cacheing 'gold1' from data/chars/misc/exp/gold1.txt
+Cacheing 'gold2' from data/chars/misc/exp/gold2.txt
+Cacheing 'gaunt' from data/chars/misc/exp/gaunt.txt
+Cacheing 'amet' from data/chars/misc/exp/amet.txt
+Cacheing 'topaz' from data/chars/misc/exp/topaz.txt
+Cacheing 'amber' from data/chars/misc/exp/amber.txt
+Cacheing 'diamond' from data/chars/misc/exp/diamond.txt
+Cacheing '1up' from data/chars/misc/1up/1up.txt
+Cacheing '1up2' from data/chars/misc/1up/1up2.txt
+Cacheing 'straw' from data/chars/misc/food/straw.txt
+Cacheing 'banana' from data/chars/misc/food/banana.txt
+Cacheing 'grapes' from data/chars/misc/food/grapes.txt
+Cacheing 'gapple' from data/chars/misc/food/gapple.txt
+Cacheing 'rapple' from data/chars/misc/food/rapple.txt
+Cacheing 'spotion' from data/chars/misc/food/spotion.txt
+Cacheing 'bpotion' from data/chars/misc/food/bpotion.txt
+Cacheing 'scroll' from data/chars/misc/food/scroll.txt
+Cacheing 'MissClear' from data/chars/misc/missclear.txt
+Cacheing 'leave01' from data/chars/misc/direction/leave01.txt
+Cacheing 'leave02' from data/chars/misc/direction/leave02.txt
+Cacheing 'enter01' from data/chars/misc/direction/enter01.txt
+Cacheing 'enter02' from data/chars/misc/direction/enter02.txt
+Cacheing 'go01' from data/chars/misc/direction/go01.txt
+Cacheing 'go02' from data/chars/misc/direction/go02.txt
+Cacheing 'go03' from data/chars/misc/direction/go03.txt
+Cacheing 'intro' from data/scenes/intro/intro.txt
+Cacheing 'final1' from data/scenes/final1/final1.txt
+Cacheing 'final2' from data/scenes/final2/final2.txt
+Cacheing 'final3' from data/scenes/final3/final3.txt
+Cacheing 'black' from data/scenes/black/black.txt
+Cacheing 'end0' from data/scenes/end1/end0.txt
+Cacheing 'end1' from data/scenes/end1/end1.txt
+Cacheing 'end2' from data/scenes/end1/end2.txt
+Cacheing 'end3' from data/scenes/end1/end3.txt
+Cacheing 'dragend1' from data/scenes/dragend1/dragend1.txt
+Cacheing 'dragend2' from data/scenes/dragend2/dragend2.txt
+Cacheing 'tower01' from data/bgs/end02/tower01.txt
+Cacheing 'tower02' from data/bgs/end02/tower02.txt
+Cacheing '1spawn' from data/chars/misc/1spawn.txt
+Cacheing '2spawn' from data/chars/misc/2spawn.txt
+Cacheing '3spawn' from data/chars/misc/3spawn.txt
+Cacheing '4spawn' from data/chars/misc/4spawn.txt
+Cacheing 'Respawn1' from data/chars/misc/Respawn1.txt
+Cacheing 'Respawn2' from data/chars/misc/Respawn2.txt
+Cacheing 'Respawn3' from data/chars/misc/Respawn3.txt
+Cacheing 'Respawn4' from data/chars/misc/Respawn4.txt
+Cacheing 'dummy' from data/chars/misc/villager/dummy.txt
+Cacheing 'Male' from data/chars/misc/villager/male/male.txt
+Cacheing 'Female' from data/chars/misc/villager/female/female.txt
+Cacheing 'fog' from data/chars/misc/fog/fog.txt
+Cacheing 'rain' from data/chars/misc/rain/rain.txt
+Cacheing 'font' from data/chars/misc/font/font.txt
+Cacheing 'sewer1' from data/bgs/03_03_2/sewer1.txt
+Cacheing 'sewer2' from data/bgs/03_03_3/sewer2.txt
+Cacheing 'sewer3' from data/bgs/03_03_4/sewer3.txt
+Cacheing 'ritual1' from data/bgs/04_03_7/ritual1.txt
+Cacheing 'ritual2' from data/bgs/04_03_7/ritual2.txt
+Cacheing 'blackbar' from data/bgs/end01/blackbar.txt
+Cacheing 'man' from data/chars/misc/civilian/man/man.txt
+Cacheing 'woman' from data/chars/misc/civilian/woman/woman.txt
+Cacheing 'child' from data/chars/misc/civilian/child/child.txt
+Cacheing 'child2' from data/chars/misc/civilian/child/child2.txt
+Cacheing 'child3' from data/chars/misc/civilian/child/child3.txt
+Cacheing 'innkeep' from data/chars/misc/civilian/innkeep/innkeep.txt
+Cacheing 'elder' from data/chars/misc/civilian/elder/elder.txt
+Cacheing 'elder2' from data/chars/misc/civilian/elder/elder2.txt
+Cacheing 'dmerch' from data/chars/misc/dmerch/dmerch.txt
+Cacheing 'dmerch2' from data/chars/misc/dmerch/dmerch2.txt
+Cacheing 'buddy' from data/chars/misc/civilian/buddy.txt
+Cacheing 'guard' from data/chars/misc/guard/guard.txt
+Cacheing 'trooper' from data/chars/trooper/trooper.txt
+Cacheing 'npckni' from data/chars/knight/npckni.txt
+Cacheing 'enekni' from data/chars/knight/enekni.txt
+Cacheing 'soldier2' from data/chars/soldier/soldier2.txt
+Cacheing 'npcsorc1' from data/chars/sorc/npcsorc1.txt
+Cacheing 'npcsorc2' from data/chars/sorc/npcsorc2.txt
+Cacheing 'npclich1' from data/chars/lich/npclich1.txt
+Cacheing 'npcvamp' from data/chars/vampire/npcvamp.txt
+Cacheing 'air1' from data/chars/misc/element/air1/air1.txt
+Cacheing 'air2' from data/chars/misc/element/air2/air2.txt
+Cacheing 'earth1' from data/chars/misc/element/earth1/earth1.txt
+Cacheing 'earth2' from data/chars/misc/element/earth2/earth2.txt
+Cacheing 'earth3' from data/chars/misc/element/earth2/earth3.txt
+Cacheing 'fire3' from data/chars/misc/element/fire1/fire3.txt
+Cacheing 'fire2' from data/chars/misc/element/fire2/fire2.txt
+Cacheing 'water1' from data/chars/misc/element/water1/water1.txt
+Cacheing 'water2' from data/chars/misc/element/water2/water2.txt
+Cacheing 'djinn1' from data/chars/misc/element/djinn1/djinn1.txt
+Cacheing 'air' from data/chars/misc/element/sphere/air.txt
+Cacheing 'earth' from data/chars/misc/element/sphere/earth.txt
+Cacheing 'fire4' from data/chars/misc/element/sphere/fire4.txt
+Cacheing 'water' from data/chars/misc/element/sphere/water.txt
+Cacheing 'djinn' from data/chars/misc/element/sphere/djinn.txt
+Cacheing 'tavern01' from data/scenes/dialogue/tavern/tavern01.txt
+Cacheing 'tavern02' from data/scenes/dialogue/tavern/tavern02.txt
+Cacheing 'dial01' from data/scenes/tavern/dial01/dial01.txt
+Cacheing 'dial02' from data/scenes/tavern/dial02/dial02.txt
+Cacheing 'dial03' from data/scenes/tavern/dial03/dial03.txt
+Cacheing 'dial04' from data/scenes/tavern/dial04/dial04.txt
+Cacheing 'dial05' from data/scenes/tavern/dial05/dial05.txt
+Cacheing 'dial06' from data/scenes/tavern/dial06/dial06.txt
+Cacheing 'dial07' from data/scenes/tavern/dial07/dial07.txt
+Cacheing 'dial08' from data/scenes/tavern/dial08/dial08.txt
+Cacheing 'dial09' from data/scenes/tavern/dial09/dial09.txt
+Cacheing 'dial10' from data/scenes/tavern/dial10/dial10.txt
+Cacheing 'dial11' from data/scenes/tavern/dial11/dial11.txt
+Cacheing 'dial12' from data/scenes/tavern/dial12/dial12.txt
+Cacheing 'dial13' from data/scenes/tavern/dial13/dial13.txt
+Cacheing 'dial14' from data/scenes/tavern/dial14/dial14.txt
+Cacheing 'dial15' from data/scenes/tavern/dial15/dial15.txt
+Cacheing 'dial16' from data/scenes/tavern/dial16/dial16.txt
+Cacheing 'dial17' from data/scenes/tavern/dial17/dial17.txt
+Cacheing 'dial18' from data/scenes/tavern/dial18/dial18.txt
+Cacheing 'dial19' from data/scenes/tavern/dial19/dial19.txt
+Cacheing 'dial20' from data/scenes/tavern/dial20/dial20.txt
+Cacheing 'dial21' from data/scenes/tavern/dial21/dial21.txt
+Cacheing 'dial22' from data/scenes/tavern/dial22/dial22.txt
+Cacheing 'dial23' from data/scenes/tavern/dial23/dial23.txt
+Cacheing 'dial24' from data/scenes/tavern/dial24/dial24.txt
+Cacheing 'dial25' from data/scenes/tavern/dial25/dial25.txt
+Cacheing 'dial26' from data/scenes/tavern/dial26/dial26.txt
+Cacheing 'dial27' from data/scenes/tavern/dial27/dial27.txt
+Cacheing 'dial28' from data/scenes/tavern/dial28/dial28.txt
+Cacheing 'dial29' from data/scenes/tavern/dial29/dial29.txt
+Cacheing 'dial30' from data/scenes/tavern/dial30/dial30.txt
+Cacheing 'dial31' from data/scenes/tavern/dial31/dial31.txt
+Cacheing 'dial32' from data/scenes/tavern/dial32/dial32.txt
+Cacheing 'dial33' from data/scenes/tavern/dial33/dial33.txt
+Cacheing 'dial34' from data/scenes/tavern/dial34/dial34.txt
+Cacheing 'dial35' from data/scenes/tavern/dial35/dial35.txt
+Cacheing 'dial36' from data/scenes/tavern/dial36/dial36.txt
+Cacheing 'dial37' from data/scenes/tavern/dial37/dial37.txt
+Cacheing 'dial38' from data/scenes/tavern/dial38/dial38.txt
+Cacheing 'dial39' from data/scenes/tavern/dial39/dial39.txt
+Cacheing 'dial40' from data/scenes/tavern/dial40/dial40.txt
+Cacheing 'dial41' from data/scenes/tavern/dial41/dial41.txt
+Cacheing 'sign01_1' from data/scenes/tavern/sign01/sign01_1.txt
+Cacheing 'sign01_2' from data/scenes/tavern/sign01/sign01_2.txt
+Cacheing 'sign01_3' from data/scenes/tavern/sign01/sign01_3.txt
+Cacheing 'sign01_4' from data/scenes/tavern/sign01/sign01_4.txt
+Cacheing 'town01_1' from data/scenes/tavern/town01/town01_1.txt
+Cacheing 'town01_2' from data/scenes/tavern/town01/town01_2.txt
+Cacheing 'town01_3' from data/scenes/tavern/town01/town01_3.txt
+Cacheing 'town01_4' from data/scenes/tavern/town01/town01_4.txt
+Cacheing 'town01_5' from data/scenes/tavern/town01/town01_5.txt
+Cacheing 'town01_6' from data/scenes/tavern/town01/town01_6.txt
+Cacheing 'town02_1' from data/scenes/tavern/town02/town02_1.txt
+Cacheing 'town02_2' from data/scenes/tavern/town02/town02_2.txt
+Cacheing 'town02_3' from data/scenes/tavern/town02/town02_3.txt
+Cacheing 'town02_4' from data/scenes/tavern/town02/town02_4.txt
+Cacheing 'town02_5' from data/scenes/tavern/town02/town02_5.txt
+Cacheing 'town02_6' from data/scenes/tavern/town02/town02_6.txt
+Cacheing 'town02_7' from data/scenes/tavern/town02/town02_7.txt
+Cacheing 'town02_8' from data/scenes/tavern/town02/town02_8.txt
+Cacheing 'town02_9' from data/scenes/tavern/town02/town02_9.txt
+Cacheing 'town03_1' from data/scenes/tavern/town03/town03_1.txt
+Cacheing 'town04_1' from data/scenes/tavern/town04/town04_1.txt
+Cacheing 'town04_2' from data/scenes/tavern/town04/town04_2.txt
+Cacheing 'town05_1' from data/scenes/tavern/town05/town05_1.txt
+Cacheing 'town05_2' from data/scenes/tavern/town05/town05_2.txt
+Cacheing 'town05_3' from data/scenes/tavern/town05/town05_3.txt
+Cacheing 'town05_4' from data/scenes/tavern/town05/town05_4.txt
+Cacheing 'town05_5' from data/scenes/tavern/town05/town05_5.txt
+Cacheing 'town06_1' from data/scenes/tavern/town06/town06_1.txt
+Cacheing 'town07_1' from data/scenes/tavern/town07/town07_1.txt
+Cacheing 'town08_1' from data/scenes/tavern/town08/town08_1.txt
+Cacheing 'town08_2' from data/scenes/tavern/town08/town08_2.txt
+Cacheing 'town08_3' from data/scenes/tavern/town08/town08_3.txt
+Cacheing 'town08_4' from data/scenes/tavern/town08/town08_4.txt
+Cacheing 'town08_5' from data/scenes/tavern/town08/town08_5.txt
+Cacheing 'town08_6' from data/scenes/tavern/town08/town08_6.txt
+Cacheing 'town09_1' from data/scenes/tavern/town09/town09_1.txt
+Cacheing 'q01_1' from data/scenes/quest/q01_1.txt
+Cacheing 'q01_2' from data/scenes/quest/q01_2.txt
+Cacheing 'q01_3' from data/scenes/quest/q01_3.txt
+Cacheing 'q01_4' from data/scenes/quest/q01_4.txt
+Cacheing 'q01_5' from data/scenes/quest/q01_5.txt
+Cacheing 'q01_6' from data/scenes/quest/q01_6.txt
+Cacheing 'q01_7' from data/scenes/quest/q01_7.txt
+Cacheing 'q01_8' from data/scenes/quest/q01_8.txt
+Cacheing 'q01_9' from data/scenes/quest/q01_9.txt
+Cacheing 'q01_10' from data/scenes/quest/q01_10.txt
+Cacheing 'q01_11' from data/scenes/quest/q01_11.txt
+Cacheing 'q01_12' from data/scenes/quest/q01_12.txt
+Cacheing 'q02_1' from data/scenes/quest/q02_1.txt
+Cacheing 'q02_2' from data/scenes/quest/q02_2.txt
+Cacheing 'q02_3' from data/scenes/quest/q02_3.txt
+Cacheing 'q02_4' from data/scenes/quest/q02_4.txt
+Cacheing 'q02_5' from data/scenes/quest/q02_5.txt
+Cacheing 'q02_6' from data/scenes/quest/q02_6.txt
+Cacheing 'q02_7' from data/scenes/quest/q02_7.txt
+Cacheing 'q02_8' from data/scenes/quest/q02_8.txt
+Cacheing 'q02_9' from data/scenes/quest/q02_9.txt
+Cacheing 'q03_1' from data/scenes/quest/q03_1.txt
+Cacheing 'q03_2' from data/scenes/quest/q03_2.txt
+Cacheing 'q03_3' from data/scenes/quest/q03_3.txt
+Cacheing 'q03_4' from data/scenes/quest/q03_4.txt
+Cacheing 'q03_5' from data/scenes/quest/q03_5.txt
+Cacheing 'q03_6' from data/scenes/quest/q03_6.txt
+Cacheing 'q04_1' from data/scenes/quest/q04_1.txt
+Cacheing 'q04_2' from data/scenes/quest/q04_2.txt
+Cacheing 'q04_3' from data/scenes/quest/q04_3.txt
+Cacheing 'd01_01_1' from data/scenes/dialogue/01_01/d01_01_1.txt
+Cacheing 'd01_01_2' from data/scenes/dialogue/01_01/d01_01_2.txt
+Cacheing 'd01_01_3' from data/scenes/dialogue/01_01/d01_01_3.txt
+Cacheing 'd01_02_1' from data/scenes/dialogue/01_02/d01_02_1.txt
+Cacheing 'd01_02_2' from data/scenes/dialogue/01_02/d01_02_2.txt
+Cacheing 'd01_02_3' from data/scenes/dialogue/01_02/d01_02_3.txt
+Cacheing 'd01_03_1' from data/scenes/dialogue/01_03/d01_03_1.txt
+Cacheing 'd01_03_2' from data/scenes/dialogue/01_03/d01_03_2.txt
+Cacheing 'd01_03_3' from data/scenes/dialogue/01_03/d01_03_3.txt
+Cacheing 'd01_04_1' from data/scenes/dialogue/01_04/d01_04_1.txt
+Cacheing 'd01_04_2' from data/scenes/dialogue/01_04/d01_04_2.txt
+Cacheing 'd01_04_3' from data/scenes/dialogue/01_04/d01_04_3.txt
+Cacheing 'd01_04_4' from data/scenes/dialogue/01_04/d01_04_4.txt
+Cacheing 'd01_04_5' from data/scenes/dialogue/01_04/d01_04_5.txt
+Cacheing 'd01_05_1' from data/scenes/dialogue/01_05/d01_05_1.txt
+Cacheing 'd01_05_2' from data/scenes/dialogue/01_05/d01_05_2.txt
+Cacheing 'd01_05_3' from data/scenes/dialogue/01_05/d01_05_3.txt
+Cacheing 'd01_06_1' from data/scenes/dialogue/01_06/d01_06_1.txt
+Cacheing 'd01_06_2' from data/scenes/dialogue/01_06/d01_06_2.txt
+Cacheing 'd01_06_3' from data/scenes/dialogue/01_06/d01_06_3.txt
+Cacheing 'd01_07_1' from data/scenes/dialogue/01_07/d01_07_1.txt
+Cacheing 'd01_07_2' from data/scenes/dialogue/01_07/d01_07_2.txt
+Cacheing 'd01_07_3' from data/scenes/dialogue/01_07/d01_07_3.txt
+Cacheing 'd01_08_1' from data/scenes/dialogue/01_08/d01_08_1.txt
+Cacheing 'd01_09_1' from data/scenes/dialogue/01_09/d01_09_1.txt
+Cacheing 'd01_09_2' from data/scenes/dialogue/01_09/d01_09_2.txt
+Cacheing 'd01_09_3' from data/scenes/dialogue/01_09/d01_09_3.txt
+Cacheing 'd01_10_1' from data/scenes/dialogue/01_10/d01_10_1.txt
+Cacheing 'd01_10_2' from data/scenes/dialogue/01_10/d01_10_2.txt
+Cacheing 'd01_10_3' from data/scenes/dialogue/01_10/d01_10_3.txt
+Cacheing 'd01_11_1' from data/scenes/dialogue/01_11/d01_11_1.txt
+Cacheing 'd01_11_2' from data/scenes/dialogue/01_11/d01_11_2.txt
+Cacheing 'd01_11_3' from data/scenes/dialogue/01_11/d01_11_3.txt
+Cacheing 'd01_12_1' from data/scenes/dialogue/01_12/d01_12_1.txt
+Cacheing 'd01_12_2' from data/scenes/dialogue/01_12/d01_12_2.txt
+Cacheing 'd01_12_3' from data/scenes/dialogue/01_12/d01_12_3.txt
+Cacheing 'd02_01_1' from data/scenes/dialogue/02_01/d02_01_1.txt
+Cacheing 'd02_01_2' from data/scenes/dialogue/02_01/d02_01_2.txt
+Cacheing 'd02_01_3' from data/scenes/dialogue/02_01/d02_01_3.txt
+Cacheing 'd02_02_1' from data/scenes/dialogue/02_02/d02_02_1.txt
+Cacheing 'd02_02_2' from data/scenes/dialogue/02_02/d02_02_2.txt
+Cacheing 'd02_02_3' from data/scenes/dialogue/02_02/d02_02_3.txt
+Cacheing 'd02_02_4' from data/scenes/dialogue/02_02/d02_02_4.txt
+Cacheing 'd02_02_5' from data/scenes/dialogue/02_02/d02_02_5.txt
+Cacheing 'd02_03_1' from data/scenes/dialogue/02_03/d02_03_1.txt
+Cacheing 'd02_03_2' from data/scenes/dialogue/02_03/d02_03_2.txt
+Cacheing 'd02_03_3' from data/scenes/dialogue/02_03/d02_03_3.txt
+Cacheing 'd02_03_4' from data/scenes/dialogue/02_03/d02_03_4.txt
+Cacheing 'd02_03_5' from data/scenes/dialogue/02_03/d02_03_5.txt
+Cacheing 'd02_04_1' from data/scenes/dialogue/02_04/d02_04_1.txt
+Cacheing 'd02_04_2' from data/scenes/dialogue/02_04/d02_04_2.txt
+Cacheing 'd02_04_3' from data/scenes/dialogue/02_04/d02_04_3.txt
+Cacheing 'd02_04_4' from data/scenes/dialogue/02_04/d02_04_4.txt
+Cacheing 'd02_04_5' from data/scenes/dialogue/02_04/d02_04_5.txt
+Cacheing 'd02_04_6' from data/scenes/dialogue/02_04/d02_04_6.txt
+Cacheing 'd02_04_7' from data/scenes/dialogue/02_04/d02_04_7.txt
+Cacheing 'd02_05_1' from data/scenes/dialogue/02_05/d02_05_1.txt
+Cacheing 'd02_05_2' from data/scenes/dialogue/02_05/d02_05_2.txt
+Cacheing 'd02_05_3' from data/scenes/dialogue/02_05/d02_05_3.txt
+Cacheing 'd02_05_4' from data/scenes/dialogue/02_05/d02_05_4.txt
+Cacheing 'd02_05_5' from data/scenes/dialogue/02_05/d02_05_5.txt
+Cacheing 'd02_05_6' from data/scenes/dialogue/02_05/d02_05_6.txt
+Cacheing 'd02_05_7' from data/scenes/dialogue/02_05/d02_05_7.txt
+Cacheing 'd02_05_8' from data/scenes/dialogue/02_05/d02_05_8.txt
+Cacheing 'd02_06_1' from data/scenes/dialogue/02_06/d02_06_1.txt
+Cacheing 'd02_06_2' from data/scenes/dialogue/02_06/d02_06_2.txt
+Cacheing 'd02_06_3' from data/scenes/dialogue/02_06/d02_06_3.txt
+Cacheing 'd02_06_4' from data/scenes/dialogue/02_06/d02_06_4.txt
+Cacheing 'd02_07_1' from data/scenes/dialogue/02_07/d02_07_1.txt
+Cacheing 'd02_07_2' from data/scenes/dialogue/02_07/d02_07_2.txt
+Cacheing 'd02_07_3' from data/scenes/dialogue/02_07/d02_07_3.txt
+Cacheing 'd02_07_4' from data/scenes/dialogue/02_07/d02_07_4.txt
+Cacheing 'd02_07_5' from data/scenes/dialogue/02_07/d02_07_5.txt
+Cacheing 'd02_08_1' from data/scenes/dialogue/02_08/d02_08_1.txt
+Cacheing 'd02_08_2' from data/scenes/dialogue/02_08/d02_08_2.txt
+Cacheing 'd02_08_3' from data/scenes/dialogue/02_08/d02_08_3.txt
+Cacheing 'd02_08_4' from data/scenes/dialogue/02_08/d02_08_4.txt
+Cacheing 'd02_08_5' from data/scenes/dialogue/02_08/d02_08_5.txt
+Cacheing 'd02_08_6' from data/scenes/dialogue/02_08/d02_08_6.txt
+Cacheing 'd02_09_1' from data/scenes/dialogue/02_09/d02_09_1.txt
+Cacheing 'd02_09_2' from data/scenes/dialogue/02_09/d02_09_2.txt
+Cacheing 'd02_09_3' from data/scenes/dialogue/02_09/d02_09_3.txt
+Cacheing 'd02_09_4' from data/scenes/dialogue/02_09/d02_09_4.txt
+Cacheing 'd02_09_5' from data/scenes/dialogue/02_09/d02_09_5.txt
+Cacheing 'd02_09_6' from data/scenes/dialogue/02_09/d02_09_6.txt
+Cacheing 'd02_09_7' from data/scenes/dialogue/02_09/d02_09_7.txt
+Cacheing 'd03_01_1' from data/scenes/dialogue/03_01/d03_01_1.txt
+Cacheing 'd03_01_2' from data/scenes/dialogue/03_01/d03_01_2.txt
+Cacheing 'd03_01_3' from data/scenes/dialogue/03_01/d03_01_3.txt
+Cacheing 'd03_01_4' from data/scenes/dialogue/03_01/d03_01_4.txt
+Cacheing 'd03_01_5' from data/scenes/dialogue/03_01/d03_01_5.txt
+Cacheing 'd03_01_6' from data/scenes/dialogue/03_01/d03_01_6.txt
+Cacheing 'd03_01_7' from data/scenes/dialogue/03_01/d03_01_7.txt
+Cacheing 'd03_01_8' from data/scenes/dialogue/03_01/d03_01_8.txt
+Cacheing 'd03_02_1' from data/scenes/dialogue/03_02/d03_02_1.txt
+Cacheing 'd03_02_2' from data/scenes/dialogue/03_02/d03_02_2.txt
+Cacheing 'd03_02_3' from data/scenes/dialogue/03_02/d03_02_3.txt
+Cacheing 'd03_02_4' from data/scenes/dialogue/03_02/d03_02_4.txt
+Cacheing 'd03_02_5' from data/scenes/dialogue/03_02/d03_02_5.txt
+Cacheing 'd03_02_6' from data/scenes/dialogue/03_02/d03_02_6.txt
+Cacheing 'd03_02_7' from data/scenes/dialogue/03_02/d03_02_7.txt
+Cacheing 'd03_02_8' from data/scenes/dialogue/03_02/d03_02_8.txt
+Cacheing 'd03_02_9' from data/scenes/dialogue/03_02/d03_02_9.txt
+Cacheing 'd03_03_1' from data/scenes/dialogue/03_03/d03_03_1.txt
+Cacheing 'd03_03_2' from data/scenes/dialogue/03_03/d03_03_2.txt
+Cacheing 'd03_03_3' from data/scenes/dialogue/03_03/d03_03_3.txt
+Cacheing 'd03_03_4' from data/scenes/dialogue/03_03/d03_03_4.txt
+Cacheing 'd03_03_5' from data/scenes/dialogue/03_03/d03_03_5.txt
+Cacheing 'd03_03_6' from data/scenes/dialogue/03_03/d03_03_6.txt
+Cacheing 'd03_03_7' from data/scenes/dialogue/03_03/d03_03_7.txt
+Cacheing 'd03_03_8' from data/scenes/dialogue/03_03/d03_03_8.txt
+Cacheing 'd03_03_9' from data/scenes/dialogue/03_03/d03_03_9.txt
+Cacheing 'd03_04_1' from data/scenes/dialogue/03_04/d03_04_1.txt
+Cacheing 'd03_04_2' from data/scenes/dialogue/03_04/d03_04_2.txt
+Cacheing 'd03_04_3' from data/scenes/dialogue/03_04/d03_04_3.txt
+Cacheing 'd03_04_4' from data/scenes/dialogue/03_04/d03_04_4.txt
+Cacheing 'd03_04_5' from data/scenes/dialogue/03_04/d03_04_5.txt
+Cacheing 'd03_04_6' from data/scenes/dialogue/03_04/d03_04_6.txt
+Cacheing 'd03_04_7' from data/scenes/dialogue/03_04/d03_04_7.txt
+Cacheing 'd03_04_8' from data/scenes/dialogue/03_04/d03_04_8.txt
+Cacheing 'd03_04_9' from data/scenes/dialogue/03_04/d03_04_9.txt
+Cacheing 'd03_05_1' from data/scenes/dialogue/03_05/d03_05_1.txt
+Cacheing 'd03_05_2' from data/scenes/dialogue/03_05/d03_05_2.txt
+Cacheing 'd03_05_3' from data/scenes/dialogue/03_05/d03_05_3.txt
+Cacheing 'd03_05_4' from data/scenes/dialogue/03_05/d03_05_4.txt
+Cacheing 'd03_05_5' from data/scenes/dialogue/03_05/d03_05_5.txt
+Cacheing 'd03_05_6' from data/scenes/dialogue/03_05/d03_05_6.txt
+Cacheing 'd03_05_7' from data/scenes/dialogue/03_05/d03_05_7.txt
+Cacheing 'd03_05_8' from data/scenes/dialogue/03_05/d03_05_8.txt
+Cacheing 'd03_05_9' from data/scenes/dialogue/03_05/d03_05_9.txt
+Cacheing 'd03_06_1' from data/scenes/dialogue/03_06/d03_06_1.txt
+Cacheing 'd03_06_2' from data/scenes/dialogue/03_06/d03_06_2.txt
+Cacheing 'd03_06_3' from data/scenes/dialogue/03_06/d03_06_3.txt
+Cacheing 'd03_06_4' from data/scenes/dialogue/03_06/d03_06_4.txt
+Cacheing 'd03_06_5' from data/scenes/dialogue/03_06/d03_06_5.txt
+Cacheing 'd03_06_6' from data/scenes/dialogue/03_06/d03_06_6.txt
+Cacheing 'd03_06_7' from data/scenes/dialogue/03_06/d03_06_7.txt
+Cacheing 'd04_01_1' from data/scenes/dialogue/04_01/d04_01_1.txt
+Cacheing 'd04_01_2' from data/scenes/dialogue/04_01/d04_01_2.txt
+Cacheing 'd04_01_3' from data/scenes/dialogue/04_01/d04_01_3.txt
+Cacheing 'd04_01_4' from data/scenes/dialogue/04_01/d04_01_4.txt
+Cacheing 'd04_01_5' from data/scenes/dialogue/04_01/d04_01_5.txt
+Cacheing 'd04_01_6' from data/scenes/dialogue/04_01/d04_01_6.txt
+Cacheing 'd04_02_1' from data/scenes/dialogue/04_02/d04_02_1.txt
+Cacheing 'd04_02_2' from data/scenes/dialogue/04_02/d04_02_2.txt
+Cacheing 'd04_02_3' from data/scenes/dialogue/04_02/d04_02_3.txt
+Cacheing 'd04_02_4' from data/scenes/dialogue/04_02/d04_02_4.txt
+Cacheing 'd04_02_5' from data/scenes/dialogue/04_02/d04_02_5.txt
+Cacheing 'd04_02_6' from data/scenes/dialogue/04_02/d04_02_6.txt
+Cacheing 'd04_02_7' from data/scenes/dialogue/04_02/d04_02_7.txt
+Cacheing 'd04_02_8' from data/scenes/dialogue/04_02/d04_02_8.txt
+Cacheing 'd04_03_1' from data/scenes/dialogue/04_03/d04_03_1.txt
+Cacheing 'd04_03_2' from data/scenes/dialogue/04_03/d04_03_2.txt
+Cacheing 'd04_03_3' from data/scenes/dialogue/04_03/d04_03_3.txt
+Cacheing 'd04_03_4' from data/scenes/dialogue/04_03/d04_03_4.txt
+Cacheing 'd04_03_5' from data/scenes/dialogue/04_03/d04_03_5.txt
+Cacheing 'd04_03_6' from data/scenes/dialogue/04_03/d04_03_6.txt
+Cacheing 'dpurple1' from data/scenes/dialogue/purple/dpurple1.txt
+Cacheing 'arcade' from data/scenes/dialogue/arcade/arcade.txt
+Cacheing 'ele_01' from data/scenes/dialogue/element/ele_01.txt
+Cacheing 'ele_02' from data/scenes/dialogue/element/ele_02.txt
+Cacheing 'ele_03' from data/scenes/dialogue/element/ele_03.txt
+Cacheing 'ele_04' from data/scenes/dialogue/element/ele_04.txt
+Cacheing 'ele_05' from data/scenes/dialogue/element/ele_05.txt
+Cacheing 'ch01_01' from data/scenes/chall/01/ch01_01.txt
+Cacheing 'ch01_02' from data/scenes/chall/01/ch01_02.txt
+Cacheing 'ch01_03' from data/scenes/chall/01/ch01_03.txt
+Cacheing 'ch01_04' from data/scenes/chall/01/ch01_04.txt
+Cacheing 'ch01_05' from data/scenes/chall/01/ch01_05.txt
+Cacheing 'ch01_06' from data/scenes/chall/01/ch01_06.txt
+Cacheing 'ch01_07' from data/scenes/chall/01/ch01_07.txt
+Cacheing 'ch01_08' from data/scenes/chall/01/ch01_08.txt
+Cacheing 'ch01_09' from data/scenes/chall/01/ch01_09.txt
+Cacheing 'ch01_10' from data/scenes/chall/01/ch01_10.txt
+Cacheing 'ch01_11' from data/scenes/chall/01/ch01_11.txt
+Cacheing 'ch01_12' from data/scenes/chall/01/ch01_12.txt
+Cacheing 'ch02_01' from data/scenes/chall/02/ch02_01.txt
+Cacheing 'ch02_02' from data/scenes/chall/02/ch02_02.txt
+Cacheing 'ch02_03' from data/scenes/chall/02/ch02_03.txt
+Cacheing 'ch02_04' from data/scenes/chall/02/ch02_04.txt
+Cacheing 'ch02_05' from data/scenes/chall/02/ch02_05.txt
+Cacheing 'ch02_06' from data/scenes/chall/02/ch02_06.txt
+Cacheing 'ch02_07' from data/scenes/chall/02/ch02_07.txt
+Cacheing 'ch02_08' from data/scenes/chall/02/ch02_08.txt
+Cacheing 'ch02_09' from data/scenes/chall/02/ch02_09.txt
+Cacheing 'ch03_01' from data/scenes/chall/03/ch03_01.txt
+Cacheing 'ch03_02' from data/scenes/chall/03/ch03_02.txt
+Cacheing 'ch03_03' from data/scenes/chall/03/ch03_03.txt
+Cacheing 'ch03_04' from data/scenes/chall/03/ch03_04.txt
+Cacheing 'ch03_05' from data/scenes/chall/03/ch03_05.txt
+Cacheing 'ch03_06' from data/scenes/chall/03/ch03_06.txt
+Cacheing 'ch04_01' from data/scenes/chall/04/ch04_01.txt
+Cacheing 'ch04_02' from data/scenes/chall/04/ch04_02.txt
+Cacheing 'ch04_03' from data/scenes/chall/04/ch04_03.txt
+Cacheing '00_01' from data/chars/misc/markers/00_01.txt
+Cacheing '00_02' from data/chars/misc/markers/00_02.txt
+Cacheing '00_03' from data/chars/misc/markers/00_03.txt
+Cacheing '00_04' from data/chars/misc/markers/00_04.txt
+Cacheing '00_05' from data/chars/misc/markers/00_05.txt
+Cacheing '00_06' from data/chars/misc/markers/00_06.txt
+Cacheing '00_07' from data/chars/misc/markers/00_07.txt
+Cacheing '00_08' from data/chars/misc/markers/00_08.txt
+Cacheing '00_09' from data/chars/misc/markers/00_09.txt
+Cacheing '00_10' from data/chars/misc/markers/00_10.txt
+Cacheing '00_11' from data/chars/misc/markers/00_11.txt
+Cacheing '00_12' from data/chars/misc/markers/00_12.txt
+Cacheing '00_13' from data/chars/misc/markers/00_13.txt
+Cacheing '00_14' from data/chars/misc/markers/00_14.txt
+Cacheing '00_15' from data/chars/misc/markers/00_15.txt
+Cacheing '01_01' from data/chars/misc/markers/01_01.txt
+Cacheing '01_02' from data/chars/misc/markers/01_02.txt
+Cacheing '01_03' from data/chars/misc/markers/01_03.txt
+Cacheing '01_04' from data/chars/misc/markers/01_04.txt
+Cacheing '01_05' from data/chars/misc/markers/01_05.txt
+Cacheing '01_06' from data/chars/misc/markers/01_06.txt
+Cacheing '01_07' from data/chars/misc/markers/01_07.txt
+Cacheing '01_08' from data/chars/misc/markers/01_08.txt
+Cacheing '01_09' from data/chars/misc/markers/01_09.txt
+Cacheing '01_10' from data/chars/misc/markers/01_10.txt
+Cacheing '01_11' from data/chars/misc/markers/01_11.txt
+Cacheing '01_12' from data/chars/misc/markers/01_12.txt
+Cacheing '02_01' from data/chars/misc/markers/02_01.txt
+Cacheing '02_02' from data/chars/misc/markers/02_02.txt
+Cacheing '02_03' from data/chars/misc/markers/02_03.txt
+Cacheing '02_04' from data/chars/misc/markers/02_04.txt
+Cacheing '02_05' from data/chars/misc/markers/02_05.txt
+Cacheing '02_06' from data/chars/misc/markers/02_06.txt
+Cacheing '02_07' from data/chars/misc/markers/02_07.txt
+Cacheing '02_08' from data/chars/misc/markers/02_08.txt
+Cacheing '02_09' from data/chars/misc/markers/02_09.txt
+Cacheing '03_01' from data/chars/misc/markers/03_01.txt
+Cacheing '03_02' from data/chars/misc/markers/03_02.txt
+Cacheing '03_03' from data/chars/misc/markers/03_03.txt
+Cacheing '03_04' from data/chars/misc/markers/03_04.txt
+Cacheing '03_05' from data/chars/misc/markers/03_05.txt
+Cacheing '03_06' from data/chars/misc/markers/03_06.txt
+Cacheing '04_01' from data/chars/misc/markers/04_01.txt
+Cacheing '04_02' from data/chars/misc/markers/04_02.txt
+Cacheing '04_03' from data/chars/misc/markers/04_03.txt
+
+Loading 'levelup' from data/chars/Misc/levelup/levelup.txt 
+ ...done!
+Loading 'Fighter' from data/chars/fighter/fighter.txt 
+Loading 'block' from data/chars/misc/block/block.txt 
+ ...done!
+Loading 'fatigue' from data/chars/misc/fatigue/fatigue.txt 
+ ...done!
+Loading 'recover' from data/chars/misc/recover/recover.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'blood01' from data/chars/misc/Blood01/Blood01.txt 
+ ...done!
+Loading 'hold' from data/chars/misc/hold/hold.txt 
+ ...done!
+Loading 'dust02' from data/chars/misc/dust02/dust02.txt 
+ ...done!
+Loading 'bomb' from data/chars/misc/bomb/bomb.txt 
+ ...done!
+Loading 'fpill' from data/chars/misc/fpill/fpill.txt 
+Loading 'dust03' from data/chars/misc/dust03/dust03.txt 
+ ...done!
+ ...done!
+ ...done!
+Loading 'Wizard' from data/chars/wizard/wizard.txt 
+Loading 'ma1' from data/chars/misc/magic/ma1.txt 
+ ...done!
+Loading 'ma3' from data/chars/misc/magic/ma3.txt 
+ ...done!
+Loading 'ma6' from data/chars/misc/magic/ma6.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'ibarr1' from data/chars/misc/ibarr/ibarr1.txt 
+Loading 'ibarr2' from data/chars/misc/ibarr/ibarr2.txt 
+ ...done!
+ ...done!
+Loading 'fball' from data/chars/misc/fball/fball.txt 
+Command 'attack{' not understood in file 'data/chars/misc/fball/fball.txt'!
+ ...done!
+Loading 'lbolt' from data/chars/misc/lbolt/lbolt.txt 
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+Command 'attack{' not understood in file 'data/chars/misc/lbolt/lbolt.txt'!
+ ...done!
+Loading 'tornado' from data/chars/misc/tornado/tornado.txt 
+Command 'attack{' not understood in file 'data/chars/misc/tornado/tornado.txt'!
+ ...done!
+Loading 'istorm' from data/chars/misc/istorm/istorm.txt 
+ ...done!
+Loading 'ms11' from data/chars/misc/ms/ms11.txt 
+Loading 'ms12' from data/chars/misc/ms/ms12.txt 
+Loading 'ms13' from data/chars/misc/ms/ms13.txt 
+Loading 'ms14' from data/chars/misc/ms/ms14.txt 
+Loading 'ms15' from data/chars/misc/ms/ms15.txt 
+Loading 'ms16' from data/chars/misc/ms/ms16.txt 
+Loading 'ms17' from data/chars/misc/ms/ms17.txt 
+ ...done!
+ ...done!
+ ...done!
+ ...done!
+ ...done!
+ ...done!
+ ...done!
+ ...done!
+Loading 'Cleric' from data/chars/cleric/cleric.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'holy' from data/chars/misc/holy/holy.txt 
+ ...done!
+Loading 'earth3' from data/chars/misc/element/earth2/earth3.txt 
+ ...done!
+ ...done!
+Loading 'Thief' from data/chars/thief/thief.txt 
+Loading 'knife01' from data/chars/misc/knife/knife01.txt 
+ ...done!
+Loading 'knife02' from data/chars/misc/knife/knife02.txt 
+ ...done!
+Loading 'knife03' from data/chars/misc/knife/knife03.txt 
+ ...done!
+Loading 'knife04' from data/chars/misc/knife/knife04.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'bag01' from data/chars/misc/bag/bag01.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/thief01.wav'!
+ ...done!
+Loading 'Paladin' from data/chars/paladin/paladin.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'hquake' from data/chars/misc/hquake/hquake.txt 
+ ...done!
+Loading 'lightn' from data/chars/misc/lightn/lightn.txt 
+ ...done!
+ ...done!
+Loading 'Barbarian' from data/chars/barbar/barbar.txt 
+Loading 'spdup' from data/chars/misc/spdup/spdup.txt 
+ ...done!
+Loading 'normal' from data/chars/misc/normal/normal.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'tornado3' from data/chars/misc/tornado/tornado3.txt 
+ ...done!
+Command 'attack{' not understood in file 'data/chars/barbar/barbar.txt'!
+Loading 'hurr' from data/chars/misc/hurr/hurr.txt 
+ ...done!
+Command 'attack{' not understood in file 'data/chars/barbar/barbar.txt'!
+Command 'attack{' not understood in file 'data/chars/barbar/barbar.txt'!
+ ...done!
+Loading 'Bard' from data/chars/bard/bard.txt 
+Loading 'invis' from data/chars/misc/invis/invis.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'sonic01' from data/chars/misc/sonic/sonic01.txt 
+ ...done!
+ ...done!
+Loading 'Dwarf' from data/chars/dwarf/dwarf.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'boulder' from data/chars/misc/boulder/boulder.txt 
+ ...done!
+Loading 'axe' from data/chars/misc/axe/axe.txt 
+ ...done!
+Loading 'boulder2' from data/chars/misc/boulder/boulder2.txt 
+ ...done!
+ ...done!
+Loading 'Elf' from data/chars/elf/elf.txt 
+Loading 'arr01' from data/chars/misc/arrows/arr01.txt 
+ ...done!
+Loading 'arr02' from data/chars/misc/arrows/arr02.txt 
+ ...done!
+Loading 'arr03' from data/chars/misc/arrows/arr03.txt 
+ ...done!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/magic1.wav'!
+Loading 'mm' from data/chars/misc/mm/mm.txt 
+ ...done!
+Loading 'elf2' from data/chars/elf/elf2.txt 
+Warning: Failed to create colourmap. Image Used Twice!
+Warning: Failed to create colourmap. Image Used Twice!
+Warning: Failed to create colourmap. Image Used Twice!
+Loading 'arr05' from data/chars/misc/arrows/arr05.txt 
+ ...done!
+ ...done!
+ ...done!
+Loading 'Arthur' from data/chars/arthur/arthur.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'flame' from data/chars/misc/merlin/flame.txt 
+ ...done!
+Loading 'merlin' from data/chars/misc/merlin/merlin.txt 
+ ...done!
+Loading 'slash' from data/chars/misc/slash/slash.txt 
+ ...done!
+Loading 'fire' from data/chars/misc/merlin/fire.txt 
+ ...done!
+ ...done!
+Loading 'Lancelot' from data/chars/lancelot/lancelot.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'spark' from data/chars/misc/merlin/spark.txt 
+ ...done!
+Loading 'light' from data/chars/misc/merlin/light.txt 
+ ...done!
+ ...done!
+Loading 'Perceval' from data/chars/perceval/perceval.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Loading 'shake' from data/chars/misc/merlin/shake.txt 
+ ...done!
+Loading 'quake' from data/chars/misc/merlin/quake.txt 
+ ...done!
+ ...done!
+Loading 'Mordred' from data/chars/mordred/mordred.txt 
+sound_load_sample can't load sample from file 'data/sounds/spkn.wav'!
+Loading 'wave' from data/chars/misc/wave/wave.txt 
+ ...done!
+Loading 'hroll' from data/chars/misc/hroll/hroll.txt 
+sound_load_sample can't load sample from file 'data/chars/misc/effects/frsp05.wav'!
+ ...done!
+ ...done!
+Loading 'Knight' from data/chars/knight/knight.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+ ...done!
+Loading 'Travel' from data/chars/travel/travel.txt 
+ ...done!
+Loading 'Travel2' from data/chars/travel/travel2.txt 
+ ...done!
+Loading 'hfigh' from data/chars/fighter/horse/hfigh.txt 
+Loading 'dust04' from data/chars/misc/dust04/dust04.txt 
+ ...done!
+Loading 'dust03h' from data/chars/misc/dust03/dust03h.txt 
+ ...done!
+ ...done!
+Loading 'hwiza' from data/chars/wizard/horse/hwiza.txt 
+ ...done!
+Loading 'hcler' from data/chars/cleric/horse/hcler.txt 
+ ...done!
+Loading 'hdwar' from data/chars/dwarf/horse/hdwar.txt 
+ ...done!
+Loading 'helff' from data/chars/elf/horse/helff.txt 
+ ...done!
+Loading 'hpala' from data/chars/paladin/horse/hpala.txt 
+ ...done!
+Loading 'hbarb' from data/chars/barbar/horse/hbarb.txt 
+ ...done!
+Loading 'hbard' from data/chars/bard/horse/hbard.txt 
+ ...done!
+Loading 'hthie' from data/chars/thief/horse/hthie.txt 
+ ...done!
+Loading 'harth' from data/chars/arthur/horse/harth.txt 
+ ...done!
+Loading 'hlanc' from data/chars/lancelot/horse/hlanc.txt 
+ ...done!
+Loading 'hperc' from data/chars/perceval/horse/hperc.txt 
+ ...done!
+Loading 'hmord' from data/chars/mordred/horse/hmord.txt 
+ ...done!
+Loading 'hknig' from data/chars/knight/horse/hknig.txt 
+ ...done!
+Loading 'figh2' from data/chars/fighter/figh2.txt 
+ ...done!
+Loading 'Wiza2' from data/chars/wizard/wiza2.txt 
+ ...done!
+Loading 'Cler2' from data/chars/cleric/cler2.txt 
+ ...done!
+Loading 'Thie2' from data/chars/thief/thie2.txt 
+ ...done!
+Loading 'Pala2' from data/chars/paladin/pala2.txt 
+ ...done!
+Loading 'Barb2' from data/chars/barbar/barb2.txt 
+ ...done!
+Loading 'Bard2' from data/chars/bard/bard2.txt 
+ ...done!
+Loading 'dwar2' from data/chars/dwarf/dwar2.txt 
+ ...done!
+Loading 'Elf3' from data/chars/elf/elf3.txt 
+ ...done!
+Loading 'Arth2' from data/chars/arthur/arth2.txt 
+ ...done!
+Loading 'Lanc2' from data/chars/lancelot/lanc2.txt 
+ ...done!
+Loading 'Perc2' from data/chars/perceval/perc2.txt 
+ ...done!
+Loading 'Mord2' from data/chars/mordred/mord2.txt 
+ ...done!
+Loading 'Knig2' from data/chars/knight/knig2.txt 
+ ...done!
+Loading 'ma1hit' from data/chars/misc/magic/ma1hit.txt 
+ ...done!
+Loading 'mmhit' from data/chars/misc/mm/mmhit.txt 
+ ...done!
+Loading 'speedup' from data/chars/barbar/speedup.txt 
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+sound_load_sample can't load sample from file 'data/sounds/stand.wav'!
+Command 'attack{' not understood in file 'data/chars/barbar/speedup.txt'!
+Command 'attack{' not understood in file 'data/chars/barbar/speedup.txt'!
+ ...done!
+Loading 'invi' from data/chars/bard/invi.txt 
+ ...done!
+Loading 'tnvi' from data/chars/thief/tnvi.txt 
+ ...done!
+Loading 'Flash01' from data/chars/misc/flash01/flash01.txt 
+ ...done!
+Loading 'Flash11' from data/chars/misc/flash01/flash11.txt 
+ ...done!
+Loading 'Flash21' from data/chars/misc/flash01/flash21.txt 
+ ...done!
+Loading 'numflash' from data/chars/Misc/numflash/numflash.txt 
+ ...done!
+Loading 'guard01' from data/chars/misc/guard01/guard01.txt 
+ ...done!
+Loading 'Dust01' from data/chars/misc/dust01/dust01.txt 
+ ...done!
+Loading 'dial01' from data/scenes/tavern/dial01/dial01.txt 
+ ...done!
+Loading 'dial02' from data/scenes/tavern/dial02/dial02.txt 
+ ...done!
+Loading 'dial03' from data/scenes/tavern/dial03/dial03.txt 
+ ...done!
+Loading 'dial04' from data/scenes/tavern/dial04/dial04.txt 
+ ...done!
+Loading 'dial05' from data/scenes/tavern/dial05/dial05.txt 
+ ...done!
+Loading 'dial06' from data/scenes/tavern/dial06/dial06.txt 
+ ...done!
+Loading 'dial07' from data/scenes/tavern/dial07/dial07.txt 
+ ...done!
+Loading 'dial08' from data/scenes/tavern/dial08/dial08.txt 
+ ...done!
+Loading 'dial09' from data/scenes/tavern/dial09/dial09.txt 
+ ...done!
+Loading 'dial10' from data/scenes/tavern/dial10/dial10.txt 
+ ...done!
+Loading 'dial11' from data/scenes/tavern/dial11/dial11.txt 
+ ...done!
+Loading 'dial12' from data/scenes/tavern/dial12/dial12.txt 
+ ...done!
+Loading 'dial13' from data/scenes/tavern/dial13/dial13.txt 
+ ...done!
+Loading 'dial14' from data/scenes/tavern/dial14/dial14.txt 
+ ...done!
+Loading 'dial15' from data/scenes/tavern/dial15/dial15.txt 
+ ...done!
+Loading 'dial16' from data/scenes/tavern/dial16/dial16.txt 
+ ...done!
+Loading 'dial17' from data/scenes/tavern/dial17/dial17.txt 
+ ...done!
+Loading 'dial18' from data/scenes/tavern/dial18/dial18.txt 
+ ...done!
+Loading 'dial19' from data/scenes/tavern/dial19/dial19.txt 
+ ...done!
+Loading 'dial20' from data/scenes/tavern/dial20/dial20.txt 
+ ...done!
+Loading 'dial21' from data/scenes/tavern/dial21/dial21.txt 
+ ...done!
+Loading 'dial22' from data/scenes/tavern/dial22/dial22.txt 
+ ...done!
+Loading 'dial23' from data/scenes/tavern/dial23/dial23.txt 
+ ...done!
+Loading 'dial24' from data/scenes/tavern/dial24/dial24.txt 
+ ...done!
+Loading 'dial25' from data/scenes/tavern/dial25/dial25.txt 
+ ...done!
+Loading 'dial26' from data/scenes/tavern/dial26/dial26.txt 
+ ...done!
+Loading 'dial27' from data/scenes/tavern/dial27/dial27.txt 
+ ...done!
+Loading 'dial28' from data/scenes/tavern/dial28/dial28.txt 
+ ...done!
+Loading 'dial29' from data/scenes/tavern/dial29/dial29.txt 
+ ...done!
+Loading 'dial30' from data/scenes/tavern/dial30/dial30.txt 
+ ...done!
+Loading 'dial31' from data/scenes/tavern/dial31/dial31.txt 
+ ...done!
+Loading 'dial32' from data/scenes/tavern/dial32/dial32.txt 
+ ...done!
+Loading 'dial33' from data/scenes/tavern/dial33/dial33.txt 
+ ...done!
+Loading 'dial34' from data/scenes/tavern/dial34/dial34.txt 
+ ...done!
+Loading 'dial35' from data/scenes/tavern/dial35/dial35.txt 
+ ...done!
+Loading 'dial36' from data/scenes/tavern/dial36/dial36.txt 
+ ...done!
+Loading 'dial37' from data/scenes/tavern/dial37/dial37.txt 
+ ...done!
+Loading 'dial38' from data/scenes/tavern/dial38/dial38.txt 
+ ...done!
+Loading 'dial39' from data/scenes/tavern/dial39/dial39.txt 
+ ...done!
+Loading 'dial40' from data/scenes/tavern/dial40/dial40.txt 
+ ...done!
+Loading 'dial41' from data/scenes/tavern/dial41/dial41.txt 
+ ...done!
+Loading 'town01_1' from data/scenes/tavern/town01/town01_1.txt 
+ ...done!
+Loading 'town01_2' from data/scenes/tavern/town01/town01_2.txt 
+ ...done!
+Loading 'town01_3' from data/scenes/tavern/town01/town01_3.txt 
+ ...done!
+Loading 'town01_4' from data/scenes/tavern/town01/town01_4.txt 
+ ...done!
+Loading 'town01_5' from data/scenes/tavern/town01/town01_5.txt 
+ ...done!
+Loading 'town01_6' from data/scenes/tavern/town01/town01_6.txt 
+ ...done!
+Loading 'town02_1' from data/scenes/tavern/town02/town02_1.txt 
+ ...done!
+Loading 'town02_2' from data/scenes/tavern/town02/town02_2.txt 
+ ...done!
+Loading 'town02_3' from data/scenes/tavern/town02/town02_3.txt 
+ ...done!
+Loading 'town02_4' from data/scenes/tavern/town02/town02_4.txt 
+ ...done!
+Loading 'town02_5' from data/scenes/tavern/town02/town02_5.txt 
+ ...done!
+Loading 'town02_6' from data/scenes/tavern/town02/town02_6.txt 
+ ...done!
+Loading 'town02_7' from data/scenes/tavern/town02/town02_7.txt 
+ ...done!
+Loading 'town02_8' from data/scenes/tavern/town02/town02_8.txt 
+ ...done!
+Loading 'town02_9' from data/scenes/tavern/town02/town02_9.txt 
+ ...done!
+Loading 'town03_1' from data/scenes/tavern/town03/town03_1.txt 
+ ...done!
+Loading 'town04_1' from data/scenes/tavern/town04/town04_1.txt 
+ ...done!
+Loading 'town04_2' from data/scenes/tavern/town04/town04_2.txt 
+ ...done!
+Loading 'town05_1' from data/scenes/tavern/town05/town05_1.txt 
+ ...done!
+Loading 'town05_2' from data/scenes/tavern/town05/town05_2.txt 
+ ...done!
+Loading 'town05_3' from data/scenes/tavern/town05/town05_3.txt 
+ ...done!
+Loading 'town05_4' from data/scenes/tavern/town05/town05_4.txt 
+ ...done!
+Loading 'town05_5' from data/scenes/tavern/town05/town05_5.txt 
+ ...done!
+Loading 'town06_1' from data/scenes/tavern/town06/town06_1.txt 
+ ...done!
+Loading 'town07_1' from data/scenes/tavern/town07/town07_1.txt 
+ ...done!
+Loading 'town08_1' from data/scenes/tavern/town08/town08_1.txt 
+ ...done!
+Loading 'town08_2' from data/scenes/tavern/town08/town08_2.txt 
+ ...done!
+Loading 'town08_3' from data/scenes/tavern/town08/town08_3.txt 
+ ...done!
+Loading 'town08_4' from data/scenes/tavern/town08/town08_4.txt 
+ ...done!
+Loading 'town08_5' from data/scenes/tavern/town08/town08_5.txt 
+ ...done!
+Loading 'town08_6' from data/scenes/tavern/town08/town08_6.txt 
+ ...done!
+Loading 'town09_1' from data/scenes/tavern/town09/town09_1.txt 
+ ...done!
+
+Loading models...............	Done!
+Object engine init...........	Done!
+Loading menu.txt.............	Done!
+Loading translation..........	Done!
+Input init...................	
+1 joystick(s) found!
+Unknown (MMiyoo Joystick) - 2 axes, 14 buttons, 0 hat(s), rumble support: no
+Done!
+Create blending tables.......	Done!
+Save settings so far.........	Done!
+
+
+Level Loading:   'data/levels/intro01.txt'
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:     3190784 Bytes (     3 MB )
+ Used Ram:    13361152 Bytes (    12 MB )
+
+Loading 'intro' from data/scenes/intro/intro.txt 
+ ...done!
+Loading 'go02' from data/chars/misc/direction/go02.txt 
+ ...done!
+
+Level Loaded:    'data/levels/intro01.txt'
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:     2514944 Bytes (     2 MB )
+ Used Ram:    13502464 Bytes (    12 MB )
+Total sprites mapped: 3169
+
+Level Unloading: 'data/levels/intro01.txt'
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:     3276800 Bytes (     3 MB )
+ Used Ram:    13502464 Bytes (    12 MB )
+
+RAM Status:
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:     3276800 Bytes (     3 MB )
+ Used Ram:    13502464 Bytes (    12 MB )
+
+
+Can't play music file 'data/music/gameover'
+
+************ Shutting Down ************
+
+OpenBOR v4.0 Build 0000 (commit hash: 0000000), Compile Date: Feb 27 2026
+Presented by the OpenBOR Team.
+www.chronocrash.com
+OpenBOR is the open source continuation of Beats of Rage by Senile Team.
+
+Special thanks to SEGA and SNK.
+
+Total Ram:   105807872 Bytes (   100 MB )
+ Free Ram:     3694592 Bytes (     3 MB )
+ Used Ram:    13430272 Bytes (    12 MB )
+
+Release level data...........
+Done!
+
+Release graphics data........	Done!
+Release game data............
+
+Unload 'levelup' .............Done.
+Unload 'Fighter' .............Done.
+Unload 'block' .............Done.
+Unload 'fatigue' .............Done.
+Unload 'recover' .............Done.
+Unload 'Blood01' .............Done.
+Unload 'Hold' .............Done.
+Unload 'Dust02' .............Done.
+Unload 'bomb' .............Done.
+Unload 'fpill' .............Done.
+Unload 'Dust03' .............Done.
+Unload 'Wizard' .............Done.
+Unload 'ma1' .............Done.
+Unload 'ma3' .............Done.
+Unload 'ma6' .............Done.
+Unload 'ibarr1' .............Done.
+Unload 'ibarr2' .............Done.
+Unload 'fball' .............Done.
+Unload 'Lbolt' .............Done.
+Unload 'tornado' .............Done.
+Unload 'istorm' .............Done.
+Unload 'ms11' .............Done.
+Unload 'ms12' .............Done.
+Unload 'ms13' .............Done.
+Unload 'ms14' .............Done.
+Unload 'ms15' .............Done.
+Unload 'ms16' .............Done.
+Unload 'ms17' .............Done.
+Unload 'Cleric' .............Done.
+Unload 'holy' .............Done.
+Unload 'earth3' .............Done.
+Unload 'Thief' .............Done.
+Unload 'knife01' .............Done.
+Unload 'knife02' .............Done.
+Unload 'knife03' .............Done.
+Unload 'knife04' .............Done.
+Unload 'bag01' .............Done.
+Unload 'Paladin' .............Done.
+Unload 'hquake' .............Done.
+Unload 'lightn' .............Done.
+Unload 'Barbarian' .............Done.
+Unload 'spdup' .............Done.
+Unload 'normal' .............Done.
+Unload 'tornado3' .............Done.
+Unload 'hurr' .............Done.
+Unload 'Bard' .............Done.
+Unload 'invis' .............Done.
+Unload 'sonic01' .............Done.
+Unload 'Dwarf' .............Done.
+Unload 'boulder' .............Done.
+Unload 'axe' .............Done.
+Unload 'boulder2' .............Done.
+Unload 'Elf' .............Done.
+Unload 'arr01' .............Done.
+Unload 'arr02' .............Done.
+Unload 'arr03' .............Done.
+Unload 'mm' .............Done.
+Unload 'Elf2' .............Done.
+Unload 'arr05' .............Done.
+Unload 'Arthur' .............Done.
+Unload 'flame' .............Done.
+Unload 'merlin' .............Done.
+Unload 'slash' .............Done.
+Unload 'fire' .............Done.
+Unload 'Lancelot' .............Done.
+Unload 'spark' .............Done.
+Unload 'light' .............Done.
+Unload 'Perceval' .............Done.
+Unload 'shake' .............Done.
+Unload 'quake' .............Done.
+Unload 'Mordred' .............Done.
+Unload 'wave' .............Done.
+Unload 'hroll' .............Done.
+Unload 'Knight' .............Done.
+Unload 'Travel' .............Done.
+Unload 'Travel2' .............Done.
+Unload 'hfigh' .............Done.
+Unload 'Dust04' .............Done.
+Unload 'Dust03h' .............Done.
+Unload 'hwiza' .............Done.
+Unload 'hcler' .............Done.
+Unload 'hdwar' .............Done.
+Unload 'helff' .............Done.
+Unload 'hpala' .............Done.
+Unload 'hbarb' .............Done.
+Unload 'hbard' .............Done.
+Unload 'hthie' .............Done.
+Unload 'harth' .............Done.
+Unload 'hlanc' .............Done.
+Unload 'hperc' .............Done.
+Unload 'hmord' .............Done.
+Unload 'hknig' .............Done.
+Unload 'figh2' .............Done.
+Unload 'Wiza2' .............Done.
+Unload 'Cler2' .............Done.
+Unload 'Thie2' .............Done.
+Unload 'Pala2' .............Done.
+Unload 'Barb2' .............Done.
+Unload 'Bard2' .............Done.
+Unload 'dwar2' .............Done.
+Unload 'Elf3' .............Done.
+Unload 'Arth2' .............Done.
+Unload 'Lanc2' .............Done.
+Unload 'Perc2' .............Done.
+Unload 'Mord2' .............Done.
+Unload 'Knig2' .............Done.
+Unload 'ma1hit' .............Done.
+Unload 'mmhit' .............Done.
+Unload 'speedup' .............Done.
+Unload 'invi' .............Done.
+Unload 'tnvi' .............Done.
+Unload 'Flash01' .............Done.
+Unload 'Flash11' .............Done.
+Unload 'Flash21' .............Done.
+Unload 'numflash' .............Done.
+Unload 'guard01' .............Done.
+Unload 'Dust01' .............Done.
+Unload 'dial01' .............Done.
+Unload 'dial02' .............Done.
+Unload 'dial03' .............Done.
+Unload 'dial04' .............Done.
+Unload 'dial05' .............Done.
+Unload 'dial06' .............Done.
+Unload 'dial07' .............Done.
+Unload 'dial08' .............Done.
+Unload 'dial09' .............Done.
+Unload 'dial10' .............Done.
+Unload 'dial11' .............Done.
+Unload 'dial12' .............Done.
+Unload 'dial13' .............Done.
+Unload 'dial14' .............Done.
+Unload 'dial15' .............Done.
+Unload 'dial16' .............Done.
+Unload 'dial17' .............Done.
+Unload 'dial18' .............Done.
+Unload 'dial19' .............Done.
+Unload 'dial20' .............Done.
+Unload 'dial21' .............Done.
+Unload 'dial22' .............Done.
+Unload 'dial23' .............Done.
+Unload 'dial24' .............Done.
+Unload 'dial25' .............Done.
+Unload 'dial26' .............Done.
+Unload 'dial27' .............Done.
+Unload 'dial28' .............Done.
+Unload 'dial29' .............Done.
+Unload 'dial30' .............Done.
+Unload 'dial31' .............Done.
+Unload 'dial32' .............Done.
+Unload 'dial33' .............Done.
+Unload 'dial34' .............Done.
+Unload 'dial35' .............Done.
+Unload 'dial36' .............Done.
+Unload 'dial37' .............Done.
+Unload 'dial38' .............Done.
+Unload 'dial39' .............Done.
+Unload 'dial40' .............Done.
+Unload 'dial41' .............Done.
+Unload 'town01_1' .............Done.
+Unload 'town01_2' .............Done.
+Unload 'town01_3' .............Done.
+Unload 'town01_4' .............Done.
+Unload 'town01_5' .............Done.
+Unload 'town01_6' .............Done.
+Unload 'town02_1' .............Done.
+Unload 'town02_2' .............Done.
+Unload 'town02_3' .............Done.
+Unload 'town02_4' .............Done.
+Unload 'town02_5' .............Done.
+Unload 'town02_6' .............Done.
+Unload 'town02_7' .............Done.
+Unload 'town02_8' .............Done.
+Unload 'town02_9' .............Done.
+Unload 'town03_1' .............Done.
+Unload 'town04_1' .............Done.
+Unload 'town04_2' .............Done.
+Unload 'town05_1' .............Done.
+Unload 'town05_2' .............Done.
+Unload 'town05_3' .............Done.
+Unload 'town05_4' .............Done.
+Unload 'town05_5' .............Done.
+Unload 'town06_1' .............Done.
+Unload 'town07_1' .............Done.
+Unload 'town08_1' .............Done.
+Unload 'town08_2' .............Done.
+Unload 'town08_3' .............Done.
+Unload 'town08_4' .............Done.
+Unload 'town08_5' .............Done.
+Unload 'town08_6' .............Done.
+Unload 'town09_1' .............Done.
+Unload 'intro' .............Done.
+Unload 'go02' .............Done.
+
+Release game data............	Done!
+Release timer................	Done!
+Release input hardware.......	Done!
+Release sound system.........	Done!
+Release FileCaching System...	Done!
+
+**************** Done *****************
+
+OpenBOR v4.0 Build 0000 (commit hash: 0000000), Compile Date: Feb 27 2026
+Presented by the OpenBOR Team.
+www.chronocrash.com
+OpenBOR is the open source continuation of Beats of Rage by Senile Team.
+
+Special thanks to SEGA and SNK.
+

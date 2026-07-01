@@ -953,7 +953,8 @@ void performSystemSettingsChoosingAction() {
     SCREEN_OPTION=5;
 	LOADING_OPTION=6;
 	SCREEN_TIMEOUT_OPTION=7;
-    NUM_SYSTEM_OPTIONS=8;
+	TAPE_OPTION=8;
+    NUM_SYSTEM_OPTIONS=9;
 	if (keys[BTN_UP]) {
 		if(chosenSetting>0) {
 			chosenSetting--;
@@ -969,7 +970,7 @@ void performSystemSettingsChoosingAction() {
 	} else if (keys[BTN_LEFT]||keys[BTN_RIGHT]) {
 		if (chosenSetting==BRIGHTNESS_OPTION) {
 			if (keys[BTN_LEFT]) {
-				if (brightnessValue>1) {
+				if (brightnessValue>0) {
 					brightnessValue-=1;
 				}
 			} else {
@@ -1130,6 +1131,26 @@ void performSystemSettingsChoosingAction() {
 						setMute(0);
 					}
 				}
+			}
+		} else if (chosenSetting==TAPE_OPTION) {
+			loadConfiguration5();
+			if (keys[BTN_LEFT]) {
+				if (tapeValue>0) {
+					tapeValue-=1;
+				}
+			} else {
+				if (tapeValue<5) {
+					tapeValue+=1;
+				}
+			}
+			saveConfiguration5(tapeValue);
+			
+			if (tapeValue == 2 || tapeValue == 3) {
+				system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"true\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+				system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+			} else {
+				system("sed -i 's/^savestate_auto_save.*/savestate_auto_save = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
+				system("sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' /mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg; sync");
 			}
 		}
 	} else if (chosenSetting==SCREEN_OPTION&&keys[BTN_A]) {

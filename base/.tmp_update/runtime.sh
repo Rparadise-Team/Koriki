@@ -3,7 +3,11 @@
 if dmesg|fgrep -q "FB_WIDTH=640"; then
 	export SCREEN_WIDTH=640
 	export SCREEN_HEIGHT=480
-	export SUBMODEL="MM"
+	if [ ! -f /customer/app/axp_test ]; then
+		export SUBMODEL="MM"
+	else
+		export SUBMODEL="MMP"
+	fi
 	export screen_resolution="640x480"
 fi
 
@@ -468,6 +472,51 @@ reset_soundfix() {
 	sync
 }
 
+gamma_load() {
+	if [ -f "/mnt/SDCARD/.simplemenu/gamma.sav" ]; then
+		GAMMA=`cat /mnt/SDCARD/.simplemenu/gamma.sav`
+	fi
+	case "$GAMMA" in
+		"-5")
+		Blue=140; Green=105; Red=70
+		;;
+		"-4")
+		Blue=140; Green=110; Red=80
+		;;
+		"-3")
+		Blue=140; Green=115; Red=90
+		;;
+		"-2")
+		Blue=140; Green=120; Red=100
+		;;
+		"-1")
+		Blue=140; Green=125; Red=110
+		;;
+		"0")
+		Blue=128; Green=128; Red=128
+		;;
+		"1")
+		Blue=110; Green=125; Red=140
+		;;
+		"2")
+		Blue=100; Green=120; Red=140
+		;;
+		"3")
+		Blue=90;  Green=115; Red=140
+		;;
+		"4")
+		Blue=80;  Green=110; Red=140
+		;;
+		"5")
+		Blue=70;  Green=105; Red=140
+		;;
+		*)
+		Blue=128; Green=128; Red=128
+		;;
+	esac
+	echo "colortemp 0 0 0 0 $Blue $Green $Red" > /proc/mi_modules/mi_disp/mi_disp0
+}
+
 # set virtual memory size
 echo 4096 > "/proc/sys/vm/max_map_count"
 
@@ -475,9 +524,21 @@ echo 4096 > "/proc/sys/vm/max_map_count"
 init_lcd 1
 
 # Init backlight
+brig=`/customer/app/jsonval brightness`
+
+if [ $brig == 0 ]; then
+	if [ "$SUBMODEL" == "MM" ]; then
+		brig=$(($brig+6))
+	else
+		brig=$(($brig+3))
+	fi
+else
+	brig=$(($brig*10))
+fi
+
 echo 0 > "/sys/class/pwm/pwmchip0/export"
 echo 800 > "/sys/class/pwm/pwmchip0/pwm0/period"
-echo 70 > "/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
+echo $brig > "/sys/class/pwm/pwmchip0/pwm0/duty_cycle"
 echo 1 > "/sys/class/pwm/pwmchip0/pwm0/enable"
 
 # Set screen resolution
@@ -522,6 +583,23 @@ update
 # Set internal systems app in tmp
 setmon
 
+# disable ntpd server in flip
+
+if [ "$SUBMODEL" == "MMFLIP" ]; then
+	/customer/ntpd.sh stop
+	PID_FILE="/var/run/ntpd.pid"
+	
+    if [ -f "$PID_FILE" ]; then
+        echo "Stopping ntpd..."
+        PID=$(cat "$PID_FILE")
+        kill $PID 2>/dev/null
+        rm -f "$PID_FILE"
+    else
+        echo "ntpd is not running."
+    fi
+	
+fi
+
 #kill main program from stock
 killall -9 main
 
@@ -550,16 +628,57 @@ if [ "$MODEL" == "MMP" ]; then
 	fi
 fi
 
-# Get save volumen
-/customer/app/tinymix set 6 100
+#headphone detection
 vol=`/customer/app/jsonval vol`
 
-if [ "$vol" -ge "20" ]; then
-	sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' "$SETTINGS_FILE"
+if [ -d "/sys/devices/soc0/soc/soc:hall-mh248" ]; then
+	HP_CONNECTED=0
+	
+	echo 45 > /sys/class/gpio/export
+	
+	if [ -d "/sys/class/gpio/gpio45" ]; then
+		if [ -f "/sys/class/gpio/gpio45/direction" ]; then
+			echo in > /sys/class/gpio/gpio45/direction
+		fi
+		
+		if [ "$(cat /sys/class/gpio/gpio45/value)" = "0" ]; then
+			HP_CONNECTED=1
+		fi
+	fi
+	
+	if [ "$HP_CONNECTED" = "1" ]; then
+		echo 44 > /sys/class/gpio/export
+		if [ -f "/sys/class/gpio/gpio44/direction" ]; then
+			echo out > /sys/class/gpio/gpio44/direction
+		fi
+		echo 0 > /sys/class/gpio/gpio44/value
+		
+		if [ -f "/appconfigs/headvol" ]; then
+			vol=$(cat /appconfigs/headvol)
+		else
+			vol="$vol"
+		fi
+	else
+		if [ -f "/appconfigs/spkvol" ]; then
+			vol=$(cat /appconfigs/spkvol)
+		else
+			vol="$vol"
+		fi
+		if [ "$vol" -ge "20" ]; then vol=20; fi
+	fi
+
+	sed -i 's/"vol":\s*[0-9]*/"vol": '"$vol"'/' "$SETTINGS_FILE"
 	sync
-	vol=`/customer/app/jsonval vol`
+else
+	if [ "$vol" -ge "20" ]; then
+		sed -i 's/"vol":\s*\([2][123]\)/"vol": 20/' "$SETTINGS_FILE"
+		sync
+		vol=20
+	fi
 fi
 
+# Get save volumen
+/customer/app/tinymix set 6 100
 vol=$((($vol*3)+40))
 /customer/app/tinymix set 6 "$vol"
 
@@ -734,7 +853,7 @@ if [ ! -f /customer/app/axp_test ]; then
 		sed -i 's|^input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-240p.cfg"$|input_overlay = ":/.retroarch/overlay/CTR/Perfect_CRT-560p.cfg"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	fi
 	
-	sed -i 's|^audio_latency = "64"$|audio_latency = "32"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+#	sed -i 's|^audio_latency = "64"$|audio_latency = "32"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	
 	sync
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh ]; then
@@ -773,7 +892,7 @@ else
 		sync
 	fi
 	
-	sed -i 's|^audio_latency = "32"$|audio_latency = "64"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+#	sed -i 's|^audio_latency = "32"$|audio_latency = "64"|' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
 	
 	if [ -f "${SDCARD_PATH}"/.simplemenu/apps/Ftp ]; then
 		mv "${SDCARD_PATH}"/.simplemenu/apps/Ftp "${SDCARD_PATH}"/.simplemenu/apps/Ftp.sh
@@ -912,49 +1031,49 @@ fi
 # Detect if networks app was the last app and erese this from SM if is the model MM.
 if [ "$MODEL" == "MM" ]; then
 	if [ -f "${SDCARD_PATH}/.simplemenu/alphabetic_section" ]; then
-    	ACTIVE="alphabetic"
+		ACTIVE="alphabetic"
 	elif [ -f "${SDCARD_PATH}/.simplemenu/systems_section" ]; then
-    	ACTIVE="systems"
+		ACTIVE="systems"
 	else
-    	ACTIVE="systems"
+		ACTIVE="systems"
 	fi
 
 	LAST="${SDCARD_PATH}/.simplemenu/last_state.sav"
 	
 	case "$ACTIVE" in
 
-    alphabetic)
-        sed -i '
-        s/^1;2;0;14;14;/1;2;0;12;12;/
-        s/^1;2;1;6;14;/1;2;1;4;12;/
-        s/^1;2;1;2;14;/1;2;1;0;12;/
-        s/^1;2;1;1;14;/1;2;1;0;12;/
-        s/^1;2;1;0;14;/1;2;1;0;12;/
+	alphabetic)
+		sed -i '
+		s/^1;2;0;14;14;/1;2;0;12;12;/
+		s/^1;2;1;6;14;/1;2;1;4;12;/
+		s/^1;2;1;2;14;/1;2;1;0;12;/
+		s/^1;2;1;1;14;/1;2;1;0;12;/
+		s/^1;2;1;0;14;/1;2;1;0;12;/
+		
+		s/^0;2;0;14;14;/0;2;0;12;12;/
+		s/^0;2;1;6;14;/0;2;1;4;12;/
+		s/^0;2;1;2;14;/0;2;1;0;12;/
+		s/^0;2;1;1;14;/0;2;1;0;12;/
+		s/^0;2;1;0;14;/0;2;1;0;12;/
+		' "$LAST"
+	;;
 
-        s/^0;2;0;14;14;/0;2;0;12;12;/
-        s/^0;2;1;6;14;/0;2;1;4;12;/
-        s/^0;2;1;2;14;/0;2;1;0;12;/
-        s/^0;2;1;1;14;/0;2;1;0;12;/
-        s/^0;2;1;0;14;/0;2;1;0;12;/
-        ' "$LAST"
-    ;;
-
-    systems)
-        sed -i '
-        s/^1;0;0;14;14;/1;0;0;12;12;/
-        s/^1;0;1;6;14;/1;0;1;4;12;/
-        s/^1;0;1;2;14;/1;0;1;0;12;/
-        s/^1;0;1;1;14;/1;0;1;0;12;/
-        s/^1;0;1;0;14;/1;0;1;0;12;/
-
-        s/^0;0;0;14;14;/0;0;0;12;12;/
-        s/^0;0;1;6;14;/0;0;1;4;12;/
-        s/^0;0;1;2;14;/0;0;1;0;12;/
-        s/^0;0;1;1;14;/0;0;1;0;12;/
-        s/^0;0;1;0;14;/0;0;1;0;12;/
-        ' "$LAST"
-    ;;
-    esac
+	systems)
+		sed -i '
+		s/^1;0;0;14;14;/1;0;0;12;12;/
+		s/^1;0;1;6;14;/1;0;1;4;12;/
+		s/^1;0;1;2;14;/1;0;1;0;12;/
+		s/^1;0;1;1;14;/1;0;1;0;12;/
+		s/^1;0;1;0;14;/1;0;1;0;12;/
+		
+		s/^0;0;0;14;14;/0;0;0;12;12;/
+		s/^0;0;1;6;14;/0;0;1;4;12;/
+		s/^0;0;1;2;14;/0;0;1;0;12;/
+		s/^0;0;1;1;14;/0;0;1;0;12;/
+		s/^0;0;1;0;14;/0;0;1;0;12;/
+		' "$LAST"
+	;;
+	esac
 	sync
 fi
 
@@ -1083,6 +1202,63 @@ fi
 echo "Welcome to Koriki CFW"
 
 while [ 1 ]; do
+	
+	if [ -f "/mnt/SDCARD/.simplemenu/sleep" ]; then
+	
+		TAPE=0
+		if [ -f "/mnt/SDCARD/.simplemenu/tape.sav" ]; then
+			TAPE=`cat "/mnt/SDCARD/.simplemenu/tape.sav"`
+		fi
+	
+		if [ "$TAPE" = "2" ] || [ "$TAPE" = "3" ]; then
+			
+			if [ -f "${RETROARCH_PATH}/run" ]; then
+				RUN=`cat "${RETROARCH_PATH}/run"`
+				
+				eval "set -- $RUN"
+				
+				HOME="${RETROARCH_PATH}"
+				cd "${RETROARCH_PATH}"
+				change_resolution
+				reset_soundfix
+				gamma_load
+				
+				sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"true\"/' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+				
+				sync
+				
+				if [ "$runsvr" != "0" ]; then
+					LD_PRELOAD=/mnt/SDCARD/Koriki/lib/libpadsp.so /mnt/SDCARD/RetroArch/retroarch -v "$@"
+				else
+					/mnt/SDCARD/RetroArch/retroarch -v "$@"
+				fi
+				
+				sed -i 's/^savestate_auto_load.*/savestate_auto_load = \"false\"/' "${RETROARCH_PATH}/.retroarch/retroarch.cfg"
+				
+				rm "/mnt/SDCARD/.simplemenu/sleep" 2>/dev/null
+				
+				sync
+				
+				HOME="${SDCARD_PATH}"
+				cd "${SDCARD_PATH}"/.simplemenu
+				change_resolution
+				reset_soundfix
+				
+				./simplemenu
+				
+				sleep 4s
+				sync
+			else
+				rm "${RETROARCH_PATH}/run" 2>/dev/null
+				rm "/mnt/SDCARD/.simplemenu/sleep" 2>/dev/null
+			fi
+			
+		else
+			rm "${RETROARCH_PATH}/run" 2>/dev/null
+			rm "/mnt/SDCARD/.simplemenu/sleep" 2>/dev/null
+		fi
+	fi
+	
 	HOME="${SDCARD_PATH}"
 	cd "${SDCARD_PATH}"/.simplemenu
 	change_resolution
