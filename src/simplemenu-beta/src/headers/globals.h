@@ -17,8 +17,10 @@
 #if defined MIYOOMINI
 #define SCREEN_SETTINGS 13
 #define SEARCHING_ROMS 14
+#define SEARCHING_HISTORY 15
 #else
 #define SEARCHING_ROMS 13
+#define SEARCHING_HISTORY 14
 #endif
 
 #include <pthread.h>

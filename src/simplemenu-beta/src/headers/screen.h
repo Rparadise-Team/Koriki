@@ -38,6 +38,7 @@ void freeFonts();
 void freeSettingsFonts();
 void initializeSettingsFonts();
 void openSearchWindow();
+void openRecentWindow();
 void closeSearchWindow();
 void searchInvalidateIndex();
 void handleSearchInput(int key);
