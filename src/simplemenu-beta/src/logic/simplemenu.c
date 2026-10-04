@@ -206,7 +206,16 @@ void processEvents() {
 					resetScreenOffTimer();
 					continue;
 				}
-                                if (currentState==SEARCHING_ROMS) {
+				if (canToggleSearchWindow() && keyPressed==(SDLKey)BTN_L2) {
+					if (currentState==SEARCHING_HISTORY) {
+						closeSearchWindow();
+					} else if (currentState!=SEARCHING_ROMS) {
+						openRecentWindow();
+					}
+					resetScreenOffTimer();
+					continue;
+				}
+                                if (currentState==SEARCHING_ROMS || currentState==SEARCHING_HISTORY) {
                                         handleSearchInput(keyPressed);
                                         resetScreenOffTimer();
                                         continue;
