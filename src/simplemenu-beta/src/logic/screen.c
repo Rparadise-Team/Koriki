@@ -3038,11 +3038,150 @@ void openRecentWindow() {
 	resetSearchState();
 	clearRecentEntries();
 	searchRecentMode = 1;
-	for (int i = 0; i < (int)(sizeof(recentMedalRank)/sizeof(recentMedalRank[0])); i++) recentMedalRank[i] = -1;
+
+	for (int i = 0; i < (int)(sizeof(recentMedalRank)/sizeof(recentMedalRank[0])); i++)
+		recentMedalRank[i] = -1;
+
 	scanRecentLogsRecursive("/mnt/SDCARD/RetroArch/.retroarch/logs");
+
 	if (recentEntriesCount > 1) {
 		qsort(recentEntries, recentEntriesCount, sizeof(RecentLogEntry), compareRecentEntries);
 	}
+
+	/*
+	 * Apply aliases to History entries.
+	 *
+	 * The history names are normalized only once.
+	 * alias.txt is read only once and every History entry is
+	 * removed from the search as soon as its alias is found.
+	 */
+	char *historyNames[sizeof(recentEntries) / sizeof(recentEntries[0])] = {0};
+	int historyAliasCount = 0;
+
+	/*
+	 * Normalize all History ROM names once.
+	 *
+	 * Example:
+	 *     mslug.zip  ->  mslug
+	 */
+	for (int i = 0; i < recentEntriesCount; i++) {
+		historyNames[i] = strdup(recentEntries[i].displayName);
+
+		if (historyNames[i] == NULL) {
+			continue;
+		}
+
+		stripGameName(historyNames[i]);
+		historyAliasCount++;
+	}
+
+	if (historyAliasCount > 0) {
+		FILE *aliasFile = fopen("/mnt/SDCARD/.simplemenu/alias.txt", "r");
+
+		if (aliasFile != NULL) {
+			char *aliasLine = NULL;
+			size_t aliasLineLen = 0;
+
+			while (historyAliasCount > 0 &&
+			       getline(&aliasLine, &aliasLineLen, aliasFile) != -1) {
+
+				char *romName = strtok(aliasLine, "=");
+				char *alias = strtok(NULL, "=");
+
+				if (romName == NULL || alias == NULL) {
+					continue;
+				}
+
+				/*
+				 * Trim leading spaces from ROM name.
+				 */
+				while (*romName == ' ' || *romName == '\t') {
+					romName++;
+				}
+
+				/*
+				 * Trim trailing spaces from ROM name.
+				 */
+				size_t romNameLen = strlen(romName);
+
+				while (romNameLen > 0 &&
+				       (romName[romNameLen - 1] == ' ' ||
+				        romName[romNameLen - 1] == '\t')) {
+					romName[--romNameLen] = '\0';
+				}
+
+				/*
+				 * Trim leading spaces from alias.
+				 */
+				while (*alias == ' ' || *alias == '\t') {
+					alias++;
+				}
+
+				/*
+				 * Trim trailing newline, carriage return
+				 * and spaces from alias.
+				 */
+				size_t aliasLen = strlen(alias);
+
+				while (aliasLen > 0 &&
+				       (alias[aliasLen - 1] == '\n' ||
+				        alias[aliasLen - 1] == '\r' ||
+				        alias[aliasLen - 1] == ' ' ||
+				        alias[aliasLen - 1] == '\t')) {
+					alias[--aliasLen] = '\0';
+				}
+
+				/*
+				 * Empty alias entries are useless.
+				 */
+				if (*romName == '\0' || *alias == '\0') {
+					continue;
+				}
+
+				/*
+				 * Search only History names that have not
+				 * already been matched.
+				 */
+				for (int i = 0; i < recentEntriesCount; i++) {
+					if (historyNames[i] == NULL) {
+						continue;
+					}
+
+					if (strcmp(historyNames[i], romName) == 0) {
+						char *newDisplayName = strdup(alias);
+
+						if (newDisplayName != NULL) {
+							free(recentEntries[i].displayName);
+							recentEntries[i].displayName = newDisplayName;
+
+							/*
+							 * NULL means this History entry
+							 * has already been resolved.
+							 */
+							free(historyNames[i]);
+							historyNames[i] = NULL;
+
+							historyAliasCount--;
+						}
+
+						break;
+					}
+				}
+			}
+
+			free(aliasLine);
+			fclose(aliasFile);
+		}
+	}
+
+	/*
+	 * Free normalized History names that did not have
+	 * an alias in alias.txt.
+	 */
+	for (int i = 0; i < recentEntriesCount; i++) {
+		free(historyNames[i]);
+	}
+	
 	int topIndex[3] = {-1, -1, -1};
 	int topSeconds[3] = {-1, -1, -1};
 	for (int i = 0; i < recentEntriesCount; i++) {
