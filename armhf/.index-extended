@@ -54,10 +54,10 @@
 2025-12-10 e8fb3c91 fuse_libretro.so.zip
 2025-12-10 d1a5de3a galaksija_libretro.so.zip
 2025-12-10 dbccdf73 gambatte_libretro.so.zip
-2026-10-31 5d4eedb0 gambatte_plus_libretro.so.zip
+2026-11-09 6a4f7d2d gambatte_plus_libretro.so.zip
 2025-12-10 89cb31e5 gearboy_libretro.so.zip
 2025-12-10 e300affb gearcoleco_libretro.so.zip
-2025-12-10 49c18b36 gearsystem_libretro.so.zip
+2026-11-09 d3249be7 gearsystem_libretro.so.zip
 2025-12-10 2530d702 genesis_plus_gx_libretro.so.zip
 2025-12-10 d6d7650d genesis_plus_gx_mod_libretro.so.zip
 2025-12-10 f2e15a26 genesis_plus_gx_wide_libretro.so.zip
@@ -65,7 +65,7 @@
 2025-12-10 fa2f7fe8 gme_libretro.so.zip
 2025-12-10 4021f613 gong_libretro.so.zip
 2025-12-10 d1dc26cb gpsp_libretro.so.zip
-2026-11-06 c4164d34 gpsp_plus_libretro.so.zip
+2026-11-09 bbd41513 gpsp_plus_libretro.so.zip
 2025-12-10 a62bf2b2 gw_libretro.so.zip
 2025-12-10 7b89e8cf gw_miyoo_libretro.so.zip
 2025-12-10 404214ea handy_libretro.so.zip
@@ -123,7 +123,7 @@
 2025-12-10 0e230069 opera_libretro.so.zip
 2024-02-15 83d5fe9e overlays.zip
 2026-10-31 4fc67f5f pcsx_rearmed_libretro.so.zip
-2026-10-31 31dbe6e1 pcsx_rearmed_miyoo_libretro.so.zip
+2026-11-09 5c2d5e79 pcsx_rearmed_miyoo_libretro.so.zip
 2025-12-10 363840fb pcsx_rearmed_old_libretro.so.zip
 2025-12-10 7a71caeb pcsx_rearmed_shaun_libretro.so.zip
 2025-12-11 ae3db645 picodrive_libretro.so.zip
@@ -140,7 +140,7 @@
 2025-12-10 ad072edc px68k_miyoo_libretro.so.zip
 2025-12-10 a67369f6 quasi88_libretro.so.zip
 2025-12-10 697f677c quicknes_libretro.so.zip
-2025-12-10 4f46dde0 race_libretro.so.zip
+2026-11-09 e434ae84 race_libretro.so.zip
 2025-12-10 4f67d331 reminiscence_libretro.so.zip
 2025-12-10 6e4b9665 retro8_libretro.so.zip
 2026-10-31 eb5cb963 sameboy_libretro.so.zip
