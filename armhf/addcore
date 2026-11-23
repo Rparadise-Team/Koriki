@@ -78,5 +78,11 @@ popd >/dev/null
         printf '<li><a href="armhf/%s">\n%s\n</a></li>\n' "$core_entry" "$core_entry"
     done <"$index_file"
 
+    # Android downloads (apps for TV, etc.) kept at the end of the list
+    for apk_file in "$repo_root"/android/*.apk; do
+        apk_name="$(basename "$apk_file")"
+        printf '<li><a href="android/%s">\n%s\n</a></li>\n' "$apk_name" "$apk_name"
+    done
+
     printf ' </body>\n</html>\n'
 } >"$index_html"
