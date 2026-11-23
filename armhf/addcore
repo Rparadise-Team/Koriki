@@ -63,10 +63,10 @@ popd >/dev/null
 {
     printf '<html>\n <body>\n'
 
-    # Static downloads at the repo root
-    static_files=(info.zip overlays.zip)
+    # Static downloads (RetroArch fetches them from <assets_url>/frontend/)
+    static_files=(info.zip assets.zip autoconfig.zip cheats.zip database-rdb.zip overlays.zip)
     for static_file in "${static_files[@]}"; do
-        printf '<li><a href="%s">\n%s\n</a></li>\n' "$static_file" "$static_file"
+        printf '<li><a href="frontend/%s">\n%s\n</a></li>\n' "$static_file" "$static_file"
     done
 
     # Skip static entries if they were accidentally added to .index
