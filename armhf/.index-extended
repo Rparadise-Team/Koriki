@@ -45,7 +45,7 @@
 2025-12-10 90cf12f8 fbalpha_libretro.so.zip
 2026-11-23 2aab8d20 fbneo_libretro.so.zip
 2025-12-10 c889700b fbneo_miyoo_libretro.so.zip
-2025-12-10 2ca76f5b fceumm_libretro.so.zip
+2026-11-23 3fdb40c0 fceumm_libretro.so.zip
 2025-12-10 253864ab fixgb_libretro.so.zip
 2025-12-10 b6fc0814 fixnes_libretro.so.zip
 2025-12-10 7b3a94ab fmsx_libretro.so.zip
@@ -59,7 +59,7 @@
 2025-12-10 89cb31e5 gearboy_libretro.so.zip
 2025-12-10 e300affb gearcoleco_libretro.so.zip
 2026-11-23 64f1d9cc gearsystem_libretro.so.zip
-2025-12-10 2530d702 genesis_plus_gx_libretro.so.zip
+2026-11-23 40068a3e genesis_plus_gx_libretro.so.zip
 2025-12-10 d6d7650d genesis_plus_gx_mod_libretro.so.zip
 2025-12-10 f2e15a26 genesis_plus_gx_wide_libretro.so.zip
 2026-05-15 11eb7e4d geolith_libretro.so.zip
@@ -127,7 +127,7 @@
 2026-11-23 669aea2b pcsx_rearmed_miyoo_libretro.so.zip
 2025-12-10 363840fb pcsx_rearmed_old_libretro.so.zip
 2025-12-10 7a71caeb pcsx_rearmed_shaun_libretro.so.zip
-2025-12-11 ae3db645 picodrive_libretro.so.zip
+2026-11-23 9912f04a picodrive_libretro.so.zip
 2025-12-10 09fecbff picodrive_netplay_libretro.so.zip
 2025-12-10 ccd22c83 pocketcdg_libretro.so.zip
 2025-12-10 0a62db55 pocketsnes_libretro.so.zip
@@ -164,7 +164,7 @@
 2025-12-10 a160c8fb tgbdual_libretro.so.zip
 2025-12-10 7dab6c62 theodore_libretro.so.zip
 2025-12-10 548333f2 thepowdertoy_libretro.so.zip
-2025-12-10 80ee6332 tic80_libretro.so.zip
+2026-11-23 bb514357 tic80_libretro.so.zip
 2025-12-10 30a020f6 tyrquake_libretro.so.zip
 2025-12-10 9fc60101 uae4arm_libretro.so.zip
 2025-12-10 54e46a29 uw8_libretro.so.zip
