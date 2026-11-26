@@ -55,10 +55,10 @@
 2025-12-10 e8fb3c91 fuse_libretro.so.zip
 2025-12-10 d1a5de3a galaksija_libretro.so.zip
 2025-12-10 dbccdf73 gambatte_libretro.so.zip
-2026-11-23 2643a09e gambatte_plus_libretro.so.zip
+2026-11-26 7b217f39 gambatte_plus_libretro.so.zip
 2025-12-10 89cb31e5 gearboy_libretro.so.zip
 2025-12-10 e300affb gearcoleco_libretro.so.zip
-2026-11-23 64f1d9cc gearsystem_libretro.so.zip
+2026-11-26 598d1cb1 gearsystem_libretro.so.zip
 2026-11-23 40068a3e genesis_plus_gx_libretro.so.zip
 2025-12-10 d6d7650d genesis_plus_gx_mod_libretro.so.zip
 2025-12-10 f2e15a26 genesis_plus_gx_wide_libretro.so.zip
@@ -66,7 +66,7 @@
 2025-12-10 fa2f7fe8 gme_libretro.so.zip
 2025-12-10 4021f613 gong_libretro.so.zip
 2025-12-10 d1dc26cb gpsp_libretro.so.zip
-2026-11-23 b0d2c27b gpsp_plus_libretro.so.zip
+2026-11-26 1f6adcb8 gpsp_plus_libretro.so.zip
 2025-12-10 a62bf2b2 gw_libretro.so.zip
 2025-12-10 7b89e8cf gw_miyoo_libretro.so.zip
 2025-12-10 404214ea handy_libretro.so.zip
@@ -106,7 +106,7 @@
 2025-12-10 f4b9de83 mesens_libretro.so.zip
 2025-12-10 f1b14641 meteor_libretro.so.zip
 2025-12-10 26cc0f96 mgba_libretro.so.zip
-2026-11-23 77579cfa mgba_plus_libretro.so.zip
+2026-11-26 648419d6 mgba_plus_libretro.so.zip
 2025-12-10 0d8402c3 minivmac_libretro.so.zip
 2025-12-10 dcb3c93a mrboom_libretro.so.zip
 2025-12-10 f19e7c8e msgb_libretro.so.zip
@@ -139,7 +139,7 @@
 2025-12-10 ad072edc px68k_miyoo_libretro.so.zip
 2025-12-10 a67369f6 quasi88_libretro.so.zip
 2025-12-10 697f677c quicknes_libretro.so.zip
-2026-11-23 b57d278a race_libretro.so.zip
+2026-11-26 a8835fae race_libretro.so.zip
 2025-12-10 4f67d331 reminiscence_libretro.so.zip
 2025-12-10 6e4b9665 retro8_libretro.so.zip
 2026-11-23 aefceec7 sameboy_libretro.so.zip
@@ -168,8 +168,8 @@
 2025-12-10 54e46a29 uw8_libretro.so.zip
 2025-12-10 ed81f11b uzem_libretro.so.zip
 2025-12-10 69d04855 vaporspec_libretro.so.zip
-2026-11-23 ac2478d9 vbam_libretro.so.zip
-2026-11-23 51ebd294 vba_next_libretro.so.zip
+2026-11-26 b5281e99 vbam_libretro.so.zip
+2026-11-26 016a10d4 vba_next_libretro.so.zip
 2025-12-10 813fb79c vecx_libretro.so.zip
 2025-12-10 c3c5780b vemulator_libretro.so.zip
 2025-12-10 57033409 vice_x128_libretro.so.zip
